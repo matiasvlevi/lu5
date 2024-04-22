@@ -12,8 +12,12 @@
 
 #include <raylib.h>
 
-#define LUA_NUMBER_CONSTANT(name)   lua_pushnumber(L, name); lua_setglobal(L, #name);
-#define LUA_REGISTER_FUNCTION(name) lua_pushcfunction(L, name); lua_setglobal(L, #name);
+
+
+#define LUA_ADD_CONST_NUMBER_GLOBAL(name)        lua_pushnumber(L, name); lua_setglobal(L, #name);
+#define LUA_ADD_NUMBER_GLOBAL(name, value) lua_pushnumber(L, value); lua_setglobal(L, name);
+
+#define LUA_ADD_FUNCTION(name) lua_pushcfunction(L, name); lua_setglobal(L, #name);
 
 #define LUA_PCALL(name, argc, resc, s) \
     lua_getglobal(L, name); \
@@ -155,61 +159,86 @@ static int print(lua_State *L)
     return 0;
 }
 
-void registerFunctions(lua_State *L) 
+static void update_dynamic_variables(lua_State *L) {
+    LUA_ADD_NUMBER_GLOBAL("mouseX", GetMouseX());
+    LUA_ADD_NUMBER_GLOBAL("mouseY", GetMouseY());
+}
+
+void registerSymbols(lua_State *L) 
 {
-    LUA_REGISTER_FUNCTION(print);
+    LUA_ADD_FUNCTION(print);
     
-    LUA_REGISTER_FUNCTION(createWindow);
+    LUA_ADD_FUNCTION(createWindow);
     
-    LUA_REGISTER_FUNCTION(background);
-    LUA_REGISTER_FUNCTION(fill);
+    LUA_ADD_FUNCTION(background);
+    LUA_ADD_FUNCTION(fill);
 
 
-    LUA_REGISTER_FUNCTION(text);
-    LUA_REGISTER_FUNCTION(circle);
-    LUA_REGISTER_FUNCTION(rect); 
+    LUA_ADD_FUNCTION(text);
+    LUA_ADD_FUNCTION(circle);
+    LUA_ADD_FUNCTION(rect); 
 
-    LUA_REGISTER_FUNCTION(isKeyPressed);
-    LUA_REGISTER_FUNCTION(isKeyDown);
+    LUA_ADD_FUNCTION(isKeyPressed);
+    LUA_ADD_FUNCTION(isKeyDown);
 
-    LUA_NUMBER_CONSTANT(KEY_RIGHT);
-    LUA_NUMBER_CONSTANT(KEY_LEFT);
-    LUA_NUMBER_CONSTANT(KEY_UP);
-    LUA_NUMBER_CONSTANT(KEY_DOWN);
-    LUA_NUMBER_CONSTANT(KEY_ENTER);
-    LUA_NUMBER_CONSTANT(KEY_BACKSPACE);
+    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_RIGHT);
+    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_LEFT);
+    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_UP);
+    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_DOWN);
+    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_ENTER);
+    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_BACKSPACE);
+}
+
+
+void handle_args(char** argv) 
+{
+    
 }
 
 int main(int argc, char **argv) {
+
+    for (int i = 0; i < argc; i++) {
+        printf("Arg %i: %s\n", i, argv[i]);
+    }
 
     if (argc < 2) {
         puts("File name required as first argument.");
         return 1;
     };
 
+    // Read the specified file
     FILE *lua_file = fopen(argv[1], "r");
     if (!lua_file) {
         fprintf(stderr, "Could not find lua source file\n");
         return 1;
     }
-
     char *lua_source = readFile(lua_file);
 
+    // Start lua
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
 
-    registerFunctions(L);
-
+    // Register functions & constants
+    registerSymbols(L);
+ 
+    // Run the file
     if (luaL_dostring(L, lua_source) != LUA_OK) {
         fprintf(stderr, "Lua error: %s", lua_tostring(L, -1));
     }
 
+    // Call the setup function
     LUA_PCALL("setup", 0, 0, 0)
  
+    // If window was created in the setup, run main loop
     if (windowExists) {
+        update_dynamic_variables(L);
+        
         while (!WindowShouldClose()) {
+            update_dynamic_variables(L);
+
             BeginDrawing();
              
+            // Call draw
             LUA_PCALL("draw", 0, 0, 0)
             
             EndDrawing();
@@ -221,7 +250,10 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    // Close lua
     lua_close(L);
+
+    // Free the lua file
     free(lua_source);
 
     return 0;

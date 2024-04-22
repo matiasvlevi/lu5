@@ -42,7 +42,7 @@ LUA= \
 OBJ = $(patsubst src/%.c,bin/%.o,$(wildcard $(shell find src -type f -name '*.c')))
 DEP = $(OBJ:.o=.d)
 
-BIN = ./bin/app
+BIN = ./bin/lu5
 INC = -I $(SFML_PATH)/include 
 LIB = -L $(SFML_PATH)/lib
 
@@ -59,6 +59,9 @@ bin/%.o: src/%.c
 
 $(BIN): $(OBJ)
 	$(CC) -o $@ $^ $(LIB) $(LFLAGS)
+
+install: 
+	mv ./bin/lu5 /usr/bin/lu5
 
 clean: 
 	rm -fr bin/*
