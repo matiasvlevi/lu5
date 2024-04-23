@@ -5,6 +5,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "bindings.h"
+
 #include "readFile.h"
 #include "colorArgs.h"
 #include "defs.h"
@@ -92,19 +94,19 @@ int background(lua_State *L) {
     return 0;
 }
 
+
 int circle(lua_State *L) {
     int x = lua_tonumber(L, 1);  
     int y = lua_tonumber(L, 2);  
     double d = lua_tonumber(L, 3);  
 
-    int segments = 36; // Increase for a smoother circle. 
     float radius = d / 2.0f;
-    float angleStep = 2 * PI / segments;
+    float angleStep = 2 * PI / LU5_CIRCLE_SEGMENTS;
 
     glBegin(GL_TRIANGLE_FAN);
     glVertex2f(x, y); // Center of the circle
     
-    for (int i = 0; i <= segments; i++) {
+    for (int i = 0; i <= LU5_CIRCLE_SEGMENTS; i++) {
         float angle = angleStep * i;
         float x_offset = radius * cos(angle);
         float y_offset = radius * sin(angle);
@@ -136,6 +138,21 @@ int rect(lua_State *L) {
         glVertex2f(x2, y2);
         glVertex2f(x, y2);
     glEnd(); 
+
+    return 0;
+}
+
+int line(lua_State *L) 
+{
+    double x1 = lua_tonumber(L, 1);
+    double y1 = lua_tonumber(L, 2);
+    double x2 = lua_tonumber(L, 3);
+    double y2 = lua_tonumber(L, 4);
+
+    glBegin(GL_LINES);
+        glVertex2f(x1, y1);
+        glVertex2f(x2, y2);
+    glEnd();
 
     return 0;
 }
@@ -230,8 +247,12 @@ void update_dynamic_variables(lua_State *L, GLFWwindow *window) {
     double mouseX, mouseY;
     glfwGetCursorPos(window, &mouseX, &mouseY);
 
+    int mouseIsPressed = glfwGetMouseButton(window, 0);
+
     LUA_ADD_CONST_NUMBER_GLOBAL(L, mouseX);
     LUA_ADD_CONST_NUMBER_GLOBAL(L, mouseY);
+
+    LUA_ADD_CONST_BOOL_GLOBAL(L, mouseIsPressed);
 }
 
 void registerSymbols(lua_State *L) 
@@ -245,9 +266,11 @@ void registerSymbols(lua_State *L)
 
 
     LUA_ADD_FUNCTION(L, text);
+
     LUA_ADD_FUNCTION(L, circle);
     LUA_ADD_FUNCTION(L, rect); 
-
+    LUA_ADD_FUNCTION(L, line)
+        ;
     LUA_ADD_FUNCTION(L, isKeyPressed);
     LUA_ADD_FUNCTION(L, isKeyDown);
 

@@ -65,8 +65,6 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    //glfwSetCursorPosCallback(window, mouse_callback);
-    
     lua_getglobal(lu5.L, "setup");
     if (lua_isfunction(lu5.L, -1)) {
 

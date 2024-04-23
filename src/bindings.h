@@ -12,9 +12,12 @@ int createWindow(lua_State *L);
 
 int background(lua_State *L);
 
+#define LU5_CIRCLE_SEGMENTS 36
 int circle(lua_State *L);
 
 int rect(lua_State *L);
+
+int line(lua_State *L);
 
 int text(lua_State *L);
 
@@ -23,6 +26,8 @@ int fill(lua_State *L);
 int isKeyDown(lua_State *L);
 
 int isKeyPressed(lua_State *L);
+
+int isMouseDown(lua_State *L);
 
 int print(lua_State *L);
 
