@@ -33,7 +33,11 @@ int main(int argc, char **argv) {
     // Read the specified file
     FILE *lua_file = fopen(filename, "r");
     if (!lua_file) {
-        fprintf(stderr, LU5_FILE_NOT_EXIST(filename));
+        if (filename != NULL) {
+            fprintf(stderr, LU5_FILE_NOT_EXIST(filename));
+        } else {
+            fprintf(stderr, LU5_FILE_NOT_SPECIFIED);
+        }
         return 0;
     }
 

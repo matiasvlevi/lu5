@@ -26,7 +26,13 @@ int handle_option(int argc, char **argv, int i)
 
 bool handle_args(int argc, char** argv, char **filename) 
 {
-    bool defaultExec = true;
+    bool defaultExec = false;
+
+    if (argc == 1) {
+        // Help menu
+        cli_options[0].handler(argc, argv);
+        return defaultExec;
+    }
 
     // Skip program
     argv++;
@@ -40,19 +46,17 @@ bool handle_args(int argc, char** argv, char **filename)
             int err = handle_option(argc-1, argv, i);
             if (err) exit(err);
 
-            defaultExec = false;
             continue;
         } else {
+            defaultExec = true;
             *filename = argv[i];
         }
     }
 
-    if (*filename) defaultExec = true;
-
     // If default execution
     if (defaultExec) { 
         // If file name was not found
-        if (!(*filename)) {
+        if (*filename == NULL) {
             fprintf(stderr, LU5_FILE_NOT_SPECIFIED);
             return 1;
         } 
