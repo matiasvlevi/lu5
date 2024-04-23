@@ -8,4 +8,6 @@ function draw()
 
     fill(255, 100, 0)
     circle(mouseX, mouseY, 32);
+
+    print(mouseX, mouseY);
 end

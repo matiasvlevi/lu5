@@ -1,6 +1,6 @@
 
 function setup()
-    createWindow(600, 600);
+    createWindow(600, 600); 
 end
 
 function draw()

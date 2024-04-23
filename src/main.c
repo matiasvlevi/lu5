@@ -21,37 +21,6 @@
 
 #define SIZE_OF_MAP 1000
 
-#define LU5_NO_WINDOW_ERROR\
-    "You need to create a window with the `createWindow` function\n"
-
-#define LU5_FILE_NOT_SPECIFIED\
-    "No source path found\n"
-
-#define LU5_FILE_NOT_EXIST(filename)\
-    "'%s' is not a valid lua sketch file\n", filename
-
-#define LU5_FILE_EXISTS_ERROR(x)\
-    "It seems that %s already exists\n"\
-    "We will not overwrite the file\n", x
-
-#define LU5_RUNNING_FILE(filename)\
-    "\x1b[46m\x1b[30mRunning >>> \x1b[0m \x1b[36m%s\x1b[0m\n", filename
-
-#define LU5_LUA_ERROR(content)\
-    "[\x1b[36mLUA ERROR\x1b[0m]: %s", content
-
-#define LU5_CLOSE\
-    "Terminating...\n"
-
-#define LU5_SKETCH_BOILERPLATE \
-        "\n"\
-        "function setup()\n"\
-        "   createWindow(600, 600);\n"\
-        "end\n"\
-        "\n"\
-        "function draw()\n"\
-        "   background(51);\n"\
-        "end\n"\
 
 
 int lu5_option_init(int argc, char **argv) 
@@ -202,12 +171,10 @@ int main(int argc, char **argv) {
     FILE *lua_file = fopen(filename, "r");
     if (!lua_file) {
         fprintf(stderr, LU5_FILE_NOT_EXIST(filename));
-        return 1;
+        return 0;
     }
-    char *lua_source = readFile(lua_file);
 
-    // Close file
-    fclose(lua_file);
+    char *lua_source = readFile(lua_file);
 
     // Start lua
     lua_State *L = luaL_newstate();
@@ -215,40 +182,67 @@ int main(int argc, char **argv) {
 
     // Register functions & constants
     registerSymbols(L);
+
+    printf(LU5_RUNNING_FILE(filename));
  
     // Run the file
     if (luaL_dostring(L, lua_source) != LUA_OK) {
         fprintf(stderr, LU5_LUA_ERROR(lua_tostring(L, -1)));
+        goto cleanup;
     }
 
-    printf(LU5_RUNNING_FILE(filename));
-    
+    // Print running
+
+    // Set log level (HIDE LOGS)
     SetTraceLogLevel(LOG_ERROR); 
-    // Call the setup function
-    LUA_PCALL("setup", 0, 0, 0)
+
+
+    
+    lua_getglobal(L, "setup");
+    if (lua_isfunction(L, -1)) {
+
+        // Call the setup function
+        LUA_PCALL("setup", 0, 0, 0)
+    
+    } else {
+        goto cleanup;
+    }
+
+    lua_getglobal(L, "draw");
+    if (!lua_isfunction(L, -1)) {
+        goto cleanup;
+    }
+
  
     // If window was created in the setup, run main loop
-    if (windowExists) {
-        update_dynamic_variables(L);
+    if (!windowExists) {
         
-        while (!WindowShouldClose()) {
-            update_dynamic_variables(L);
-
-            BeginDrawing();
-             
-            // Call draw
-            LUA_PCALL("draw", 0, 0, 0)
-            
-            EndDrawing();
-        }
-        
-        CloseWindow();
-    } else {
         fprintf(stderr, LU5_NO_WINDOW_ERROR);
-        return 1;
+
+        goto cleanup;
     }
 
+    update_dynamic_variables(L);
+    
+    while (!WindowShouldClose()) {
+        update_dynamic_variables(L);
+
+        BeginDrawing();
+         
+        // Call draw
+        LUA_PCALL("draw", 0, 0, 0)
+        
+        EndDrawing();
+    }
+    
+    CloseWindow();
+
     puts(LU5_CLOSE);
+
+cleanup:
+
+     // Close file
+    fclose(lua_file);
 
     // Close lua
     lua_close(L);
