@@ -1,6 +1,13 @@
-# lu5
 
-Raylib wrappers for a similar feel to p5.js
+
+<p align="center">
+    <img src="./assets/logo.svg"/>
+</p>
+
+<h4 align="center">Lua interpretor for Creative Coding</h4>
+
+<br/>
+
 
 This sketch draws a circle at position `300, 300`.
 
