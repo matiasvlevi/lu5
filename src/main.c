@@ -1,218 +1,213 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "readFile.h"
-#include "colorArgs.h"
-
+#include <string.h>
 #include <math.h>
 
+#include <sys/stat.h>
+
+// LUA
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
 
+// GRAPHICS
 #include <raylib.h>
 
+// 
+#include "readFile.h"
+#include "colorArgs.h"
+#include "defs.h"
+#include "bindings.h"
+
+#define SIZE_OF_MAP 1000
+
+#define LU5_NO_WINDOW_ERROR\
+    "You need to create a window with the `createWindow` function\n"
+
+#define LU5_FILE_NOT_SPECIFIED\
+    "No source path found\n"
+
+#define LU5_FILE_NOT_EXIST(filename)\
+    "'%s' is not a valid lua sketch file\n", filename
+
+#define LU5_FILE_EXISTS_ERROR(x)\
+    "It seems that %s already exists\n"\
+    "We will not overwrite the file\n", x
+
+#define LU5_RUNNING_FILE(filename)\
+    "\x1b[46m\x1b[30mRunning >>> \x1b[0m \x1b[36m%s\x1b[0m\n", filename
+
+#define LU5_LUA_ERROR(content)\
+    "[\x1b[36mLUA ERROR\x1b[0m]: %s", content
+
+#define LU5_CLOSE\
+    "Terminating...\n"
+
+#define LU5_SKETCH_BOILERPLATE \
+        "\n"\
+        "function setup()\n"\
+        "   createWindow(600, 600);\n"\
+        "end\n"\
+        "\n"\
+        "function draw()\n"\
+        "   background(51);\n"\
+        "end\n"\
 
 
-#define LUA_ADD_CONST_NUMBER_GLOBAL(name)        lua_pushnumber(L, name); lua_setglobal(L, #name);
-#define LUA_ADD_NUMBER_GLOBAL(name, value) lua_pushnumber(L, value); lua_setglobal(L, name);
+int lu5_option_init(int argc, char **argv) 
+{
 
-#define LUA_ADD_FUNCTION(name) lua_pushcfunction(L, name); lua_setglobal(L, #name);
+    if (argc != 2) {
+        fprintf(stderr, LU5_FILE_NOT_SPECIFIED);
+        return 1;
+    }
 
-#define LUA_PCALL(name, argc, resc, s) \
-    lua_getglobal(L, name); \
-    if (lua_pcall(L, argc, resc, s) != LUA_OK) {\
-        fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));\
-        return 1;\
-    }\
+    char *filename = argv[1];
+    struct stat buffer;
+
+    if (stat(filename, &buffer) == 0) {
+
+        // Write to 
+        fprintf(stderr, LU5_FILE_EXISTS_ERROR(argv[1]));
+
+        // TODO: Ask user if it wishes to continue
+
+        // NON Error return
+        return 0;
+    }
+
+    FILE *sketch = fopen(argv[1], "w");
+
+    // Write to file
+    fprintf(sketch, LU5_SKETCH_BOILERPLATE);
+
+    // Close the file
+    fclose(sketch);
+
+    return 0;
+}
+
+#define LU5_OPTION_COUNT 2
+
+int lu5_option_help(int, char**);
 
 typedef struct {
-    Color fill;
-    Color stroke;
-    int font_size;
-} Options;
+    const char *name;
+    const char *description;
+    const char *example;
 
-static Options options = {
-    .fill   = (Color){0xff,0xff,0xff,0xff},
-    .stroke = (Color){0x00,0x00,0x00,0x00},
-    .font_size = 24
-}; 
+    int (*handler)(int, char**);
 
-void lu5_string_from_arg(lua_State *L, char *str, int argc) {
-    str = (char*)luaL_checkstring(L, argc);
-    if (!str) {
-        luaL_error(L, "Expected a string argument");
-        return;
+} lu5_option;
+
+static lu5_option cli_options[LU5_OPTION_COUNT] = {
+    {
+        .name = "help",
+        .description = "Displays this help meny",
+        .example = "",
+        .handler = lu5_option_help
+    },
+    {
+        .name = "init",
+        .description = "Creates a lu5 sketch",
+        .example = "lu5 --init mysketch.lua",
+        .handler = lu5_option_init
     }
-}
+};
 
-static bool windowExists = false;
 
-/* C function to be called from Lua */
-static int createWindow(lua_State *L) {
-    
-    int screenWidth = lua_tonumber(L, 1);
-    int screenHeight = lua_tonumber(L, 2);
-    
-    InitWindow(screenWidth, screenHeight, "luaP5");
-    SetTargetFPS(60);
+int lu5_option_help(int argc, char **argv) 
+{   
+    for (int i = 0; i < LU5_OPTION_COUNT; i++) {
 
-    lua_pushnumber(L, screenWidth);
-    lua_setglobal(L, "width");
+        printf(
+            "\n\x1b[4;36m--%s\x1b[0m  "
+            "%s\n",
+            cli_options[i].name, 
+            cli_options[i].description
+        );
 
-    lua_pushnumber(L, screenHeight);
-    lua_setglobal(L, "height");
+        if (cli_options[i].example[0] != '\0') {
+            printf(
+                "\t\x1b[90mexample: %s\x1b[0m\n",
+                cli_options[i].example
+            );
 
-    windowExists = true;
+        }
 
-    return 0;
-}
-
-static int background(lua_State *L) {
-    Color color = rgbColorFromLuaArguments(L);
-
-    ClearBackground(color);
-
-    return 0;
-}
-
-static int circle(lua_State *L) {
-    int x = lua_tonumber(L, 1);  
-    int y = lua_tonumber(L, 2);  
-    double r = lua_tonumber(L, 3);  
-
-    DrawCircle(x, y, r, options.fill);
-
-    return 0;
-}
-
-static int rect(lua_State *L) {
-    int x = lua_tonumber(L, 1);  
-    int y = lua_tonumber(L, 2);  
-    int w = lua_tonumber(L, 3);  
-
-    int h = w;
-    if (lua_gettop(L) > 3) {
-        h = lua_tonumber(L, 4);
-    }  
-
-    DrawRectangle(x, y, w, h, options.fill);
-
-    return 0;
-}
-
-static int text(lua_State *L)
-{
-    const char *str = luaL_checkstring(L, 1);
-    if (!str) {
-        luaL_error(L, "Expected a string argument");
-        return 0;
     }
 
-    int x = lua_tonumber(L, 2);
-    int y = lua_tonumber(L, 3);
-
-    DrawText(str, x, y, options.font_size, options.fill);
+    putc('\n', stdout);
 
     return 0;
 }
 
-static int fill(lua_State *L) 
+int handle_option(int argc, char **argv, int i)
 {
-    options.fill = rgbColorFromLuaArguments(L); 
+    char *option_name = argv[i] + 2;
 
-    return 0;
-}
-
-static int isKeyDown(lua_State *L) 
-{
-    unsigned int key = lua_tonumber(L, 1);
-    
-    bool ret = IsKeyDown(key);
-    lua_pushboolean(L, ret);
-    return 1;
-}
-
-static int isKeyPressed(lua_State *L) 
-{
-    unsigned int key = lua_tonumber(L, 1);
-    
-    bool ret = IsKeyPressed(key);
-    lua_pushboolean(L, ret);
-    return 1;
-}
-
-static int print(lua_State *L)
-{
-    if (lua_gettop(L) != 1) {
-        luaL_error(L, "Expected a string argument");
-        return 0;
-    }
-    const char *str = luaL_checkstring(L, 1);
-    if (!str) {
-        luaL_error(L, "Expected a string argument");
-        return 0;
+    for (int i = 0; i < LU5_OPTION_COUNT; i++) {
+        if (strcmp(option_name, cli_options[i].name) == 0) {
+            return cli_options[i].handler(argc, argv);
+        }
     }
 
-    puts(str);
-
     return 0;
 }
 
-static void update_dynamic_variables(lua_State *L) {
-    LUA_ADD_NUMBER_GLOBAL("mouseX", GetMouseX());
-    LUA_ADD_NUMBER_GLOBAL("mouseY", GetMouseY());
-}
-
-void registerSymbols(lua_State *L) 
+bool handle_args(int argc, char** argv, char **filename) 
 {
-    LUA_ADD_FUNCTION(print);
-    
-    LUA_ADD_FUNCTION(createWindow);
-    
-    LUA_ADD_FUNCTION(background);
-    LUA_ADD_FUNCTION(fill);
+    bool defaultExec = true;
 
+    // Skip program
+    argv++;
 
-    LUA_ADD_FUNCTION(text);
-    LUA_ADD_FUNCTION(circle);
-    LUA_ADD_FUNCTION(rect); 
+    for (int i = 0; i < argc-1; i++) {
+        if (
+            argv[i][0] == '-' &&
+            argv[i][1] == '-'
+        ) {
 
-    LUA_ADD_FUNCTION(isKeyPressed);
-    LUA_ADD_FUNCTION(isKeyDown);
+            int err = handle_option(argc-1, argv, i);
+            if (err) exit(err);
 
-    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_RIGHT);
-    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_LEFT);
-    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_UP);
-    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_DOWN);
-    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_ENTER);
-    LUA_ADD_CONST_NUMBER_GLOBAL(KEY_BACKSPACE);
-}
+            defaultExec = false;
+            continue;
+        } else {
+            *filename = argv[i];
+        }
+    }
 
+    if (*filename) defaultExec = true;
 
-void handle_args(char** argv) 
-{
-    
+    // If default execution
+    if (defaultExec) { 
+        // If file name was not found
+        if (!(*filename)) {
+            fprintf(stderr, LU5_FILE_NOT_SPECIFIED);
+            return 1;
+        } 
+    }
+
+    return defaultExec;
 }
 
 int main(int argc, char **argv) {
+    char *filename;
+    bool defaultExec = handle_args(argc, argv, &filename);
 
-    for (int i = 0; i < argc; i++) {
-        printf("Arg %i: %s\n", i, argv[i]);
-    }
-
-    if (argc < 2) {
-        puts("File name required as first argument.");
-        return 1;
-    };
-
+    if (!defaultExec) return 0;
+    
     // Read the specified file
-    FILE *lua_file = fopen(argv[1], "r");
+    FILE *lua_file = fopen(filename, "r");
     if (!lua_file) {
-        fprintf(stderr, "Could not find lua source file\n");
+        fprintf(stderr, LU5_FILE_NOT_EXIST(filename));
         return 1;
     }
     char *lua_source = readFile(lua_file);
+
+    // Close file
+    fclose(lua_file);
 
     // Start lua
     lua_State *L = luaL_newstate();
@@ -223,9 +218,12 @@ int main(int argc, char **argv) {
  
     // Run the file
     if (luaL_dostring(L, lua_source) != LUA_OK) {
-        fprintf(stderr, "Lua error: %s", lua_tostring(L, -1));
+        fprintf(stderr, LU5_LUA_ERROR(lua_tostring(L, -1)));
     }
 
+    printf(LU5_RUNNING_FILE(filename));
+    
+    SetTraceLogLevel(LOG_ERROR); 
     // Call the setup function
     LUA_PCALL("setup", 0, 0, 0)
  
@@ -246,9 +244,11 @@ int main(int argc, char **argv) {
         
         CloseWindow();
     } else {
-        fprintf(stderr, "You need to create a window with the `createWindow` function\n");
+        fprintf(stderr, LU5_NO_WINDOW_ERROR);
         return 1;
     }
+
+    puts(LU5_CLOSE);
 
     // Close lua
     lua_close(L);

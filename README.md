@@ -46,9 +46,7 @@ lu5 file.lua
 
 <br/>
 
-### Projected command utilities
-
-> NOT IMPLEMENTED YET
+### Command utilities
 
 Help menu
 
@@ -61,6 +59,12 @@ Create a boiler plate sketch source file
 ```sh
 lu5 --init file.lua
 ```
+
+<br>
+
+### Live code editor
+
+> NOT IMPLEMENTS
 
 Open in a live environement, provides a GUI text editor for the sketch source
 

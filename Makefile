@@ -61,7 +61,7 @@ $(BIN): $(OBJ)
 	$(CC) -o $@ $^ $(LIB) $(LFLAGS)
 
 install: 
-	mv ./bin/lu5 /usr/bin/lu5
+	cp ./bin/lu5 /usr/bin/lu5
 
 clean: 
 	rm -fr bin/*
