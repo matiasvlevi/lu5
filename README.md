@@ -64,7 +64,7 @@ lu5 --init file.lua
 
 ### Live code editor
 
-> NOT IMPLEMENTS
+> NOT IMPLEMENTED
 
 Open in a live environement, provides a GUI text editor for the sketch source
 
