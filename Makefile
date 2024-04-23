@@ -43,11 +43,8 @@ OBJ = $(patsubst src/%.c,bin/%.o,$(wildcard $(shell find src -type f -name '*.c'
 DEP = $(OBJ:.o=.d)
 
 BIN = ./bin/lu5
-INC = -I $(SFML_PATH)/include 
-LIB = -L $(SFML_PATH)/lib
 
-LFLAGS = -llua -lm -lraylib
-
+LFLAGS = -llua -lglfw -lGL -lm 
 
 all: $(BIN)
 
@@ -55,10 +52,10 @@ all: $(BIN)
 
 bin/%.o: src/%.c 
 	@mkdir -p $(dir $@)
-	$(CC) $(INC) -MMD -c $< -o $@
+	$(CC) -MMD -c $< -o $@
 
 $(BIN): $(OBJ)
-	$(CC) -o $@ $^ $(LIB) $(LFLAGS)
+	$(CC) -o $@ $^ $(LFLAGS)
 
 install: 
 	cp ./bin/lu5 /usr/bin/lu5

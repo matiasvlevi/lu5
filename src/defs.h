@@ -1,19 +1,20 @@
 #ifndef __DEFS_H__
 #define __DEFS_H__
 
-#include <raylib.h>
+#define LUA_ADD_CONST_NUMBER_GLOBAL(l, name)        lua_pushnumber(l, name); lua_setglobal(l, #name)
+#define LUA_ADD_NUMBER_GLOBAL(l, name, value) lua_pushnumber(l, value); lua_setglobal(l, name)
 
-#define LUA_ADD_CONST_NUMBER_GLOBAL(name)        lua_pushnumber(L, name); lua_setglobal(L, #name)
-#define LUA_ADD_NUMBER_GLOBAL(name, value) lua_pushnumber(L, value); lua_setglobal(L, name)
+#define LUA_ADD_FUNCTION(l, name) lua_pushcfunction(l, name); lua_setglobal(l, #name)
 
-#define LUA_ADD_FUNCTION(name) lua_pushcfunction(L, name); lua_setglobal(L, #name)
-
-#define LUA_PCALL(name, argc, resc, s)\
-    lua_getglobal(L, name); \
-    if (lua_pcall(L, argc, resc, s) != LUA_OK) {\
-        fprintf(stderr, "[\x1b[91mERROR\x1b[0m]: %s\n", lua_tostring(L, -1));\
-        return 1;\
+#define LUA_PCALL(l, name, argc, resc, s, r)\
+    lua_getglobal(l, name); \
+    if (lua_pcall(l, argc, resc, s) != LUA_OK) {\
+        fprintf(stderr, "[\x1b[91mERROR\x1b[0m]: %s\n", lua_tostring(l, -1));\
+        return r;\
     }\
+
+//#define LUA_PCALL_IF_FUNCTION(name, argc, resc, s, r)\
+
 
 #define LU5_NO_WINDOW_ERROR\
     "You need to create a window with the `createWindow` function\n"
@@ -46,11 +47,5 @@
         "function draw()\n"\
         "   background(51);\n"\
         "end\n"\
-
-typedef struct {
-    Color fill;
-    Color stroke;
-    int font_size;
-} Options;
 
 #endif

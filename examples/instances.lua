@@ -35,19 +35,19 @@ function Ball:move()
 end 
 
 function Ball:control()
-    if (isKeyDown(KEY_RIGHT)) then
+    if (isKeyDown(RIGHT_ARROW)) then
         self.vx = self.vx + acc;
     end
 
-    if (isKeyDown(KEY_LEFT)) then
+    if (isKeyDown(LEFT_ARROW)) then
         self.vx = self.vx - acc;
     end
  
-    if (isKeyDown(KEY_UP)) then
+    if (isKeyDown(UP_ARROW)) then
         self.vy = self.vy - acc;
     end
 
-    if (isKeyDown(KEY_DOWN)) then
+    if (isKeyDown(DOWN_ARROW)) then
         self.vy = self.vy + acc;
     end
 end
@@ -70,9 +70,7 @@ end
 function draw()
     background(51);
 
-    text(string.format("Count: %d", 2), 40, 30);
-
-    for i,ball in pairs(balls) do --pseudocode
+    for i,ball in pairs(balls) do
         ball:draw();
         ball:control();
         ball:move();

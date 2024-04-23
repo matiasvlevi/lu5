@@ -7,6 +7,10 @@
 #include "defs.h"
 #include "options.h"
 
+//#include <GLFW/glfw3.h>
+
+//GLFWwindow* window;
+
 int handle_option(int argc, char **argv, int i)
 {
     char *option_name = argv[i] + 2;

@@ -1,0 +1,1 @@
+bin/window.o: src/window.c src/window.h

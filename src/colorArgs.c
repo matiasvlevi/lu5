@@ -4,7 +4,6 @@
 #include <lualib.h>
 #include <lauxlib.h>
 
-#include <raylib.h>
 
 Color rgbColorFromLuaArguments(lua_State *L) {
     int r = lua_tonumber(L, 1);
@@ -24,7 +23,12 @@ Color rgbColorFromLuaArguments(lua_State *L) {
         a = lua_tonumber(L, 4);
     }
 
-    return (Color){ r, g, b, a };
+    return (Color){ 
+        .r=r, 
+        .g=g, 
+        .b=b, 
+        .a=a 
+    };
 }
 
 

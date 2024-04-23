@@ -2,6 +2,10 @@
 #define __LU5_BINDINGS__
 
 #include <lua.h>
+#include <GLFW/glfw3.h>
+
+#include <stdbool.h>
+
 extern bool windowExists;
 
 int createWindow(lua_State *L);
@@ -22,7 +26,7 @@ int isKeyPressed(lua_State *L);
 
 int print(lua_State *L);
 
-void update_dynamic_variables(lua_State *L);
+void update_dynamic_variables(lua_State *L, GLFWwindow *window);
    
 void registerSymbols(lua_State *L);
 
