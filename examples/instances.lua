@@ -1,5 +1,6 @@
 
 acc = 1;
+ball_count = 50;
 
 Ball = {}
 Ball.__index = Ball
@@ -11,6 +12,11 @@ function Ball.new(x, y)
     self.vx = 0;
     self.vy = 0;
     self.r = 16;
+
+    self.cr = math.random(155, 255);
+    self.cg = math.random(0, 155);
+    self.cb = math.random(155, 255);
+
     return self
 end
 
@@ -53,18 +59,25 @@ function Ball:control()
 end
 
 function Ball:draw()
+    fill(self.cr, self.cg, self.cb);
     circle(self.x, self.y, 32);
 end
+
+
+
+
 
 balls = {}
 
 function setup() 
-    createWindow(800, 800); 
+    createWindow(600, 600); 
 
-    for i=1, 10 do
-      balls[i] = Ball.new(math.random(width),math.random(height))
+    for i=1, ball_count do
+      balls[i] = Ball.new(
+            math.random(width),
+            math.random(height)
+        );
     end
-
 end
 
 function draw()

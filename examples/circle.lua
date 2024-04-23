@@ -1,11 +1,11 @@
 
 function setup()
-    createWindow(600, 600); 
+    createWindow(400, 400); 
 end
 
 function draw()
     background(51);
 
-    circle(300, 300, 16);
+    circle(width/2, height/2, 32);
 end
 

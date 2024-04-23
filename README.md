@@ -12,11 +12,9 @@ end
 function draw()
     background(51);
 
-    circle(300, 300, 16);
+    circle(300, 300, 32);
 end
 ```
-
-
 
 ## Build
 
@@ -59,6 +57,12 @@ Create a boiler plate sketch source file
 ```sh
 lu5 --init file.lua
 ```
+<br>
+
+### Preview
+
+![lu5 preview circle](./assets/lu5_preview_2.png)
+![lu5 preview instances](./assets/lu5_preview.png)
 
 <br>
 
