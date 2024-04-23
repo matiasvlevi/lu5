@@ -4,7 +4,7 @@
     <img src="./assets/logo.svg"/>
 </p>
 
-<h4 align="center">Lua interpretor for Creative Coding</h4>
+<h4 align="center">Lua interpreter for Creative Coding</h4>
 
 <br/>
 
