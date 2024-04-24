@@ -74,8 +74,8 @@ function setup()
 
     for i=1, ball_count do
       balls[i] = Ball.new(
-            math.random(width),
-            math.random(height)
+            math.random(50, width-50),
+            math.random(50, height-50)
         );
     end
 end

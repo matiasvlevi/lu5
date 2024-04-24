@@ -1,12 +1,12 @@
-#include "bindings.h"
+#include "lu5_bindings.h"
 
-#include "events.h"
-#include "io.h"
-#include "setting.h"
-#include "window.h"
-#include "shapes.h"
+#include "bindings/events.h"
+#include "bindings/io.h"
+#include "bindings/setting.h"
+#include "bindings/window.h"
+#include "bindings/shapes.h"
 
-#include "../lu5_defs.h"
+#include "lu5_defs.h"
 
 void lu5_update_dynamic_variables(lua_State *L, GLFWwindow *window) { 
     double mouseX, mouseY;
