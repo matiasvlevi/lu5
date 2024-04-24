@@ -1,11 +1,12 @@
-#include "cliargs.h"
+#include "lu5_cli.h"
+
+#include "lu5_defs.h"
+#include "lu5_cli_options.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
-#include "defs.h"
-#include "options.h"
 
 //#include <GLFW/glfw3.h>
 

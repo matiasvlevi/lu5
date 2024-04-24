@@ -16,8 +16,9 @@ typedef union
 		uint8_t r;
 		uint8_t a; 
 	};
-} Color;
+} lu5_color;
 
+// TODO: Turn this into a function and use lu5_color
 #define GET_COLOR_FROM_LUA_ARGS(l)\
     double r = lua_tonumber(L, 1);\
     double g = r;\
@@ -27,6 +28,6 @@ typedef union
     double a = 0xFF; \
     if(lua_gettop(l) > 3) a = lua_tonumber(L, 4)
 
-Color rgbColorFromLuaArguments(lua_State *L);
+lu5_color rgbColorFromLuaArguments(lua_State *L);
 
 #endif

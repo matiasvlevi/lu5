@@ -1,12 +1,10 @@
 #ifndef __DEFS_H__
 #define __DEFS_H__
 
-
 #define LUA_ADD_CONST_NUMBER_GLOBAL(l, name)        lua_pushnumber(l, name); lua_setglobal(l, #name)
-#define LUA_ADD_CONST_BOOL_GLOBAL(l, name)        lua_pushboolean(l, name); lua_setglobal(l, #name)
-#define LUA_ADD_NUMBER_GLOBAL(l, name, value) lua_pushnumber(l, value); lua_setglobal(l, name)
-
-#define LUA_ADD_FUNCTION(l, name) lua_pushcfunction(l, name); lua_setglobal(l, #name)
+#define LUA_ADD_CONST_BOOL_GLOBAL(l, name)          lua_pushboolean(l, name); lua_setglobal(l, #name)
+#define LUA_ADD_NUMBER_GLOBAL(l, name, value)       lua_pushnumber(l, value); lua_setglobal(l, name)
+#define LUA_ADD_FUNCTION(l, name)                   lua_pushcfunction(l, name); lua_setglobal(l, #name)
 
 
 #define LU5_RUNNING_FILE(filename)\

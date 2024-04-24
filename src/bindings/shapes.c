@@ -1,6 +1,6 @@
 #include "shapes.h"
 
-#include "../window.h"
+#include "../lu5_state.h"
 
 #include <lauxlib.h>
 #include <math.h>

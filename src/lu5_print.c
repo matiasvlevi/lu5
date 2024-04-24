@@ -1,15 +1,15 @@
-#include "print.h"
+#include "lu5_print.h"
 
 #include <lauxlib.h>
 #include <stdio.h>
 
-void print_any(lua_State *L, int index, int nested, char sep) 
+void lu5_print_any(lua_State *L, int index, int nested, char sep) 
 {
     // Try to print as table
     if (lua_istable(L, index)) {
 
         if (nested < PRINT_DEPTH) {
-            print_list(L, lua_gettop(L), nested);
+            lu5_print_list(L, lua_gettop(L), nested);
             putchar(sep);
         } else {
             int elem_length = luaL_len(L, index);
@@ -41,7 +41,7 @@ void print_any(lua_State *L, int index, int nested, char sep)
     printf("[unknown]%c", sep);
 }
  
-void print_list(lua_State *L, int index, int nested) {
+void lu5_print_list(lua_State *L, int index, int nested) {
     // Get the length of the table
     int length = luaL_len(L, index);
 
@@ -55,7 +55,7 @@ void print_list(lua_State *L, int index, int nested) {
         
         // Print value on top of the stack
         putchar(' ');
-        print_any(L, -1, nested+1, (i != length) ? ',' : ' ');
+        lu5_print_any(L, -1, nested+1, (i != length) ? ',' : ' ');
         
         // Pop the value off the stack to clean up
         lua_pop(L, 1);

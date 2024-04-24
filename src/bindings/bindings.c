@@ -6,7 +6,7 @@
 #include "window.h"
 #include "shapes.h"
 
-#include "../defs.h"
+#include "../lu5_defs.h"
 
 void lu5_update_dynamic_variables(lua_State *L, GLFWwindow *window) { 
     double mouseX, mouseY;

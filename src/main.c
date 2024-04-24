@@ -4,14 +4,13 @@
 #include <lauxlib.h>
 #include <lualib.h>
 
-#include "defs.h"
-#include "cliargs.h"
-#include "options.h"
-#include "readFile.h"
+#include "lu5_defs.h"
+#include "lu5_state.h"
+#include "lu5_cli.h"
+#include "lu5_cli_options.h"
+#include "lu5_event_callbacks.h"
 
-#include "window.h"
 #include "bindings/bindings.h"
-#include "events.h"
 
 int main(int argc, char **argv) {
 

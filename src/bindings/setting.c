@@ -2,7 +2,7 @@
 
 #include <lauxlib.h>
 
-#include "../window.h"
+#include "../lu5_state.h"
 
 int strokeWeight(lua_State *L) 
 {

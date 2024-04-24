@@ -1,11 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "options.h"
+#include "lu5_defs.h"
+#include "lu5_cli_options.h"
 
 #include <sys/stat.h>
-#include "defs.h"
-#include "options.h"
 
 lu5_option cli_options[LU5_OPTION_COUNT] = {
     {

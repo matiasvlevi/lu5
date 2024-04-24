@@ -1,11 +1,10 @@
-#include "colorArgs.h"
+#include "lu5_color.h"
 
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
 
-
-Color rgbColorFromLuaArguments(lua_State *L) {
+lu5_color rgbColorFromLuaArguments(lua_State *L) {
     int r = lua_tonumber(L, 1);
 
     int g = r; /* Default is 1 */
@@ -23,7 +22,7 @@ Color rgbColorFromLuaArguments(lua_State *L) {
         a = lua_tonumber(L, 4);
     }
 
-    return (Color){ 
+    return (lu5_color){ 
         .r=r, 
         .g=g, 
         .b=b, 

@@ -1,6 +1,6 @@
 #include "events.h"
 
-#include "../window.h"
+#include "../lu5_state.h"
 
 int isKeyDown(lua_State *L) 
 {

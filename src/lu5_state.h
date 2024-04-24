@@ -9,7 +9,8 @@
 #include <lua.h>
 #include <GLFW/glfw3.h>
 #include <stdbool.h>
-#include "colorArgs.h"
+
+#include "lu5_color.h"
 
 typedef struct {
     struct {
@@ -25,8 +26,8 @@ typedef struct {
     } input;
 
     struct {
-        Color fill;
-        Color stroke;
+        lu5_color fill;
+        lu5_color stroke;
         double strokeWeight;
     } style;
     

@@ -1,7 +1,7 @@
 #include "window.h"
 
-#include "../defs.h"
-#include "../window.h"
+#include "../lu5_defs.h"
+#include "../lu5_state.h"
 
 #include <stdio.h>
 #include <stdlib.h>
