@@ -64,14 +64,9 @@ int line(lua_State *L)
     float angleStep = (2 * PI) / segments;
     float radius = (float)lu5.style.strokeWeight / 2.0f;
 
-    glLineWidth(lu5.style.strokeWeight * 5);
-
     glBegin(GL_QUADS);
-        glVertex2f(x1+radius, y1-radius);
-        glVertex2f(x1-radius, y1+radius);
-        
-        glVertex2f(x2+radius, y2-radius);
-        glVertex2f(x2-radius, y2+radius);
+        glVertex2f(x1, y1);
+        glVertex2f(x2, y2);
     glEnd();
 
     glBegin(GL_TRIANGLE_FAN);
