@@ -30,14 +30,16 @@ int main(int argc, char **argv) {
     // Register functions & constants
     lu5_register_symbols(lu5.L);
  
+    // Print Running log
+    if (!silent) 
+        printf(LU5_RUNNING_FILE(filename));
+
     // Run the file
     if (luaL_dofile(lu5.L, filename) != LUA_OK) {
         fprintf(stderr, LU5_LUA_ERROR(lua_tostring(lu5.L, -1)));
         goto cleanup;
     } else {
-        // Print Running log
-        if (!silent) 
-            printf(LU5_RUNNING_FILE(filename));
+
     }
 
     // Get the setup function
@@ -45,7 +47,7 @@ int main(int argc, char **argv) {
     if (lua_isfunction(lu5.L, -1)) {
 
         // Call the setup function
-        LUA_PCALL(lu5.L, "setup", 0, 0, 0, 1)
+        LUA_PCALL_VERBOSE(lu5.L, "setup", 0, 0, 0, 1)
     
     } else {
         // No setup function found, abort
@@ -77,10 +79,10 @@ int main(int argc, char **argv) {
    
     lu5_update_dynamic_variables(lu5.L, window);
     
+    printf(LU5_RUNNING_FILE("draw"));
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
     {
-        
         LUA_PCALL(lu5.L, "draw", 0, 0, 0, 1)
 
         lu5_poll_events(window);

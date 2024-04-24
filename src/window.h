@@ -8,6 +8,7 @@
 
 #include <lua.h>
 #include <stdbool.h>
+#include "colorArgs.h"
 
 typedef struct {
     struct {
@@ -21,10 +22,12 @@ typedef struct {
             int keypress_queue[MAX_KEY_PRESSED_QUEUE];
        } keyboard;
     } input;
-    struct {
-        bool event_block;
-    } window;
 
+    struct {
+        Color fill;
+        Color stroke;
+        double strokeWeight;
+    } style;
     
     lua_State *L;
 

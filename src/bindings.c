@@ -14,6 +14,8 @@
 
 #include <stdbool.h>
 
+#include "print.h"
+
 #include <math.h>
 #define PI 3.14159265358979323846
 
@@ -28,9 +30,6 @@
     
 
 #define WINDOW_TITLE_MAX_SIZE 256
-
-#define PRINT_DEPTH 3
-
 // Forward declaration for size change callback
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -81,6 +80,11 @@ int createWindow(lua_State *L) {
     glOrtho(0.0f, screenWidth, screenHeight, 0.0f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
+    glEnable(GL_LINE_SMOOTH);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     return 0;
 }
@@ -149,10 +153,40 @@ int line(lua_State *L)
     double x2 = lua_tonumber(L, 3);
     double y2 = lua_tonumber(L, 4);
 
-    glBegin(GL_LINES);
-        glVertex2f(x1, y1);
-        glVertex2f(x2, y2);
+    int segments = 20;  // More segments = rounder circle
+    float angleStep = (2 * PI) / segments;
+    float radius = (float)lu5.style.strokeWeight / 2.0f;
+
+    glLineWidth(lu5.style.strokeWeight * 5);
+
+    glBegin(GL_QUADS);
+        glVertex2f(x1+radius, y1-radius);
+        glVertex2f(x1-radius, y1+radius);
+        
+        glVertex2f(x2+radius, y2-radius);
+        glVertex2f(x2-radius, y2+radius);
     glEnd();
+
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex2f(x1, y1);
+    for (int i = 0; i <= segments; i++) {
+        float angle = i * angleStep;
+        float x = x1 + cos(angle) * radius;
+        float y = y1 + sin(angle) * radius;
+        glVertex2f(x, y);
+    }
+    glEnd();
+
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex2f(x2, y2);
+    for (int i = 0; i <= segments; i++) {
+        float angle = i * angleStep;
+        float x = x2 + cos(angle) * radius;
+        float y = y2 + sin(angle) * radius;
+        glVertex2f(x, y);
+    }
+    glEnd();
+
 
     return 0;
 }
@@ -174,9 +208,11 @@ int text(lua_State *L)
 
 int strokeWeight(lua_State *L) 
 {
-    double weight = lua_tointeger(L, 1);
+    double weight = lua_tonumber(L, 1);
 
     glLineWidth(weight);
+
+    lu5.style.strokeWeight = weight;
 
     return 0;
 }
@@ -205,70 +241,11 @@ int isKeyDown(lua_State *L)
     return 1;
 }
 
-static int print_list(lua_State *L, int index, int nested);
-
-static void print_any(lua_State *L, int index, int nested, char sep) 
-{
-    // Try to print as string
-    const char *str = lua_tostring(L, index);
-    if (str) {
-
-        char color = 37;
-        
-        if (lua_isnumber(L, index)) 
-            color = 36;
-
-        printf("\x1b[%im%s\x1b[0m%c", color, str, sep);
-        return;
-    }
-    
-    // Try to print as table
-    if (lua_istable(L, index)) {
-
-        if (nested < PRINT_DEPTH) {
-            print_list(L, index, nested);
-            putchar(' ');
-        } else {
-            int elem_length = luaL_len(L, index);
-            int color = 90;
-            printf("{ \x1b[%um... %i elements\x1b[0m }%c", color, elem_length, sep);
-        }
-    }
-
-    printf("[unhandled type]");
-
-
-    luaL_error(L, "[unhandled type]%c", sep);
-}
-
-static int print_list(lua_State *L, int index, int nested) {
-    // Get the length of the table
-    int length = luaL_len(L, index);
-
-    putchar('{');
-    // Iterate through each element of the table
-    for (int i = 1; i <= length; i++) {
-        // Push the index to the stack
-        lua_pushinteger(L, i);
-        // Get the value at this index (table is at index 1, pushed index is now at the top)
-        lua_gettable(L, index);
-        
-        // Print value on top of the stack
-
-        putchar(' ');
-        print_any(L, -1, nested+1, (i != length) ? ',' : ' ');
-        
-        // Pop the value off the stack to clean up
-        lua_pop(L, 1);
-    }
-    putchar('}');
-    return 0; // Number of return values
-}
-
 int print(lua_State *L)
 {
     int argc = lua_gettop(L);
 
+    // Print all arguments
     for (int i = 0; i < argc-1; i++) {
         print_any(L, i+1, 0, ' ');
     }

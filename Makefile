@@ -16,7 +16,7 @@ all: $(BIN)
 
 bin/%.o: src/%.c 
 	@mkdir -p $(dir $@)
-	$(CC) $(INC) -MMD -c $< -o $@
+	$(CC) -MMD -c $< -o $@
 
 $(BIN): $(OBJ)
 	$(CC) -o $@ $^ $(LFLAGS)

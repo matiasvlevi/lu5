@@ -9,7 +9,7 @@ end
 function draw()
     background(51);
 
-    strokeWeight(8);
+    strokeWeight(12);
     if (mouseIsPressed) then
         line(prevX, prevY, mouseX, mouseY);
     end
