@@ -30,6 +30,25 @@ int circle(lua_State *L) {
     return 0;
 }
 
+int square(lua_State *L)
+{
+    double x = lua_tonumber(L, 1);  
+    double y = lua_tonumber(L, 2);  
+    double s = lua_tonumber(L, 3);  
+
+    float x2 = x + s;
+    float y2 = y + s;
+
+    glBegin(GL_QUADS);
+        glVertex2f(x, y);
+        glVertex2f(x2, y);
+        glVertex2f(x2, y2);
+        glVertex2f(x, y2);
+    glEnd(); 
+
+    return 0;
+}
+
 int rect(lua_State *L) {
     double x = lua_tonumber(L, 1);  
     double y = lua_tonumber(L, 2);  
@@ -104,6 +123,60 @@ int text(lua_State *L)
     double x = lua_tonumber(L, 2);
     double y = lua_tonumber(L, 3);
 
-    luaL_error(L, "TODO: Implement text.\t text(\"%s\", %i, %i);", str, x, y);
+    luaL_error(L, "TODO: Implement text.\t text(\"%s\", %f, %f);", str, x, y);
+    return 0;
+}
+
+int point(lua_State *L)
+{
+    double x = lua_tonumber(L, 1);
+    double y = lua_tonumber(L, 2);
+
+    luaL_error(L, "TODO: Implement point.\t point(%f, %f);", x, y);
+    return 0;
+}
+
+int quad(lua_State *L)
+{
+    double x1 = lua_tonumber(L, 1);
+    double y1 = lua_tonumber(L, 2);
+    // ... more arguments
+    // refer to https://p5js.org/reference/#/p5/quad
+
+    luaL_error(L, "TODO: Implement quad.\t quad(%f, %f, ...more args);", x1, y1);
+    return 0;
+}
+
+int triangle(lua_State *L)
+{
+    double x1 = lua_tonumber(L, 1);
+    double y1 = lua_tonumber(L, 2);
+    // ... more arguments
+    // refer to https://p5js.org/reference/#/p5/triangle
+
+    luaL_error(L, "TODO: Implement triangle.\t triangle(%f, %f, ...more args);", x1, y1);
+    return 0;
+}
+
+int ellipse(lua_State *L)
+{
+    double x = lua_tonumber(L, 1);
+    double y = lua_tonumber(L, 2);
+    // ... more arguments
+    // refer to https://p5js.org/reference/#/p5/ellipse
+
+    luaL_error(L, "TODO: Implement ellipse.\t ellipse(%f, %f, ...more args);", x, y);
+    return 0;
+}
+
+
+int arc(lua_State *L)
+{
+    double x = lua_tonumber(L, 1);
+    double y = lua_tonumber(L, 2);
+    // ... more arguments
+    // refer to https://p5js.org/reference/#/p5/arc
+
+    luaL_error(L, "TODO: Implement arc.\t arc(%f, %f, ...more args);", x, y);
     return 0;
 }

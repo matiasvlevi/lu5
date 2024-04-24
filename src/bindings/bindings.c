@@ -36,15 +36,25 @@ void lu5_register_symbols(lua_State *L)
 
     LUA_ADD_FUNCTION(L, createWindow);
     LUA_ADD_FUNCTION(L, background);
+
+    LUA_ADD_FUNCTION(L, isKeyDown);
     
 	LUA_ADD_FUNCTION(L, fill);
-    LUA_ADD_FUNCTION(L, strokeWeight);
-    
+	LUA_ADD_FUNCTION(L, noFill);
+	LUA_ADD_FUNCTION(L, stroke);
+	LUA_ADD_FUNCTION(L, noStroke);
+    LUA_ADD_FUNCTION(L, strokeWeight);    
+
+	LUA_ADD_FUNCTION(L, point);
     LUA_ADD_FUNCTION(L, circle);
+    LUA_ADD_FUNCTION(L, ellipse);
+    LUA_ADD_FUNCTION(L, square); 
     LUA_ADD_FUNCTION(L, rect); 
+	LUA_ADD_FUNCTION(L, quad);
     LUA_ADD_FUNCTION(L, line);
+	LUA_ADD_FUNCTION(L, triangle);
 	LUA_ADD_FUNCTION(L, text);
-    LUA_ADD_FUNCTION(L, isKeyDown);
+	LUA_ADD_FUNCTION(L, arc);
 
 	lu5_register_constants(L);
 }
