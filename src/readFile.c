@@ -27,4 +27,38 @@ char *readFile(FILE *file) {
     return code;
 }
 
+char* readShaderSourceFromFile(const char* shaderFile) {
+    FILE *fp;
+    long length;
+    char *buffer;
+
+    // Open file and check if it is opened
+    fp = fopen(shaderFile, "rb");
+    if (fp == NULL) {
+        printf("Failed to load %s\n", shaderFile);
+        return NULL;
+    }
+
+    // Get the length of the file
+    fseek(fp, 0L, SEEK_END);
+    length = ftell(fp);
+    fseek(fp, 0L, SEEK_SET);
+
+    // Allocate memory for the entire file
+    buffer = malloc(length + 1);
+    if (buffer == NULL) {
+        printf("Failed to allocate memory for %s\n", shaderFile);
+        fclose(fp);
+        return NULL;
+    }
+
+    // Read the file into the buffer and null-terminate it
+    fread(buffer, length, 1, fp);
+    buffer[length] = '\0';
+
+    fclose(fp);
+    return buffer;
+}
+
+
 

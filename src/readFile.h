@@ -6,4 +6,6 @@
 
 char *readFile(FILE *file);
 
+char* readShaderSourceFromFile(const char* shaderFile);
+
 #endif

@@ -21,5 +21,4 @@ int lu5_option_silent(int argc, char **argv);
 int lu5_option_init(int argc, char **argv);
 int lu5_option_help(int argc, char **argv);
 
-
 #endif

@@ -1,2 +1,2 @@
-bin/main.o: src/main.c src/readFile.h src/colorArgs.h src/defs.h \
- src/bindings.h src/cliargs.h src/options.h src/window.h src/events.h
+bin/main.o: src/main.c src/defs.h src/cliargs.h src/options.h \
+ src/readFile.h src/window.h src/bindings.h src/events.h

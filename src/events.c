@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
 
     if (!lu5.L) return;
 
@@ -24,37 +24,42 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     }
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (!lu5.L) return;
-    //lu5.input.keyboard.key = key;
-    //lu5.input.keyboard.action = action;
-
-    switch(action) {
-        case GLFW_RELEASE: 
-            lu5.input.keyboard.current_keys[key] = GLFW_RELEASE;
-            lua_getglobal(lu5.L, "keyReleased");
-            break;
-        case GLFW_PRESS: 
-            lu5.input.keyboard.current_keys[key] = GLFW_PRESS;
-            lua_getglobal(lu5.L, "keyPressed");
-            break;
-        case GLFW_REPEAT:
-            lu5.input.keyboard.current_keys[key] = GLFW_REPEAT;
-            lua_getglobal(lu5.L, "keyHeld");
-            break;
-    }
 
     // TODO: Force down state when CAPS lock or other mods found
 
     // Check if there is space available in the key queue
     if ((lu5.input.keyboard.keypress_queue_count < MAX_KEY_PRESSED_QUEUE) && (action == GLFW_PRESS))
     {
-        // Add character to the queue
+        // Add key to queue
         lu5.input.keyboard.keypress_queue[lu5.input.keyboard.keypress_queue_count] = key;
         lu5.input.keyboard.keypress_queue_count++;
     }
 
+    switch(action) {
+        case GLFW_RELEASE: 
+            lu5.input.keyboard.current_keys[key] = GLFW_RELEASE;
+
+            // Get keyReleased
+            lua_getglobal(lu5.L, "keyReleased");
+            break;
+        case GLFW_PRESS: 
+            lu5.input.keyboard.current_keys[key] = GLFW_PRESS;
+
+            // Get keyPressed
+            lua_getglobal(lu5.L, "keyPressed");
+            break;
+        case GLFW_REPEAT:
+            lu5.input.keyboard.current_keys[key] = GLFW_REPEAT;
+            
+            // Get keyHeld
+            lua_getglobal(lu5.L, "keyHeld");
+            break;
+    }
+
+    // Check if callback event is a function
     if (lua_isfunction(lu5.L, -1)) {
         lua_pushinteger(lu5.L, key);
 
@@ -65,16 +70,20 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 }
 
-void lu5_poll_events() 
+void lu5_poll_events(GLFWwindow *window) 
 {
-    lu5.input.keyboard.keypress_queue_count = 0;
-
-    for (int i = 0; i < MAX_KEYBOARD_KEYS; i++)
-    {
-        lu5.input.keyboard.previous_keys[i] = lu5.input.keyboard.current_keys[i];
-        lu5.input.keyboard.key_repeat_in_frame[i] = 0;
-    }
+    glfwPollEvents();             
+    glfwSwapBuffers(window);
 }
+
+void lu5_register_event_callbacks(GLFWwindow *window) {
+
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetKeyCallback(window, key_callback);
+
+    return;
+}
+    
 
 
 

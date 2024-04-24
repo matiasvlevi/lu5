@@ -6,6 +6,7 @@ end
 function draw()
     background(51);
 
+    strokeWeight(8);
     circle(width/2, height/2, 32);
 end
 

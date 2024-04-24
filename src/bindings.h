@@ -6,8 +6,6 @@
 
 #include <stdbool.h>
 
-extern bool windowExists;
-
 int createWindow(lua_State *L);
 
 int background(lua_State *L);
@@ -23,16 +21,18 @@ int text(lua_State *L);
 
 int fill(lua_State *L);
 
-int isKeyDown(lua_State *L);
+int strokeWeight(lua_State *L);
 
-int isKeyPressed(lua_State *L);
+int isKeyDown(lua_State *L);
 
 int isMouseDown(lua_State *L);
 
 int print(lua_State *L);
 
-void update_dynamic_variables(lua_State *L, GLFWwindow *window);
+//
+
+void lu5_update_dynamic_variables(lua_State *L, GLFWwindow *window);
    
-void registerSymbols(lua_State *L);
+void lu5_register_symbols(lua_State *L);
 
 #endif

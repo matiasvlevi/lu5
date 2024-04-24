@@ -28,7 +28,8 @@
     
 
 #define WINDOW_TITLE_MAX_SIZE 256
-bool windowExists = false;
+
+#define PRINT_DEPTH 3
 
 // Forward declaration for size change callback
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -36,8 +37,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 //
 int createWindow(lua_State *L) {
     
-    int screenWidth = lua_tonumber(L, 1);
-    int screenHeight = lua_tonumber(L, 2);
+    int screenWidth = lua_tointeger(L, 1);
+    int screenHeight = lua_tointeger(L, 2);
     LUA_ADD_NUMBER_GLOBAL(L, "width", screenWidth);
     LUA_ADD_NUMBER_GLOBAL(L, "height", screenHeight); 
 
@@ -46,21 +47,22 @@ int createWindow(lua_State *L) {
     lua_getglobal(L, "sketch");
     const char *sketch_path = luaL_checkstring(L, -1);
     if (sketch_path == NULL) return 1;
-
     sprintf(window_title, "[lu5]: %s", sketch_path);
+
+    if (!glfwInit()) {
+        fprintf(stderr, "Failed to initialize GLFW\n");
+        return -1;
+    }
 
     GLFWwindow* window = glfwCreateWindow(
         screenWidth, screenHeight,     
         window_title, 
         NULL, NULL);
 
-    if (!(window))
+    if (window == NULL)
     {
         glfwTerminate();
         fprintf(stderr, "Failed to create GLFW window\n");
-        
-        windowExists = false;
-
         return 0;
     }
 
@@ -80,8 +82,6 @@ int createWindow(lua_State *L) {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    windowExists = true;
-
     return 0;
 }
 
@@ -96,8 +96,8 @@ int background(lua_State *L) {
 
 
 int circle(lua_State *L) {
-    int x = lua_tonumber(L, 1);  
-    int y = lua_tonumber(L, 2);  
+    double x = lua_tonumber(L, 1);  
+    double y = lua_tonumber(L, 2);  
     double d = lua_tonumber(L, 3);  
 
     float radius = d / 2.0f;
@@ -120,11 +120,11 @@ int circle(lua_State *L) {
 }
 
 int rect(lua_State *L) {
-    int x = lua_tonumber(L, 1);  
-    int y = lua_tonumber(L, 2);  
-    int w = lua_tonumber(L, 3);  
+    double x = lua_tonumber(L, 1);  
+    double y = lua_tonumber(L, 2);  
+    double w = lua_tonumber(L, 3);  
 
-    int h = w;
+    double h = w;
     if (lua_gettop(L) > 3) {
         h = lua_tonumber(L, 4);
     }  
@@ -165,10 +165,19 @@ int text(lua_State *L)
         return 0;
     }
 
-    int x = lua_tonumber(L, 2);
-    int y = lua_tonumber(L, 3);
+    double x = lua_tonumber(L, 2);
+    double y = lua_tonumber(L, 3);
 
     printf("TODO: Implement text.\t text(\"%s\", %i, %i);", str, x, y);
+    return 0;
+}
+
+int strokeWeight(lua_State *L) 
+{
+    double weight = lua_tointeger(L, 1);
+
+    glLineWidth(weight);
+
     return 0;
 }
 
@@ -196,54 +205,79 @@ int isKeyDown(lua_State *L)
     return 1;
 }
 
-int isKeyPressed(lua_State *L) 
+static int print_list(lua_State *L, int index, int nested);
+
+static void print_any(lua_State *L, int index, int nested, char sep) 
 {
-    int key = lua_tointeger(L, 1);
+    // Try to print as string
+    const char *str = lua_tostring(L, index);
+    if (str) {
 
+        char color = 37;
+        
+        if (lua_isnumber(L, index)) 
+            color = 36;
 
-    bool pressed = false;
+        printf("\x1b[%im%s\x1b[0m%c", color, str, sep);
+        return;
+    }
+    
+    // Try to print as table
+    if (lua_istable(L, index)) {
 
-    if ((key > 0) && (key < MAX_KEYBOARD_KEYS))
-    {
-        pressed = (
-            (lu5.input.keyboard.previous_keys[key] == 0) && 
-            (lu5.input.keyboard.current_keys[key] == 1)
-        );
+        if (nested < PRINT_DEPTH) {
+            print_list(L, index, nested);
+            putchar(' ');
+        } else {
+            int elem_length = luaL_len(L, index);
+            int color = 90;
+            printf("{ \x1b[%um... %i elements\x1b[0m }%c", color, elem_length, sep);
+        }
     }
 
- 
-    lua_pushboolean(L, pressed);
-    return 1;
+    printf("[unhandled type]");
+
+
+    luaL_error(L, "[unhandled type]%c", sep);
+}
+
+static int print_list(lua_State *L, int index, int nested) {
+    // Get the length of the table
+    int length = luaL_len(L, index);
+
+    putchar('{');
+    // Iterate through each element of the table
+    for (int i = 1; i <= length; i++) {
+        // Push the index to the stack
+        lua_pushinteger(L, i);
+        // Get the value at this index (table is at index 1, pushed index is now at the top)
+        lua_gettable(L, index);
+        
+        // Print value on top of the stack
+
+        putchar(' ');
+        print_any(L, -1, nested+1, (i != length) ? ',' : ' ');
+        
+        // Pop the value off the stack to clean up
+        lua_pop(L, 1);
+    }
+    putchar('}');
+    return 0; // Number of return values
 }
 
 int print(lua_State *L)
 {
     int argc = lua_gettop(L);
 
-    for (int i = 0; i < argc; i++) {
+    for (int i = 0; i < argc-1; i++) {
+        print_any(L, i+1, 0, ' ');
+    }
+    print_any(L, argc, 0, '\n');
 
-        if (lua_isstring(L, i+1)) {
-            const char *str = luaL_checkstring(L, i+1);
-
-            if (str != NULL) 
-                printf("%s ", str);
-
-            continue;
-        }
-
-        if (lua_isnumber(L, i+1)) {
-            double value = lua_tonumber(L, i+1);
-            printf("%lf ", value);
-            continue; 
-        }
-
-    } 
-
-    putc('\n', stdout);
     return 0;
 }
 
-void update_dynamic_variables(lua_State *L, GLFWwindow *window) { 
+void lu5_update_dynamic_variables(lua_State *L, GLFWwindow *window) { 
     double mouseX, mouseY;
     glfwGetCursorPos(window, &mouseX, &mouseY);
 
@@ -255,39 +289,27 @@ void update_dynamic_variables(lua_State *L, GLFWwindow *window) {
     LUA_ADD_CONST_BOOL_GLOBAL(L, mouseIsPressed);
 }
 
-void registerSymbols(lua_State *L) 
+void lu5_register_symbols(lua_State *L) 
 {
+
     LUA_ADD_FUNCTION(L, print);
-    
     LUA_ADD_FUNCTION(L, createWindow);
-    
     LUA_ADD_FUNCTION(L, background);
     LUA_ADD_FUNCTION(L, fill);
-
-
+    LUA_ADD_FUNCTION(L, strokeWeight);
     LUA_ADD_FUNCTION(L, text);
 
     LUA_ADD_FUNCTION(L, circle);
     LUA_ADD_FUNCTION(L, rect); 
-    LUA_ADD_FUNCTION(L, line)
-        ;
-    LUA_ADD_FUNCTION(L, isKeyPressed);
+    LUA_ADD_FUNCTION(L, line);
     LUA_ADD_FUNCTION(L, isKeyDown);
 
-
-    LUA_ADD_NUMBER_GLOBAL(L, "LEFT_ARROW", 263);
+    LUA_ADD_NUMBER_GLOBAL(L, "LEFT_ARROW",  263);
     LUA_ADD_NUMBER_GLOBAL(L, "RIGHT_ARROW", 262);
-    LUA_ADD_NUMBER_GLOBAL(L, "UP_ARROW", 265);
-    LUA_ADD_NUMBER_GLOBAL(L, "DOWN_ARROW", 264);
-    LUA_ADD_NUMBER_GLOBAL(L, "ENTER", 257);
-    LUA_ADD_NUMBER_GLOBAL(L, "BACKSPACE", 259);
-
-    //LUA_ADD_CONST_NUMBER_GLOBAL(KEY_RIGHT);
-    //LUA_ADD_CONST_NUMBER_GLOBAL(KEY_LEFT);
-    //LUA_ADD_CONST_NUMBER_GLOBAL(KEY_UP);
-    //LUA_ADD_CONST_NUMBER_GLOBAL(KEY_DOWN);
-    //LUA_ADD_CONST_NUMBER_GLOBAL(KEY_ENTER);
-    //LUA_ADD_CONST_NUMBER_GLOBAL(KEY_BACKSPACE);
+    LUA_ADD_NUMBER_GLOBAL(L, "UP_ARROW",    265);
+    LUA_ADD_NUMBER_GLOBAL(L, "DOWN_ARROW",  264);
+    LUA_ADD_NUMBER_GLOBAL(L, "ENTER",       257);
+    LUA_ADD_NUMBER_GLOBAL(L, "BACKSPACE",   259);
 }
 
 // Callback function for when the window's size is changed

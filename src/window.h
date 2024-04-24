@@ -15,17 +15,10 @@ typedef struct {
             int actions[MAX_MOUSE_BUTTONS];
        } mouse;
        struct {
-            int key;
-            int action;
-
             int current_keys[MAX_KEYBOARD_KEYS];
-            int previous_keys[MAX_KEYBOARD_KEYS];
-
-            int key_repeat_in_frame[MAX_KEYBOARD_KEYS];
 
             int keypress_queue_count;
             int keypress_queue[MAX_KEY_PRESSED_QUEUE];
-
        } keyboard;
     } input;
     struct {

@@ -6,7 +6,6 @@
 #include <sys/stat.h>
 #include "defs.h"
 #include "options.h"
-#include "log.h"
 
 lu5_option cli_options[LU5_OPTION_COUNT] = {
     {
