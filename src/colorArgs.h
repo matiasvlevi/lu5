@@ -18,6 +18,15 @@ typedef union
 	};
 } Color;
 
+#define GET_COLOR_FROM_LUA_ARGS(l)\
+    double r = lua_tonumber(L, 1);\
+    double g = r;\
+    if(lua_gettop(l) > 1) g = lua_tonumber(L, 2);\
+    double b = r;\
+    if(lua_gettop(l) > 2) b = lua_tonumber(L, 3);\
+    double a = 0xFF; \
+    if(lua_gettop(l) > 3) a = lua_tonumber(L, 4)
+
 Color rgbColorFromLuaArguments(lua_State *L);
 
 #endif

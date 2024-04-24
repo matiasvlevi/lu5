@@ -7,6 +7,7 @@
 #define MAX_KEY_PRESSED_QUEUE 16
 
 #include <lua.h>
+#include <GLFW/glfw3.h>
 #include <stdbool.h>
 #include "colorArgs.h"
 
@@ -34,5 +35,9 @@ typedef struct {
 } lu5_state;
 
 extern lu5_state lu5;
+
+// Callback function for when the window's size is changed
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
 
 #endif

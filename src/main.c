@@ -10,7 +10,7 @@
 #include "readFile.h"
 
 #include "window.h"
-#include "bindings.h"
+#include "bindings/bindings.h"
 #include "events.h"
 
 int main(int argc, char **argv) {
