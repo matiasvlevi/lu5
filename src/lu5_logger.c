@@ -6,15 +6,19 @@
 #include <stdarg.h>
 
 void lu5_logger_trace(lua_State *L) {
+    // Get debug table
     lua_getglobal(L, "debug");
     if (lua_istable(L, -1)) {
+
+        // Get traceback
         lua_getfield(L, -1, "traceback");
         if (lua_isfunction(L, -1)) {
+            //
             // Call debug.traceback() with 0 arguments and 1 result
             lua_call(L, 0, 1);
 
             // Print result
-            printf("%s\n", lua_tostring(L, -1));
+            printf("\x1b[90m%s\x1b[0m\n", lua_tostring(L, -1));
 
             // Pop the result and debug table
             lua_pop(L, 2); 
