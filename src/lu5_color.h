@@ -30,8 +30,8 @@ void lu5_register_colors(lua_State *L);
 
 lu5_color lu5_args_to_color(lua_State *L);
 
-#define LU5_COLOR_COUNT 7
-extern lu5_labeled_color lu5_known_colors[LU5_COLOR_COUNT]; 
+#define LU5_COLOR_COUNT 11
+extern lu5_labeled_color lu5_known_colors[]; 
 
 
 #endif

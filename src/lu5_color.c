@@ -10,8 +10,28 @@
 
 lu5_labeled_color lu5_known_colors[LU5_COLOR_COUNT] = {
     {
+        .name="white",
+        .color= LU5_RGBA(255, 255, 255, 255)
+    },
+    {
+        .name="black",
+        .color= LU5_RGBA(0, 0, 0, 255)
+    },
+    {
+        .name="grey",
+        .color= LU5_RGBA(51, 51, 51, 255)
+    },
+    {
         .name="red",
         .color= LU5_RGBA(245, 70, 10, 255)
+    },
+    {
+        .name="pink",
+        .color= LU5_RGBA(255, 25, 180, 255)
+    },
+    {
+        .name="magenta",
+        .color= LU5_RGBA(210, 81, 255, 255)
     },
     {
         .name="blue",
@@ -30,13 +50,9 @@ lu5_labeled_color lu5_known_colors[LU5_COLOR_COUNT] = {
         .color= LU5_RGBA(255, 125, 16, 255)
     },
     {
-        .name="magenta",
-        .color= LU5_RGBA(255, 25, 180, 255)
-    },
-    {
         .name="cyan",
         .color= LU5_RGBA(20, 200, 255, 255)
-    },
+    }
 };
 
 void lu5_register_colors(lua_State *L) 
