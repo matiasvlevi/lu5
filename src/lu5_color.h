@@ -6,6 +6,11 @@
 
 #define LU5_RGBA(sr,sg,sb,sa) (lu5_color){ .r=sr, .g=sg, .b=sb, .a=sa }
 
+
+#define LU5_WHITE (lu5_color)(0xFFFFFFFF)
+#define LU5_BLACK (lu5_color)(0x000000FF)
+#define LU5_GREY  (lu5_color)(0x333333FF)
+
 typedef union
 {
 	uint32_t hexadecimal;
