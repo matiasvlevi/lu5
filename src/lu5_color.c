@@ -93,8 +93,8 @@ static lu5_color lu5_hex_args_to_color(lua_State *L)
             return (lu5_color)(0xFFFFFFFF);
         }
 
-        // Shift a byte for Alpha
-        return (lu5_color)(rgb << 8);
+        // Shift a byte and set Alpha to max
+        return (lu5_color)((rgb << 8) | 0xFF);
     } 
     
     // 4 bytes hex rgba color
