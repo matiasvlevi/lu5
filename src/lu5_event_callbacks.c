@@ -1,9 +1,12 @@
 #include "lu5_event_callbacks.h"
 #include "lu5_state.h"
 
+#include "lu5_logger.h"
+
 #include <stdio.h>
 
-static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) 
+{
 
     if (!lu5.L) return;
 
@@ -19,7 +22,7 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
         lua_pushinteger(lu5.L, button);
 
         if (lua_pcall(lu5.L, 1, 0, 0) != LUA_OK) {
-            fprintf(stderr, "[\x1b[91mERROR\x1b[0m]: %s\n", lua_tostring(lu5.L, -1));
+            LU5_ERROR(lua_tostring(lu5.L, -1));
         }
     }
 }
@@ -64,7 +67,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         lua_pushinteger(lu5.L, key);
 
         if (lua_pcall(lu5.L, 1, 0, 0) != LUA_OK) {
-            fprintf(stderr, "[\x1b[91mERROR\x1b[0m]: %s\n", lua_tostring(lu5.L, -1));
+            LU5_ERROR(lua_tostring(lu5.L, -1));
         }
     }
 

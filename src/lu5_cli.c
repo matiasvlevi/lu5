@@ -1,24 +1,21 @@
 #include "lu5_cli.h"
 
-#include "lu5_defs.h"
+#include "lu5_logger.h"
 #include "lu5_cli_options.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
-
-//#include <GLFW/glfw3.h>
-
-//GLFWwindow* window;
-
-int handle_option(int argc, char **argv, int i)
+int handle_option(int argc, char **argv, int idx, int* offset)
 {
-    char *option_name = argv[i] + 2;
+    char *option_name = argv[idx] + 2; // skip 2 dashes
 
     for (int i = 0; i < LU5_OPTION_COUNT; i++) {
+        // Compare name in list
         if (strcmp(option_name, cli_options[i].name) == 0) {
-            return cli_options[i].handler(argc, argv);
+            *offset = cli_options[i].arg_count;
+            return cli_options[i].handler(argc, argv, idx, i);
         }
     }
 
@@ -31,7 +28,7 @@ bool handle_args(int argc, char** argv, char **filename)
 
     if (argc == 1) {
         // Help menu
-        cli_options[0].handler(argc, argv);
+        cli_options[0].handler(argc, argv, 1, 0);
         return defaultExec;
     }
 
@@ -41,16 +38,18 @@ bool handle_args(int argc, char** argv, char **filename)
     for (int i = 0; i < argc-1; i++) {
         if (
             argv[i][0] == '-' &&
-            argv[i][1] == '-'
+            argv[i][1] == '-' 
         ) {
-
-            int err = handle_option(argc-1, argv, i);
+            int offset;
+            int err = handle_option(argc-1, argv, i, &offset);
             if (err) exit(err);
 
-            continue;
-        } else {
-            defaultExec = true;
+            // skip arguments
+            i += offset;
+        } else if(!defaultExec) {
             *filename = argv[i];
+
+            defaultExec = true;
         }
     }
 
@@ -58,7 +57,7 @@ bool handle_args(int argc, char** argv, char **filename)
     if (defaultExec) { 
         // If file name was not found
         if (*filename == NULL) {
-            fprintf(stderr, LU5_FILE_NOT_SPECIFIED);
+            LU5_ERROR(LU5_FILE_NOT_SPECIFIED);
             return 1;
         } 
     }

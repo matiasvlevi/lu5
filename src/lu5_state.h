@@ -11,8 +11,10 @@
 #include <stdbool.h>
 
 #include "lu5_color.h"
+#include "lu5_logger.h"
 
 typedef struct {
+
     struct {
        struct {
             int actions[MAX_MOUSE_BUTTONS];
@@ -30,6 +32,8 @@ typedef struct {
         lu5_color stroke;
         double strokeWeight;
     } style;
+
+    lu5_log_level log_level;
     
     lua_State *L;
 

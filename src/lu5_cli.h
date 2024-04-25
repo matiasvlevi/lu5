@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-int handle_option(int argc, char **argv, int i);
+int handle_option(int argc, char **argv, int i, int* offset);
 
 bool handle_args(int argc, char** argv, char **filename);
 

@@ -70,7 +70,7 @@ end
 balls = {}
 
 function setup() 
-    createWindow(600, 600); 
+    createWindow(1920, 1080); 
 
     for i=1, ball_count do
       balls[i] = Ball.new(

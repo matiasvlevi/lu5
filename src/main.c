@@ -9,6 +9,7 @@
 #include "lu5_cli.h"
 #include "lu5_cli_options.h"
 #include "lu5_event_callbacks.h"
+#include "lu5_logger.h"
 
 #include "lu5_bindings.h"
 
@@ -30,12 +31,11 @@ int main(int argc, char **argv) {
     lu5_register_symbols(lu5.L);
  
     // Print Running log
-    if (!silent) 
-        printf(LU5_RUNNING_FILE(filename));
+    LU5_RUN_LOG(filename);
 
     // Run the file
     if (luaL_dofile(lu5.L, filename) != LUA_OK) {
-        fprintf(stderr, LU5_LUA_ERROR(lua_tostring(lu5.L, -1)));
+        LU5_ERROR(lua_tostring(lu5.L, -1));
         goto cleanup;
     }
 
@@ -60,14 +60,14 @@ int main(int argc, char **argv) {
     // Check if window was created from lua
     lua_getglobal(lu5.L, "window");
     if (!lua_isuserdata(lu5.L, -1)) {
-        fprintf(stderr, LU5_NO_WINDOW_ERROR);
+        LU5_WARN(LU5_NO_WINDOW);
         goto cleanup; 
     }
 
     // Get the GLFWwindow created from lua 
     GLFWwindow* window = (GLFWwindow*)lua_touserdata(lu5.L, -1);  
     if (!window) {
-        luaL_error(lu5.L, "Window was created, but GLFWwindow ptr is NULL\n");
+        LU5_ERROR(LU5_INVALID_WINDOW);
         goto cleanup;
     }
 
@@ -76,8 +76,7 @@ int main(int argc, char **argv) {
    
     lu5_update_dynamic_variables(lu5.L, window);
     
-    if (!silent) 
-        printf(LU5_RUNNING_FILE("draw"));
+    LU5_RUN_LOG("draw");
     
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
@@ -89,8 +88,7 @@ int main(int argc, char **argv) {
         lu5_update_dynamic_variables(lu5.L, window);
     }
 
-    if (!silent)
-        puts(LU5_CLOSE);
+    LU5_INFO(LU5_EXIT_APP);
 
 cleanup:
     glfwTerminate();
