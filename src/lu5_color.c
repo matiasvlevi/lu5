@@ -4,7 +4,40 @@
 #include <lualib.h>
 #include <lauxlib.h>
 
+#include <string.h>
+
 #include "lu5_logger.h"
+
+lu5_labeled_color lu5_known_colors[LU5_COLOR_COUNT] = {
+    {
+        .name="red",
+        .color= LU5_RGBA(245, 70, 10, 255)
+    },
+    {
+        .name="blue",
+        .color= LU5_RGBA(10, 70, 245, 255)
+    },
+    {
+        .name="green",
+        .color= LU5_RGBA(10, 245, 70, 255)
+    },
+    {
+        .name="yellow",
+        .color= LU5_RGBA(205, 225, 36, 255)
+    },
+    {
+        .name="orange",
+        .color= LU5_RGBA(255, 125, 16, 255)
+    },
+    {
+        .name="magenta",
+        .color= LU5_RGBA(255, 25, 180, 255)
+    },
+    {
+        .name="cyan",
+        .color= LU5_RGBA(20, 200, 255, 255)
+    },
+};
 
 static lu5_color lu5_hex_args_to_color(lua_State *L) 
 {
@@ -13,6 +46,7 @@ static lu5_color lu5_hex_args_to_color(lua_State *L)
 
     // Check string format and length
     if (hex_str[0] != '#') {
+        LU5_WARN_TRACE(L, "Expected hexadecimal color string");
         return (lu5_color)(0xFFFFFFFF);
     }
 
@@ -24,6 +58,7 @@ static lu5_color lu5_hex_args_to_color(lua_State *L)
         int parsed = sscanf(hex_str + 1, "%6x", &rgb); 
         if (parsed != 1) {
             // In case of parsing error return white
+            LU5_WARN_TRACE(L, "Failed to parse hexadecimal string");
             return (lu5_color)(0xFFFFFFFF);
         }
 
@@ -39,17 +74,33 @@ static lu5_color lu5_hex_args_to_color(lua_State *L)
         int parsed = sscanf(hex_str + 1, "%8x", &rgba); 
         if (parsed != 1) {
             // In case of parsing error return white
+            LU5_WARN_TRACE(L, "Failed to parse hexadecimal string");
             return (lu5_color)(0xFFFFFFFF);
         }
 
         return (lu5_color)(rgba);    
     }
 
+    LU5_WARN_TRACE(L, "Expected length of hexadecimal string to be either of 7 or 9 characters");
     return (lu5_color)(0xFFFFFFFF);
 }
 
+
 static lu5_color lu5_label_args_to_color(lua_State *L)
 {
+    const char *label = luaL_checkstring(L, 1);
+    if (label == NULL) {
+        LU5_WARN_TRACE(L, "Expected a string for first argument");
+        return (lu5_color)(0xFFFFFFFF);
+    }
+     
+    for (int i = 0; i < LU5_COLOR_COUNT; i++) {
+        if (strcmp(label, lu5_known_colors[i].name) == 0) {
+            return lu5_known_colors[i].color;
+        }
+    }
+
+    LU5_WARN_TRACE(L, "'%s' did not match any known colors", label);
     return (lu5_color)(0xFFFFFFFF);
 } 
 
@@ -110,6 +161,9 @@ lu5_color lu5_args_to_color(lua_State *L)
     // If first argument is string, handle string
     if (lua_isstring(L, 1)) 
         return lu5_string_args_to_color(L);    
+
+    LU5_WARN_TRACE(L, "Could not parse color");
+    return (lu5_color)(0xFFFFFFFF);
 }
 
 
