@@ -58,3 +58,42 @@ void lu5_register_symbols(lua_State *L)
 
 	lu5_register_constants(L);
 }
+
+void lu5_register_number_array(lua_State *L, const char* array_name, double *list, size_t size)
+{
+    lua_newtable(L);
+
+    for (int i = 0; i < size; i++) {
+        lua_pushnumber(L, i+1);
+        lua_pushnumber(L, list[i]);
+        lua_settable(L, -3);
+    }
+
+    lua_setglobal(L, array_name);  
+}
+
+void lu5_register_integer_array(lua_State *L, const char* array_name, int *list, size_t size)
+{
+    lua_newtable(L);
+
+    for (int i = 0; i < size; i++) {
+        lua_pushnumber(L, i+1);
+        lua_pushinteger(L, list[i]);
+        lua_settable(L, -3);
+    }
+
+    lua_setglobal(L, array_name);  
+}
+
+void lu5_register_string_array(lua_State *L, const char* array_name, const char **list, size_t size)
+{
+    lua_newtable(L);
+
+    for (int i = 0; i < size; i++) {
+        lua_pushnumber(L, i+1);
+        lua_pushstring(L, list[i]);
+        lua_settable(L, -3);
+    }
+
+    lua_setglobal(L, array_name);  
+}

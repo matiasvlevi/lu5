@@ -19,4 +19,8 @@ void lu5_update_dynamic_variables(lua_State *L, GLFWwindow *window);
  */
 void lu5_register_symbols(lua_State *L);
 
+void lu5_register_number_array(lua_State *L, const char* array_name, double *list, size_t size);
+void lu5_register_integer_array(lua_State *L, const char* array_name, int *list, size_t size);
+void lu5_register_string_array(lua_State *L, const char* array_name, const char **list, size_t size);
+
 #endif

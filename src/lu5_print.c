@@ -5,40 +5,59 @@
 
 void lu5_print_any(lua_State *L, int index, int nested, char sep) 
 {
-    // Try to print as table
-    if (lua_istable(L, index)) {
+    int type = lua_type(L, index);
 
-        if (nested < PRINT_DEPTH) {
-            lu5_print_list(L, lua_gettop(L), nested);
-            putchar(sep);
-        } else {
-            int elem_length = luaL_len(L, index);
-            int color = 90;
-            printf("{ \x1b[%um... %i elements\x1b[0m }%c", color, elem_length, sep);
-        }
+    const char *str;
 
-        return;
+    switch(type) {
+        case LUA_TNIL:
+            printf("\x1b[33mnil\x1b[0m%c", str, sep);
+            break;
+
+        case LUA_TBOOLEAN:
+            int value = lua_toboolean(L, index);
+            printf("\x1b[33m%s\x1b[0m%c", value ? "true" : "false", sep);
+            break;
+
+        case LUA_TFUNCTION:
+            printf("\x1b[34m[lua function]\x1b[0m%c", sep);
+            break;
+
+        case LUA_TNUMBER:
+            str = lua_tostring(L, index);
+            if (str != NULL) 
+                printf("\x1b[33m%s\x1b[0m%c", str, sep);
+            break;
+
+        case LUA_TSTRING: 
+            str = lua_tostring(L, index);
+            if (str != NULL) 
+                printf("\x1b[32m\'%s\'\x1b[0m%c", str, sep);
+            break;
+
+        case LUA_TTABLE:
+            if (!lua_istable(L, index)) {
+                return;
+            }
+
+            if (nested < PRINT_DEPTH) {
+                lu5_print_list(L, lua_gettop(L), nested);
+                putchar(sep);
+            } else {
+                int elem_length = luaL_len(L, index);
+                printf("{ \x1b[90m... %i elements\x1b[0m }%c", elem_length, sep);
+            }
+            break;
+
+        // TODO: Handle these
+        case LUA_TUSERDATA: 
+        case LUA_TTHREAD: 
+        case LUA_TLIGHTUSERDATA:
+        default:
+            const char* typename = lua_typename(L, type);
+            printf("[unknown %s]%c", typename, sep);
+            break;
     }
-
-    // Try to print as string
-    const char *str = lua_tostring(L, index);
-    if (str) {
-
-        char color = 37;
-        
-        if (lua_isnumber(L, index)) {
-            color = 36;
-
-            printf("\x1b[%im%s\x1b[0m%c", color, str, sep);
-        } else {
-            printf("%s%c", str, sep);
-        }
-
-
-        return;
-    }
-    
-    printf("[unknown]%c", sep);
 }
  
 void lu5_print_list(lua_State *L, int index, int nested) {

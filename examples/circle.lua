@@ -4,9 +4,9 @@ function setup()
 end
 
 function draw()
-    background(51);
+    background(0);
 
-    fill(255, 100);
+    fill('#333333');
     circle(width/2, height/2, 32);
 end
 
