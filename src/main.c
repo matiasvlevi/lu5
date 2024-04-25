@@ -29,7 +29,8 @@ int main(int argc, char **argv) {
 
     // Register functions & constants
     lu5_register_symbols(lu5.L);
- 
+    lu5_register_colors(lu5.L);
+
     // Print Running log
     LU5_RUN_LOG(filename);
 

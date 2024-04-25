@@ -39,6 +39,21 @@ lu5_labeled_color lu5_known_colors[LU5_COLOR_COUNT] = {
     },
 };
 
+void lu5_register_colors(lua_State *L) 
+{
+    lua_newtable(L);
+
+    for (int i = 0; i < LU5_COLOR_COUNT; i++) {
+        lua_pushnumber(L, i+1);
+
+        lua_pushstring(L, lu5_known_colors[i].name);
+
+        lua_settable(L, -3);
+    }
+
+    lua_setglobal(L, "colors");
+}
+
 static lu5_color lu5_hex_args_to_color(lua_State *L) 
 {
     int length = luaL_len(L, 1);

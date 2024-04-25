@@ -25,6 +25,9 @@ typedef struct {
     lu5_color color;
 } lu5_labeled_color;
 
+
+void lu5_register_colors(lua_State *L);
+
 lu5_color lu5_args_to_color(lua_State *L);
 
 #define LU5_COLOR_COUNT 7
