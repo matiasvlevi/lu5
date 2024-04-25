@@ -67,9 +67,15 @@ int createWindow(lua_State *L) {
 }
 
 int background(lua_State *L) {
-    GET_COLOR_FROM_LUA_ARGS(L);
 
-    glClearColor(r/255, g/255, b/255, a/255);
+    lu5_color color = lu5_args_to_color(L);
+
+    glClearColor(
+        ((GLfloat)color.r)/255.0f, 
+        ((GLfloat)color.g)/255.0f, 
+        ((GLfloat)color.b)/255.0f, 
+        ((GLfloat)color.a)/255.0f
+    );
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     return 0;

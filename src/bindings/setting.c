@@ -17,9 +17,9 @@ int strokeWeight(lua_State *L)
 
 int fill(lua_State *L) 
 {
-    GET_COLOR_FROM_LUA_ARGS(L);
+    lu5_color color = lu5_args_to_color(L);
 
-    glColor4ub(r, g, b, a);
+    glColor4ub(color.r, color.g, color.b, color.a);
 
     return 0;
 }
@@ -33,9 +33,9 @@ int noFill(lua_State *L)
 
 int stroke(lua_State *L) 
 {
-    GET_COLOR_FROM_LUA_ARGS(L);
+    lu5_color color = lu5_args_to_color(L); 
 
-    luaL_error(L, "TODO: Implement stroke, stroke(%f, %f, %f, %f)", r, g, b, a);
+    luaL_error(L, "TODO: Implement stroke, stroke(%f, %f, %f, %f)", color.r, color.g, color.b, color.a);
 
     return 0;
 }
