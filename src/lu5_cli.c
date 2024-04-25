@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int handle_option(int argc, char **argv, int idx, int* offset)
+int handle_option(int argc, char **argv, int idx, int* offset, bool* defaultExec, char **filename)
 {
     char *option_name = argv[idx] + 2; // skip 2 dashes
 
@@ -15,7 +15,9 @@ int handle_option(int argc, char **argv, int idx, int* offset)
         // Compare name in list
         if (strcmp(option_name, cli_options[i].name) == 0) {
             *offset = cli_options[i].arg_count;
-            return cli_options[i].handler(argc, argv, idx, i);
+            int err = cli_options[i].handler(argc, argv, idx, i, defaultExec, filename);
+            
+            if (err) return err;
         }
     }
 
@@ -28,7 +30,7 @@ bool handle_args(int argc, char** argv, char **filename)
 
     if (argc == 1) {
         // Help menu
-        cli_options[0].handler(argc, argv, 1, 0);
+        cli_options[0].handler(argc, argv, 1, 0, &defaultExec, filename);
         return defaultExec;
     }
 
@@ -41,7 +43,7 @@ bool handle_args(int argc, char** argv, char **filename)
             argv[i][1] == '-' 
         ) {
             int offset;
-            int err = handle_option(argc-1, argv, i, &offset);
+            int err = handle_option(argc-1, argv, i, &offset, &defaultExec, filename);
             if (err) exit(err);
 
             // skip arguments
