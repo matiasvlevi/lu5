@@ -35,13 +35,6 @@ void lu5_logger_print(lu5_log_level level, const char* fmt, ...);
 #define LU5_FILE_NOT_SPECIFIED\
     "No source path found"
 
-#define LU5_FILE_EXISTS_ERROR(x)\
-    "It seems that %s already exists\n"\
-    "lu5 will not overwrite the file", x
-
-#define LU5_RUNNING_FILE(filename)\
-    "\x1b[46m\x1b[30mRunning >>> \x1b[0m \x1b[36m%s\x1b[0m", filename
-
 #define LU5_NO_WINDOW\
     "You need to create a window with the `createWindow` function"
 
