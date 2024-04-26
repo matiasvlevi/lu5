@@ -15,6 +15,6 @@ void lu5_print_any(lua_State *L, int idx, int nested, char sep);
 /**
  * Print a list
  */ 
-void lu5_print_list(lua_State *L, int idx, int nested);
+void lu5_print_list(lua_State *L, int idx, int nested, char sep);
 
 #endif
