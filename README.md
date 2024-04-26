@@ -68,8 +68,8 @@ lu5 --init file.lua
 
 ### Preview
 
-![lu5 preview circle](./assets/lu5_preview_2.png)
-![lu5 preview instances](./assets/lu5_preview.png)
+![lu5 preview circle](./docs/assets/lu5_preview_2.png)
+![lu5 preview instances](./docs/assets/lu5_preview.png)
 
 <br>
 

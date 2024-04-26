@@ -11,14 +11,14 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 
     switch(type) {
         case LUA_TNIL:
-            printf("\x1b[33mnil\x1b[0m%c", str, sep);
+            printf("\x1b[33mnil\x1b[0m%c", sep);
             break;
 
-        case LUA_TBOOLEAN:
+        case LUA_TBOOLEAN: { 
             int value = lua_toboolean(L, index);
             printf("\x1b[33m%s\x1b[0m%c", value ? "true" : "false", sep);
             break;
-
+        }
         case LUA_TFUNCTION:
             printf("\x1b[34m[lua function]\x1b[0m%c", sep);
             break;
@@ -31,8 +31,13 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 
         case LUA_TSTRING: 
             str = lua_tostring(L, index);
-            if (str != NULL) 
+            if (str == NULL) return;
+
+            if (nested > 0) {
                 printf("\x1b[32m\'%s\'\x1b[0m%c", str, sep);
+            } else {
+                printf("%s%c", str, sep);
+            }
             break;
 
         case LUA_TTABLE:

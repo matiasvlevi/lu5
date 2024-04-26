@@ -21,10 +21,14 @@ bin/%.o: src/%.c
 $(BIN): $(OBJ)
 	$(CC) -o $@ $^ $(LFLAGS)
 
+docs: $(BIN)
+	$(BIN) ./tasks/build_docs.lua
+
 install: 
 	cp ./bin/lu5 /usr/bin/lu5
 
 clean: 
 	rm -fr bin/*
+	rm -fr docs/*.html
 
 .PHONY: all run clean

@@ -3,6 +3,15 @@
 
 #include <lua.h>
 
+/**
+ * Set the fill color for shapes
+ *
+ * @param r The red byte
+ * @param g The green byte
+ * @param b The blue byte
+ * @param a The alpha byte
+ *
+ */ 
 int fill(lua_State *L);
 
 // TODO: Not implementd

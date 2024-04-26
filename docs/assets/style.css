@@ -1,0 +1,73 @@
+:root {
+	--primary: #AA36EF;
+	--lighter: #d49af7;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+}
+
+a, p, span, h1, h2, h3, h4, h5, h6  {
+	font-family: "Trebuchet MS", Tahoma, sans-serif;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+code, pre {
+    font-family: inconsolata, lucida console, monospace;
+}
+
+header {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+	gap: 1rem;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+
+	min-height: 100%;
+	height: fit-content;
+}
+
+.nav {
+	background-color: var(--lighter);
+	min-width: 15%;
+	min-height: 100%;
+	padding: 1.6rem;
+
+	display: flex;
+	flex-direction: column;
+}
+
+a {
+	text-decoration: none;
+}
+
+.btn {
+	padding-left: 0.5rem;
+}
+
+.btn:hover,
+.btn:active {
+	filter: brightness(0.8);
+}
+
+main {
+	margin: 2em;
+	height: fit-content;
+
+	display: flex;
+	flex-direction: column;
+	gap: 2.5rem;
+}
