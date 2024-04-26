@@ -2,7 +2,6 @@ function find_headers_in_dir(directory)
     local i, t, popen = 0, {}, io.popen
     local pfile = popen('ls -a "'..directory..'"');
     for filename in pfile:lines() do
-        print(filename);
         i = i + 1
         if (string.find(filename, '%.h')) then
             -- Store filename without extention
