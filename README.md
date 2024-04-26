@@ -1,7 +1,7 @@
 
 
 <p align="center">
-    <img src="./assets/logo.svg"/>
+    <img src="./docs/assets/logo.svg"/>
 </p>
 
 <h4 align="center">Lua interpreter for Creative Coding</h4>
