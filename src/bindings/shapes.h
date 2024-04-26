@@ -96,7 +96,14 @@ int triangle(lua_State *L);
 /**
  * Draw a quad on the screen
  *
- * @note Not implemented
+ * @param x1 The x position of the first point
+ * @param y1 The y position of the first point
+ * @param x2 The x position of the second point
+ * @param y2 The y position of the second point
+ * @param x3 The x position of the third point
+ * @param y3 The y position of the third point
+ * @param x4 The x position of the fourth point
+ * @param y4 The y position of the fourth point
  *
  */ 
 int quad(lua_State *L);

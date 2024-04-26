@@ -138,12 +138,28 @@ int point(lua_State *L)
 
 int quad(lua_State *L)
 {
+    int argc;
+    if ((argc = lua_gettop(L)) != 8) {
+        luaL_error(L, "Expected 8 arguments got %i instead", argc);
+        return 0;
+    }
+
     double x1 = lua_tonumber(L, 1);
     double y1 = lua_tonumber(L, 2);
-    // ... more arguments
-    // refer to https://p5js.org/reference/#/p5/quad
+    double x2 = lua_tonumber(L, 3);
+    double y2 = lua_tonumber(L, 4);
+    double x3 = lua_tonumber(L, 5);
+    double y3 = lua_tonumber(L, 6);
+    double x4 = lua_tonumber(L, 7);
+    double y4 = lua_tonumber(L, 8);
 
-    luaL_error(L, "TODO: Implement quad.\t quad(%f, %f, ...more args);", x1, y1);
+    glBegin(GL_QUADS);
+        glVertex2f(x1, y1);
+        glVertex2f(x2, y2);
+        glVertex2f(x3, y3);
+        glVertex2f(x4, y4);
+    glEnd(); 
+
     return 0;
 }
 
