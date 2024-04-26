@@ -23,6 +23,7 @@ function draw()
 end
 ```
 
+
 ## Build
 
 Build with `make`
@@ -36,7 +37,6 @@ You can then install it on linux with
 ```sh
 sudo make install
 ```
-
 
 
 ## Running Lua Sketches
@@ -72,15 +72,3 @@ lu5 --init file.lua
 ![lu5 preview instances](./docs/assets/lu5_preview.png)
 
 <br>
-
-### Live code editor
-
-> NOT IMPLEMENTED
-
-Open in a live environement, provides a GUI text editor for the sketch source
-
-```sh
-lu5 --live file.lua
-```
-
-
