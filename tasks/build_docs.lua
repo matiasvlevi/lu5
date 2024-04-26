@@ -6,7 +6,9 @@ local fs         = require("./tasks/lib/file");
 source_path = './src/bindings/';
 doc_path    = './docs/';
 
-source_files = Parse.find_headers_in_dir(source_path);
+source_files = fs.find_headers_in_dir(source_path);
+print(source_files);
+
 local nav = Components.Panel(source_files);
 
 -- Read template

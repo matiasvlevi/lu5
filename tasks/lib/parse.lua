@@ -16,20 +16,6 @@ function join(list, sep)
     return str;
 end
 
-function find_headers_in_dir(directory)
-    local i, t, popen = 0, {}, io.popen
-    local pfile = popen('ls -a "'..directory..'"')
-    for filename in pfile:lines() do
-        i = i + 1
-        if (string.find(filename, '.h')) then
-            -- Store filename without extention
-            table.insert(t, 1, string.sub(filename, 1, #filename-2));
-        end
-    end
-    pfile:close()
-    return t
-end
-
 function parse_param(param)
     local words = split(param, ' ');
 
@@ -114,6 +100,5 @@ return {
 	description=parse_description,
 	header=parse_header,
 	param=parse_param,
-	comment=parse_comment,
-	find_headers_in_dir=find_headers_in_dir
+	comment=parse_comment
 }
