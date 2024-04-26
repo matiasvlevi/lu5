@@ -1,12 +1,17 @@
 :root {
+
+	--dark: #461164;
 	--primary: #AA36EF;
 	--lighter: #d49af7;
+	--white: #efefef;
 }
 
 html, body {
 	width: 100%;
 	height: 100%;
 	margin: 0px;
+
+	background-color: var(--white);
 }
 
 a, p, span, h1, h2, h3, h4, h5, h6  {
@@ -17,6 +22,14 @@ ul {
 	list-style-type: none;
 	margin: 0px;
 	padding: 0px;
+}
+
+.light {
+	color: var(--white);
+}
+
+li:not(:last-child) {
+    margin-bottom: 12px;
 }
 
 code, pre {
@@ -41,8 +54,8 @@ header {
 }
 
 .nav {
-	background-color: var(--lighter);
-	min-width: 15%;
+	background-color: var(--primary);
+	min-width: 12em;
 	min-height: 100%;
 	padding: 1.6rem;
 
@@ -58,9 +71,36 @@ a {
 	padding-left: 0.5rem;
 }
 
-.btn:hover,
-.btn:active {
-	filter: brightness(0.8);
+.btn > a > h4 {
+	color: var(--white);
+}
+
+.btn:hover > a > h4,
+.btn:active > a > h4 {
+	color: var(--dark);
+	transition: 0.1s;
+}
+
+.backBtn > img {
+	transition: 0.1s;
+	scale: 1;
+}
+.backBtn:hover > img {
+	transition: 0.1s;
+	scale: 1.1;
+}
+
+.backBtn:active > img {
+	transition: 0.1s;
+	scale: 0.95;
+}
+
+h1.module {
+	position:relative;
+	top:-0.25em;
+	color: var(--primary);
+	font-weight: bold;
+	font-size: 32pt;
 }
 
 main {
@@ -70,4 +110,23 @@ main {
 	display: flex;
 	flex-direction: column;
 	gap: 2.5rem;
+}
+
+.search {
+	display: flex;
+	background-color: var(--white);
+	border-radius: 8px;
+	padding: 0.25em 0.5em;
+	gap: 0.25em;
+}
+
+.search:hover {
+	box-shadow: 0px 0px 12px 4px rgba(255, 255, 255,0.1);
+}
+
+.search > input {
+	background-color: var(--white);
+	border: none;
+	outline: none;
+	width: auto;
 }

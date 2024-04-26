@@ -6,11 +6,11 @@ local function Panel(headers)
         link = './' .. header .. '.html';
 
         panel = panel ..
-            "<a href=\"".. link .."\">"..
-                "<li class=\"btn\">"..
+            "<li class=\"btn\">"..
+                "<a class=\"light\" href=\"".. link .."\">"..
                     "<h4>" .. header .. "</h4>"..
-                "</li>"..
-            "</a>";
+                "</a>"..
+            "</li>";
     end
 
     return "<ul>".. panel .."</ul>";
@@ -19,9 +19,9 @@ end
 -- Exit link
 local function ExitButton()
     return
-        "<a href=\"./\" class=\"exitBtn\">"..
-            "< Back"..
-        "</a>" 
+        "<a class=\"backBtn light\" href=\"./\">"..
+            "<img width=\"40px\" src=\"./assets/back.svg\"/>"..
+        "</a>";
 end
 
 -- lu5 Method

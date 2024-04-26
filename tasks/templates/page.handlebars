@@ -4,20 +4,25 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>HTML 5 Boilerplate</title>
+
 		<link rel="stylesheet" href="./assets/style.css" />
+		
 		<title>{{filename}} | Documentation</title>
 	</head>
 	<body>
 		<div class="wrapper">
 			<div class="nav">
+				<div class="search">
+					<img width="30px" src="assets/search.svg"/>
+					<input type="text" placeholder="search"/>
+				</div>
 				{{nav}}
 				{{exit}}
 			</div>
 			<main>
 				<header>
 					<img width="100px" src="./assets/logo.svg"/>
-					<h2 style="position:relative;top:-0.25em;">{{filename}}</h2>
+					<h1 class="module">{{filename}}</h1>
 				</header>
 
 				{{body}}
