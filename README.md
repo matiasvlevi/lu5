@@ -6,6 +6,10 @@
 
 <h4 align="center">Lua interpreter for Creative Coding</h4>
 
+Provides a similar experience to <a href="https://p5js.org">p5.js</a> with opengl wrappers.
+
+> We are not and we do not claim to be affiliated with p5.js or the processing foundation
+
 <br/>
 
 
@@ -23,8 +27,13 @@ function draw()
 end
 ```
 
+<br/>
 
-## Build
+# Build
+
+You can download a built executable for lu5 [here](https://github.com/matiasvlevi/lu5/releases), or you can build it yourself assuming you have the right dependencies installed (glfw, lua)
+
+### GNU/Linux
 
 Build with `make`
 
@@ -32,11 +41,31 @@ Build with `make`
 make
 ```
 
-You can then install it on linux with
+you can then install the executable in `/usr/bin`
 
 ```sh
 sudo make install
 ```
+
+<br/>
+
+### Windows
+
+Windows builds are done in an [MSYS2](https://www.msys2.org/) environement with mingw64 installed.
+
+Install dependencies
+
+```
+pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-lua mingw-w64-x86_64-glfw
+```
+
+build
+
+```
+make PLATFORM=win
+```
+
+<br/>
 
 
 ## Running Lua Sketches
@@ -53,17 +82,7 @@ lu5 file.lua
 
 ### Command utilities
 
-Help menu
 
-```sh
-lu5 --help
-```
-
-Create a boiler plate sketch source file
-
-```sh
-lu5 --init file.lua
-```
 <br>
 
 ### Preview
