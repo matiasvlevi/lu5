@@ -12,12 +12,9 @@
 	<body>
 		<div class="wrapper">
 			<div class="nav">
-				<div class="search">
-					<img width="30px" src="assets/search.svg"/>
-					<input type="text" placeholder="search"/>
-				</div>
+				<br/>
 				<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./events.html"><h4>events</h4></a></li></ul>
-				<a class="backBtn light" href="./"><img width="40px" src="./assets/back.svg"/></a>
+				<a class="backBtn light" href="./"><img width="32px" src="./assets/back.svg"/></a>
 			</div>
 			<main>
 				<header>
@@ -26,16 +23,14 @@
 				</header>
 
 				
-<div class="method"><h3>createWindow</h3><p>
-Create an OpenGL context and a GLFW window</p><div class="params"><div class="param"><span class="name">h</span><span class="desc"> Window height
-</span></div><div class="param"><span class="name">w</span><span class="desc"> Window width
-</span></div></div><br/><code>int createWindow(lua_State *L);</code></div>
-<div class="method"><h3>background</h3><p>
-Clear a background with a color</p><div class="params"><div class="param"><span class="name">g</span><span class="desc"> The green byte
-</span></div><div class="param"><span class="name">b</span><span class="desc"> The blue byte
-</span></div><div class="param"><span class="name">a</span><span class="desc"> The alpha byte
-</span></div><div class="param"><span class="name">r</span><span class="desc"> The red byte
-</span></div></div><br/><code>int background(lua_State *L);</code></div>
+<div class="method"><code>createWindow(w, h);</code><p>Create a GLFW window, if no window was created and a setup function was defined, a Warning is thrown</p><div class="params"><div class="param"><code class="name">w</code><span class="desc">Window width
+</span></div><div class="param"><code class="name">h</code><span class="desc">Window height
+</span></div></div><br/></div>
+<div class="method"><code>background(r, g, b, a);</code><p>Clear a background with a color</p><div class="params"><div class="param"><code class="name">r</code><span class="desc">The red byte
+</span></div><div class="param"><code class="name">g</code><span class="desc">The green byte
+</span></div><div class="param"><code class="name">b</code><span class="desc">The blue byte
+</span></div><div class="param"><code class="name">a</code><span class="desc">The alpha byte
+</span></div></div><br/></div>
 			</main>
 		</div>
   </body>
