@@ -7,9 +7,17 @@ function split(input, sep)
 end
 
 function join(list, sep)
-    local str = '';
+    if (#list < 1) then 
+        return '';
+    end
 
-    for i=1,#list do
+    local str = list[1];
+
+    if (#list == 1) then
+        return str;
+    end
+
+    for i=2,#list do
         str = str .. sep .. list[i];
     end
 
