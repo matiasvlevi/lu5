@@ -20,7 +20,7 @@ end
 local function ExitButton()
     return
         "<a class=\"backBtn light\" href=\"./\">"..
-            "<img width=\"40px\" src=\"./assets/back.svg\"/>"..
+            "<img width=\"32px\" src=\"./assets/back.svg\"/>"..
         "</a>";
 end
 
@@ -32,7 +32,7 @@ local function Method(method)
     for i, param in pairs(method.params) do
         params = params ..
             "<div class=\"param\">"                                       ..
-                "<span class=\"name\">" .. param.name .. "</span>"        ..
+                "<code class=\"name\">" .. param.name .. "</code>"        ..
                 "<span class=\"desc\">" .. param.description .. "</span>" ..
             "</div>";
     end
@@ -43,13 +43,13 @@ local function Method(method)
 
     return 
         "<div class=\"method\">"                        ..
-            "<h3>"   .. method.name .. "</h3>"          ..
+
+        "<code>" .. get_declaration(method) .. "</code>" ..
             "<p>"    .. method.description .. "</p>"    ..
             "<div class=\"params\">"                    .. 
                 params                                  ..
             "</div>"                                    ..
             "<br/>"                                     ..
-            "<code>" .. method.declaration .. "</code>" ..
         "</div>" 
 end
 
