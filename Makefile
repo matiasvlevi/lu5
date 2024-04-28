@@ -1,34 +1,77 @@
-# Define required macros here
-SHELL = /bin/sh
+PLATFORM ?= gnu
 
-SFML_PATH = /usr/local
-CC = gcc
+APP_NAME = lu5
 
-OBJ = $(patsubst src/%.c,bin/%.o,$(wildcard $(shell find src -type f -name '*.c')))
-DEP = $(OBJ:.o=.d)
+SRCDIR = src
+BINDIR = bin
 
-BIN = ./bin/lu5
-LFLAGS = -lm -llua -lglfw -lGLEW -lGL
+DOC_BUILD_SCRIPT = build_docs.lua
+
+ifeq ($(PLATFORM), win)
+	CC := x86_64-w64-mingw32-gcc
+else
+	CC := gcc
+endif
+
+ifeq ($(PLATFORM), win)
+	BIN = $(BINDIR)/win64/$(APP_NAME).exe
+	OBJDIR = $(BINDIR)/win64/obj
+else
+	BIN = $(BINDIR)/linux/$(APP_NAME)
+	OBJDIR = $(BINDIR)/linux/obj
+endif
+
+ifeq ($(PLATFORM), win)
+	CFLAGS = -Wall -I/usr/x86_64-w64-mingw32/include -L/usr/x86_64-w64-mingw32/lib 
+
+	LDFLAGS := -L/usr/x86_64-w64-mingw32\
+				-lglfw3\
+				-lopengl32\
+				-lgdi32\
+				-llua\
+				-lm 
+else
+	CFLAGS = -Wall -I/usr/include -L/usr/lib
+	LDFLAGS := -L/usr/lib -lglfw -llua -lGL -lm -lrt -ldl
+endif
+
+SOURCES = $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/bindings/*.c)
+OBJECTS := $(patsubst src/%.c,$(OBJDIR)/%.o,$(SOURCES))
+DEP = $(OBJECTS:.o=.d)
 
 all: $(BIN)
 
+test:
+	echo $(OBJECTS)
+
 -include $(DEP)
 
-bin/%.o: src/%.c 
+$(OBJDIR)/%.o: src/%.c 
 	@mkdir -p $(dir $@)
-	$(CC) -MMD -c $< -o $@
+	$(CC) -static -MMD -c $< -o $@ $(CFLAGS)
 
-$(BIN): $(OBJ)
-	$(CC) -o $@ $^ $(LFLAGS)
+$(BIN): $(OBJECTS)
+	@mkdir -p $(dir $@)
+ifeq ($(PLATFORM), win)
+	$(CC) -static -o $@ $^ $(LDFLAGS)
+else
+	$(CC) -o $@ $^ $(LDFLAGS)
+endif
+
+
+.PHONY: all clean install docs win
+
+run: $(BIN)
+	$(BIN)
 
 docs: $(BIN)
-	$(BIN) ./tasks/build_docs.lua
+	$(BIN) ./tasks/$(DOC_BUILD_SCRIPT)
 
 install: 
-	cp ./bin/lu5 /usr/bin/lu5
+	cp $(BIN) /usr/bin/$(APP_NAME)
 
 clean: 
 	rm -fr bin/*
 	rm -fr docs/*.html
 
-.PHONY: all run clean
+
