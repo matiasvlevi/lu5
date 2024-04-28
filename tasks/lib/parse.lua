@@ -80,7 +80,7 @@ function parse_comment(comment)
     method['params']      = {};
     
     -- get params
-    local index = 0;
+    local index = 1;
     for match in matches do
         method['params'][index] = parse_param(match);
         index = index + 1;
