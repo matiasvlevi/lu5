@@ -54,7 +54,7 @@ function parse_descrition(comment)
 	local result = {};
 	for i=1, #lines do
 		-- filter only text
-		local m = string.match(lines[i], "%s%*%s[%w ]+")
+		local m = string.match(lines[i], "%s%*%s[%w ,.?!]+")
 		if (m ~= nil) then
 			table.insert(result, 1, string.sub(m, 4, #m));
 		end
