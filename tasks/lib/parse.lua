@@ -104,9 +104,24 @@ function parse_header(source)
 
 end
 
+function get_declaration(method)
+    local args = {};
+
+    -- Get all parameter names
+    for i, param in pairs(method.params) do
+        args[i] = param.name;
+    end
+
+    -- Replace lua_State argument with actual lua arguments 
+    return (
+        method.name .. '(' .. join(args, ', ') .. ');'
+    )
+end
+
 return {
 	description=parse_description,
 	header=parse_header,
 	param=parse_param,
-	comment=parse_comment
+	comment=parse_comment,
+    get_declaration=get_declaration
 }
