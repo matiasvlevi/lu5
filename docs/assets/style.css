@@ -81,6 +81,11 @@ a {
 	transition: 0.1s;
 }
 
+.backBtn {
+	margin-left: 0.65rem;
+	padding-top: 2rem;
+}
+
 .backBtn > img {
 	transition: 0.1s;
 	scale: 1;
@@ -129,4 +134,24 @@ main {
 	border: none;
 	outline: none;
 	width: auto;
+}
+
+
+.param {
+	display: flex;
+	gap: 1rem;
+	vertical-align: middle;
+	align-items: flex-end;
+}
+
+.method > code {
+	font-size: 18pt;
+}
+
+.param > .name {
+	
+}
+
+.param > .desc {
+
 }
