@@ -23,7 +23,6 @@ endif
 
 ifeq ($(PLATFORM), win)
 	CFLAGS = -Wall -I/usr/x86_64-w64-mingw32/include -L/usr/x86_64-w64-mingw32/lib 
-
 	LDFLAGS := -L/usr/x86_64-w64-mingw32\
 				-lglfw3\
 				-lopengl32\
@@ -31,8 +30,12 @@ ifeq ($(PLATFORM), win)
 				-llua\
 				-lm 
 else
-	CFLAGS = -Wall -I/usr/include -L/usr/lib
-	LDFLAGS := -L/usr/lib -lglfw -llua -lGL -lm -lrt -ldl
+	CFLAGS = -Wall $(pkg-config --cflags lua5.4)
+	LDFLAGS :=\
+		$(shell pkg-config --libs lua5.4)\
+		$(shell pkg-config --libs glfw3)\
+		$(shell pkg-config --libs gl)\
+		-lm -lrt -ldl
 endif
 
 SOURCES = $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/bindings/*.c)
