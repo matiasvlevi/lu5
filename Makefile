@@ -9,19 +9,8 @@ DOC_BUILD_SCRIPT = build_docs.lua
 
 ifeq ($(PLATFORM), win)
 	CC := x86_64-w64-mingw32-gcc
-else
-	CC := gcc
-endif
-
-ifeq ($(PLATFORM), win)
 	BIN = $(BINDIR)/win64/$(APP_NAME).exe
 	OBJDIR = $(BINDIR)/win64/obj
-else
-	BIN = $(BINDIR)/linux/$(APP_NAME)
-	OBJDIR = $(BINDIR)/linux/obj
-endif
-
-ifeq ($(PLATFORM), win)
 	CFLAGS = -Wall -I/usr/x86_64-w64-mingw32/include -L/usr/x86_64-w64-mingw32/lib 
 	LDFLAGS := -L/usr/x86_64-w64-mingw32\
 				-lglfw3\
@@ -30,12 +19,15 @@ ifeq ($(PLATFORM), win)
 				-llua\
 				-lm 
 else
+	CC := gcc
+	BIN = $(BINDIR)/linux/$(APP_NAME)
+	OBJDIR = $(BINDIR)/linux/obj
 	CFLAGS = -Wall $(pkg-config --cflags lua5.4)
 	LDFLAGS :=\
-		$(shell pkg-config --libs lua5.4)\
-		$(shell pkg-config --libs glfw3)\
-		$(shell pkg-config --libs gl)\
-		-lm -lrt -ldl
+		$(shell pkg-config --static --libs lua5.4)\
+		$(shell pkg-config --static --libs glfw3)\
+		$(shell pkg-config --static --libs gl)\
+		-lm
 endif
 
 SOURCES = $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/bindings/*.c)
