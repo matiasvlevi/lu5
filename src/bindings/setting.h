@@ -14,6 +14,14 @@
  */ 
 int fill(lua_State *L);
 
+
+/**
+* Set the line width
+*
+* @param width The line width
+*/
+int strokeWeight(lua_State *L);
+
 // TODO: Not implementd
 int noFill(lua_State *L);
 
@@ -23,7 +31,5 @@ int stroke(lua_State *L);
 // TODO: Not implementd
 int noStroke(lua_State *L);
 
-// TODO: Not fully implemented
-int strokeWeight(lua_State *L);
 
 #endif
