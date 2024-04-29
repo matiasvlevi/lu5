@@ -79,18 +79,30 @@ int line(lua_State *L)
     double x2 = lua_tonumber(L, 3);
     double y2 = lua_tonumber(L, 4);
 
-    int segments = 20;  // More segments = rounder circle
-    float angleStep = (2 * PI) / segments;
-    float radius = (float)lu5.style.strokeWeight / 2.0f;
+    float dx = x2 - x1;
+    float dy = y2 - y1;
+    float length = sqrt(dx * dx + dy * dy);
+
+    float ux = ((float)lu5.style.strokeWeight / 2) * (dy / length);
+    float uy = ((float)lu5.style.strokeWeight / 2) * (-dx / length);
 
     glBegin(GL_QUADS);
-        glVertex2f(x1, y1);
-        glVertex2f(x2, y2);
+        glVertex2f(x1 - ux, y1 - uy);
+        glVertex2f(x1 + ux, y1 + uy);
+        glVertex2f(x2 + ux, y2 + uy);
+        glVertex2f(x2 - ux, y2 - uy);
     glEnd();
+
+    // Draw rounded circles
+    if (lu5.style.strokeWeight < 3) return 0;
+
+    float radius = ((float)lu5.style.strokeWeight) / 2.0f;
+
+    float angleStep = (2 * PI) / LINE_POINT_SEGMENTS;
 
     glBegin(GL_TRIANGLE_FAN);
     glVertex2f(x1, y1);
-    for (int i = 0; i <= segments; i++) {
+    for (int i = 0; i <= LINE_POINT_SEGMENTS; i++) {
         float angle = i * angleStep;
         float x = x1 + cos(angle) * radius;
         float y = y1 + sin(angle) * radius;
@@ -100,7 +112,7 @@ int line(lua_State *L)
 
     glBegin(GL_TRIANGLE_FAN);
     glVertex2f(x2, y2);
-    for (int i = 0; i <= segments; i++) {
+    for (int i = 0; i <= LINE_POINT_SEGMENTS; i++) {
         float angle = i * angleStep;
         float x = x2 + cos(angle) * radius;
         float y = y2 + sin(angle) * radius;
@@ -124,15 +136,6 @@ int text(lua_State *L)
     double y = lua_tonumber(L, 3);
 
     luaL_error(L, "TODO: Implement text.\t text(\"%s\", %f, %f);", str, x, y);
-    return 0;
-}
-
-int point(lua_State *L)
-{
-    double x = lua_tonumber(L, 1);
-    double y = lua_tonumber(L, 2);
-
-    luaL_error(L, "TODO: Implement point.\t point(%f, %f);", x, y);
     return 0;
 }
 
@@ -160,6 +163,15 @@ int quad(lua_State *L)
         glVertex2f(x4, y4);
     glEnd(); 
 
+    return 0;
+}
+
+int point(lua_State *L)
+{
+    double x = lua_tonumber(L, 1);
+    double y = lua_tonumber(L, 2);
+
+    luaL_error(L, "TODO: Implement point.\t point(%f, %f);", x, y);
     return 0;
 }
 

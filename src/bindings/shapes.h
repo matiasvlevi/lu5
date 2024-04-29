@@ -7,6 +7,7 @@
 #include <stdbool.h>
 
 #define LU5_CIRCLE_SEGMENTS 36
+#define LINE_POINT_SEGMENTS 24
 
 /**
  * Draw a circle to the opengl context
