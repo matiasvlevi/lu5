@@ -53,9 +53,6 @@ ul {
 	padding: 0px;
 }
 
-.light {
-	color: var(--white);
-}
 
 li:not(:last-child) {
     padding-bottom: 12px;
@@ -65,7 +62,11 @@ li:not(:last-child) {
 	padding-left: 0.5rem;
 }
 
-.btn > a > h4 {
+.light {
+	color: var(--white);
+}
+
+.btn.light > a > h4 {
 	color: var(--white);
 }
 
@@ -89,6 +90,10 @@ header {
 
 
 a {
+	text-decoration: none;
+}
+
+a:visited {
 	text-decoration: none;
 }
 
