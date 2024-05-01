@@ -3,8 +3,13 @@ local function Panel(headers)
     panel = '';
 
     for i, header in pairs(headers) do
+        -- Remove extention
+        header = split(header, '.')[1];
+
+        -- Create link to module page
         link = './' .. header .. '.html';
 
+        -- Panel
         panel = panel ..
             "<li class=\"btn\">"..
                 "<a class=\"light\" href=\"".. link .."\">"..
@@ -14,14 +19,6 @@ local function Panel(headers)
     end
 
     return "<ul>".. panel .."</ul>";
-end
-
--- Exit link
-local function ExitButton()
-    return
-        "<a class=\"backBtn light\" href=\"./\">"..
-            "<img width=\"32px\" src=\"./assets/back.svg\"/>"..
-        "</a>";
 end
 
 -- lu5 Method
@@ -42,14 +39,14 @@ local function Method(method)
     end
 
     return 
-        "<div class=\"method\">"                        ..
+        "<div class=\"method\">"                             ..
 
-        "<code>" .. get_declaration(method) .. "</code>" ..
-            "<p>"    .. method.description .. "</p>"    ..
-            "<div class=\"params\">"                    .. 
-                params                                  ..
-            "</div>"                                    ..
-            "<br/>"                                     ..
+            "<code>" .. get_declaration(method) .. "</code>" ..
+            "<p>"    .. method.description .. "</p>"         ..
+            "<div class=\"params\">"                         .. 
+                params                                       ..
+            "</div>"                                         ..
+            "<br/>"                                          ..
         "</div>" 
 end
 
@@ -68,6 +65,5 @@ end
 return {
 	Module=Module,
 	Method=Method,
-	Panel=Panel,
-	ExitButton=ExitButton
+	Panel=Panel
 }

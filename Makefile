@@ -68,5 +68,8 @@ install:
 clean: 
 	rm -fr bin/*
 	rm -fr docs/*.html
+	rm -fr docs/assets/*.svg
+	rm -fr docs/assets/*.css
+	rm -fr docs/assets/*.js
 
 
