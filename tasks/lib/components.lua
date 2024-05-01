@@ -1,18 +1,18 @@
 -- Links panel
-local function Panel(headers)
-    panel = '';
+local function Panel(headers, class)
+    local panel = '';
 
     for i, header in pairs(headers) do
         -- Remove extention
-        header = split(header, '.')[1];
+        local header = split(header, '.')[1];
 
         -- Create link to module page
-        link = './' .. header .. '.html';
+        local link = './' .. header .. '.html';
 
         -- Panel
         panel = panel ..
             "<li class=\"btn\">"..
-                "<a class=\"light\" href=\"".. link .."\">"..
+                "<a class=\"".. class .."\" href=\"".. link .."\">"..
                     "<h4>" .. header .. "</h4>"..
                 "</a>"..
             "</li>";

@@ -26,7 +26,7 @@ end
 
 source_files = fs.find_files_in_dir(doc_source_path, find_headers);
 
-local nav = Components.Panel(source_files);
+local nav = Components.Panel(source_files, 'light');
 
 -- Read template
 local page_template_file = io.open('./tasks/templates/page.handlebars', 'r');
@@ -55,7 +55,9 @@ end
 local homepage_name = 'Reference'; 
 local static_homepage = Handlebars.use_template(page_template, {
     filename = homepage_name,
-    nav = nav 
+    nav = nav, 
+    body = 
+        "<h3>Modules</h3>" .. Components.Panel(source_files, 'dark'); 
 });
 
 fs.write_file(doc_path .. 'index.html', static_homepage);
