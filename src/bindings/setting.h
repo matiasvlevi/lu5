@@ -14,11 +14,10 @@
  */ 
 int fill(lua_State *L);
 
-
 /**
 * Set the line width
 *
-* @param width The line width
+* @param weight The line width in pixels
 */
 int strokeWeight(lua_State *L);
 

@@ -4,7 +4,7 @@
 #include <lua.h>
 
 /**
- * Create a GLFW window, if no window was created and a setup function was defined, a Warning is thrown
+ * Create a GLFW window, if no window was created and a setup function was defined, a warning is thrown
  *
  * @param w Window width
  * @param h Window height

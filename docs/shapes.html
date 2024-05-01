@@ -6,23 +6,25 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
 		<link rel="stylesheet" href="./assets/style.css" />
+		<script type="text/javascript" src="./assets/index.js"></script>
 		
 		<title>shapes | Documentation</title>
 	</head>
 	<body>
-		<div class="wrapper">
-			<div class="nav">
-				<br/>
-				<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./events.html"><h4>events</h4></a></li></ul>
-				<a class="backBtn light" href="./"><img width="32px" src="./assets/back.svg"/></a>
-			</div>
-			<main>
-				<header>
-					<img width="100px" src="./assets/logo.svg"/>
-					<h1 class="module">shapes</h1>
-				</header>
+		<div class="nav" id="menu">
+			<br/>
+			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./events.html"><h4>events</h4></a></li></ul>
+		</div>
+		<main>
+			<header>
+				<img width="100px" src="./assets/logo.svg"/>
+				<h1 class="module">shapes</h1>
+				<button class="menuBtn" onclick="toggleMenu()">
+					<img class="menuIcon" width="40px" src="./assets/arrow_left.svg"/>
+				</button>
+			</header>
 
-				
+			
 <div class="method"><code>circle(x, y, d);</code><p>Draw a circle to the opengl context</p><div class="params"><div class="param"><code class="name">x</code><span class="desc">The x position of the circle's center 
 </span></div><div class="param"><code class="name">y</code><span class="desc">The y position of the circle's center
 </span></div><div class="param"><code class="name">d</code><span class="desc">The diameter of the circle
@@ -56,7 +58,6 @@
 <div class="method"><code>ellipse();</code><p> 
 Draw an ellipse on the screen</p><div class="params"></div><br/></div>
 <div class="method"><code>triangle();</code><p>Draw a triangle on the screen</p><div class="params"></div><br/></div>
-			</main>
-		</div>
+		</main>
   </body>
 </html>
