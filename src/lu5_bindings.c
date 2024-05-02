@@ -5,6 +5,7 @@
 #include "bindings/setting.h"
 #include "bindings/window.h"
 #include "bindings/shapes.h"
+#include "bindings/lu5_math.h"
 
 #include "lu5_defs.h"
 
@@ -56,6 +57,13 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, triangle);
 	LUA_ADD_FUNCTION(L, text);
 	LUA_ADD_FUNCTION(L, arc);
+
+    LUA_ADD_FUNCTION_BY_NAME(L, "round", lu5_round);
+    LUA_ADD_FUNCTION_BY_NAME(L,  "ceil", lu5_ceil);
+    LUA_ADD_FUNCTION_BY_NAME(L, "floor", lu5_floor);
+    LUA_ADD_FUNCTION_BY_NAME(L,   "sin", lu5_sin);
+    LUA_ADD_FUNCTION_BY_NAME(L,   "cos", lu5_cos);
+    LUA_ADD_FUNCTION_BY_NAME(L,   "tan", lu5_tan);
 
 	lu5_register_constants(L);
 }

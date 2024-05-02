@@ -8,10 +8,12 @@ function draw()
     background(51);
 
     fill(255, 150, 50);
+    textSize(32);
     text('Text demo', 30, 10);
     
     fill(190, 255, 40);
-    text('Position: ' .. counter, 30, 40);
+    textSize(18);
+    text('Position: ' .. round(counter), 30, 40);
 
     fill(67, 165, 210);
     square(counter, 200, 32);
