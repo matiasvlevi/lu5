@@ -4,12 +4,21 @@
 #include <lua.h>
 #include <stdint.h>
 
+#define LU5_APPLY_COLOR_IF_DIFFERENT(c1, c2)\
+	if (c1.hexadecimal != c2.hexadecimal) {\
+		glColor4ub(\
+            c1.r,\
+            c1.g,\
+            c1.b,\
+            c1.a\
+        );\
+	}
+
 #define LU5_RGBA(sr,sg,sb,sa) (lu5_color){ .r=sr, .g=sg, .b=sb, .a=sa }
 
-
-#define LU5_WHITE (lu5_color)(0xFFFFFFFF)
-#define LU5_BLACK (lu5_color)(0x000000FF)
-#define LU5_GREY  (lu5_color)(0x333333FF)
+#define LU5_WHITE LU5_RGBA(255, 255, 255, 255)
+#define LU5_BLACK LU5_RGBA(  0,   0,   0, 255)
+#define LU5_GREY  LU5_RGBA( 51,  51,  51, 255)
 
 typedef union
 {
@@ -21,7 +30,7 @@ typedef union
 		uint8_t a;
 		uint8_t b;
 		uint8_t g;
-		uint8_t r; 
+		uint8_t r;
 	};
 } lu5_color;
 

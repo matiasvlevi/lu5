@@ -13,6 +13,8 @@
 
 #include "lu5_bindings.h"
 
+#include "lu5_font.h"
+
 int main(int argc, char **argv) {
 
     char *filename;
@@ -20,10 +22,13 @@ int main(int argc, char **argv) {
     if (!handle_args(argc, argv, &filename)) 
         return 0;
 
+    lu5_init_freetype();
+    
     // Start lua
     lu5.L = luaL_newstate();
     luaL_openlibs(lu5.L);
 
+    // Add `sketch` as a variable holding the filename
     lua_pushstring(lu5.L, filename);
     lua_setglobal(lu5.L, "sketch");
 
@@ -76,13 +81,13 @@ int main(int argc, char **argv) {
     lu5_register_event_callbacks(window);
    
     lu5_update_dynamic_variables(lu5.L, window);
-    
+
     LU5_RUN_LOG("draw");
     
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
     {
-        LUA_PCALL(lu5.L, "draw", 0, 0, 0, 1)
+        LUA_PCALL(lu5.L, "draw", 0, 0, 0, 1) 
 
         lu5_poll_events(window);
 
@@ -92,10 +97,13 @@ int main(int argc, char **argv) {
     LU5_INFO(LU5_EXIT_APP);
 
 cleanup:
+
+    lu5_font_close();
     glfwTerminate();
 
     // Close lua
     lua_close(lu5.L);
+
 
     return 0;
 }

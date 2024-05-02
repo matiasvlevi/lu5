@@ -21,13 +21,26 @@ int fill(lua_State *L);
 */
 int strokeWeight(lua_State *L);
 
-// TODO: Not implementd
+/**
+ * Disable fill
+ */
 int noFill(lua_State *L);
 
-// TODO: Not implementd
+/**
+ * Set the stroke color for shapes
+ *
+ *
+ * @param r The red byte
+ * @param g The green byte
+ * @param b The blue byte
+ * @param a The alpha byte
+ *
+ */ 
 int stroke(lua_State *L);
 
-// TODO: Not implementd
+/**
+ * Disable stroke
+ */ 
 int noStroke(lua_State *L);
 
 

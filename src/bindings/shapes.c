@@ -1,6 +1,7 @@
 #include "shapes.h"
 
 #include "../lu5_state.h"
+#include "../lu5_font.h"
 
 #include <lauxlib.h>
 #include <math.h>
@@ -13,6 +14,8 @@ int circle(lua_State *L) {
 
     float radius = d / 2.0f;
     float angleStep = 2 * PI / LU5_CIRCLE_SEGMENTS;
+
+    LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
 
     glBegin(GL_TRIANGLE_FAN);
     glVertex2f(x, y); // Center of the circle
@@ -27,6 +30,18 @@ int circle(lua_State *L) {
 
     glEnd();
 
+    LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.stroke, lu5.style.fill);
+
+    glBegin(GL_LINE_LOOP);
+        for (int i = 0; i <= LU5_CIRCLE_SEGMENTS; i++) {
+            float angle = angleStep * i;
+            float x_offset = radius * cos(angle);
+            float y_offset = radius * sin(angle);
+
+            glVertex2f(x + x_offset, y + y_offset);
+        }
+    glEnd();
+
     return 0;
 }
 
@@ -38,6 +53,8 @@ int square(lua_State *L)
 
     float x2 = x + s;
     float y2 = y + s;
+
+    LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
 
     glBegin(GL_QUADS);
         glVertex2f(x, y);
@@ -62,6 +79,8 @@ int rect(lua_State *L) {
     float x2 = x + w;
     float y2 = y + h;
 
+    LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
+
     glBegin(GL_QUADS);
         glVertex2f(x, y);
         glVertex2f(x2, y);
@@ -85,6 +104,8 @@ int line(lua_State *L)
 
     float ux = ((float)lu5.style.strokeWeight / 2) * (dy / length);
     float uy = ((float)lu5.style.strokeWeight / 2) * (-dx / length);
+
+    LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.stroke, lu5.style.fill);
 
     glBegin(GL_QUADS);
         glVertex2f(x1 - ux, y1 - uy);
@@ -135,7 +156,10 @@ int text(lua_State *L)
     double x = lua_tonumber(L, 2);
     double y = lua_tonumber(L, 3);
 
-    luaL_error(L, "TODO: Implement text.\t text(\"%s\", %f, %f);", str, x, y);
+    LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
+    
+    lu5_render_text(str, x, y);
+
     return 0;
 }
 
@@ -155,6 +179,8 @@ int quad(lua_State *L)
     double y3 = lua_tonumber(L, 6);
     double x4 = lua_tonumber(L, 7);
     double y4 = lua_tonumber(L, 8);
+
+    LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
 
     glBegin(GL_QUADS);
         glVertex2f(x1, y1);

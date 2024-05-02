@@ -22,15 +22,22 @@ else
 	CC := gcc
 	BIN = $(BINDIR)/linux/$(APP_NAME)
 	OBJDIR = $(BINDIR)/linux/obj
-	CFLAGS = -Wall $(pkg-config --cflags lua5.4)
+	CFLAGS = -Wall\
+		$(shell pkg-config --cflags lua5.4)\
+		$(shell pkg-config --cflags glfw3)\
+		$(shell pkg-config --cflags glew)\
+		$(shell pkg-config --cflags gl)\
+		$(shell pkg-config --cflags freetype2)
 	LDFLAGS :=\
 		$(shell pkg-config --static --libs lua5.4)\
 		$(shell pkg-config --static --libs glfw3)\
+		$(shell pkg-config --static --libs glew)\
 		$(shell pkg-config --static --libs gl)\
+		$(shell pkg-config --libs freetype2)\
 		-lm
 endif
 
-SOURCES = $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/bindings/*.c)
+SOURCES = $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/bindings/*.c) $(wildcard $(SRCDIR)/shaders/*.c)
 OBJECTS := $(patsubst src/%.c,$(OBJDIR)/%.o,$(SOURCES))
 DEP = $(OBJECTS:.o=.d)
 

@@ -9,7 +9,7 @@ int strokeWeight(lua_State *L)
     double weight = lua_tonumber(L, 1);
 
     glLineWidth(weight);
-
+    
     lu5.style.strokeWeight = weight;
 
     return 0;
@@ -19,14 +19,14 @@ int fill(lua_State *L)
 {
     lu5_color color = lu5_args_to_color(L);
 
-    glColor4ub(color.r, color.g, color.b, color.a);
+    lu5.style.fill = color;
 
     return 0;
 }
 
 int noFill(lua_State *L) 
 {
-    luaL_error(L, "TODO: Implement noFill");
+    lu5.style.fill = (lu5_color){ .r=0, .g=0, .b=0, .a=0 };
 
     return 0;
 }
@@ -35,14 +35,14 @@ int stroke(lua_State *L)
 {
     lu5_color color = lu5_args_to_color(L); 
 
-    luaL_error(L, "TODO: Implement stroke, stroke(%f, %f, %f, %f)", color.r, color.g, color.b, color.a);
+    lu5.style.stroke = color;
 
     return 0;
 }
 
 int noStroke(lua_State *L) 
 {
-    luaL_error(L, "TODO: Implement noStroke");
+    lu5.style.stroke = (lu5_color){ .r=0, .g=0, .b=0, .a=0 };
 
     return 0;
 }

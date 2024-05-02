@@ -14,17 +14,18 @@
 #include "lu5_logger.h"
 
 typedef struct {
-
     struct {
        struct {
             int actions[MAX_MOUSE_BUTTONS];
        } mouse;
+
        struct {
             int current_keys[MAX_KEYBOARD_KEYS];
 
             int keypress_queue_count;
             int keypress_queue[MAX_KEY_PRESSED_QUEUE];
        } keyboard;
+
     } input;
 
     struct {

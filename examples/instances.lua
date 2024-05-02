@@ -59,13 +59,11 @@ function Ball:control()
 end
 
 function Ball:draw()
-    fill(self.cr, self.cg, self.cb);
+    noFill();
+    strokeWeight(2);
+    stroke(self.cr, self.cg, self.cb);
     circle(self.x, self.y, 32);
 end
-
-
-
-
 
 balls = {}
 
