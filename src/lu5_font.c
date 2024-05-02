@@ -67,7 +67,7 @@ void lu5_load_font() {
 
 }
 
-void lu5_render_text(const char *text, float x, float y) {
+void lu5_render_text(const char *text, float x, float y, float fontSize) {
     glEnable(GL_TEXTURE_2D);
     glPushMatrix();
     glTranslatef(x, y, 0);
@@ -97,7 +97,7 @@ void lu5_render_text(const char *text, float x, float y) {
         float y_advance = (face->glyph->advance.y >> 6);
 
         // Add space if space char found
-        if (*p == 32) x_advance += 48/2.5;
+        if (*p == 32) x_advance += fontSize/2.5;
 
         glBindTexture(GL_TEXTURE_2D, texture);
         glBegin(GL_QUADS);

@@ -3,6 +3,7 @@
 #include <lauxlib.h>
 
 #include "../lu5_state.h"
+#include "../lu5_font.h"
 
 int strokeWeight(lua_State *L) 
 {
@@ -43,6 +44,17 @@ int stroke(lua_State *L)
 int noStroke(lua_State *L) 
 {
     lu5.style.stroke = (lu5_color){ .r=0, .g=0, .b=0, .a=0 };
+
+    return 0;
+}
+
+int textSize(lua_State *L)
+{
+    double size = lua_tonumber(L, 1);
+
+    FT_Set_Pixel_Sizes(face, 0, size); 
+    
+    lu5.style.fontSize = size;
 
     return 0;
 }

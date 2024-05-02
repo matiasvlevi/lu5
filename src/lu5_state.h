@@ -32,6 +32,7 @@ typedef struct {
         lu5_color fill;
         lu5_color stroke;
         double strokeWeight;
+        double fontSize;
     } style;
 
     lu5_log_level log_level;

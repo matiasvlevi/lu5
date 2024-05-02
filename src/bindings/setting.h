@@ -43,5 +43,11 @@ int stroke(lua_State *L);
  */ 
 int noStroke(lua_State *L);
 
+/**
+ * Set the font size
+ *
+ * @param size The size of the font in pixels
+ */
+int textSize(lua_State *L);
 
 #endif
