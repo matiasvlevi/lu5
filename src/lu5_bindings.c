@@ -34,6 +34,8 @@ static void lu5_register_constants(lua_State *L)
 
 void lu5_register_symbols(lua_State *L) 
 {
+    LUA_ADD_STRING_GLOBAL(L, "VERSION", LU5_VERSION);
+
     LUA_ADD_FUNCTION(L, print);
 
     LUA_ADD_FUNCTION(L, createWindow);
