@@ -11,7 +11,6 @@
  * @example
  * function setup()
  *   createWindow(600, 600);
- *       
  *   loadFont('/path/to/your/font.ttf');
  * end
  *
