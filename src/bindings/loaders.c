@@ -10,7 +10,7 @@ int loadFont(lua_State *L) {
 	}
 
 	if (lu5_load_font(str)) {
-		luaL_error(L, "Could not find fount");
+		luaL_error(L, "Could not find font '%s'", str);
 	}
 
 	return 0;
