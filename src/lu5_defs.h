@@ -3,8 +3,14 @@
 
 #include "lu5_logger.h"
 
-#define LUA_ADD_CONST_NUMBER_GLOBAL(l, name)        lua_pushnumber(l, name); lua_setglobal(l, #name)
+#define LU5_VERSION "v0.0.2"
+
 #define LUA_ADD_CONST_BOOL_GLOBAL(l, name)          lua_pushboolean(l, name); lua_setglobal(l, #name)
+
+#define LUA_ADD_CONST_STRING_GLOBAL(l, name)        lua_pushstring(l, name); lua_setglobal(l, #name)
+#define LUA_ADD_STRING_GLOBAL(l, name, value)       lua_pushstring(l, value); lua_setglobal(l, name)
+
+#define LUA_ADD_CONST_NUMBER_GLOBAL(l, name)        lua_pushnumber(l, name); lua_setglobal(l, #name)
 #define LUA_ADD_NUMBER_GLOBAL(l, name, value)       lua_pushnumber(l, value); lua_setglobal(l, name)
 
 
