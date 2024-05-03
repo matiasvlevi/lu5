@@ -6,6 +6,7 @@
 #include "bindings/window.h"
 #include "bindings/shapes.h"
 #include "bindings/lu5_math.h"
+#include "bindings/loaders.h"
 
 #include "lu5_defs.h"
 
@@ -45,7 +46,9 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, stroke);
 	LUA_ADD_FUNCTION(L, noStroke);
     LUA_ADD_FUNCTION(L, strokeWeight);    
-    LUA_ADD_FUNCTION(L, textSize);    
+    LUA_ADD_FUNCTION(L, textSize);
+
+    LUA_ADD_FUNCTION(L, loadFont);    
 
 	LUA_ADD_FUNCTION(L, point);
     LUA_ADD_FUNCTION(L, circle);
