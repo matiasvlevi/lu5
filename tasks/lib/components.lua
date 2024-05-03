@@ -41,7 +41,7 @@ local function MethodSummary(parent, methods, class)
     end
 
     return 
-        "<div>"..
+        "<div class=\"summary\">"..
             "<h3>".. parent .."</h3>"..
             "<ul>".. summary .."</ul>"..
         "</div>";
@@ -61,10 +61,11 @@ local function Index(modules, class)
         index = index .. MethodSummary(header, methods);
         
     end
-
-    return "<div class=\"modules\">"..
-        index..
-    "</div>";
+    
+    return 
+        "<div class=\"modules\" id=\"reactive\">"..
+            index..
+        "</div>";
 end
 
 

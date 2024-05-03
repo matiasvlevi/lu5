@@ -59,6 +59,10 @@ li:not(:last-child) {
     padding-bottom: 12px;
 }
 
+.method {
+    padding-top: 2rem;
+}
+
 .btn {
 	padding-left: 0.5rem;
 }
@@ -86,16 +90,24 @@ header {
 	display: flex;
 	flex-direction: row;
 	align-items: baseline;
-	gap: 1rem;
+	gap: 0.9rem;
+	flex-wrap: wrap;
 }
 
 
 .modules {
 	display: flex;
 	flex-wrap: wrap;
-	margin:auto;
-	width: 80%;
+	width: 76%;
 	gap: 3.5rem;
+
+	margin-right:auto;
+	margin-left:auto;
+}
+
+.modules.open {
+	margin-right:12.2rem;
+	margin-left: auto;
 }
 
 a {
@@ -106,30 +118,50 @@ a:visited {
 	text-decoration: none;
 }
 
-h1.module {
+
+.version {
+	color: var(--dark);
+
 	position:relative;
 	top:-0.25em;
-	color: var(--primary);
-	font-weight: bold;
-	font-size: 32pt;
+	left: -0.25em;
 }
 
 
 main {
 	padding: 2.2em;
+
 	height: fit-content;
 
 	width: 100%;
 
 	display: flex;
 	flex-direction: column;
-	gap: 2.5rem;
+	gap: 0rem;
 }
+
+.summary {
+	min-width: 8em;
+}
+
+h1.module {
+	position:relative;
+	top:-0.25em;
+	color: var(--primary);
+	font-weight: bold;
+	font-size: 26pt;
+}
+
 
 @media (min-width: 900px) {
     main > .method {
 		padding-left: 10%;
 	}
+
+	h1.module {
+		font-size: 32pt;
+	}
+	
 }
 
 
