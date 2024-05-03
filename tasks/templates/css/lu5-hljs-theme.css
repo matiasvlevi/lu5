@@ -10,6 +10,9 @@ pre code.hljs {
   font-weight: 400;
   font-style: normal;
   border-radius: 8px;
+  max-width: 38em;
+  width: fit-content;
+  padding-right: 6em;
 }
 code.hljs {
   padding: 3px 5px
