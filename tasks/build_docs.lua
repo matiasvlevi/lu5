@@ -55,7 +55,8 @@ for i, filename in pairs(source_files) do
     local static_docs = Handlebars.use_template(page_template, {
         filename = module_name,
         body = Components.Module(Modules[module_name]),
-        nav  = nav
+        nav  = nav,
+        version = VERSION
     });
 
     fs.write_file(doc_path .. module_name .. '.html', static_docs);
@@ -66,8 +67,8 @@ local homepage_name = 'Reference';
 local static_homepage = Handlebars.use_template(page_template, {
     filename = homepage_name,
     nav = nav, 
-    body = 
-        "<h3>Modules</h3>" .. Components.Index(Modules, 'dark'); 
+    body = Components.Index(Modules, 'dark'),
+    version = VERSION
 });
 
 fs.write_file(doc_path .. 'index.html', static_homepage);
