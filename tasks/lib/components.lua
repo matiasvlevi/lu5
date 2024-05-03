@@ -5,6 +5,7 @@ local function Panel(headers, class)
     for i, header in pairs(headers) do
         -- Remove extention
         local header = split(header, '.')[1];
+        header = header:gsub('lu5%_', '');
 
         -- Create link to module page
         local link = './' .. header .. '.html';
@@ -88,7 +89,7 @@ local function Method(method)
 
     local returnContent = '';
     if (method['return'] ~= nil) then
-        returnContent = "<div class=\"param\">"                      ..
+        returnContent = "<h4>Returns</h4><div class=\"param\">"                      ..
             "<code class=\"name\">" .. method['return'].var .. "</code>" ..
             "<span class=\"text desc\">" .. method['return'].description .. "</span>" ..
         "</div>"                                                     ;
@@ -106,6 +107,7 @@ local function Method(method)
 
             "<code>" .. get_declaration(method) .. "</code>" ..
             "<p>"    .. method.description .. "</p>"         ..
+            "<h4>Arguments</h4>"                             ..
             "<div class=\"params\">"                         .. 
                 params                                       ..
             "</div>"                                         ..

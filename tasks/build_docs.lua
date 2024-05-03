@@ -44,6 +44,7 @@ local Modules = {};
 -- Parse all headers and generate static pages
 for i, filename in pairs(source_files) do
     local module_name = split(filename, '.')[1];
+    module_name = module_name:gsub('lu5%_', '');
     
     
     -- Read header file source

@@ -54,12 +54,12 @@ function parse_description(comment)
 	local result = {};
 	for i=1, #lines do
 		-- filter only text
-        local tagmatch = string.match(lines[i], "%@param");
+        local tagmatch = string.match(lines[i], "%@");
         if (tagmatch ~= nil) then
             break;
         end
 
-		local m = string.match(lines[i], "%s%*%s[%w ,.?!]+");
+		local m = string.match(lines[i], "%s%*%s.+");
 		if (m ~= nil) then
 			table.insert(result, 1, string.sub(m, 4, #m));
 		end
@@ -74,21 +74,26 @@ function parse_bottom_description(comment)
     local ignore = false;
 
 	for i=#lines, 1, -1  do
-		-- if encounter a param, return bottom description
-        local tagmatch = string.match(lines[i], "%@param");
-        if (tagmatch ~= nil) then
-            return join(result, '\n');
-        end
-
         -- If encounter example, toggle ignore flag
         local examplematch = string.match(lines[i], "%@example");
         if (examplematch ~= nil) then
+            -- Skip first example tag (seen 2nd in the iteration)
+            if (ignore) then
+                i = i - 1;
+            end
+
             ignore = not ignore;
         end
 
         -- Add bottom description line
         if (not ignore) then
-            local m = string.match(lines[i], "%s%*%s[%w ,.?!]+");
+            -- if encounter a param, return bottom description
+            local tagmatch = string.match(lines[i], "%@");
+            if (tagmatch ~= nil) then
+                return join(result, '\n');
+            end
+
+            local m = string.match(lines[i], "%s%*%s.+");
             if (m ~= nil) then
                 table.insert(result, 1,  string.sub(m, 4, #m) );
             end
