@@ -15,7 +15,7 @@ void lu5_font_close();
 
 void lu5_init_freetype();
 
-void lu5_load_font();
+int lu5_load_font(const char *fontPath);
 
 void lu5_render_text(const char *text, float x, float y, float fontSize);
 

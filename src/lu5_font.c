@@ -14,20 +14,22 @@ void lu5_init_freetype() {
     }
 }
 
-void lu5_load_font() {
+int lu5_load_font(const char *fontPath) {
     int error = FT_New_Face( 
         ft,
-        "/usr/share/fonts/TTF/Arial.TTF",
+        fontPath,
         0,
         &face);
 
     if (error == FT_Err_Unknown_File_Format)
     {
-        printf("FreeType: Unknown file format");
+        LU5_ERROR("FreeType: Unknown file format");
+        return 1;
     }
     else if (error)
     {
-        printf("FreeType: Unhandled error");
+        LU5_ERROR("FreeType: Unhandled error");
+        return 1;
     }
 
     FT_Set_Pixel_Sizes(face, 0, 48); 
@@ -35,7 +37,7 @@ void lu5_load_font() {
     for (unsigned char c = 32; c < 128; c++) {
         // Load character glyph into face->glyph
         if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
-            printf("Could not load character '%c'\n", c);
+            LU5_WARN("Could not load character '%c'\n", c);
             continue;
         }
 
@@ -64,6 +66,8 @@ void lu5_load_font() {
 
         font_textures[c] = texture;
     }
+
+    return 0;
 
 }
 
