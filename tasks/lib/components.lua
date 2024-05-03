@@ -21,6 +21,53 @@ local function Panel(headers, class)
     return "<ul>".. panel .."</ul>";
 end
 
+local function MethodSummary(parent, methods, class)
+
+    local summary = '';
+
+    if (class == nil) then
+        class = "dark"
+    end
+
+    for i, method in pairs(methods) do
+
+        local link = './' .. parent .. '.html#' .. method.name;
+
+        summary = summary .. "<li class=\"index\">"..
+            "<a class=\"".. class .." index\" href=\"".. link .."\">"..
+                method.name..
+            "</a>"..
+        "</li>";
+    end
+
+    return 
+        "<div>"..
+            "<h3>".. parent .."</h3>"..
+            "<ul>".. summary .."</ul>"..
+        "</div>";
+end
+
+-- Links panel
+local function Index(modules, class)
+    local index = '';
+
+    if (class == nil) then
+        class = "dark"
+    end
+
+    for header, methods in pairs(modules) do
+
+        -- Panel
+        index = index .. MethodSummary(header, methods);
+        
+    end
+
+    return "<div class=\"modules\">"..
+        index..
+    "</div>";
+end
+
+
 -- lu5 Method
 local function Method(method)
     local params = '';
@@ -38,14 +85,32 @@ local function Method(method)
         method.description = 'No description.';
     end
 
+    local returnContent = '';
+    if (method['return'] ~= nil) then
+        returnContent = "<div class=\"param\">"                      ..
+            "<code class=\"name\">" .. method['return'].var .. "</code>" ..
+            "<span class=\"desc\">" .. method['return'].description .. "</span>" ..
+        "</div>"                                                     ;
+    end
+
+    local exampleContent = '';
+    if (method['example'] ~= nil) then
+        exampleContent = "<pre><code class=\"language-lua\">"..
+            method['example'] ..
+        "</code></pre>";
+    end
+
     return 
-        "<div class=\"method\">"                             ..
+        "<div class=\"method\" id=\"".. method.name .. "\">" ..
 
             "<code>" .. get_declaration(method) .. "</code>" ..
             "<p>"    .. method.description .. "</p>"         ..
             "<div class=\"params\">"                         .. 
                 params                                       ..
             "</div>"                                         ..
+            returnContent                                    ..
+            "<p>"    .. method.bottom_description .. "</p>"  ..
+            exampleContent                                   ..
             "<br/>"                                          ..
         "</div>" 
 end
@@ -64,6 +129,7 @@ end
 
 return {
 	Module=Module,
+    Index=Index,
 	Method=Method,
 	Panel=Panel
 }

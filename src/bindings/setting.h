@@ -9,8 +9,15 @@
  * @param r The red byte
  * @param g The green byte
  * @param b The blue byte
- * @param a The alpha byte
+ * @param [a] The alpha byte
  *
+ * Can also accept a hexadecimal or color name as string
+ *
+ * @example
+ * fill(255, 150, 40);
+ * square(200, 200, 64);
+ * @example
+ * 
  */ 
 int fill(lua_State *L);
 
@@ -18,11 +25,17 @@ int fill(lua_State *L);
 * Set the line width
 *
 * @param weight The line width in pixels
+*
+* @example
+* strokeWeight(8);
+* line(200, 200, mouseX, mouseY);
+* @example
 */
 int strokeWeight(lua_State *L);
 
 /**
  * Disable fill
+ *
  */
 int noFill(lua_State *L);
 

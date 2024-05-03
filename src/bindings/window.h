@@ -4,10 +4,23 @@
 #include <lua.h>
 
 /**
- * Create a GLFW window, if no window was created and a setup function was defined, a warning is thrown
+ * Create a GLFW window
  *
  * @param w Window width
  * @param h Window height
+ *
+ * If no window was created and a setup function was defined, a warning is thrown
+ *
+ * @example
+ * function setup()
+ *   -- Create the window here
+ *   createWindow(600, 600);
+ * end
+ *
+ * function draw()
+ *   -- draw things
+ * end
+ * @example
  */ 
 int createWindow(lua_State *L);
 

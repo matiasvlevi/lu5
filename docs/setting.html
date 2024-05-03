@@ -7,13 +7,18 @@
 
 		<link rel="stylesheet" href="./assets/style.css" />
 		<script type="text/javascript" src="./assets/index.js"></script>
+
+		<link rel="stylesheet" href="./assets/lu5-hljs-theme.css">
+		<script src="./assets/hljs.min.js"></script>
+
+		<script>hljs.highlightAll();</script>
 		
 		<title>setting | Documentation</title>
 	</head>
 	<body>
 		<div class="nav" id="menu">
 			<br/>
-			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./lu5_math.html"><h4>lu5_math</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./events.html"><h4>events</h4></a></li></ul>
+			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./lu5_math.html"><h4>lu5_math</h4></a></li><li class="btn"><a class="light" href="./loaders.html"><h4>loaders</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./events.html"><h4>events</h4></a></li></ul>
 		</div>
 		<main>
 			<header>
@@ -25,22 +30,24 @@
 			</header>
 
 			
-<div class="method"><code>fill(r, g, b, a);</code><p>Set the fill color for shapes</p><div class="params"><div class="param"><code class="name">r</code><span class="desc">The red byte
+<div class="method" id="fill"><code>fill(r, g, b, [a]);</code><p>Set the fill color for shapes</p><div class="params"><div class="param"><code class="name">r</code><span class="desc">The red byte
+</span></div><div class="param"><code class="name">g</code><span class="desc">The green byte
+</span></div><div class="param"><code class="name">b</code><span class="desc">The blue byte
+</span></div><div class="param"><code class="name">[a]</code><span class="desc">The alpha byte
+</span></div></div><p>Can also accept a hexadecimal or color name as string</p><pre><code class="language-lua"> fill(255, 150, 40);
+ square(200, 200, 64);</code></pre><br/></div>
+<div class="method" id="strokeWeight"><code>strokeWeight(weight);</code><p></p><div class="params"><div class="param"><code class="name">weight</code><span class="desc">The line width in pixels
+</span></div></div><p></p><pre><code class="language-lua"> strokeWeight(8);
+ line(200, 200, mouseX, mouseY);</code></pre><br/></div>
+<div class="method" id="noFill"><code>noFill();</code><p>Disable fill</p><div class="params"></div><p></p><br/></div>
+<div class="method" id="stroke"><code>stroke(r, g, b, a);</code><p>Set the stroke color for shapes</p><div class="params"><div class="param"><code class="name">r</code><span class="desc">The red byte
 </span></div><div class="param"><code class="name">g</code><span class="desc">The green byte
 </span></div><div class="param"><code class="name">b</code><span class="desc">The blue byte
 </span></div><div class="param"><code class="name">a</code><span class="desc">The alpha byte
-</span></div></div><br/></div>
-<div class="method"><code>strokeWeight(weight);</code><p></p><div class="params"><div class="param"><code class="name">weight</code><span class="desc">The line width in pixels
-</span></div></div><br/></div>
-<div class="method"><code>noFill();</code><p>Disable fill</p><div class="params"></div><br/></div>
-<div class="method"><code>stroke(r, g, b, a);</code><p>Set the stroke color for shapes</p><div class="params"><div class="param"><code class="name">r</code><span class="desc">The red byte
-</span></div><div class="param"><code class="name">g</code><span class="desc">The green byte
-</span></div><div class="param"><code class="name">b</code><span class="desc">The blue byte
-</span></div><div class="param"><code class="name">a</code><span class="desc">The alpha byte
-</span></div></div><br/></div>
-<div class="method"><code>noStroke();</code><p>Disable stroke</p><div class="params"></div><br/></div>
-<div class="method"><code>textSize(size);</code><p>Set the font size</p><div class="params"><div class="param"><code class="name">size</code><span class="desc">The size of the font in pixels
-</span></div></div><br/></div>
+</span></div></div><p></p><br/></div>
+<div class="method" id="noStroke"><code>noStroke();</code><p>Disable stroke</p><div class="params"></div><p></p><br/></div>
+<div class="method" id="textSize"><code>textSize(size);</code><p>Set the font size</p><div class="params"><div class="param"><code class="name">size</code><span class="desc">The size of the font in pixels
+</span></div></div><p></p><br/></div>
 		</main>
   </body>
 </html>

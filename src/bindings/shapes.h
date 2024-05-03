@@ -69,8 +69,16 @@ int quad(lua_State *L);
 /**
  * Draw text on the screen
  *
- * @note Not implemented
+ * @param str String to render
+ * @param x The x position of the start of the text
+ * @param y The y position of the top of the text
  *
+ * Fonts are not yet implemented
+ *
+ * @example
+ * fill(150, 50, 255);
+ * text('Hello lu5!', 40, 60);
+ * @example
  */
 int text(lua_State *L);
 

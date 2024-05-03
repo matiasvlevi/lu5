@@ -5,6 +5,13 @@
 
 int lu5_random(lua_State *L);
 
+/**
+ * Round a number
+ * 
+ * @param x The number to round
+ *
+ * @return int The rounded value
+ */
 int lu5_round(lua_State *L);
 
 int lu5_floor(lua_State *L);

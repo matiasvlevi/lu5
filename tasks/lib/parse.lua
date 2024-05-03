@@ -49,12 +49,17 @@ function parse_param(param)
     return param;
 end
 
-function parse_descrition(comment)
+function parse_description(comment)
 	local lines = split(comment, '\n');
 	local result = {};
 	for i=1, #lines do
 		-- filter only text
-		local m = string.match(lines[i], "%s%*%s[%w ,.?!]+")
+        local tagmatch = string.match(lines[i], "%@param");
+        if (tagmatch ~= nil) then
+            break;
+        end
+
+		local m = string.match(lines[i], "%s%*%s[%w ,.?!]+");
 		if (m ~= nil) then
 			table.insert(result, 1, string.sub(m, 4, #m));
 		end
@@ -62,9 +67,92 @@ function parse_descrition(comment)
 	return join(result, '\n');
 end
 
+function parse_bottom_description(comment)
+	local lines = split(comment, '\n');
+	local result = {};
+    
+    local ignore = false;
+
+	for i=#lines, 1, -1  do
+		-- if encounter a param, return bottom description
+        local tagmatch = string.match(lines[i], "%@param");
+        if (tagmatch ~= nil) then
+            return join(result, '\n');
+        end
+
+        -- If encounter example, toggle ignore flag
+        local examplematch = string.match(lines[i], "%@example");
+        if (examplematch ~= nil) then
+            ignore = not ignore;
+        end
+
+        -- Add bottom description line
+        if (not ignore) then
+            local m = string.match(lines[i], "%s%*%s[%w ,.?!]+");
+            if (m ~= nil) then
+                table.insert(result, 1,  string.sub(m, 4, #m) );
+            end
+        end
+
+	end
+	return '';
+end
+
+function parse_return(comment)
+	local lines = split(comment, '\n');
+	local result = {};
+	for i=1, #lines do
+		-- filter only text
+        local m = string.match(comment, "@return%s[%w ,.?!]+");
+		if (m ~= nil) then
+            local ws = split(m, ' ');
+            local var = ws[2];
+            table.remove(ws, 1);
+            table.remove(ws, 1);
+
+            return {
+                var=var,
+                description=join(ws, ' ')
+            };
+        end
+	end
+
+	return result[0];
+end
+
+function parse_example(comment)
+	local lines = split(comment, '\n');
+	local result = {};
+
+    local i = 1;
+
+    -- Skip to first example
+    while (string.find(lines[i], '@example') == nil and i < #lines) do
+        i = i + 1;
+    end
+
+    -- Skip example tag
+    i = i + 1;
+
+    -- Iterate through example and collect lines
+    if (i < #lines) then
+        while (string.find(lines[i], '@example') == nil and i < #lines) do
+            local str = lines[i]:gsub('%s-%*%s-', '');
+            table.insert(result, str);
+            i = i + 1;
+        end
+    end
+
+    if (#result < 1) then
+        return nil;
+    end
+
+	return join(result, '\n');
+end
+
 function parse_comment(comment)
 
-    local matches = string.gmatch(comment, "@param %w+ .-%\n");
+    local matches = string.gmatch(comment, "@param .- .-%\n");
 
     -- method
     --  name: string
@@ -72,25 +160,35 @@ function parse_comment(comment)
     --  params: param[]
     local method = {};
 
-    local dec = string.match(comment, 'int %w+%(.*%)') .. ';';
+    local lines = split(comment, '\n');
+
+    local dec = string.match(lines[#lines], 'int .-%(.*%)') .. ';';
+
+    dec = dec:gsub('lu5_', '');
 
     method['name']        = split(split(dec, ' ')[2], '(')[1];
     method['declaration'] = dec;
-    method['description'] = parse_descrition(comment); 
+    method['description'] = parse_description(comment); 
+    method['bottom_description'] = parse_bottom_description(comment); 
     method['params']      = {};
+    method['return']      = parse_return(comment);
+    method['example']     = parse_example(comment);
     
     -- get params
     local index = 1;
     for match in matches do
+        
         method['params'][index] = parse_param(match);
+
         index = index + 1;
     end
+
 
     return method;
 end
 
 function parse_header(source)
-    local matches = string.gmatch(source, "%/%*%*.-%*%/%s-%\nint%s%w-%(.-%)");
+    local matches = string.gmatch(source, "%/%*%*.-%*%/%s-%\nint .-%(.-%)");
     -- methods: method[]
     local methods = {};
 

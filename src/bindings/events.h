@@ -8,6 +8,7 @@
  * 
  * @param k The keyboard key to check
  *
+ * @return boolean Whether or not the key is down
  */ 
 int isKeyDown(lua_State *L);
 

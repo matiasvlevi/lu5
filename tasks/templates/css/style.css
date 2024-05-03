@@ -6,6 +6,7 @@
 	--white: #efefef;
 }
 
+
 /* width */
 ::-webkit-scrollbar {
 	width: 10px;
@@ -89,6 +90,14 @@ header {
 }
 
 
+.modules {
+	display: flex;
+	flex-wrap: wrap;
+	margin:auto;
+	width: 80%;
+	gap: 3.5rem;
+}
+
 a {
 	text-decoration: none;
 }
@@ -105,14 +114,24 @@ h1.module {
 	font-size: 32pt;
 }
 
+
 main {
-	margin: 2em;
+	padding: 2.2em;
 	height: fit-content;
+
+	width: 100%;
 
 	display: flex;
 	flex-direction: column;
 	gap: 2.5rem;
 }
+
+@media (min-width: 900px) {
+    main > .method {
+		padding-left: 10%;
+	}
+}
+
 
 .param {
 	display: flex;

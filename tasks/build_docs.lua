@@ -16,9 +16,16 @@ asset_path  = doc_path .. 'assets/';
 local css = Minify.css(fs.read_file(template_path .. 'css/style.css'));
 fs.write_file(asset_path .. 'style.css', css);
 
+local css_hljs = Minify.css(fs.read_file(template_path .. 'css/lu5-hljs-theme.css'));
+fs.write_file(asset_path .. 'lu5-hljs-theme.css', css_hljs);
+
+
 -- Minify JS
 local js  = Minify.js(fs.read_file(template_path .. 'js/index.js'));
 fs.write_file(asset_path .. 'index.js', js);
+
+local js_hljs  = (fs.read_file(template_path .. 'js/hljs.min.js'));
+fs.write_file(asset_path .. 'hljs.min.js', js_hljs);
 
 function find_headers(str)
     return string.find(str, "%.h");
@@ -32,19 +39,22 @@ local nav = Components.Panel(source_files, 'light');
 local page_template_file = io.open('./tasks/templates/page.handlebars', 'r');
 local page_template = page_template_file:read('a*');  
 
+local Modules = {};
+
 -- Parse all headers and generate static pages
 for i, filename in pairs(source_files) do
     local module_name = split(filename, '.')[1];
     
+    
     -- Read header file source
     local source = fs.read_file(doc_source_path .. filename);
 
-    local methods = Parse.header(source);
-    
+    Modules[module_name] = Parse.header(source);
+
     -- Formatting module page
     local static_docs = Handlebars.use_template(page_template, {
         filename = module_name,
-        body = Components.Module(methods),
+        body = Components.Module(Modules[module_name]),
         nav  = nav
     });
 
@@ -57,7 +67,7 @@ local static_homepage = Handlebars.use_template(page_template, {
     filename = homepage_name,
     nav = nav, 
     body = 
-        "<h3>Modules</h3>" .. Components.Panel(source_files, 'dark'); 
+        "<h3>Modules</h3>" .. Components.Index(Modules, 'dark'); 
 });
 
 fs.write_file(doc_path .. 'index.html', static_homepage);
