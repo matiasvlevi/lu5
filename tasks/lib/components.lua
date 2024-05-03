@@ -78,7 +78,7 @@ local function Method(method)
         params = params ..
             "<div class=\"param\">"                                       ..
                 "<code class=\"name\">" .. param.name .. "</code>"        ..
-                "<span class=\"desc\">" .. param.description .. "</span>" ..
+                "<span class=\"text desc\">" .. param.description .. "</span>" ..
             "</div>";
     end
 
@@ -90,7 +90,7 @@ local function Method(method)
     if (method['return'] ~= nil) then
         returnContent = "<div class=\"param\">"                      ..
             "<code class=\"name\">" .. method['return'].var .. "</code>" ..
-            "<span class=\"desc\">" .. method['return'].description .. "</span>" ..
+            "<span class=\"text desc\">" .. method['return'].description .. "</span>" ..
         "</div>"                                                     ;
     end
 

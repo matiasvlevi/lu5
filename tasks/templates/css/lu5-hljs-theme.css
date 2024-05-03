@@ -3,32 +3,17 @@
 pre code.hljs {
   display: block;
   overflow-x: auto;
-  padding: 1em;
-
+  
+  
   font-family: "Source Code Pro", monospace;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   border-radius: 8px;
-  max-width: 38em;
-  width: fit-content;
-  padding-right: 6em;
 }
 code.hljs {
   padding: 3px 5px
 }
-/*!
-  Theme: a11y-dark
-  Author: @ericwbailey
-  Maintainer: @ericwbailey
-
-  Based on the Tomorrow Night Eighties theme: https://github.com/isagalaev/highlight.js/blob/master/src/styles/tomorrow-night-eighties.css
-*/
-/* 
---dark: #461164;
---primary: #AA36EF;
---lighter: #d49af7;
---white: #efefef; */
 
 .hljs {
   background: #dfd4ff;
