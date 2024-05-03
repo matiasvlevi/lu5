@@ -87,14 +87,22 @@ int createWindow(lua_State *L) {
     glLoadIdentity();
 
     // Line smoothing
-    glEnable(GL_LINE_SMOOTH);
-    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
     // Enable alpha blend
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glShadeModel(GL_SMOOTH); 
 
-    lu5_load_font();
+    glEnable(GL_LINE_SMOOTH);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    glEnable(GL_MULTISAMPLE);  
+    glHint(GL_POLYGON_SMOOTH_HINT, GL_FASTEST); 
+    glEnable(GL_POLYGON_SMOOTH);
+
+    glDisable( GL_DEPTH_TEST ); 
+    glEnable( GL_ALPHA_TEST ); 
+
+    lu5_load_font("/usr/share/fonts/TTF/Arial.TTF");
 
     free(window_title);
     return 0;
