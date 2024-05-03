@@ -100,15 +100,8 @@ header {
 	flex-wrap: wrap;
 	width: 76%;
 	gap: 3.5rem;
-
-	margin-right:auto;
-	margin-left:auto;
 }
 
-.modules.open {
-	margin-right:12.2rem;
-	margin-left: auto;
-}
 
 a {
 	text-decoration: none;
@@ -158,8 +151,30 @@ pre code.hljs {
 	font-size: 10pt;
 }
 
+
+.modules {
+	margin-right:auto;
+	margin-left:auto;
+}
+
+.modules.open {
+	margin-right:10.2rem;
+	margin-left: 2em;
+}
+
 /* PC Version */
 @media (min-width: 900px) {
+
+	.modules {
+		margin-right:auto;
+		margin-left:auto;
+	}
+	
+	.modules.open {
+		margin-right:auto;
+		margin-left: auto;
+	}
+
     main > .method {
 		padding-left: 10%;
 	}
