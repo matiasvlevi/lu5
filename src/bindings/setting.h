@@ -26,6 +26,8 @@ int fill(lua_State *L);
 *
 * @param weight The line width in pixels
 *
+* Currently is only implemented for `line` and partially implemented for `circle`
+*
 * @example
 * strokeWeight(8);
 * line(200, 200, mouseX, mouseY);
@@ -35,7 +37,6 @@ int strokeWeight(lua_State *L);
 
 /**
  * Disable fill
- *
  */
 int noFill(lua_State *L);
 
@@ -48,11 +49,15 @@ int noFill(lua_State *L);
  * @param b The blue byte
  * @param a The alpha byte
  *
+ * Only implemented with for `line` and `circle`
+ *
  */ 
 int stroke(lua_State *L);
 
 /**
  * Disable stroke
+ *
+ * Only implemented with for `line` and `circle`
  */ 
 int noStroke(lua_State *L);
 
@@ -60,6 +65,7 @@ int noStroke(lua_State *L);
  * Set the font size
  *
  * @param size The size of the font in pixels
+ *
  */
 int textSize(lua_State *L);
 
