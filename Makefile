@@ -1,6 +1,7 @@
 PLATFORM ?= gnu
 
 APP_NAME = lu5
+VERSION = 0.0.2
 
 SRCDIR = src
 BINDIR = bin
@@ -45,9 +46,6 @@ DEP = $(OBJECTS:.o=.d)
 
 all: $(BIN)
 
-test:
-	echo $(OBJECTS)
-
 -include $(DEP)
 
 $(OBJDIR)/%.o: src/%.c 
@@ -63,13 +61,16 @@ else
 endif
 
 
-.PHONY: all clean install docs win
+.PHONY: all clean install docs zip
 
 run: $(BIN)
 	$(BIN)
 
 docs: $(BIN)
 	$(BIN) ./tasks/$(DOC_BUILD_SCRIPT)
+
+zip:
+	zip $(BINDIR)/linux/lu5-x86_64-linux-$(VERSION).zip $(BIN)
 
 install: 
 	cp $(BIN) /usr/bin/$(APP_NAME)
