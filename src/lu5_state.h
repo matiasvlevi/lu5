@@ -13,6 +13,15 @@
 #include "lu5_color.h"
 #include "lu5_logger.h"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
+#define MAX_LOADED_FONTS 16
+typedef struct {
+	FT_Face face;
+	GLuint textures[128];
+} lu5_font;
+
 typedef struct {
     struct {
        struct {
@@ -33,15 +42,20 @@ typedef struct {
         lu5_color stroke;
         double strokeWeight;
         double fontSize;
+        int fontId;
     } style;
 
-    lu5_log_level log_level;
-    
+    lu5_log_level log_level; 
+
+    FT_Library ft;
+	lu5_font *fonts[MAX_LOADED_FONTS];
+	int font_count;
+
     lua_State *L;
 
-} lu5_state;
+} lu5_State;
 
-extern lu5_state lu5;
+extern lu5_State lu5;
 
 // Callback function for when the window's size is changed
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

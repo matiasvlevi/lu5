@@ -2,15 +2,19 @@
 
 #include "lu5_color.h"
 
-lu5_state lu5 = {
+lu5_State lu5 = {
     // use LU5_ERROR_LOG for no logging
     .log_level = LU5_WARN_LOG,
     .style = {
         .strokeWeight = 1,
         .stroke = LU5_BLACK,
-        .fill = LU5_WHITE
-        
-    }
+        .fill = LU5_WHITE,
+        .fontSize = 32,
+        .fontId = 0
+    },
+ 
+    .fonts = {},
+    .font_count = 0,
 };
 
 // Callback function for when the window's size is changed

@@ -156,10 +156,9 @@ int text(lua_State *L)
     double x = lua_tonumber(L, 2);
     double y = lua_tonumber(L, 3);
 
-    LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
+    LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke); 
 
-    
-    lu5_render_text(str, x, y, lu5.style.fontSize);
+    lu5_render_text(str, x, y, lu5.style.fontSize, lu5.fonts[lu5.style.fontId]);
 
     return 0;
 }

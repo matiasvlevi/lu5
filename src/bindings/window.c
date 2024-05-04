@@ -102,7 +102,7 @@ int createWindow(lua_State *L) {
     glDisable( GL_DEPTH_TEST ); 
     glEnable( GL_ALPHA_TEST ); 
 
-    lu5_load_font("/usr/share/fonts/TTF/Arial.TTF");
+    lu5_load_font(&lu5, "/usr/share/fonts/TTF/Arial.TTF", NULL);
 
     free(window_title);
     return 0;

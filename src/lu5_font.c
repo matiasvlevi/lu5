@@ -2,41 +2,49 @@
 
 #include "lu5_logger.h"
 
-FT_Library ft;
-FT_Face face;
+// FT_Face face;
 
-GLuint font_textures[128]; // ASCII 0x20-0x7E
+// GLuint font_textures[128]; // ASCII 0x20-0x7E
 
-void lu5_init_freetype() {
-    if (FT_Init_FreeType(&ft))
+#include "lu5_state.h"
+
+void lu5_init_freetype(lu5_State *l5) {
+    if (FT_Init_FreeType(&(l5->ft)))
     {
         LU5_ERROR("Failed to initialize FreeType");
     }
 }
 
-int lu5_load_font(const char *fontPath) {
+int lu5_load_font(lu5_State *l5, const char *fontPath, int *fontId) {
+
+    if (l5->font_count >= MAX_LOADED_FONTS) {
+        return LOADFONT_MAX;
+    } 
+
+    lu5_font *font = (lu5_font*)malloc(sizeof(lu5_font));
+    
     int error = FT_New_Face( 
-        ft,
+        l5->ft,
         fontPath,
         0,
-        &face);
+        &(font->face));
 
     if (error == FT_Err_Unknown_File_Format)
     {
-        LU5_ERROR("FreeType: Unknown file format");
-        return 1;
+        lu5_close_font(font);
+        return LOADFONT_UNKNOWN_FORMAT;
     }
     else if (error)
     {
-        LU5_ERROR("FreeType: Unhandled error");
-        return 1;
+        lu5_close_font(font);
+        return LOADFONT_UNKNOWN;
     }
 
-    FT_Set_Pixel_Sizes(face, 0, 48); 
+    FT_Set_Pixel_Sizes(font->face, 0, 48); 
 
     for (unsigned char c = 32; c < 128; c++) {
         // Load character glyph into face->glyph
-        if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+        if (FT_Load_Char(font->face, c, FT_LOAD_RENDER)) {
             LU5_WARN("Could not load character '%c'\n", c);
             continue;
         }
@@ -50,12 +58,12 @@ int lu5_load_font(const char *fontPath) {
             GL_TEXTURE_2D,
             0,
             GL_ALPHA,
-            face->glyph->bitmap.width,
-            face->glyph->bitmap.rows,
+            font->face->glyph->bitmap.width,
+            font->face->glyph->bitmap.rows,
             0,
             GL_ALPHA,
             GL_UNSIGNED_BYTE,
-            face->glyph->bitmap.buffer
+            font->face->glyph->bitmap.buffer
         );
         // set texture options
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -64,20 +72,25 @@ int lu5_load_font(const char *fontPath) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glBindTexture(GL_TEXTURE_2D, 0);
 
-        font_textures[c] = texture;
+        font->textures[c] = texture;
     }
+
+    if (fontId != NULL) *fontId = l5->font_count;
+    
+    l5->fonts[l5->font_count] = font;
+    l5->font_count++;
 
     return 0;
 
 }
 
-void lu5_render_text(const char *text, float x, float y, float fontSize) {
+void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_font *font) {
     glEnable(GL_TEXTURE_2D);
     glPushMatrix();
     glTranslatef(x, y, 0);
     
     // Use font ascender for uniform baseline alignment
-    int ascender = face->size->metrics.ascender >> 6;
+    int ascender = font->face->size->metrics.ascender >> 6;
     
     // Iterate over string characters
     const char *p;
@@ -88,17 +101,20 @@ void lu5_render_text(const char *text, float x, float y, float fontSize) {
            continue;
         
         // Get texture
-        GLuint texture = font_textures[(int)(*p)];
+        GLuint texture = font->textures[(int)(*p)];
         
         // Load glyph from freetype, or skip if failed
-        if(FT_Load_Char(face, *p, FT_LOAD_DEFAULT)) continue;
+        if(FT_Load_Char(font->face, *p, FT_LOAD_DEFAULT)) continue;
         
         // Adjust height
-        float y_adjusted = y + ascender - face->glyph->bitmap_top;
+        float y_adjusted = y + ascender - font->face->glyph->bitmap_top;
         
         // Calculate the pen advances
-        float x_advance = (face->glyph->metrics.horiBearingX >> 6) + (face->glyph->metrics.width >> 6);
-        float y_advance = (face->glyph->advance.y >> 6);
+        float x_advance = 
+            (font->face->glyph->metrics.horiBearingX >> 6) + 
+            (font->face->glyph->metrics.width >> 6);
+
+        float y_advance = (font->face->glyph->advance.y >> 6);
 
         // Add space if space char found
         if (*p == 32) x_advance += fontSize/2.5;
@@ -107,9 +123,9 @@ void lu5_render_text(const char *text, float x, float y, float fontSize) {
         glBegin(GL_QUADS);
         {
             glTexCoord2f(0, 0); glVertex2f(                        0, y_adjusted                           );
-            glTexCoord2f(1, 0); glVertex2f(face->glyph->bitmap.width, y_adjusted                           );
-            glTexCoord2f(1, 1); glVertex2f(face->glyph->bitmap.width, y_adjusted + face->glyph->bitmap.rows);
-            glTexCoord2f(0, 1); glVertex2f(                        0, y_adjusted + face->glyph->bitmap.rows);
+            glTexCoord2f(1, 0); glVertex2f(font->face->glyph->bitmap.width, y_adjusted                           );
+            glTexCoord2f(1, 1); glVertex2f(font->face->glyph->bitmap.width, y_adjusted + font->face->glyph->bitmap.rows);
+            glTexCoord2f(0, 1); glVertex2f(                        0, y_adjusted + font->face->glyph->bitmap.rows);
         }
         glEnd();
 
@@ -122,11 +138,22 @@ void lu5_render_text(const char *text, float x, float y, float fontSize) {
     glDisable(GL_TEXTURE_2D);
 }
 
-void lu5_font_close() 
+
+void lu5_close_font(lu5_font *font) 
 {
-    for (int i = 32; i < 128; i++) {
-        glDeleteTextures(1, &font_textures[i]);
+    for (int i = 0; i < 128; i++) {
+        glDeleteTextures(1, &font->textures[i]);
     }
-    FT_Done_Face(face);
-    FT_Done_FreeType(ft);
+    FT_Done_Face(font->face);
+}
+
+void lu5_close_fonts(lu5_State *l5) 
+{
+    for (int i = 0; i < l5->font_count; i++) {
+        if (l5->fonts[i] == NULL) continue;
+
+        lu5_close_font(l5->fonts[i]); 
+    }
+
+    FT_Done_FreeType(l5->ft);
 }

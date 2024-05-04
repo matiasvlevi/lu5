@@ -52,9 +52,25 @@ int textSize(lua_State *L)
 {
     double size = lua_tonumber(L, 1);
 
-    FT_Set_Pixel_Sizes(face, 0, size); 
-    
+    FT_Set_Char_Size(
+        lu5.fonts[lu5.style.fontId]->face,
+        0,
+        size * 64,
+        0,
+        0
+    );
+
     lu5.style.fontSize = size;
+
+    return 0;
+}
+
+
+int textFont(lua_State *L)
+{
+    int font_id = lua_tointeger(L, 1);
+
+    lu5.style.fontId = font_id;
 
     return 0;
 }

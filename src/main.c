@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     if (!handle_args(argc, argv, &filename)) 
         return 0;
 
-    lu5_init_freetype();
+    lu5_init_freetype(&lu5);
     
     // Start lua
     lu5.L = luaL_newstate();
@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
 
 cleanup:
 
-    lu5_font_close();
+    lu5_close_fonts(&lu5);
     glfwTerminate();
 
     // Close lua

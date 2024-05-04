@@ -1,22 +1,26 @@
 #ifndef _LU5_FONT_H_
 #define _LU5_FONT_H_
-// todo: refactor
+
 #include <GL/gl.h>
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
+#include "./lu5_state.h"
 
-extern FT_Library ft;
-extern FT_Face face;
+typedef enum {
+    LOADFONT_NONE=0,
+    LOADFONT_MAX,
+    LOADFONT_UNKNOWN_FORMAT,
+    LOADFONT_UNKNOWN
+} lu5_loadfont_err;
 
-extern GLuint font_textures[128]; // ASCII 0x20-0x7E
-                                  
-void lu5_font_close();
 
-void lu5_init_freetype();
 
-int lu5_load_font(const char *fontPath);
+void lu5_close_font(lu5_font *font);
+void lu5_close_fonts(lu5_State *l5);
 
-void lu5_render_text(const char *text, float x, float y, float fontSize);
+void lu5_init_freetype(lu5_State *l5);
+
+int lu5_load_font(lu5_State *l5, const char *fontPath, int *fontId);
+
+void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_font *font);
 
 #endif

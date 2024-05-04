@@ -11,12 +11,13 @@
  * @example
  * function setup()
  *   createWindow(600, 600);
- *   loadFont('/path/to/your/font.ttf');
+ *   myfont = loadFont('/path/to/myfont.ttf');
  * end
  *
  * function draw()
  *   background(51);
  *
+ *   textFont(myfont);
  *   text('Hello from lu5!', 30, 50);
  * end   
  * @example
