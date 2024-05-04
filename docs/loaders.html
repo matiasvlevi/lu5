@@ -35,12 +35,13 @@
 <div class="method" id="loadFont"><code>loadFont(path);</code><p>Load a font face</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">path</code><span class="text desc">The font path on the local system
 </span></div></div><p></p><pre><code class="language-lua"> function setup()
    createWindow(600, 600);
-   loadFont('/path/to/your/font.ttf');
+   myfont = loadFont('/path/to/myfont.ttf');
  end
 
  function draw()
    background(51);
 
+   textFont(myfont);
    text('Hello from lu5!', 30, 50);
  end   </code></pre><br/></div>
 		</main>

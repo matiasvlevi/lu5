@@ -46,11 +46,24 @@
 </span></div><div class="param"><code class="name">g</code><span class="text desc">The green byte
 </span></div><div class="param"><code class="name">b</code><span class="text desc">The blue byte
 </span></div><div class="param"><code class="name">a</code><span class="text desc">The alpha byte
-</span></div></div><p>Only implemented with for `line` and `circle`</p><br/></div>
-<div class="method" id="noStroke"><code>noStroke();</code><p>Only implemented with for `line` and `circle`
+</span></div></div><p>Only implemented for <code class="inline">line</code> and <code class="inline">circle</code></p><br/></div>
+<div class="method" id="noStroke"><code>noStroke();</code><p>Only implemented for <code class="inline">line</code> and <code class="inline">circle</code>
 Disable stroke</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
 <div class="method" id="textSize"><code>textSize(size);</code><p>Set the font size</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">size</code><span class="text desc">The size of the font in pixels
-</span></div></div><p></p><br/></div>
+</span></div></div><p>If this is called using fonts, make sure to call <code class="inline">textSize</code> after calling <code class="inline">textFont</code></p><br/></div>
+<div class="method" id="textFont"><code>textFont(font);</code><p>Set the font family</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">font</code><span class="text desc">The font value returned when using loadFont
+</span></div></div><p></p><pre><code class="language-lua"> function setup()
+   createWindow(600, 600);
+
+   myfont = loadFont('path/to/myfont.ttf');
+ end
+
+ function draw()
+   background(51);
+ 
+   textFont(myfont);
+   text('Hello world!', 100, 200);
+ end</code></pre><br/></div>
 		</main>
   </body>
 </html>
