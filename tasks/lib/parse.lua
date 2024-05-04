@@ -24,6 +24,40 @@ function join(list, sep)
     return str;
 end
 
+function insert(str1, str2, pos)
+    return str1:sub(1,pos-1)..str2..str1:sub(pos+1)
+end
+
+function from_md(text)
+    local in_scope = true;
+
+    local i = 1;
+
+    local ans = text;
+    local len = #text;
+
+    while (ans:find('`') ~= nil and i <= len) do
+        if (string.sub(ans, i, i) == '`') then
+            local added = '';
+            if (in_scope) then
+                added = '<code class="inline">';
+                ans = insert(ans, added, i);
+            else
+                added = '</code>'
+                ans = insert(ans, added, i);
+
+            end
+            in_scope = not in_scope;
+
+            i = i + #added;
+            len = #ans
+        end
+        i = i + 1;
+    end
+
+    return ans;
+end
+
 function parse_param(param)
     local words = split(param, ' ');
 
@@ -61,7 +95,7 @@ function parse_description(comment)
 
 		local m = string.match(lines[i], "%s%*%s.+");
 		if (m ~= nil) then
-			table.insert(result, 1, string.sub(m, 4, #m));
+			table.insert(result, 1, from_md(string.sub(m, 4, #m)));
 		end
 	end
 	return join(result, '\n');
@@ -95,7 +129,7 @@ function parse_bottom_description(comment)
 
             local m = string.match(lines[i], "%s%*%s.+");
             if (m ~= nil) then
-                table.insert(result, 1,  string.sub(m, 4, #m) );
+                table.insert(result, 1,  from_md(string.sub(m, 4, #m)) );
             end
         end
 
