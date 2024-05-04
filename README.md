@@ -78,9 +78,6 @@ lu5 file.lua
 
 --- 
 
-<br/>
-
-### Command utilities
 
 
 <br>
@@ -89,5 +86,6 @@ lu5 file.lua
 
 ![lu5 preview circle](./docs/assets/lu5_preview_2.png)
 ![lu5 preview instances](./docs/assets/lu5_preview.png)
+![lu5 preview instances](./docs/assets/text_demo.png)
 
 <br>
