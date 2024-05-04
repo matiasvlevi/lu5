@@ -11,13 +11,15 @@ ifeq ($(PLATFORM), win)
 	CC := x86_64-w64-mingw32-gcc
 	BIN = $(BINDIR)/win64/$(APP_NAME).exe
 	OBJDIR = $(BINDIR)/win64/obj
-	CFLAGS = -Wall -I/usr/x86_64-w64-mingw32/include -L/usr/x86_64-w64-mingw32/lib 
+	CFLAGS = -Wall -I/usr/x86_64-w64-mingw32/include -L/usr/x86_64-w64-mingw32/lib $(shell pkg-config --cflags freetype2)
 	LDFLAGS := -L/usr/x86_64-w64-mingw32\
+				$(shell pkg-config --static --libs freetype2)\
 				-lglfw3\
 				-lopengl32\
 				-lgdi32\
 				-llua\
-				-lm 
+				-lm\
+				-lstdc++ 
 else
 	CC := gcc
 	BIN = $(BINDIR)/linux/$(APP_NAME)
