@@ -13,6 +13,10 @@
 #include "lu5_color.h"
 #include "lu5_logger.h"
 
+#ifndef GL_CLAMP_TO_EDGE
+#define GL_CLAMP_TO_EDGE 0x812F
+#endif
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 

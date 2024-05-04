@@ -95,7 +95,10 @@ int createWindow(lua_State *L) {
 
     glEnable(GL_LINE_SMOOTH);
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
+    #ifndef _WIN32
     glEnable(GL_MULTISAMPLE);  
+    #endif
     glHint(GL_POLYGON_SMOOTH_HINT, GL_FASTEST); 
     glEnable(GL_POLYGON_SMOOTH);
 
