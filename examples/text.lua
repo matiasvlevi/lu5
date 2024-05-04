@@ -3,9 +3,9 @@ function setup()
     createWindow(600, 600); 
 
     -- Replace these with your font paths
-    font_arial = loadFont("/usr/share/fonts/TTF/Arial.TTF");
-    font_times = loadFont("/usr/share/fonts/TTF/Times.TTF");
-    font_georgia = loadFont("/usr/share/fonts/TTF/Georgia.TTF");
+    font_arial = loadFont("./examples/fonts/Arial.ttf");
+    font_times = loadFont("./examples/fonts/Times.ttf");
+    font_hack = loadFont("./examples/fonts/Hack.ttf");
 end
 
 function draw()
@@ -29,11 +29,11 @@ function draw()
     textSize(22);
     text('And this is some smaller text', 30, 70);
 
-    textFont(font_georgia);
+    textFont(font_hack);
     fill(255, 40, 190);
 
     textSize(32);
-    text('This is Georgia', 30, 100);
+    text('This is the Hack font', 30, 100);
 
     textSize(22);
     text('Same as above but smaller', 30, 120);
