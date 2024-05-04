@@ -4,7 +4,7 @@
 #include <lua.h>
 
 /**
- * Check if a keyboard key is pressed, returns true if key is down and returns false if it's not
+ * Check if a keyboard key is pressed, returns `true` if key is down and returns `false` if it's not
  * 
  * @param k The keyboard key to check
  *

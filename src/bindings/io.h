@@ -4,7 +4,7 @@
 #include <lua.h>
 
 /**
- * Printing utility, can take any lua type, and any number of arguments.
+ * Printing utility, can take any lua type (except objects).
  *
  * @param value The value to print to stdout
  */ 
