@@ -58,7 +58,7 @@ Windows builds are done in an [MSYS2](https://www.msys2.org/) environement with 
 Install dependencies
 
 ```
-pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-lua mingw-w64-x86_64-glfw
+pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-lua mingw-w64-x86_64-glfw mingw-w64-x86_64-freetype2
 ```
 
 build
