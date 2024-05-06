@@ -89,3 +89,11 @@ lu5 file.lua
 ![lu5 preview instances](./docs/assets/text_demo.png)
 
 <br>
+
+---
+
+### Contributions
+
+Contributions to expand the lu5 api are welcomed.
+
+Read the [contribution docs](./CONTRIBUTING.md)
