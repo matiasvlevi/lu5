@@ -33,7 +33,7 @@ end
 
 # Build
 
-You can download a built executable for lu5 [here](https://github.com/matiasvlevi/lu5/releases), or you can build it yourself assuming you have the right dependencies installed (glfw, lua)
+You can download a built executable for lu5 [here](https://github.com/matiasvlevi/lu5/releases), or you can build it yourself assuming you have the right dependencies installed (opengl, glfw, lua, freetype2)
 
 ### GNU/Linux
 
