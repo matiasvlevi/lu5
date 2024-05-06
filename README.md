@@ -15,6 +15,8 @@ Provides a similar experience to <a href="https://p5js.org">p5.js</a> with openg
 
 This sketch draws a circle at position `300, 300`.
 
+See [API Documentation](https://matiasvlevi.github.io/lu5/) for more
+
 ```lua
 function setup()
     createWindow(600, 600);
