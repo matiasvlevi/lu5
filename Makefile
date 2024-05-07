@@ -1,7 +1,7 @@
 PLATFORM ?= gnu
 
 APP_NAME = lu5
-VERSION = 0.0.2
+VERSION = 0.0.3
 
 SRCDIR = src
 BINDIR = bin
