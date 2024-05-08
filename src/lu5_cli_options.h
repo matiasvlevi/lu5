@@ -6,11 +6,11 @@
 #define LU5_OPTION_COUNT 3
 
 typedef struct {
-    const char *name;
-    const char *description;
-    const char *example;
-    int arg_count;
-    int (*handler)(int, char**, int, int, bool*, char**);
+	const char *name;
+	const char *description;
+	const char *example;
+	int arg_count;
+	int (*handler)(int, char**, int, int, bool*, char**);
 } lu5_option;
 
 extern lu5_option cli_options[LU5_OPTION_COUNT];

@@ -6,10 +6,10 @@
 #include "./lu5_state.h"
 
 typedef enum {
-    LOADFONT_NONE=0,
-    LOADFONT_MAX,
-    LOADFONT_UNKNOWN_FORMAT,
-    LOADFONT_UNKNOWN
+	LOADFONT_NONE=0,
+	LOADFONT_MAX,
+	LOADFONT_UNKNOWN_FORMAT,
+	LOADFONT_UNKNOWN
 } lu5_loadfont_err;
 
 

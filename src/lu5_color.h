@@ -7,11 +7,11 @@
 #define LU5_APPLY_COLOR_IF_DIFFERENT(c1, c2)\
 	if (c1.hexadecimal != c2.hexadecimal) {\
 		glColor4ub(\
-            c1.r,\
-            c1.g,\
-            c1.b,\
-            c1.a\
-        );\
+			c1.r,\
+			c1.g,\
+			c1.b,\
+			c1.a\
+		);\
 	}
 
 #define LU5_RGBA(sr,sg,sb,sa) (lu5_color){ .r=sr, .g=sg, .b=sb, .a=sa }
@@ -35,8 +35,8 @@ typedef union
 } lu5_color;
 
 typedef struct {
-    const char *name;
-    lu5_color color;
+	const char *name;
+	lu5_color color;
 } lu5_labeled_color;
 
 
