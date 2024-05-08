@@ -35,7 +35,7 @@ end
 
 You can download a built executable for lu5 [here](https://github.com/matiasvlevi/lu5/releases), or you can build it yourself assuming you have the right dependencies installed (opengl, glfw, lua, freetype2).
 
-> If you encounter any problems with your build or runtime, it is encouraged to submit an issue and steps to reproduce.
+> If you encounter any problems with your build or runtime, it is encouraged to submit an [issue](https://github.com/matiasvlevi/lu5/issues) and steps to reproduce.
 
 ### GNU/Linux
 
