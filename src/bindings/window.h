@@ -4,10 +4,12 @@
 #include <lua.h>
 
 /**
- * Create a GLFW window
+ * Create a GLFW window.
  *
  * @param w Window width
  * @param h Window height
+ *
+ * It is also possible to create a window in the global scope without defining a setup function.
  *
  * @example
  * function setup()

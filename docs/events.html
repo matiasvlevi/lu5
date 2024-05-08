@@ -32,8 +32,55 @@
 			</header>
 
 			
-<div class="method" id="isKeyDown"><code>isKeyDown(k);</code><p>Check if a keyboard key is pressed, returns <code class="inline">true</code> if key is down and returns <code class="inline">false</code> if it's not</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">k</code><span class="text desc">The keyboard key to check
+<div class="method" id="isKeyDown"><div><code>isKeyDown(k);</code></div><p>Check if a keyboard key is pressed, returns <code class="inline">true</code> if key is down and returns <code class="inline">false</code> if it's not</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">k</code><span class="text desc">The keyboard key to check
 </span></div></div><h4>Returns</h4><div class="param"><code class="name">boolean</code><span class="text desc">Whether or not the key is down</span></div><p></p><br/></div>
+<div class="method" id="mousePressed"><div><code>mousePressed(button);</code><span class="decorator">Event</span></div><p>Called when a mouse button is pressed.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">button</code><span class="text desc">The pressed mouse button
+</span></div></div><p><br/>
+In the following example, the circle's size increases when the user clicks the mouse.</p><pre><code class="language-lua"> size = 0;
+
+ function setup()
+   createWindow(400, 400);
+ end
+
+ function draw()
+   background(51);
+
+   circle(mouseX, mouseY, size);
+ end
+
+ -- Increase circle size when mouse pressed
+ function mousePressed()
+   size = size + 1;
+ end</code></pre><br/></div>
+<div class="method" id="mouseReleased"><div><code>mouseReleased(button);</code><span class="decorator">Event</span></div><p>Called when a mouse button is released.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">button</code><span class="text desc">The released mouse button
+</span></div></div><p><br/>
+In the following example, the circle's size increases when the user clicks the mouse.</p><pre><code class="language-lua"> size = 32;
+
+ function setup()
+   createWindow(400, 400);
+ end
+
+ function draw()
+   background(51);
+
+   circle(mouseX, mouseY, size);
+ end
+
+ -- Set larger circle size
+ function mousePressed()
+   size = 64;
+ end
+
+ -- Reset size
+ function mouseReleased()
+   size = 32;
+ end</code></pre><br/></div>
+<div class="method" id="keyPressed"><div><code>keyPressed(key);</code><span class="decorator">Event</span></div><p>Called whenever a key is pressed.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">key</code><span class="text desc">The pressed key
+</span></div></div><p></p><br/></div>
+<div class="method" id="keyReleased"><div><code>keyReleased(key);</code><span class="decorator">Event</span></div><p>Called whenever a key is released.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">key</code><span class="text desc">The released key
+</span></div></div><p></p><br/></div>
+<div class="method" id="keyHeld"><div><code>keyHeld(key);</code><span class="decorator">Event</span></div><p>Called whenever a key is held down.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">key</code><span class="text desc">The held key
+</span></div></div><p></p><br/></div>
 		</main>
   </body>
 </html>
