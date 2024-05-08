@@ -9,8 +9,6 @@
  * @param w Window width
  * @param h Window height
  *
- * If no window was created and a setup function was defined, a warning is thrown
- *
  * @example
  * function setup()
  *   -- Create the window here
