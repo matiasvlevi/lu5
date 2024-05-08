@@ -109,7 +109,7 @@ local function Method(method)
 
     return 
         "<div class=\"method\" id=\"".. method.name .. "\">" ..
-            '<div>'..
+            '<div class="methodDeclaration">'..
                 "<code>" .. get_declaration(method) .. "</code>" ..
                 decorator..
             '</div>'..

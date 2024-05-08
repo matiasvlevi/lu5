@@ -32,26 +32,26 @@
 			</header>
 
 			
-<div class="method" id="fill"><div><code>fill(r, g, b, [a]);</code></div><p>Set the fill color for shapes</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">r</code><span class="text desc">The red byte
+<div class="method" id="fill"><div class="methodDeclaration"><code>fill(r, g, b, [a]);</code></div><p>Set the fill color for shapes</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">r</code><span class="text desc">The red byte
 </span></div><div class="param"><code class="name">g</code><span class="text desc">The green byte
 </span></div><div class="param"><code class="name">b</code><span class="text desc">The blue byte
 </span></div><div class="param"><code class="name">[a]</code><span class="text desc">The alpha byte
 </span></div></div><p>Can also accept a hexadecimal or color name as string</p><pre><code class="language-lua"> fill(255, 150, 40);
  square(200, 200, 64);</code></pre><br/></div>
-<div class="method" id="strokeWeight"><div><code>strokeWeight(weight);</code></div><p></p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">weight</code><span class="text desc">The line width in pixels
+<div class="method" id="strokeWeight"><div class="methodDeclaration"><code>strokeWeight(weight);</code></div><p></p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">weight</code><span class="text desc">The line width in pixels
 </span></div></div><p></p><pre><code class="language-lua"> strokeWeight(8);
  line(200, 200, mouseX, mouseY);</code></pre><br/></div>
-<div class="method" id="noFill"><div><code>noFill();</code></div><p>Disable fill</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
-<div class="method" id="stroke"><div><code>stroke(r, g, b, a);</code></div><p>Set the stroke color for shapes</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">r</code><span class="text desc">The red byte
+<div class="method" id="noFill"><div class="methodDeclaration"><code>noFill();</code></div><p>Disable fill</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
+<div class="method" id="stroke"><div class="methodDeclaration"><code>stroke(r, g, b, a);</code></div><p>Set the stroke color for shapes</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">r</code><span class="text desc">The red byte
 </span></div><div class="param"><code class="name">g</code><span class="text desc">The green byte
 </span></div><div class="param"><code class="name">b</code><span class="text desc">The blue byte
 </span></div><div class="param"><code class="name">a</code><span class="text desc">The alpha byte
 </span></div></div><p>Only implemented for <code class="inline">line</code> and <code class="inline">circle</code></p><br/></div>
-<div class="method" id="noStroke"><div><code>noStroke();</code></div><p>Only implemented for <code class="inline">line</code> and <code class="inline">circle</code>
+<div class="method" id="noStroke"><div class="methodDeclaration"><code>noStroke();</code></div><p>Only implemented for <code class="inline">line</code> and <code class="inline">circle</code>
 Disable stroke</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
-<div class="method" id="textSize"><div><code>textSize(size);</code></div><p>Set the font size</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">size</code><span class="text desc">The size of the font in pixels
+<div class="method" id="textSize"><div class="methodDeclaration"><code>textSize(size);</code></div><p>Set the font size</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">size</code><span class="text desc">The size of the font in pixels
 </span></div></div><p>If this is called using fonts, make sure to call <code class="inline">textSize</code> after calling <code class="inline">textFont</code></p><br/></div>
-<div class="method" id="textFont"><div><code>textFont(font);</code></div><p>Set the font family</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">font</code><span class="text desc">The font value returned when using loadFont
+<div class="method" id="textFont"><div class="methodDeclaration"><code>textFont(font);</code></div><p>Set the font family</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">font</code><span class="text desc">The font value returned when using loadFont
 </span></div></div><p></p><pre><code class="language-lua"> function setup()
    createWindow(600, 600);
 

@@ -32,25 +32,25 @@
 			</header>
 
 			
-<div class="method" id="circle"><div><code>circle(x, y, d);</code></div><p>Draw a circle to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The x position of the circle's center 
+<div class="method" id="circle"><div class="methodDeclaration"><code>circle(x, y, d);</code></div><p>Draw a circle to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The x position of the circle's center 
 </span></div><div class="param"><code class="name">y</code><span class="text desc">The y position of the circle's center
 </span></div><div class="param"><code class="name">d</code><span class="text desc">The diameter of the circle
 </span></div></div><p></p><br/></div>
-<div class="method" id="rect"><div><code>rect(x, y, w, h);</code></div><p>Draw a rectangle to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The x position of the reactangle's top left corner
+<div class="method" id="rect"><div class="methodDeclaration"><code>rect(x, y, w, h);</code></div><p>Draw a rectangle to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The x position of the reactangle's top left corner
 </span></div><div class="param"><code class="name">y</code><span class="text desc">The y position of the reactangle's top left corner
 </span></div><div class="param"><code class="name">w</code><span class="text desc">The width
 </span></div><div class="param"><code class="name">h</code><span class="text desc">The height
 </span></div></div><p></p><br/></div>
-<div class="method" id="square"><div><code>square(x, y, s);</code></div><p>Draw a square to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The x position of the square's top left corner
+<div class="method" id="square"><div class="methodDeclaration"><code>square(x, y, s);</code></div><p>Draw a square to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The x position of the square's top left corner
 </span></div><div class="param"><code class="name">y</code><span class="text desc">The y position of the square's top left corner
 </span></div><div class="param"><code class="name">s</code><span class="text desc">The size of the square's sides
 </span></div></div><p></p><br/></div>
-<div class="method" id="line"><div><code>line(x1, y1, x2, y2);</code></div><p>Draw a line to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x1</code><span class="text desc">The x position of the first point
+<div class="method" id="line"><div class="methodDeclaration"><code>line(x1, y1, x2, y2);</code></div><p>Draw a line to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x1</code><span class="text desc">The x position of the first point
 </span></div><div class="param"><code class="name">y1</code><span class="text desc">The y position of the first point
 </span></div><div class="param"><code class="name">x2</code><span class="text desc">The x position of the second point
 </span></div><div class="param"><code class="name">y2</code><span class="text desc">The y position of the second point
 </span></div></div><p></p><br/></div>
-<div class="method" id="quad"><div><code>quad(x1, y1, x2, y2, x3, y3, x4, y4);</code></div><p>Draw a quad on the screen</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x1</code><span class="text desc">The x position of the first point
+<div class="method" id="quad"><div class="methodDeclaration"><code>quad(x1, y1, x2, y2, x3, y3, x4, y4);</code></div><p>Draw a quad on the screen</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x1</code><span class="text desc">The x position of the first point
 </span></div><div class="param"><code class="name">y1</code><span class="text desc">The y position of the first point
 </span></div><div class="param"><code class="name">x2</code><span class="text desc">The x position of the second point
 </span></div><div class="param"><code class="name">y2</code><span class="text desc">The y position of the second point
@@ -59,16 +59,16 @@
 </span></div><div class="param"><code class="name">x4</code><span class="text desc">The x position of the fourth point
 </span></div><div class="param"><code class="name">y4</code><span class="text desc">The y position of the fourth point
 </span></div></div><p></p><br/></div>
-<div class="method" id="text"><div><code>text(str, x, y);</code></div><p>Draw text on the screen</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">str</code><span class="text desc">String to render
+<div class="method" id="text"><div class="methodDeclaration"><code>text(str, x, y);</code></div><p>Draw text on the screen</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">str</code><span class="text desc">String to render
 </span></div><div class="param"><code class="name">x</code><span class="text desc">The x position of the start of the text
 </span></div><div class="param"><code class="name">y</code><span class="text desc">The y position of the top of the text
 </span></div></div><p>Fonts are not yet implemented</p><pre><code class="language-lua"> fill(150, 50, 255);
  text('Hello lu5!', 40, 60);</code></pre><br/></div>
-<div class="method" id="point"><div><code>point();</code></div><p>Draw a point on the screen</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
-<div class="method" id="arc"><div><code>arc();</code></div><p>Draw an arc on the screen</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
-<div class="method" id="ellipse"><div><code>ellipse();</code></div><p> 
+<div class="method" id="point"><div class="methodDeclaration"><code>point();</code></div><p>Draw a point on the screen</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
+<div class="method" id="arc"><div class="methodDeclaration"><code>arc();</code></div><p>Draw an arc on the screen</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
+<div class="method" id="ellipse"><div class="methodDeclaration"><code>ellipse();</code></div><p> 
 Draw an ellipse on the screen</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
-<div class="method" id="triangle"><div><code>triangle();</code></div><p>Draw a triangle on the screen</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
+<div class="method" id="triangle"><div class="methodDeclaration"><code>triangle();</code></div><p>Draw a triangle on the screen</p><h4>Arguments</h4><div class="params"></div><p></p><br/></div>
 		</main>
   </body>
 </html>
