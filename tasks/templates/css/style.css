@@ -224,7 +224,7 @@ pre code.hljs {
 	max-width: 87.5%;
 }
 
-.method > div > code {
+.method > div.methodDeclaration > code {
 	font-size: 16pt;
 }
 
