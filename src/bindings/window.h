@@ -35,4 +35,30 @@ int createWindow(lua_State *L);
  */ 
 int background(lua_State *L);
 
+/**
+ * Set the frame rate 
+ *
+ * @param fps The frame rate to set
+ *
+ * If frame rate is called without an argument, it will return frame per seconds 
+ *
+ * @example
+ * x = 0;
+ *
+ * function setup()
+ *   createWindow(400, 400);
+ *   frameRate(24);
+ * end
+ *
+ * function draw()
+ *   background(51);
+ *   text('fps: ' .. frameRate(), 20, 10);
+ *
+ *   circle(x, 200, 32);
+ *   x = x + 1;
+ * end
+ * @example
+ */
+int frameRate(lua_State *L);
+
 #endif

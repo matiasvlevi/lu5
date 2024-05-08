@@ -10,36 +10,39 @@
 
 #include "lu5_defs.h"
 
-void lu5_update_dynamic_variables(lua_State *L, GLFWwindow *window) { 
+void lu5_update_dynamic_variables(lu5_State *l5, GLFWwindow *window) {
+	
+
 	double mouseX, mouseY;
 	glfwGetCursorPos(window, &mouseX, &mouseY);
+	LUA_ADD_NUMBER_GLOBAL(l5->L, mouseX);
+	LUA_ADD_NUMBER_GLOBAL(l5->L, mouseY);
 
 	int mouseIsPressed = glfwGetMouseButton(window, 0);
+	LUA_ADD_BOOL_GLOBAL(l5->L, mouseIsPressed);
 
-	LUA_ADD_CONST_NUMBER_GLOBAL(L, mouseX);
-	LUA_ADD_CONST_NUMBER_GLOBAL(L, mouseY);
-
-	LUA_ADD_CONST_BOOL_GLOBAL(L, mouseIsPressed);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, "deltaTime", l5->env.delta_time);
 }
 
 static void lu5_register_constants(lua_State *L) 
 {
-	LUA_ADD_NUMBER_GLOBAL(L, "LEFT_ARROW",  263);
-	LUA_ADD_NUMBER_GLOBAL(L, "RIGHT_ARROW", 262);
-	LUA_ADD_NUMBER_GLOBAL(L, "UP_ARROW",    265);
-	LUA_ADD_NUMBER_GLOBAL(L, "DOWN_ARROW",  264);
-	LUA_ADD_NUMBER_GLOBAL(L, "ENTER",       257);
-	LUA_ADD_NUMBER_GLOBAL(L, "BACKSPACE",   259);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "LEFT_ARROW",  263);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "RIGHT_ARROW", 262);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "UP_ARROW",    265);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "DOWN_ARROW",  264);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "ENTER",       257);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "BACKSPACE",   259);
 }
 
 void lu5_register_symbols(lua_State *L) 
 {
-	LUA_ADD_STRING_GLOBAL(L, "VERSION", LU5_VERSION);
+	LUA_ADD_STRING_GLOBAL_BY_NAME(L, "VERSION", LU5_VERSION);
 
 	LUA_ADD_FUNCTION(L, print);
 
 	LUA_ADD_FUNCTION(L, createWindow);
 	LUA_ADD_FUNCTION(L, background);
+	LUA_ADD_FUNCTION(L, frameRate);
 
 	LUA_ADD_FUNCTION(L, isKeyDown);
 

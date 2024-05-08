@@ -1,6 +1,6 @@
 
 acc = 1;
-ball_count = 50;
+ball_count = 1024;
 
 Ball = {}
 Ball.__index = Ball
@@ -68,7 +68,7 @@ end
 balls = {}
 
 function setup() 
-    createWindow(1920, 1080); 
+    createWindow(1280, 720); 
 
     for i=1, ball_count do
       balls[i] = Ball.new(
@@ -76,6 +76,8 @@ function setup()
             math.random(50, height-50)
         );
     end
+
+    frameRate(60);
 end
 
 function draw()
@@ -86,4 +88,8 @@ function draw()
         ball:control();
         ball:move();
     end
+
+    textSize(18);
+    fill(0, 255, 100);
+    text(round(frameRate()) .. ' fps', 30, 10);
 end

@@ -47,6 +47,21 @@
 </span></div><div class="param"><code class="name">b</code><span class="text desc">The blue byte
 </span></div><div class="param"><code class="name">a</code><span class="text desc">The alpha byte
 </span></div></div><p></p><br/></div>
+<div class="method" id="frameRate"><div class="methodDeclaration"><code>frameRate(fps);</code></div><p>Set the frame rate </p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">fps</code><span class="text desc">The frame rate to set
+</span></div></div><p>If frame rate is called without an argument, it will return frame per seconds </p><pre><code class="language-lua"> x = 0;
+
+ function setup()
+   createWindow(400, 400);
+   frameRate(24);
+ end
+
+ function draw()
+   background(51);
+   text('fps: ' .. frameRate(), 20, 10);
+
+   circle(x, 200, 32);
+   x = x + 1;
+ end</code></pre><br/></div>
 		</main>
   </body>
 </html>

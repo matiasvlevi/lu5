@@ -27,35 +27,43 @@ typedef struct {
 } lu5_font;
 
 typedef struct {
-    struct {
-       struct {
-            int actions[MAX_MOUSE_BUTTONS];
-       } mouse;
+	struct {
+		struct {
+			int actions[MAX_MOUSE_BUTTONS];
+		} mouse;
 
-       struct {
-            int current_keys[MAX_KEYBOARD_KEYS];
+		struct {
+			int current_keys[MAX_KEYBOARD_KEYS];
 
-            int keypress_queue_count;
-            int keypress_queue[MAX_KEY_PRESSED_QUEUE];
-       } keyboard;
+			int keypress_queue_count;
+			int keypress_queue[MAX_KEY_PRESSED_QUEUE];
+		} keyboard;
 
-    } input;
+	} input;
 
-    struct {
-        lu5_color fill;
-        lu5_color stroke;
-        double strokeWeight;
-        double fontSize;
-        int fontId;
-    } style;
+	struct {
+		lu5_color fill;
+		lu5_color stroke;
+		double strokeWeight;
+		double fontSize;
+		int fontId;
+	} style;
 
-    lu5_log_level log_level; 
+	struct {
+		double now_time;
+		double last_time;
+		double last_frame_time;
+		double delta_time;
+		int target_framerate;
+	} env;
 
-    FT_Library ft;
+	lu5_log_level log_level; 
+
+	FT_Library ft;
 	lu5_font *fonts[MAX_LOADED_FONTS];
 	int font_count;
 
-    lua_State *L;
+	lua_State *L;
 
 } lu5_State;
 

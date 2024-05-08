@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <lauxlib.h>
 
+#include <math.h>
+
 static GLFWwindow *lu5_init_glfw(
 	lua_State *L,
 	int screenWidth,
@@ -51,10 +53,16 @@ static GLFWwindow *lu5_init_glfw(
 
 int createWindow(lua_State *L) {
 	
+	if (lua_gettop(L) != 2) {
+		luaL_error(L, "expected 2 arguments");
+		return 0;
+	}
+
 	int screenWidth = lua_tointeger(L, 1);
 	int screenHeight = lua_tointeger(L, 2);
-	LUA_ADD_NUMBER_GLOBAL(L, "width", screenWidth);
-	LUA_ADD_NUMBER_GLOBAL(L, "height", screenHeight); 
+
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "width", screenWidth);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "height", screenHeight); 
 
 	lua_getglobal(L, "sketch");
 	const char *sketch_path = luaL_checkstring(L, -1);
@@ -76,6 +84,10 @@ int createWindow(lua_State *L) {
 		return 0;
 	}
 
+	// Window title was copied in the window
+	free(window_title);
+
+	// Set window
 	lua_pushlightuserdata(L, window);
 	lua_setglobal(L, "window");
 
@@ -96,9 +108,6 @@ int createWindow(lua_State *L) {
 	glEnable(GL_LINE_SMOOTH);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
-	#ifndef _WIN32
-	glEnable(GL_MULTISAMPLE);  
-	#endif
 	glHint(GL_POLYGON_SMOOTH_HINT, GL_FASTEST); 
 	glEnable(GL_POLYGON_SMOOTH);
 
@@ -107,10 +116,17 @@ int createWindow(lua_State *L) {
 
 	// TODO: Have a built in static font instead of a TTF.
 	// this macro comes from the compiler flags, 
-	// please define your default font path if you wan to use `text` without using `loadFont`
+	// if you wan to use `text` without using `loadFont`, please define your default font path 
 	lu5_load_font(&lu5, LU5_DEFAULT_FONT_PATH, NULL);
+	FT_Set_Char_Size(
+		lu5.fonts[0]->face,
+		0,
+		lu5.style.fontSize * 64,
+		0,
+		0
+	);
 
-	free(window_title);
+
 	return 0;
 }
 
@@ -127,4 +143,24 @@ int background(lua_State *L) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	return 0;
+}
+
+int frameRate(lua_State *L) {
+	
+	int fps = lua_tonumber(L, 1);
+
+	if (lua_gettop(L) > 0 && fps >= 0) {
+		lu5.env.target_framerate = fps;
+		return 0;
+	} else {
+		
+		if (lu5.env.target_framerate == -1) 
+			// For free frame rates
+			lua_pushnumber(L, roundf(1000.0 / (lu5.env.delta_time))/1000.0);
+		else
+			// For fixed frame rates
+			lua_pushnumber(L, roundf(1000.0 / (lu5.env.now_time - lu5.env.last_frame_time))/1000.0);
+
+		return 1;
+	}
 }

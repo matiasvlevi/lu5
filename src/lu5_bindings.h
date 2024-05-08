@@ -3,14 +3,14 @@
 
 #include <lua.h>
 #include <GLFW/glfw3.h>
-
+#include "lu5_state.h"
 /**
  * Updates global variables mouseX, mouseY, mouseIsPressed
  * 
  * @param L 
  * @param window 
  */
-void lu5_update_dynamic_variables(lua_State *L, GLFWwindow *window);
+void lu5_update_dynamic_variables(lu5_State *l5, GLFWwindow *window);
 
 /**
  * Registers all of the binding symbols into the lua state
