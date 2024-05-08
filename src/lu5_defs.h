@@ -3,8 +3,6 @@
 
 #include "lu5_logger.h"
 
-#define LU5_VERSION "v0.0.3"
-
 #define LUA_ADD_CONST_BOOL_GLOBAL(l, name)          lua_pushboolean(l, name); lua_setglobal(l, #name)
 
 #define LUA_ADD_CONST_STRING_GLOBAL(l, name)        lua_pushstring(l, name); lua_setglobal(l, #name)

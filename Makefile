@@ -8,6 +8,8 @@ BINDIR = bin
 
 DOC_BUILD_SCRIPT = build_docs.lua
 
+MACROS=-D'LU5_VERSION="$(VERSION)"'
+
 ifeq ($(PLATFORM), win)
 	CC := x86_64-w64-mingw32-gcc
 	BIN = $(BINDIR)/win64/$(APP_NAME).exe
@@ -50,21 +52,21 @@ all: $(BIN)
 
 $(OBJDIR)/%.o: src/%.c 
 	@mkdir -p $(dir $@)
-	$(CC) -static -MMD -c $< -o $@ $(CFLAGS)
+	$(CC) -static -MMD  $(MACROS) -c $< -o $@ $(CFLAGS)
 
 $(BIN): $(OBJECTS)
 	@mkdir -p $(dir $@)
 ifeq ($(PLATFORM), win)
-	$(CC) -static -o $@ $^ $(LDFLAGS)
+	$(CC) -static -o $@ $^ $(LDFLAGS) 
 else
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) 
 endif
 
 
 .PHONY: all clean install docs zip
 
 run: $(BIN)
-	$(BIN)
+	$(BIN) ./test.lua
 
 docs: $(BIN)
 	$(BIN) ./tasks/$(DOC_BUILD_SCRIPT)
