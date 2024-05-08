@@ -45,19 +45,15 @@ int main(int argc, char **argv) {
         goto cleanup;
     }
 
-    // Get the setup function
+    // Get the setup function, if found, run it
     lua_getglobal(lu5.L, "setup");
     if (lua_isfunction(lu5.L, -1)) {
 
         // Call the setup function
         LUA_PCALL_VERBOSE(lu5.L, "setup", 0, 0, 0, 1)
-    
-    } else {
-        // No setup function found, abort
-        goto cleanup;
-    }
+    } // else ignore;
 
-    // If no draw function found, abort
+    // Get the draw function, if not found, exit
     lua_getglobal(lu5.L, "draw");
     if (!lua_isfunction(lu5.L, -1)) {
         goto cleanup;
@@ -67,9 +63,10 @@ int main(int argc, char **argv) {
     lua_getglobal(lu5.L, "window");
     if (!lua_isuserdata(lu5.L, -1)) {
         LU5_WARN(LU5_NO_WINDOW);
-        goto cleanup; 
+        goto cleanup;
     }
 
+    // Window global was defined 
     // Get the GLFWwindow created from lua 
     GLFWwindow* window = (GLFWwindow*)lua_touserdata(lu5.L, -1);  
     if (!window) {
@@ -97,13 +94,12 @@ int main(int argc, char **argv) {
     LU5_INFO(LU5_EXIT_APP);
 
 cleanup:
-
-    lu5_close_fonts(&lu5);
+    
     glfwTerminate();
 
-    // Close lua
-    lua_close(lu5.L);
+    lu5_close_fonts(&lu5);
 
+    lua_close(lu5.L);
 
     return 0;
 }
