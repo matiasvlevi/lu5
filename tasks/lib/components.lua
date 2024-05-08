@@ -88,10 +88,10 @@ local function Method(method)
     end
 
     local returnContent = '';
-    if (method['return'] ~= nil) then
+    if (method['_return'] ~= nil) then
         returnContent = "<h4>Returns</h4><div class=\"param\">"                      ..
-            "<code class=\"name\">" .. method['return'].var .. "</code>" ..
-            "<span class=\"text desc\">" .. method['return'].description .. "</span>" ..
+            "<code class=\"name\">" .. method['_return'].var .. "</code>" ..
+            "<span class=\"text desc\">" .. method['_return'].description .. "</span>" ..
         "</div>"                                                     ;
     end
 
@@ -102,10 +102,17 @@ local function Method(method)
         "</code></pre>";
     end
 
+    local decorator = '';
+    if (method['is_event']) then
+        decorator = '<span class="decorator">Event</span>';
+    end
+
     return 
         "<div class=\"method\" id=\"".. method.name .. "\">" ..
-
-            "<code>" .. get_declaration(method) .. "</code>" ..
+            '<div>'..
+                "<code>" .. get_declaration(method) .. "</code>" ..
+                decorator..
+            '</div>'..
             "<p>"    .. method.description .. "</p>"         ..
             "<h4>Arguments</h4>"                             ..
             "<div class=\"params\">"                         .. 

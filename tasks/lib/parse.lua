@@ -88,9 +88,17 @@ function parse_description(comment)
 	local result = {};
 	for i=1, #lines do
 		-- filter only text
-        local tagmatch = string.match(lines[i], "%@");
+        local tagmatch = string.match(lines[i], "%@%w+");
         if (tagmatch ~= nil) then
-            break;
+            -- Allow brief
+            if (string.match(tagmatch, '%@brief') ~= nil) then
+                -- Skip line
+                i = i + 1;
+            else 
+                -- End of description
+                break;
+            end
+            
         end
 
 		local m = string.match(lines[i], "%s%*%s.+");
@@ -139,7 +147,7 @@ end
 
 function parse_return(comment)
 	local lines = split(comment, '\n');
-	local result = {};
+
 	for i=1, #lines do
 		-- filter only text
         local m = string.match(comment, "@return%s[%w ,.?!]+");
@@ -149,6 +157,10 @@ function parse_return(comment)
             table.remove(ws, 1);
             table.remove(ws, 1);
 
+			-- TReturn
+			-- var: string
+			-- description: string
+			--
             return {
                 var=var,
                 description=join(ws, ' ')
@@ -156,7 +168,7 @@ function parse_return(comment)
         end
 	end
 
-	return result[0];
+	return nil;
 end
 
 function parse_example(comment)
@@ -189,51 +201,57 @@ function parse_example(comment)
 	return join(result, '\n');
 end
 
-function parse_comment(comment)
+function parse_comment(comment, name, is_event)    
+    return {
+		name              =name,
+		is_event          =is_event,
+		description       =parse_description(comment),
+		example           =parse_example(comment),
+		bottom_description=parse_bottom_description(comment),
+		params            =parse_params(comment),
+		_return           =parse_return(comment)
+	};
+end
+
+function parse_params(comment)
+	local params = {};
 
     local matches = string.gmatch(comment, "@param .- .-%\n");
-
-    -- method
-    --  name: string
-    --  declaration: string
-    --  params: param[]
-    local method = {};
-
-    local lines = split(comment, '\n');
-
-    local dec = string.match(lines[#lines], 'int .-%(.*%)') .. ';';
-
-    dec = dec:gsub('lu5_', '');
-
-    method['name']        = split(split(dec, ' ')[2], '(')[1];
-    method['declaration'] = dec;
-    method['description'] = parse_description(comment); 
-    method['bottom_description'] = parse_bottom_description(comment); 
-    method['params']      = {};
-    method['return']      = parse_return(comment);
-    method['example']     = parse_example(comment);
-    
-    -- get params
     local index = 1;
     for match in matches do
         
-        method['params'][index] = parse_param(match);
+        params[index] = parse_param(match);
 
         index = index + 1;
     end
 
-
-    return method;
+	return params;
 end
 
 function parse_header(source)
-    local matches = string.gmatch(source, "%/%*%*.-%*%/%s-%\nint .-%(.-%)");
+    local function_comments = string.gmatch(source, "%/%*%*.-%*%/%s-%\nint .-%(.-%)");
+    local callback_comments = string.gmatch(source, "%/%*%*%\n%s%*%s%@brief.-%*%/");
     -- methods: method[]
     local methods = {};
 
     local index = 1;
-    for match in matches do
-        methods[index] = parse_comment(match);
+    for comment in function_comments do
+
+        -- Get declaration and name
+        local lines = split(comment, '\n');
+
+        -- TODO: Add error handling for nil values to enhance DX
+        local dec = string.match(lines[#lines], 'int .-%(.*%)'):gsub('lu5_', '') .. ';';
+        local name = split(split(dec, ' ')[2], '(')[1];
+
+        methods[index] = parse_comment(comment, name, false);
+        index = index + 1;
+    end
+
+    for comment in callback_comments do
+        -- TODO: Add error handling for nil values to enhance DX
+        local name = split(string.match(comment, '@brief.-%\n'), ' ')[2]:sub(1, -2);
+        methods[index] = parse_comment(comment, name, true);
         index = index + 1;
     end
 

@@ -50,8 +50,20 @@ body {
 	height: fit-content;
 }
 
-a, p, span.text, h1, h2, h3, h4, h5, h6  {
+a, p, span.text, span.decorator, h1, h2, h3, h4, h5, h6  {
 	font-family: "Trebuchet MS", Tahoma, sans-serif;
+}
+
+.decorator {
+	font-size: 18pt;
+	border-radius: 6px;
+	color: var(--white);
+	font-weight: bold;
+	background-color: var(--primary);
+
+	margin: 0 2.5rem;
+	padding: 0.2em 0.4em;
+
 }
 
 ul {
@@ -212,7 +224,7 @@ pre code.hljs {
 	max-width: 87.5%;
 }
 
-.method > code {
+.method > div > code {
 	font-size: 16pt;
 }
 

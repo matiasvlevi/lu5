@@ -5,20 +5,6 @@
 
 #include <stdio.h>
 
-/**
- * @brief mousePressed
- * 
- * Called when a mouse button is pressed.
- * The mouse button is passed as the first argument
- */
-
-/**
- * @brief mouseReleased
- * 
- * Called when a mouse button is released.
- * The mouse button is passed as the first argument
- */
-
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) 
 {
     if (!lu5.L) return;
@@ -39,29 +25,6 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
         }
     }
 }
-
-
-/**
- * @brief keyPressed
- * 
- * Called whenever a key is pressed.
- * Key is passed as the first argument.
- */ 
- 
-/**
- * @brief keyReleased
- * 
- * Called whenever a key is released.
- * Key is passed as the first argument.
- */ 
-
-/**
- * @brief keyHeld
- * 
- * Called whenever a key is held down.
- * Key is passed as the first argument.
- */ 
-
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
