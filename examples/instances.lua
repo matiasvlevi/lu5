@@ -2,11 +2,9 @@
 acc = 1;
 ball_count = 1024;
 
-Ball = {}
-Ball.__index = Ball
+local Ball = class('Ball');
 
-function Ball.new(x, y)
-    local self = setmetatable({}, Ball)
+function Ball:init(x, y)
     self.x = x
     self.y = y
     self.vx = 0;
@@ -71,7 +69,7 @@ function setup()
     createWindow(1280, 720); 
 
     for i=1, ball_count do
-      balls[i] = Ball.new(
+      balls[i] = Ball:new(
             math.random(50, width-50),
             math.random(50, height-50)
         );
