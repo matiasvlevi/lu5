@@ -1,6 +1,6 @@
 #include "window.h"
 
-#include "../lu5_defs.h"
+#include "../lu5_bindings.h"
 #include "../lu5_state.h"
 #include "../lu5_font.h"
 

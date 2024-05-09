@@ -4,7 +4,6 @@
 #include <lauxlib.h>
 #include <lualib.h>
 
-#include "lu5_defs.h"
 #include "lu5_state.h"
 #include "lu5_cli.h"
 #include "lu5_cli_options.h"

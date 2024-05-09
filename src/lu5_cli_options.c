@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "lu5_defs.h"
 #include "lu5_logger.h"
 #include "lu5_cli_options.h"
 
@@ -9,6 +8,16 @@
 
 #include <sys/stat.h>
 #include <errno.h>
+
+#define LU5_SKETCH_BOILERPLATE \
+		"\n"\
+		"function setup()\n"\
+		"   createWindow(600, 600);\n"\
+		"end\n"\
+		"\n"\
+		"function draw()\n"\
+		"   background(51);\n"\
+		"end\n"\
 
 lu5_option cli_options[LU5_OPTION_COUNT] = {
 	{

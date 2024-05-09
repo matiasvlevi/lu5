@@ -9,8 +9,6 @@
 #include "bindings/loaders.h"
 #include "bindings/classes.h"
 
-#include "lu5_defs.h"
-
 void lu5_update_dynamic_variables(lu5_State *l5, GLFWwindow *window) {
 	
 
