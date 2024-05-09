@@ -1,6 +1,6 @@
 
 acc = 1;
-ball_count = 1024;
+ball_count = 256;
 
 local Ball = class('Ball');
 
@@ -60,13 +60,13 @@ function Ball:draw()
     noFill();
     strokeWeight(2);
     stroke(self.cr, self.cg, self.cb);
-    circle(self.x, self.y, 32);
+    circle(self.x, self.y, 16);
 end
 
 balls = {}
 
 function setup() 
-    createWindow(1280, 720); 
+    createWindow(600, 600); 
 
     for i=1, ball_count do
       balls[i] = Ball:new(

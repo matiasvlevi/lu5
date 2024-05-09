@@ -5,7 +5,7 @@ function setup()
 	createWindow(400, 400);
 	
 	-- Lock fps
-	frameRate(20);
+	frameRate(24);
 end
 
 function draw()
