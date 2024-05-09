@@ -1,5 +1,5 @@
-#ifndef __COLOR_ARGS_H__
-#define __COLOR_ARGS_H__
+#ifndef _LU5_COLOR_H_
+#define _LU5_COLOR_H_
 
 #include <lua.h>
 #include <stdint.h>

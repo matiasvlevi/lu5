@@ -1,5 +1,5 @@
-#ifndef __PRINT_H__
-#define __PRINT_H__
+#ifndef _LU5_IO_H_
+#define _LU5_IO_H_
 
 #include <lua.h>
 

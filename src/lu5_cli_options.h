@@ -1,5 +1,5 @@
-#ifndef __LU5_OPTIONS_H__
-#define __LU5_OPTIONS_H__
+#ifndef _LU5_CLI_OPTIONS_H_
+#define _LU5_CLI_OPTIONS_H_
 
 #include <stdbool.h>
 

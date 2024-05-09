@@ -1,5 +1,5 @@
-#ifndef __LU5_LOGGER_H__
-#define __LU5_LOGGER_H__
+#ifndef _LU5_LOGGER_H_
+#define _LU5_LOGGER_H_
 
 typedef enum {
 	LU5_ERROR_LOG,

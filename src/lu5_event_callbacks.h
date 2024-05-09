@@ -1,5 +1,5 @@
-#ifndef __LU5_EVENTS_H__
-#define __LU5_EVENTS_H__
+#ifndef _LU5_EVENTS_CALLBACKS_H_
+#define _LU5_EVENTS_CALLBACKS_H_
 
 #include <GLFW/glfw3.h>
 

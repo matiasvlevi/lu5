@@ -1,5 +1,5 @@
-#ifndef __LU5_WINDOW_H_
-#define __LU5_WINDOW_H_
+#ifndef _LU5_STATE_H_
+#define _LU5_STATE_H_
 
 #define MAX_MOUSE_BUTTONS 8
 
