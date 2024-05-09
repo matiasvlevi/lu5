@@ -7,6 +7,7 @@
 #include "bindings/shapes.h"
 #include "bindings/lu5_math.h"
 #include "bindings/loaders.h"
+#include "bindings/classes.h"
 
 #include "lu5_defs.h"
 
@@ -39,6 +40,8 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_STRING_GLOBAL_BY_NAME(L, "VERSION", LU5_VERSION);
 
 	LUA_ADD_FUNCTION(L, print);
+
+	LUA_ADD_FUNCTION_BY_NAME(L, "class", lu5_class);
 
 	LUA_ADD_FUNCTION(L, createWindow);
 	LUA_ADD_FUNCTION(L, background);
