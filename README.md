@@ -89,7 +89,7 @@ lu5 file.lua
 ### Preview
 
 ![lu5 preview circle](./docs/assets/lu5_preview_2.png)
-![lu5 preview instances](./docs/assets/lu5_preview.png)
+![lu5 preview instances](./docs/assets/lu5_instances.png)
 ![lu5 preview instances](./docs/assets/text_demo.png)
 
 <br>
