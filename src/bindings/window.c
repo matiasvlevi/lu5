@@ -114,18 +114,11 @@ int createWindow(lua_State *L) {
 	glDisable( GL_DEPTH_TEST ); 
 	glEnable( GL_ALPHA_TEST ); 
 
-	// TODO: Have a built in static font instead of a TTF.
-	// this macro comes from the compiler flags, 
-	// if you wan to use `text` without using `loadFont`, please define your default font path 
-	lu5_load_font(&lu5, LU5_DEFAULT_FONT_PATH, NULL);
-	FT_Set_Char_Size(
-		lu5.fonts[0]->face,
-		0,
-		lu5.style.fontSize * 64,
-		0,
-		0
-	);
-
+	// Load default font statically
+	lu5_loadfont_err err;
+	if ((err = lu5_load_font(&lu5, NULL, NULL, true)) != LU5_LOADFONT_NONE) {
+		luaL_error(L, "Error loading default font, code: %i", err);
+	}
 
 	return 0;
 }

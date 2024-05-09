@@ -6,20 +6,22 @@
 #include "./lu5_state.h"
 
 typedef enum {
-	LOADFONT_NONE=0,
-	LOADFONT_MAX,
-	LOADFONT_UNKNOWN_FORMAT,
-	LOADFONT_UNKNOWN
+	LU5_LOADFONT_NONE=0,
+	LU5_LOADFONT_MAX,
+	LU5_LOADFONT_UNKNOWN_FORMAT,
+	LU5_LOADFONT_UNKNOWN,
+	LU5_LOADFONT_NO_MEM,
+	LU5_LOADFONT_NOT_FOUND
 } lu5_loadfont_err;
 
-
+#define MAX_FONT_SIZE_PX 96
 
 void lu5_close_font(lu5_font *font);
 void lu5_close_fonts(lu5_State *l5);
 
 void lu5_init_freetype(lu5_State *l5);
 
-int lu5_load_font(lu5_State *l5, const char *fontPath, int *fontId);
+int lu5_load_font(lu5_State *l5, int *fontId, const char *fontPath, bool fromFile);
 
 void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_font *font);
 

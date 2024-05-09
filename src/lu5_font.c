@@ -1,5 +1,5 @@
 #include "lu5_font.h"
-
+#include "lu5_default_font.h"
 #include "lu5_logger.h"
 
 #include "lu5_state.h"
@@ -11,37 +11,93 @@ void lu5_init_freetype(lu5_State *l5) {
 	}
 }
 
-int lu5_load_font(lu5_State *l5, const char *fontPath, int *fontId) {
+int lu5_load_font_default(lu5_State *l5, lu5_font **font) {
+	switch(FT_New_Memory_Face(l5->ft, 
+		lu5_default_font, 
+		sizeof(lu5_default_font), 
+		0, 
+		&((*font)->face))
+	) {
+		case FT_Err_Ok: return LU5_LOADFONT_NONE;
 
+		case FT_Err_Cannot_Open_Resource: {
+			return LU5_LOADFONT_NOT_FOUND;
+		}
+
+		case FT_Err_Unknown_File_Format: {
+			return LU5_LOADFONT_UNKNOWN_FORMAT;
+		}
+
+		default: {
+			return LU5_LOADFONT_UNKNOWN;
+		}
+	}
+}
+
+int lu5_load_font_from_file(lu5_State *l5, const char *fontPath, lu5_font **font) {
+
+	// Load font face and match errors
+	switch(FT_New_Face(l5->ft, fontPath, 0, &((*font)->face))) {
+		case FT_Err_Ok: return LU5_LOADFONT_NONE;
+
+		case FT_Err_Cannot_Open_Resource: {
+			return LU5_LOADFONT_NOT_FOUND;
+		}
+
+		case FT_Err_Unknown_File_Format: {
+			return LU5_LOADFONT_UNKNOWN_FORMAT;
+		}
+
+		default: {
+			return LU5_LOADFONT_UNKNOWN;
+		}
+	}
+}
+
+int lu5_load_font(lu5_State *l5, int *fontId, const char *fontPath, bool fromFile) {
 	if (l5->font_count >= MAX_LOADED_FONTS) {
-		return LOADFONT_MAX;
-	} 
+		return LU5_LOADFONT_MAX;
+	}
 
 	lu5_font *font = (lu5_font*)malloc(sizeof(lu5_font));
+	if (font == NULL) {
+		return LU5_LOADFONT_NO_MEM;
+	}
+
+	lu5_loadfont_err err;
+	if (fromFile) {
+		err = lu5_load_font_default(l5, &font);
+		if (err != LU5_LOADFONT_NONE) return err;
+	} else {
+		err = lu5_load_font_from_file(l5, fontPath, &font);
+		if (err != LU5_LOADFONT_NONE) return err;
+	}
+
+
+	// Set font to the current style size
+	if (FT_Set_Pixel_Sizes(font->face, 0, MAX_FONT_SIZE_PX) != FT_Err_Ok) {
+		lu5_close_font(font);
+		return LU5_LOADFONT_UNKNOWN;
+	}
+	// Set font to the current style size
+	if (FT_Set_Char_Size(
+			font->face,
+			0,
+			l5->style.fontSize * 128,
+			0,
+			0
+		) != FT_Err_Ok) {
+		lu5_close_font(font);
+		return LU5_LOADFONT_UNKNOWN;
+	}
 	
-	int error = FT_New_Face( 
-		l5->ft,
-		fontPath,
-		0,
-		&(font->face));
 
-	if (error == FT_Err_Unknown_File_Format)
+	// Iterate over characters and create a texture
+	for (unsigned char character = 32; character < 128; character++) 
 	{
-		lu5_close_font(font);
-		return LOADFONT_UNKNOWN_FORMAT;
-	}
-	else if (error)
-	{
-		lu5_close_font(font);
-		return LOADFONT_UNKNOWN;
-	}
-
-	FT_Set_Pixel_Sizes(font->face, 0, 48); 
-
-	for (unsigned char c = 32; c < 128; c++) {
 		// Load character glyph into face->glyph
-		if (FT_Load_Char(font->face, c, FT_LOAD_RENDER)) {
-			LU5_WARN("Could not load character '%c'\n", c);
+		if (FT_Load_Char(font->face, character, FT_LOAD_RENDER) != FT_Err_Ok) {
+			LU5_WARN("Could not load character '%c'\n", character);
 			continue;
 		}
 
@@ -61,6 +117,7 @@ int lu5_load_font(lu5_State *l5, const char *fontPath, int *fontId) {
 			GL_UNSIGNED_BYTE,
 			font->face->glyph->bitmap.buffer
 		);
+
 		// set texture options
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -68,15 +125,20 @@ int lu5_load_font(lu5_State *l5, const char *fontPath, int *fontId) {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		font->textures[c] = texture;
+		// Add font texture
+		font->textures[character] = texture;
 	}
 
-	if (fontId != NULL) *fontId = l5->font_count;
+	// If fontId pointer is valid, 
+	if (fontId != NULL) 
+		// set the value to the next fontId
+		*fontId = l5->font_count;
 	
+	// Set font by fontId
 	l5->fonts[l5->font_count] = font;
 	l5->font_count++;
-
-	return 0;
+	
+	return LU5_LOADFONT_NONE;
 
 }
 

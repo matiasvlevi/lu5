@@ -8,9 +8,8 @@ BINDIR = bin
 
 DOC_BUILD_SCRIPT = build_docs.lua
 
-DEFAULT_FONT=/usr/share/fonts/TTF/Arial.TTF
 
-MACROS=-D'LU5_VERSION="$(VERSION)"' -D'LU5_DEFAULT_FONT_PATH="$(DEFAULT_FONT)"'
+MACROS=-D'LU5_VERSION="$(VERSION)"'
 
 ifeq ($(PLATFORM), win)
 	CC := x86_64-w64-mingw32-gcc
