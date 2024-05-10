@@ -51,13 +51,19 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 			lu5_print_list(L, index, nested, sep);
 			break;
 		}
-		// TODO: Handle these
-		case LUA_TUSERDATA: 
-		case LUA_TTHREAD: 
 		case LUA_TLIGHTUSERDATA:
+			if (lua_islightuserdata(L, index)) {
+				void* ptr = lua_touserdata(L, index);
+
+				printf("\x1b[35m[ptr: %p]\x1b[0m%c", ptr, sep);
+			}
+			break;
+		// TODO: Handle these
+		case LUA_TUSERDATA:
+		case LUA_TTHREAD: 
 		default:
 			const char* typename = lua_typename(L, type);
-			printf("[unknown %s%c]", typename, sep);
+			printf("[unknown %s]%c", typename, sep);
 			break;
 	}
 }
