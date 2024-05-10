@@ -20,7 +20,13 @@ void lu5_update_dynamic_variables(lu5_State *l5, GLFWwindow *window) {
 	int mouseIsPressed = glfwGetMouseButton(window, 0);
 	LUA_ADD_BOOL_GLOBAL(l5->L, mouseIsPressed);
 
-	LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, "deltaTime", l5->env.delta_time);
+	if (l5->env.target_framerate == -1) {
+		// For free frame rates
+		LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, "deltaTime", l5->env.delta_time);
+	} else {
+		// For fixed frame rates
+		LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, "deltaTime", (lu5.env.now_time - lu5.env.last_frame_time));
+	}
 }
 
 static void lu5_register_constants(lua_State *L) 
