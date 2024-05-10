@@ -212,6 +212,4 @@ void lu5_close_fonts(lu5_State *l5)
 
 		lu5_close_font(l5->fonts[i]); 
 	}
-
-	FT_Done_FreeType(l5->ft);
 }

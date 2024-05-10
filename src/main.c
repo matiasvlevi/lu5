@@ -136,6 +136,8 @@ cleanup:
 
 	lu5_close_fonts(&lu5);
 
+	FT_Done_FreeType(lu5.ft);
+
 	lua_close(lu5.L);
 
 	return 0;
