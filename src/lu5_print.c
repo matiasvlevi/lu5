@@ -26,7 +26,6 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 			break;
 		}
 		case LUA_TNUMBER:{
-
 			if (lua_isinteger(L, index)) {
 				int value = lua_tointeger(L, index);
 				printf("\x1b[33m%i\x1b[0m%c", value, sep);
@@ -58,6 +57,7 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 				printf("\x1b[35m[ptr: %p]\x1b[0m%c", ptr, sep);
 			}
 			break;
+
 		// TODO: Handle these
 		case LUA_TUSERDATA:
 		case LUA_TTHREAD: 

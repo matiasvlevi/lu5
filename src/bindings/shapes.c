@@ -2,6 +2,7 @@
 
 #include "../lu5_state.h"
 #include "../lu5_font.h"
+#include "../lu5_image.h"
 
 #include <lauxlib.h>
 #include <math.h>
@@ -159,6 +160,38 @@ int text(lua_State *L)
 	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke); 
 
 	lu5_render_text(str, x, y, lu5.style.fontSize, lu5.style.font_current);
+
+	return 0;
+}
+
+
+int image(lua_State *L) 
+{
+	// Get image reference
+	if (!lua_islightuserdata(L, 1)) {
+		luaL_error(L, "Expected first argument to be an image ptr");
+		return 0;
+	}
+
+	lu5_image *img = (lu5_image *)lua_touserdata(L, 1);
+
+	// Get position arguments
+	double x = lua_tonumber(L, 2);
+	double y = lua_tonumber(L, 3);
+
+	// Get optional width argument
+	double w = img->width;
+	if (lua_isnumber(L, 4)) {
+		w = lua_tonumber(L, 4);
+	}
+
+	// Get optional height
+	double h = img->height;
+	if (lua_isnumber(L, 5)) {
+		h = lua_tonumber(L, 5);
+	}
+
+	lu5_render_image(L, img->texture, x, y, w, h);
 
 	return 0;
 }

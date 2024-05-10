@@ -3,11 +3,11 @@
 
 #include "../lu5_logger.h"
 #include "../lu5_font.h"
+#include "../lu5_image.h"
 
 int loadFont(lua_State *L) {
 	
 	const char *font_path = lua_tostring(L, 1);
-
 	if (!font_path) {
 		// If default font is defined
 		if (lu5.font_default != NULL) {
@@ -22,7 +22,6 @@ int loadFont(lua_State *L) {
 			luaL_error(L, "Expected first argument to be a string");
 			return 0;
 		}
-
 	}
 
 	lu5_font *current_font;
@@ -76,8 +75,20 @@ int loadFont(lua_State *L) {
 	return 1;
 }
 
-int loadImage(lua_State *L) {
-	return 0;
+int loadImage(lua_State *L) 
+{
+	const char *image_path = lua_tostring(L, 1);
+	if (!image_path) {
+		// Throw
+		luaL_error(L, "Expected first argument to be a string");
+		return 0;
+	}
+
+	// Returns the loaded image ptr
+	lu5_image *img = lu5_load_image(&lu5, image_path);
+
+	lua_pushlightuserdata(L, img);
+	return 1;
 }
 
 int loadJSON(lua_State *L) {

@@ -53,6 +53,9 @@ typedef struct {
 	lu5_font *font_default;
 	lu5_node *fonts;
 
+	// Images
+	lu5_node *images;
+
 	struct input {
 		struct {
 			int actions[MAX_MOUSE_BUTTONS];

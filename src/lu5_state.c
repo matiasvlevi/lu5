@@ -2,6 +2,8 @@
 
 #include "lu5_color.h"
 
+#include "lu5_font.h"
+
 lu5_State lu5 = {
 	// use LU5_ERROR_LOG for no logging
 	.log_level = LU5_WARN_LOG,
@@ -38,12 +40,6 @@ void lu5_list_iter(lu5_node *node, void (*ptr)(void*)) {
 	};
 }
 
-
-// Callback function for when the window's size is changed
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-}
 
 void lu5_close(lu5_State *l5) {
 

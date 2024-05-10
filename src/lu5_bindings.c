@@ -61,7 +61,8 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, textSize);
 	LUA_ADD_FUNCTION(L, textFont);
 
-	LUA_ADD_FUNCTION(L, loadFont);    
+	LUA_ADD_FUNCTION(L, loadFont);
+	LUA_ADD_FUNCTION(L, loadImage);    
 
 	LUA_ADD_FUNCTION(L, point);
 	LUA_ADD_FUNCTION(L, circle);
@@ -72,6 +73,7 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, line);
 	LUA_ADD_FUNCTION(L, triangle);
 	LUA_ADD_FUNCTION(L, text);
+	LUA_ADD_FUNCTION(L, image);
 	LUA_ADD_FUNCTION(L, arc);
 
 	LUA_ADD_FUNCTION_BY_NAME(L, "round", lu5_round);

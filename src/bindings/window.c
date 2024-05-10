@@ -9,47 +9,8 @@
 #include <lauxlib.h>
 
 #include <math.h>
+#include "../lu5_window.h"
 
-static GLFWwindow *lu5_init_glfw(
-	lua_State *L,
-	int screenWidth,
-	int screenHeight,
-	const char *window_title)
-{
-	if (!glfwInit()) {
-		luaL_error(L, "Failed to initialize GLFW\n");
-		return NULL;
-	}
-
-	GLFWwindow* window = glfwCreateWindow(
-		screenWidth, screenHeight,	 
-		window_title, 
-		NULL, NULL);
-
-	if (window == NULL)
-	{
-		luaL_error(L, "Failed to create GLFW window\n");
-		glfwTerminate();
-		return NULL;
-	}
-
-	// Make the window's context current
-	glfwMakeContextCurrent(window);
-
-	// Set necessary options for GLFW
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-	// Set callback for when the window is resized
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	
-	// Vsync
-	glfwSwapInterval(1); 
-
-	return window;
-}
 
 int createWindow(lua_State *L) {
 	
@@ -74,20 +35,19 @@ int createWindow(lua_State *L) {
 	char* window_title = malloc(len + 10);
 	sprintf(window_title, "[lu5]: %s", sketch_path);
 
-	GLFWwindow* window = lu5_init_glfw(L, 
+	GLFWwindow* window = lu5_create_glfw_window(L, 
 		screenWidth, screenHeight, 
 		window_title
 	); 
 
-	if (window == NULL)
-	{
-		return 0;
-	}
-
 	// Window title was copied in the window
 	free(window_title);
 
-	// Set window
+	// Abort if not windowf
+	if (window == NULL) return 0;
+
+	// Set glfw window in global scope 
+	// TODO: Rethink where this reference goes in the lua state, along with other similar references
 	lua_pushlightuserdata(L, window);
 	lua_setglobal(L, "window");
 
@@ -122,6 +82,7 @@ int createWindow(lua_State *L) {
 
 	// Set the current as the default font
 	lu5.style.font_current = lu5.font_default;
+
 
 	return 0;
 }
