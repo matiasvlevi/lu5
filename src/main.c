@@ -131,14 +131,10 @@ int main(int argc, char **argv) {
 	LU5_INFO(LU5_EXIT_APP);
 
 cleanup:
-	
+
 	glfwTerminate();
 
-	lu5_close_fonts(&lu5);
-
-	FT_Done_FreeType(lu5.ft);
-
-	lua_close(lu5.L);
-
+	lu5_close(&lu5);
+	
 	return 0;
 }

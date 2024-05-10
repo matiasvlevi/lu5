@@ -20,14 +20,40 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#define MAX_LOADED_FONTS 16
 typedef struct {
 	FT_Face face;
 	GLuint textures[128];
 } lu5_font;
 
+
+// Callback function for when the window's size is changed ..
+// TODO: move to new file ./src/window.h
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+typedef struct lu5_node_ {
+	void *data;
+	struct lu5_node_ *next;
+} lu5_node;
+
+void lu5_list_push(lu5_node **head, void *data, size_t data_size);
+
+void lu5_list_iter(lu5_node *node, void (*ptr)(void*));
+
+/**
+ * @brief Core lu5 state
+ */
 typedef struct {
-	struct {
+
+	lua_State *L;
+
+	lu5_log_level log_level; 
+
+	// FONT
+	FT_Library ft;
+	lu5_font *font_default;
+	lu5_node *fonts;
+
+	struct input {
 		struct {
 			int actions[MAX_MOUSE_BUTTONS];
 		} mouse;
@@ -41,15 +67,17 @@ typedef struct {
 
 	} input;
 
-	struct {
+	struct style {
 		lu5_color fill;
 		lu5_color stroke;
 		double strokeWeight;
 		double fontSize;
-		int fontId;
+
+		// current font reference
+		lu5_font *font_current;
 	} style;
 
-	struct {
+	struct env {
 		double now_time;
 		double last_time;
 		double last_frame_time;
@@ -57,20 +85,10 @@ typedef struct {
 		int target_framerate;
 	} env;
 
-	lu5_log_level log_level; 
-
-	FT_Library ft;
-	lu5_font *fonts[MAX_LOADED_FONTS];
-	int font_count;
-
-	lua_State *L;
-
 } lu5_State;
 
+void lu5_close(lu5_State *l5);
+
 extern lu5_State lu5;
-
-// Callback function for when the window's size is changed
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
 
 #endif

@@ -53,7 +53,7 @@ int textSize(lua_State *L)
 	double size = lua_tonumber(L, 1);
 
 	FT_Set_Char_Size(
-		lu5.fonts[lu5.style.fontId]->face,
+		lu5.style.font_current->face,
 		0,
 		size * 64,
 		0,
@@ -68,9 +68,18 @@ int textSize(lua_State *L)
 
 int textFont(lua_State *L)
 {
-	int font_id = lua_tointeger(L, 1);
+	// Check if valid
+	if (!lua_islightuserdata(L, 1)) {
+		luaL_error(L, "Expected first argument to be a font ptr");
+	
+		return 0;
+	}
 
-	lu5.style.fontId = font_id;
+	// Get the font ptr
+	lu5_font *font_id = (lu5_font *)lua_touserdata(L, 1);
+	
+	// Set the current font ptr
+	lu5.style.font_current = font_id;
 
 	return 0;
 }

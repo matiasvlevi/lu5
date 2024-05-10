@@ -158,7 +158,7 @@ int text(lua_State *L)
 
 	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke); 
 
-	lu5_render_text(str, x, y, lu5.style.fontSize, lu5.fonts[lu5.style.fontId]);
+	lu5_render_text(str, x, y, lu5.style.fontSize, lu5.style.font_current);
 
 	return 0;
 }
