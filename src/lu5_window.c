@@ -8,8 +8,8 @@ static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 GLFWwindow *lu5_create_glfw_window(
 	lua_State *L,
-	int screenWidth,
-	int screenHeight,
+	int width,
+	int height,
 	const char *window_title)
 {
 	if (!glfwInit()) {
@@ -18,7 +18,7 @@ GLFWwindow *lu5_create_glfw_window(
 	}
 
 	GLFWwindow* window = glfwCreateWindow(
-		screenWidth, screenHeight,	 
+		width, height,	 
 		window_title, 
 		NULL, NULL);
 
@@ -39,10 +39,7 @@ GLFWwindow *lu5_create_glfw_window(
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	// Set callback for when the window is resized
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	
-	// Vsync
-	glfwSwapInterval(1); 
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
 
 	return window;
 }

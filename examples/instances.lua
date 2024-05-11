@@ -1,5 +1,5 @@
 
-acc = 1;
+acc = 25;
 ball_count = 256;
 
 local Ball = class('Ball');
@@ -29,32 +29,20 @@ function Ball:collision(nx, ny)
 end
 
 function Ball:move()
-    self.vy = self.vy * 0.96;
-    self.vx = self.vx * 0.96;
+    self.vx = self.vx + math.random(-5, 5);
+    self.vy = self.vy + math.random(-5, 5);
 
-    self:collision(self.x + self.vx, self.y + self.vy);
+    self.vy = self.vy * 0.97;
+    self.vx = self.vx * 0.97;
 
-    self.x = self.x + self.vx;
-    self.y = self.y + self.vy;
+    local nvx = self.vx * deltaTime;
+    local nvy = self.vy * deltaTime;
+
+    self:collision(self.x + self.vx * deltaTime, self.y + self.vy * deltaTime);
+
+    self.x = self.x + self.vx * deltaTime;
+    self.y = self.y + self.vy * deltaTime;
 end 
-
-function Ball:control()
-    if (isKeyDown(RIGHT_ARROW)) then
-        self.vx = self.vx + acc;
-    end
-
-    if (isKeyDown(LEFT_ARROW)) then
-        self.vx = self.vx - acc;
-    end
- 
-    if (isKeyDown(UP_ARROW)) then
-        self.vy = self.vy - acc;
-    end
-
-    if (isKeyDown(DOWN_ARROW)) then
-        self.vy = self.vy + acc;
-    end
-end
 
 function Ball:draw()
     noFill();
@@ -83,7 +71,6 @@ function draw()
 
     for i,ball in pairs(balls) do
         ball:draw();
-        ball:control();
         ball:move();
     end
 
