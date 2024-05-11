@@ -12,14 +12,14 @@ function draw()
         for j=0, height, step do
                 
             if (
-                mouseX > i      and 
-                mouseX < i+step and 
-                mouseY > j      and 
-                mouseY < j+step
+                mouseX > i-step/2 and 
+                mouseX < i+step/2 and 
+                mouseY > j-step/2 and 
+                mouseY < j+step/2
             ) then
                 fill(255, 155, 50);
             else
-                fill(155, 50, 255)
+                fill(155, 50, 255);
             end
 
             circle(i, j, step);
