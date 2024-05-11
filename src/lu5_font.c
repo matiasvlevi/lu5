@@ -1,5 +1,5 @@
 #include "lu5_font.h"
-#include "lu5_default_font.h"
+#include "static/lu5_default_font.h"
 #include "lu5_logger.h"
 
 #include "lu5_state.h"

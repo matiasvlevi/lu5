@@ -1,6 +1,9 @@
 #include "lu5_window.h"
 #include <lauxlib.h>
 
+#include "stb/stb_image.h"
+#include "static/lu5_icon.h"
+
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -39,7 +42,16 @@ GLFWwindow *lu5_create_glfw_window(
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	// Set callback for when the window is resized
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+	GLFWimage images[1];
+	images[0].pixels = stbi_load_from_memory(
+		lu5_icon_png, sizeof(lu5_icon_png), 
+		&images[0].width,
+		&images[0].height,
+		0, 4);
+	glfwSetWindowIcon(window, 1, images);
+	stbi_image_free(images[0].pixels);
 
 	return window;
 }
