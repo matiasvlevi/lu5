@@ -1,7 +1,12 @@
 
-acc = 25;
-ball_count = 256;
+acc = 4;
+bounce = 4.5;
+ball_count = 200;
 
+-- Ball list
+balls = {}
+
+-- Ball class
 local Ball = class('Ball');
 
 function Ball:init(x, y)
@@ -18,7 +23,10 @@ function Ball:init(x, y)
     return self
 end
 
-function Ball:collision(nx, ny)
+function Ball:collision(others)
+    local nx = self.x + self.vx * deltaTime;
+    local ny = self.y + self.vy * deltaTime;
+
     if (ny < self.r or ny > height-self.r) then 
         self.vy = -self.vy; 
     end
@@ -26,32 +34,40 @@ function Ball:collision(nx, ny)
     if (nx < self.r or nx > width-self.r) then
         self.vx = -self.vx;
     end
+
+    for i, other in pairs(others) do
+        local dx = self.x - other.x;
+        local dy = self.y - other.y;
+        local d = math.sqrt(dx*dx + dy*dy);
+
+        if (d < 16) then
+            self.vx = self.vx + dx * bounce;
+            self.vy = self.vy + dy * bounce;
+        end
+    end
 end
 
 function Ball:move()
-    self.vx = self.vx + math.random(-5, 5);
-    self.vy = self.vy + math.random(-5, 5);
+    self.vx = self.vx + math.random(-acc, acc);
+    self.vy = self.vy + math.random(-acc, acc);
 
     self.vy = self.vy * 0.97;
     self.vx = self.vx * 0.97;
 
-    local nvx = self.vx * deltaTime;
-    local nvy = self.vy * deltaTime;
-
-    self:collision(self.x + self.vx * deltaTime, self.y + self.vy * deltaTime);
+    self:collision(balls);
 
     self.x = self.x + self.vx * deltaTime;
     self.y = self.y + self.vy * deltaTime;
 end 
 
 function Ball:draw()
-    noFill();
-    strokeWeight(2);
+    strokeWeight(3);
     stroke(self.cr, self.cg, self.cb);
+    fill(255, 255, 255, 25)
     circle(self.x, self.y, 16);
 end
 
-balls = {}
+
 
 function setup() 
     createWindow(600, 600); 
@@ -64,6 +80,8 @@ function setup()
     end
 
     frameRate(60);
+
+    logo = loadImage('docs/assets/lu5_icon.png');
 end
 
 function draw()
@@ -75,6 +93,6 @@ function draw()
     end
 
     textSize(18);
-    fill(0, 255, 100);
+    fill(100, 255, 10);
     text(round(frameRate()) .. ' fps', 30, 10);
 end
