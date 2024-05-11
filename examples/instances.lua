@@ -1,9 +1,9 @@
 
 acc = 1;
-bounce = 4.5;
-ball_count = 280;
+bounce = 1.5;
+ball_count = 300;
 
-mouse_zone = 128
+mouse_zone = 256
 
 -- Ball list
 balls = {}
@@ -54,11 +54,11 @@ function Ball:collision(others)
     if (d < 1.5+8+mouse_zone/2) then
 
         if (mouseIsPressed) then
-            self.vx = self.vx + -dx * bounce/12;
-            self.vy = self.vy + -dy * bounce/12;
+            self.vx = self.vx + -dx * bounce/5;
+            self.vy = self.vy + -dy * bounce/5;
         else
-            self.vx = self.vx + dx * bounce;
-            self.vy = self.vy + dy * bounce;
+            self.vx = self.vx + dx * bounce/2;
+            self.vy = self.vy + dy * bounce/2;
         end
 
 
@@ -90,7 +90,7 @@ end
 
 
 function setup() 
-    createWindow(600, 600); 
+    createWindow(800, 600); 
 
     for i=1, ball_count do
       balls[i] = Ball:new(
