@@ -83,3 +83,13 @@ int textFont(lua_State *L)
 
 	return 0;
 }
+
+int push(lua_State *L) {
+	lu5.style_cache = lu5.style;
+	return 0;
+}
+
+int pop(lua_State *L) {
+	lu5.style = lu5.style_cache;
+	return 0;
+}

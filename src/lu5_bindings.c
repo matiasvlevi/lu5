@@ -53,6 +53,8 @@ void lu5_register_symbols(lua_State *L)
 
 	LUA_ADD_FUNCTION(L, isKeyDown);
 
+	LUA_ADD_FUNCTION(L, push);
+	LUA_ADD_FUNCTION(L, pop);
 	LUA_ADD_FUNCTION(L, fill);
 	LUA_ADD_FUNCTION(L, noFill);
 	LUA_ADD_FUNCTION(L, stroke);

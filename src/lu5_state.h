@@ -39,6 +39,16 @@ void lu5_list_push(lu5_node **head, void *data, size_t data_size);
 
 void lu5_list_iter(lu5_node *node, void (*ptr)(void*));
 
+typedef struct {
+	lu5_color fill;
+	lu5_color stroke;
+	double strokeWeight;
+	double fontSize;
+
+	// current font reference
+	lu5_font *font_current;
+} lu5_style_setting_t;
+
 /**
  * @brief Core lu5 state
  */
@@ -56,6 +66,9 @@ typedef struct {
 	// Images
 	lu5_node *images;
 
+	lu5_style_setting_t style;
+	lu5_style_setting_t style_cache;
+
 	struct input {
 		struct {
 			int actions[MAX_MOUSE_BUTTONS];
@@ -69,16 +82,6 @@ typedef struct {
 		} keyboard;
 
 	} input;
-
-	struct style {
-		lu5_color fill;
-		lu5_color stroke;
-		double strokeWeight;
-		double fontSize;
-
-		// current font reference
-		lu5_font *font_current;
-	} style;
 
 	struct env {
 		double now_time;

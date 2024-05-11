@@ -93,4 +93,14 @@ int textSize(lua_State *L);
  */ 
 int textFont(lua_State *L);
 
+/**
+ * Save the style settings
+ */
+int push(lua_State *L);
+
+/**
+ * Restore the style settings 
+ */
+int pop(lua_State *L);
+
 #endif
