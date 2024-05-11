@@ -20,6 +20,12 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#define LU5_DEFAULT_STYLE (lu5_style_setting_t){\
+	.strokeWeight = 1,\
+	.stroke = LU5_BLACK,\
+	.fill = LU5_WHITE,\
+	.fontSize = 22}
+
 typedef struct {
 	FT_Face face;
 	GLuint textures[128];

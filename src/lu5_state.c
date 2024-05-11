@@ -4,15 +4,12 @@
 
 #include "lu5_font.h"
 
+
 lu5_State lu5 = {
 	// use LU5_ERROR_LOG for no logging
 	.log_level = LU5_WARN_LOG,
-	.style = {
-		.strokeWeight = 1,
-		.stroke = LU5_BLACK,
-		.fill = LU5_WHITE,
-		.fontSize = 22
-	},
+	.style = LU5_DEFAULT_STYLE,
+	.style_cache = LU5_DEFAULT_STYLE, 
 	.env = {
 		// Set no limit
 		.target_framerate = -1
