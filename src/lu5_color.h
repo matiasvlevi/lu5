@@ -14,6 +14,14 @@
 		);\
 	}
 
+#define LU5_APPLY_COLOR(c1)\
+	glColor4ub(\
+		c1.r,\
+		c1.g,\
+		c1.b,\
+		c1.a\
+	);\
+
 #define LU5_RGBA(sr,sg,sb,sa) (lu5_color){ .r=sr, .g=sg, .b=sb, .a=sa }
 
 #define LU5_WHITE LU5_RGBA(255, 255, 255, 255)

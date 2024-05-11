@@ -157,9 +157,15 @@ int text(lua_State *L)
 	double x = lua_tonumber(L, 2);
 	double y = lua_tonumber(L, 3);
 
-	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke); 
+	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
+	 
+	// Get font, if none available, use default.
+	lu5_font *font = lu5.style.font_current;
+	if (font == NULL) {
+		font = lu5.font_default;
+	}
 
-	lu5_render_text(str, x, y, lu5.style.fontSize, lu5.style.font_current);
+	lu5_render_text(str, x, y, lu5.style.fontSize, font);
 
 	return 0;
 }
@@ -191,6 +197,7 @@ int image(lua_State *L)
 		h = lua_tonumber(L, 5);
 	}
 
+	LU5_APPLY_COLOR(lu5.style.fill);
 	lu5_render_image(L, img->texture, x, y, w, h);
 
 	return 0;

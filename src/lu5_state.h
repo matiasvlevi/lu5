@@ -24,7 +24,9 @@
 	.strokeWeight = 1,\
 	.stroke = LU5_BLACK,\
 	.fill = LU5_WHITE,\
-	.fontSize = 22}
+	.fontSize = 22,\
+	.font_current = NULL\
+}
 
 typedef struct {
 	FT_Face face;

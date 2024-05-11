@@ -52,8 +52,14 @@ int textSize(lua_State *L)
 {
 	double size = lua_tonumber(L, 1);
 
+	// Get font, if none available, use default.
+	lu5_font *font = lu5.style.font_current;
+	if (font == NULL) {
+		font = lu5.font_default;
+	}
+
 	FT_Set_Char_Size(
-		lu5.style.font_current->face,
+		font->face,
 		0,
 		size * 64,
 		0,
@@ -84,12 +90,16 @@ int textFont(lua_State *L)
 	return 0;
 }
 
-int push(lua_State *L) {
+int push(lua_State *L) 
+{
 	lu5.style_cache = lu5.style;
+	lu5.style = LU5_DEFAULT_STYLE;
 	return 0;
 }
 
-int pop(lua_State *L) {
+int pop(lua_State *L) 
+{
 	lu5.style = lu5.style_cache;
+	lu5.style_cache = LU5_DEFAULT_STYLE;
 	return 0;
 }
