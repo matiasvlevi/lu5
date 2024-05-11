@@ -10,7 +10,7 @@ function draw()
 
     for i=1, #colors do
         fill(colors[i]);
-        rect(i*size - size, 0, size, height);
+        rect((i-1)*size - size, 0, size, height);
     end
 end
 
