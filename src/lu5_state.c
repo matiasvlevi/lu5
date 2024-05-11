@@ -1,8 +1,8 @@
 #include "lu5_state.h"
 
 #include "lu5_color.h"
-
 #include "lu5_font.h"
+#include "lu5_image.h"
 
 
 lu5_State lu5 = {
@@ -38,7 +38,9 @@ void lu5_list_iter(lu5_node *node, void (*ptr)(void*)) {
 }
 
 
-void lu5_close(lu5_State *l5) {
+void lu5_close(lu5_State *l5) 
+{
+	lu5_close_images(l5);
 
 	lu5_close_fonts(l5);
 

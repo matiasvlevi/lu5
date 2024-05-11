@@ -44,6 +44,7 @@ GLFWwindow *lu5_create_glfw_window(
 	// Set callback for when the window is resized
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+	// Set window icon
 	GLFWimage images[1];
 	images[0].pixels = stbi_load_from_memory(
 		lu5_icon_png, sizeof(lu5_icon_png), 

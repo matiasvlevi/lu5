@@ -13,4 +13,8 @@ lu5_image *lu5_load_image(lu5_State *l5, const char* image_path);
 
 void lu5_render_image(lua_State *L, GLuint texture, double x, double y, double w, double h);
 
+void lu5_close_image(lu5_image *image);
+
+void lu5_close_images(lu5_State *l5);
+
 #endif

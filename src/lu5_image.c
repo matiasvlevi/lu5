@@ -41,6 +41,7 @@ lu5_image *lu5_load_image(lu5_State *l5, const char* image_path)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	stbi_image_free(image);
 
+	// Free with lu5_close_image
 	lu5_image *img = (lu5_image*)malloc(sizeof(lu5_image));
 	img->texture = texture;
 	img->width = width;
@@ -68,4 +69,13 @@ void lu5_render_image(lua_State* L, GLuint texture, double x, double y, double w
 
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
+}
+
+void lu5_close_image(lu5_image *image) {
+	glDeleteTextures(1, &(image->texture));
+	free(image);
+}
+
+void lu5_close_images(lu5_State *l5) {
+	lu5_list_iter(l5->images, (void (*)(void*))lu5_close_image);
 }
