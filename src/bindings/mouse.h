@@ -1,20 +1,53 @@
-#ifndef __LU5_EVENTS_BINDINGS__
-#define __LU5_EVENTS_BINDINGS__
-
-#include <lua.h>
+#ifndef _LU5_MOUSE_H_
+#define _LU5_MOUSE_H_
 
 /**
- * Check if a keyboard key is pressed, returns `true` if key is down and returns `false` if it's not
+ * @brief mouseX
+ * @global
  * 
- * @param k The keyboard key to check
+ * The x mouse coordinate
  *
- * @return boolean Whether or not the key is down
+ * @example
+ * createWindow(400, 400);
+ *
+ * function draw()
+ *   background(51);
+ *   
+ *   line(mouseX, 0, mouseX, height);
+ * end
+ * @example
  */
-int isKeyDown(lua_State *L);
+#define LU5_MOUSE_X "mouseX"
+
+/**
+ * @brief mouseY
+ * @global
+ *
+ * The y mouse coordinate
+ *
+ * @example
+ * createWindow(400, 400);
+ *
+ * function draw()
+ *   background(51);
+ *   
+ *   line(0, mouseY, width, mouseY);
+ * end
+ * @example
+ */
+#define LU5_MOUSE_Y "mouseY"
+
+/**
+ * @brief mouseIsPressed
+ * @global
+ * 
+ * Is `true` when the mouse is pressed, is `false` when it's not
+ */
+#define LU5_MOUSE_IS_PRESSED "mouseIsPressed"
 
 /**
  * @brief mousePressed
- * 
+ *
  * Called when a mouse button is pressed.
  *
  * @param button The pressed mouse button
@@ -40,12 +73,12 @@ int isKeyDown(lua_State *L);
  *   size = size + 1;
  * end
  * @example
- *
  */
+#define LU5_MOUSE_PRESSED "mousePressed"
 
 /**
  * @brief mouseReleased
- * 
+ *
  * Called when a mouse button is released.
  *
  * @param button The released mouse button
@@ -77,30 +110,6 @@ int isKeyDown(lua_State *L);
  * end
  * @example
  */
-
-/**
- * @brief keyPressed
- * 
- * Called whenever a key is pressed.
- *
- * @param key The pressed key
- *
- */ 
-
-/**
- * @brief keyReleased
- * 
- * Called whenever a key is released.
- *
- * @param key The released key
- */ 
-
-/**
- * @brief keyHeld
- * 
- * Called whenever a key is held down.
- *
- * @param key The held key
- */ 
+#define LU5_MOUSE_RELEASED "mouseReleased"
 
 #endif

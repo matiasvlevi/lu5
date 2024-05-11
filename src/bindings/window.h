@@ -3,7 +3,9 @@
 
 #include <lua.h>
 
+
 /**
+ *
  * Create a GLFW window.
  *
  * @param w Window width
@@ -61,4 +63,31 @@ int background(lua_State *L);
  */
 int frameRate(lua_State *L);
 
+
+/**
+ * @brief deltaTime
+ * @global 
+ *
+ * Elapsed time since the last draw call in seconds
+ *
+ * @example
+ * x = 0;
+ * vx = 128;
+ *
+ * function setup()
+ *   createWindow(400, 400);
+ *   frameRate(24); -- try with 60
+ * end
+ *
+ * function draw()
+ *   background(51);
+ *
+ *   circle(x, height/2, 32);
+ *
+ *   -- Get the same velocity with different framerates
+ *   x = x + vx * deltaTime;
+ * end
+ * @example
+ */
+#define LU5_DELTA_TIME "deltaTime"
 #endif

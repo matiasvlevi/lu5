@@ -11,13 +11,13 @@
  * @example
  * function setup()
  *   createWindow(600, 600);
- *   myfont = loadFont('/path/to/myfont.ttf');
+ *   font = loadFont('/path/to/myfont.ttf');
  * end
  *
  * function draw()
  *   background(51);
  *
- *   textFont(myfont);
+ *   textFont(font);
  *   text('Hello from lu5!', 30, 50);
  * end   
  * @example
@@ -44,7 +44,7 @@ int loadFont(lua_State *L);
  * end   
  * @example
  *
- * @return image The image reference
+ * @return img The image reference
  */
 int loadImage(lua_State *L);
 
