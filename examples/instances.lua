@@ -1,7 +1,9 @@
 
-acc = 4;
+acc = 1;
 bounce = 4.5;
-ball_count = 200;
+ball_count = 280;
+
+mouse_zone = 128
 
 -- Ball list
 balls = {}
@@ -45,14 +47,32 @@ function Ball:collision(others)
             self.vy = self.vy + dy * bounce;
         end
     end
+
+    local dx = nx - mouseX;
+    local dy = ny - mouseY;
+    local d = math.sqrt(dx*dx + dy*dy);
+    if (d < 1.5+8+mouse_zone/2) then
+
+        if (mouseIsPressed) then
+            self.vx = self.vx + -dx * bounce/12;
+            self.vy = self.vy + -dy * bounce/12;
+        else
+            self.vx = self.vx + dx * bounce;
+            self.vy = self.vy + dy * bounce;
+        end
+
+
+    end
+
+
 end
 
 function Ball:move()
     self.vx = self.vx + math.random(-acc, acc);
     self.vy = self.vy + math.random(-acc, acc);
 
-    self.vy = self.vy * 0.97;
-    self.vx = self.vx * 0.97;
+    self.vy = self.vy * 0.94;
+    self.vx = self.vx * 0.94;
 
     self:collision(balls);
 
@@ -91,6 +111,8 @@ function draw()
         ball:draw();
         ball:move();
     end
+
+    circle(mouseX, mouseY, mouse_zone);
 
     textSize(18);
     fill(100, 255, 10);
