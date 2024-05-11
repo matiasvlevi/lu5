@@ -18,7 +18,7 @@
 	<body>
 		<div class="nav" id="menu">
 			<br/>
-			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./math.html"><h4>math</h4></a></li><li class="btn"><a class="light" href="./loaders.html"><h4>loaders</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./events.html"><h4>events</h4></a></li><li class="btn"><a class="light" href="./classes.html"><h4>classes</h4></a></li></ul>
+			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./mouse.html"><h4>mouse</h4></a></li><li class="btn"><a class="light" href="./math.html"><h4>math</h4></a></li><li class="btn"><a class="light" href="./loaders.html"><h4>loaders</h4></a></li><li class="btn"><a class="light" href="./keyboard.html"><h4>keyboard</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./classes.html"><h4>classes</h4></a></li></ul>
 		</div>
 		<main>
 			<header>
@@ -32,9 +32,7 @@
 			</header>
 
 			
-<div class="method" id="createWindow"><div class="methodDeclaration"><code>createWindow(w, h);</code></div><p>Create a GLFW window.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">w</code><span class="text desc">Window width
-</span></div><div class="param"><code class="name">h</code><span class="text desc">Window height
-</span></div></div><p>It is also possible to create a window in the global scope without defining a setup function.</p><pre><code class="language-lua"> function setup()
+<div class="method" id="createWindow"><div class="methodDeclaration"><code>createWindow(w, h);</code></div><p>Create a GLFW window.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">w</code><span class="text desc">Window width</span></div><div class="param"><code class="name">h</code><span class="text desc">Window height</span></div></div><p>It is also possible to create a window in the global scope without defining a setup function.</p><pre><code class="language-lua"> function setup()
    -- Create the window here
    createWindow(600, 600);
  end
@@ -42,13 +40,8 @@
  function draw()
    -- draw things
  end</code></pre><br/></div>
-<div class="method" id="background"><div class="methodDeclaration"><code>background(r, g, b, a);</code></div><p>Clear a background with a color</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">r</code><span class="text desc">The red byte
-</span></div><div class="param"><code class="name">g</code><span class="text desc">The green byte
-</span></div><div class="param"><code class="name">b</code><span class="text desc">The blue byte
-</span></div><div class="param"><code class="name">a</code><span class="text desc">The alpha byte
-</span></div></div><p></p><br/></div>
-<div class="method" id="frameRate"><div class="methodDeclaration"><code>frameRate(fps);</code></div><p>Set the frame rate </p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">fps</code><span class="text desc">The frame rate to set
-</span></div></div><p>If frame rate is called without an argument, it will return frame per seconds </p><pre><code class="language-lua"> x = 0;
+<div class="method" id="background"><div class="methodDeclaration"><code>background(r, g, b, a);</code></div><p>Clear a background with a color</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">r</code><span class="text desc">The red byte</span></div><div class="param"><code class="name">g</code><span class="text desc">The green byte</span></div><div class="param"><code class="name">b</code><span class="text desc">The blue byte</span></div><div class="param"><code class="name">a</code><span class="text desc">The alpha byte</span></div></div><p></p><br/></div>
+<div class="method" id="frameRate"><div class="methodDeclaration"><code>frameRate(fps);</code></div><p>Set the frame rate </p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">fps</code><span class="text desc">The frame rate to set</span></div></div><p>If frame rate is called without an argument, it will return frame per seconds </p><pre><code class="language-lua"> x = 0;
 
  function setup()
    createWindow(400, 400);
@@ -61,6 +54,22 @@
 
    circle(x, 200, 32);
    x = x + 1;
+ end</code></pre><br/></div>
+<div class="method" id="deltaTime"><div class="methodDeclaration"><code>deltaTime</code><span class="decorator">Global</span></div><p>Elapsed time since the last draw call in seconds</p><p></p><pre><code class="language-lua"> x = 0;
+ vx = 128;
+
+ function setup()
+   createWindow(400, 400);
+   frameRate(24); -- try with 60
+ end
+
+ function draw()
+   background(51);
+
+   circle(x, height/2, 32);
+
+   -- Get the same velocity with different framerates
+   x = x + vx deltaTime;
  end</code></pre><br/></div>
 		</main>
   </body>

@@ -18,7 +18,7 @@
 	<body>
 		<div class="nav" id="menu">
 			<br/>
-			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./math.html"><h4>math</h4></a></li><li class="btn"><a class="light" href="./loaders.html"><h4>loaders</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./events.html"><h4>events</h4></a></li><li class="btn"><a class="light" href="./classes.html"><h4>classes</h4></a></li></ul>
+			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./mouse.html"><h4>mouse</h4></a></li><li class="btn"><a class="light" href="./math.html"><h4>math</h4></a></li><li class="btn"><a class="light" href="./loaders.html"><h4>loaders</h4></a></li><li class="btn"><a class="light" href="./keyboard.html"><h4>keyboard</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./classes.html"><h4>classes</h4></a></li></ul>
 		</div>
 		<main>
 			<header>
@@ -32,20 +32,18 @@
 			</header>
 
 			
-<div class="method" id="loadFont"><div class="methodDeclaration"><code>loadFont(path);</code></div><p>Load a font face</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">path</code><span class="text desc">The font path on the local system
-</span></div></div><h4>Returns</h4><div class="param"><code class="name">font</code><span class="text desc">The image reference</span></div><p></p><pre><code class="language-lua"> function setup()
+<div class="method" id="loadFont"><div class="methodDeclaration"><code>loadFont(path);</code></div><p>Load a font face</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">path</code><span class="text desc">The font path on the local system</span></div></div><h4>Returns</h4><div class="param"><code class="name">font</code><span class="text desc">The image reference</span></div><p></p><pre><code class="language-lua"> function setup()
    createWindow(600, 600);
-   myfont = loadFont('/path/to/myfont.ttf');
+   font = loadFont('/path/to/myfont.ttf');
  end
 
  function draw()
    background(51);
 
-   textFont(myfont);
+   textFont(font);
    text('Hello from lu5!', 30, 50);
  end   </code></pre><br/></div>
-<div class="method" id="loadImage"><div class="methodDeclaration"><code>loadImage(path);</code></div><p>Load a png or jpeg image </p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">path</code><span class="text desc">The local image path
-</span></div></div><h4>Returns</h4><div class="param"><code class="name">image</code><span class="text desc">The image reference</span></div><p></p><pre><code class="language-lua"> function setup()
+<div class="method" id="loadImage"><div class="methodDeclaration"><code>loadImage(path);</code></div><p>Load a png or jpeg image </p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">path</code><span class="text desc">The local image path</span></div></div><h4>Returns</h4><div class="param"><code class="name">img</code><span class="text desc">The image reference</span></div><p></p><pre><code class="language-lua"> function setup()
    createWindow(600, 600);
    img = loadImage('/path/to/mypic.png');
  end
