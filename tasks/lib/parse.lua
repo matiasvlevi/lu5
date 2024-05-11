@@ -91,25 +91,32 @@ function parse_description(comment)
         local tagmatch = string.match(lines[i], "%@%w+");
         if (tagmatch ~= nil) then
             -- Allow brief
-            if (string.match(tagmatch, '%@brief') ~= nil) then
-                -- Skip line
-                i = i + 1;
-            else 
+            if (string.match(tagmatch, '%@example') ~= nil) then
                 -- End of description
                 break;
             end
-            
+            if (string.match(tagmatch, '%@param') ~= nil) then
+                -- End of description
+                break;
+            end
+            goto continue;
         end
-
-		local m = string.match(lines[i], "%s%*%s.+");
-		if (m ~= nil) then
-			table.insert(result, 1, from_md(string.sub(m, 4, #m)));
-		end
+        
+        local m = string.match(lines[i], "%s%*%s.+");
+        if (m ~= nil) then
+            table.insert(result, 1, from_md(string.sub(m, 4, #m)));
+        end
+    
+        ::continue::
 	end
 	return join(result, '\n');
 end
 
 function parse_bottom_description(comment)
+    if (comment:find('%@param') == nil) then 
+        return ''; 
+    end;
+
 	local lines = split(comment, '\n');
 	local result = {};
     
@@ -188,7 +195,9 @@ function parse_example(comment)
     -- Iterate through example and collect lines
     if (i < #lines) then
         while (string.find(lines[i], '@example') == nil and i < #lines) do
+
             local str = lines[i]:gsub('%s-%*%s-', '');
+
             table.insert(result, str);
             i = i + 1;
         end
@@ -197,14 +206,23 @@ function parse_example(comment)
     if (#result < 1) then
         return nil;
     end
-
 	return join(result, '\n');
 end
 
-function parse_comment(comment, name, is_event)    
+function parse_comment(comment, name, is_event)
+
+    local _type = '';
+    if (comment:find('%@global')) then
+        _type = 'global';
+    elseif (comment:find('%@event') or is_event) then
+        _type = 'event';
+    else
+        _type = 'method';
+    end
+    
     return {
 		name              =name,
-		is_event          =is_event,
+        _type             =_type,
 		description       =parse_description(comment),
 		example           =parse_example(comment),
 		bottom_description=parse_bottom_description(comment),
@@ -216,10 +234,10 @@ end
 function parse_params(comment)
 	local params = {};
 
-    local matches = string.gmatch(comment, "@param .- .-%\n");
+    local matches = string.gmatch(comment, "@param .- [%w ,.?!]+");
+    
     local index = 1;
-    for match in matches do
-        
+    for match in matches do   
         params[index] = parse_param(match);
 
         index = index + 1;
@@ -244,14 +262,14 @@ function parse_header(source)
         local dec = string.match(lines[#lines], 'int .-%(.*%)'):gsub('lu5_', '') .. ';';
         local name = split(split(dec, ' ')[2], '(')[1];
 
-        methods[index] = parse_comment(comment, name, false);
+        methods[index] = parse_comment(comment, name, false, false);
         index = index + 1;
     end
 
     for comment in callback_comments do
         -- TODO: Add error handling for nil values to enhance DX
         local name = split(string.match(comment, '@brief.-%\n'), ' ')[2]:sub(1, -2);
-        methods[index] = parse_comment(comment, name, true);
+        methods[index] = parse_comment(comment, name, true, false);
         index = index + 1;
     end
 

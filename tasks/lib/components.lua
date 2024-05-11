@@ -57,10 +57,8 @@ local function Index(modules, class)
     end
 
     for header, methods in pairs(modules) do
-
         -- Panel
         index = index .. MethodSummary(header, methods);
-        
     end
     
     return 
@@ -68,7 +66,6 @@ local function Index(modules, class)
             index..
         "</div>";
 end
-
 
 -- lu5 Method
 local function Method(method)
@@ -87,6 +84,14 @@ local function Method(method)
         method.description = 'No description.';
     end
 
+    local argumentContent = '';
+    if (#method.params > 0) then
+        argumentContent = "<h4>Arguments</h4>"      ..
+                     "<div class=\"params\">" .. 
+                        params                ..
+                     "</div>"                 ;
+    end
+
     local returnContent = '';
     if (method['_return'] ~= nil) then
         returnContent = "<h4>Returns</h4><div class=\"param\">"                      ..
@@ -103,24 +108,30 @@ local function Method(method)
     end
 
     local decorator = '';
-    if (method['is_event']) then
+    if (method._type == 'event') then
         decorator = '<span class="decorator">Event</span>';
+    elseif (method._type == 'global') then
+        decorator = '<span class="decorator">Global</span>';
+    end
+
+    local name = '';
+    if (method._type == 'global') then
+        name = method.name;
+    elseif (method._type == 'event' or method._type == 'method') then 
+        name = get_declaration(method);
     end
 
     return 
         "<div class=\"method\" id=\"".. method.name .. "\">" ..
             '<div class="methodDeclaration">'..
-                "<code>" .. get_declaration(method) .. "</code>" ..
+                "<code>" .. name .. "</code>" ..
                 decorator..
             '</div>'..
             "<p>"    .. method.description .. "</p>"         ..
-            "<h4>Arguments</h4>"                             ..
-            "<div class=\"params\">"                         .. 
-                params                                       ..
-            "</div>"                                         ..
-            returnContent                                    ..
+                argumentContent                              ..
+                returnContent                                ..
             "<p>"    .. method.bottom_description .. "</p>"  ..
-            exampleContent                                   ..
+                exampleContent                               ..
             "<br/>"                                          ..
         "</div>" 
 end

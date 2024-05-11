@@ -55,14 +55,14 @@ a, p, span.text, span.decorator, h1, h2, h3, h4, h5, h6  {
 }
 
 .decorator {
-	font-size: 18pt;
+	font-size: 12pt;
 	border-radius: 6px;
 	color: var(--white);
 	font-weight: bold;
 	background-color: var(--primary);
 
-	margin: 0 2.5rem;
-	padding: 0.2em 0.4em;
+	margin: auto 1.5rem;
+	padding: 0.2em 0.35em;
 
 }
 
