@@ -1,31 +1,31 @@
 #include "lu5_bindings.h"
 
-#include "bindings/events.h"
-#include "bindings/io.h"
-#include "bindings/setting.h"
-#include "bindings/window.h"
-#include "bindings/shapes.h"
-#include "bindings/lu5_math.h"
-#include "bindings/loaders.h"
 #include "bindings/classes.h"
+#include "bindings/loaders.h"
+#include "bindings/window.h"
+#include "bindings/setting.h"
+#include "bindings/lu5_math.h"
+#include "bindings/io.h"
+#include "bindings/shapes.h"
+#include "bindings/mouse.h"
+#include "bindings/keyboard.h"
 
 void lu5_update_dynamic_variables(lu5_State *l5, GLFWwindow *window) {
 	
-
 	double mouseX, mouseY;
 	glfwGetCursorPos(window, &mouseX, &mouseY);
-	LUA_ADD_NUMBER_GLOBAL(l5->L, mouseX);
-	LUA_ADD_NUMBER_GLOBAL(l5->L, mouseY);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, LU5_MOUSE_X, mouseX);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, LU5_MOUSE_Y, mouseY);
 
 	int mouseIsPressed = glfwGetMouseButton(window, 0);
-	LUA_ADD_BOOL_GLOBAL(l5->L, mouseIsPressed);
+	LUA_ADD_BOOL_GLOBAL_BY_NAME(l5->L, LU5_MOUSE_IS_PRESSED, mouseIsPressed);
 
 	if (l5->env.target_framerate == -1) {
 		// For free frame rates
-		LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, "deltaTime", l5->env.delta_time);
+		LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, LU5_DELTA_TIME, l5->env.delta_time);
 	} else {
 		// For fixed frame rates
-		LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, "deltaTime", (lu5.env.now_time - lu5.env.last_frame_time));
+		LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, LU5_DELTA_TIME, (lu5.env.now_time - lu5.env.last_frame_time));
 	}
 }
 

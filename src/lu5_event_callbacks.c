@@ -2,6 +2,7 @@
 #include "lu5_state.h"
 
 #include "lu5_logger.h"
+#include "bindings/mouse.h"
 
 #include <stdio.h>
 
@@ -12,9 +13,9 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
 	lu5.input.mouse.actions[button] = action;
   
 	if (action == 1) {
-		lua_getglobal(lu5.L, "mousePressed");
+		lua_getglobal(lu5.L, LU5_MOUSE_PRESSED);
 	} else {
-		lua_getglobal(lu5.L, "mouseReleased");
+		lua_getglobal(lu5.L, LU5_MOUSE_RELEASED);
 	}
 
 	if (lua_isfunction(lu5.L, -1)) {
