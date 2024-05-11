@@ -13,7 +13,7 @@ lu5_image *lu5_load_image(lu5_State *l5, const char* image_path)
 	unsigned char* image = stbi_load(image_path, &width, &height, &comp, STBI_rgb_alpha); //rgba channels 
 	if (image == NULL) {
 		luaL_error(l5->L, "Could not load image");
-		return 0;
+		return NULL;
 	}
 
 	GLuint texture;
