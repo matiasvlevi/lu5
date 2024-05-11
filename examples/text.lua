@@ -4,10 +4,8 @@ function setup()
 
     -- Replace these with your font paths
     font_arial = loadFont("./examples/fonts/Arial.ttf");
-    font_times = loadFont("./examples/fonts/Tims.ttf");
+    font_times = loadFont("./examples/fonts/Times.ttf");
     font_hack = loadFont("./examples/fonts/Hack.ttf");
-
-	print(font_arial, font_times, font_hack)
 end
 
 function draw()
