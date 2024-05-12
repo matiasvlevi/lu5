@@ -76,7 +76,7 @@ local function Method(method)
         params = params ..
             "<div class=\"param\">"                                       ..
                 "<code class=\"name\">" .. param.name .. "</code>"        ..
-                "<span class=\"text desc\">" .. param.description .. "</span>" ..
+                "<span class=\"text desc\">" .. from_md(param.description) .. "</span>" ..
             "</div>";
     end
 

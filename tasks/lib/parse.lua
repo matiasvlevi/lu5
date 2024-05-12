@@ -233,13 +233,11 @@ end
 
 function parse_params(comment)
 	local params = {};
-
-    local matches = string.gmatch(comment, "@param .- [%w ,.?!]+");
+    local matches = string.gmatch(comment, "@param .- [%w ,.?!%`%_]+");
     
     local index = 1;
     for match in matches do   
         params[index] = parse_param(match);
-
         index = index + 1;
     end
 
