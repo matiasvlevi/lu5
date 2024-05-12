@@ -1,13 +1,12 @@
 PLATFORM ?= gnu
 
 APP_NAME = lu5
-VERSION = 0.0.3
+VERSION = 0.0.4
 
 SRCDIR = src
 BINDIR = bin
 
 DOC_BUILD_SCRIPT = build_docs.lua
-
 
 MACROS=-D'LU5_VERSION="$(VERSION)"'
 

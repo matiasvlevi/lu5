@@ -28,7 +28,7 @@
 					<img class="menuIcon" width="40px" src="./assets/arrow_left.svg"/>
 				</button>
 
-				<span class="text version">v0.0.3</span>
+				<span class="text version">v0.0.4</span>
 			</header>
 
 			
@@ -40,21 +40,18 @@
  function draw()
    -- draw things
  end</code></pre><br/></div>
-<div class="method" id="background"><div class="methodDeclaration"><code>background(r, g, b, a);</code></div><p>Clear a background with a color</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">r</code><span class="text desc">The red byte</span></div><div class="param"><code class="name">g</code><span class="text desc">The green byte</span></div><div class="param"><code class="name">b</code><span class="text desc">The blue byte</span></div><div class="param"><code class="name">a</code><span class="text desc">The alpha byte</span></div></div><p></p><br/></div>
-<div class="method" id="frameRate"><div class="methodDeclaration"><code>frameRate(fps);</code></div><p>Set the frame rate </p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">fps</code><span class="text desc">The frame rate to set</span></div></div><p>If frame rate is called without an argument, it will return frame per seconds </p><pre><code class="language-lua"> x = 0;
+<div class="method" id="frameRate"><div class="methodDeclaration"><code>frameRate</code><span class="decorator">Global</span></div><p>The window's width in pixels. If no window was created, this value is <code class="inline">nil</code></p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">fps</code><span class="text desc">The frame rate to set</span></div></div><p>If frame rate is called without an argument, it will return frame per seconds </p><pre><code class="language-lua"> createWindow(800, 600);
 
- function setup()
-   createWindow(400, 400);
-   frameRate(24);
- end
+ print(width);
+ -- 800</code></pre><br/></div>
+<div class="method" id="width"><div class="methodDeclaration"><code>width</code><span class="decorator">Global</span></div><p>The window's width in pixels. If no window was created, this value is <code class="inline">nil</code></p><p></p><pre><code class="language-lua"> createWindow(800, 600);
 
- function draw()
-   background(51);
-   text('fps: ' .. frameRate(), 20, 10);
+ print(width);
+ -- 800</code></pre><br/></div>
+<div class="method" id="height"><div class="methodDeclaration"><code>height</code><span class="decorator">Global</span></div><p>The window's height in pixels. If no window was created, this value is <code class="inline">nil</code></p><p></p><pre><code class="language-lua"> createWindow(800, 600);
 
-   circle(x, 200, 32);
-   x = x + 1;
- end</code></pre><br/></div>
+ print(height);
+ -- 600</code></pre><br/></div>
 <div class="method" id="deltaTime"><div class="methodDeclaration"><code>deltaTime</code><span class="decorator">Global</span></div><p>Elapsed time since the last draw call in seconds</p><p></p><pre><code class="language-lua"> x = 0;
  vx = 128;
 

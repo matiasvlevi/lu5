@@ -28,14 +28,28 @@
 					<img class="menuIcon" width="40px" src="./assets/arrow_left.svg"/>
 				</button>
 
-				<span class="text version">v0.0.3</span>
+				<span class="text version">v0.0.4</span>
 			</header>
 
 			
-<div class="method" id="isKeyDown"><div class="methodDeclaration"><code>isKeyDown(k);</code></div><p>Check if a keyboard key is pressed, returns <code class="inline">true</code> if key is down and returns <code class="inline">false</code> if it's not</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">k</code><span class="text desc">The keyboard key to check</span></div></div><h4>Returns</h4><div class="param"><code class="name">boolean</code><span class="text desc">Whether or not the key is down</span></div><p></p><br/></div>
+<div class="method" id="isKeyDown"><div class="methodDeclaration"><code>isKeyDown(k);</code></div><p>Check if a keyboard key is pressed, returns <code class="inline">true</code> if key is down and returns <code class="inline">false</code> if it's not</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">k</code><span class="text desc">The keyboard key to check as a key global, or a string</span></div></div><h4>Returns</h4><div class="param"><code class="name">boolean</code><span class="text desc">Whether or not the key is down</span></div><p></p><pre><code class="language-lua"> -- Use a string 
+ if (isKeyDown('a')) then
+   -- key 'a' is down
+ end
+
+ -- use a global
+ if (isKeyDown(LEFT_ARROW)) then
+   -- left arrow is down
+ end</code></pre><br/></div>
 <div class="method" id="keyPressed"><div class="methodDeclaration"><code>keyPressed(key);</code><span class="decorator">Event</span></div><p>Called whenever a key is pressed.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">key</code><span class="text desc">The pressed key</span></div></div><p></p><br/></div>
 <div class="method" id="keyReleased"><div class="methodDeclaration"><code>keyReleased(key);</code><span class="decorator">Event</span></div><p>Called whenever a key is released.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">key</code><span class="text desc">The released key</span></div></div><p></p><br/></div>
 <div class="method" id="keyHeld"><div class="methodDeclaration"><code>keyHeld(key);</code><span class="decorator">Event</span></div><p>Called whenever a key is held down.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">key</code><span class="text desc">The held key</span></div></div><p></p><br/></div>
+<div class="method" id="UP_ARROW"><div class="methodDeclaration"><code>UP_ARROW</code><span class="decorator">Global</span></div><p></p><p></p><br/></div>
+<div class="method" id="DOWN_ARROW"><div class="methodDeclaration"><code>DOWN_ARROW</code><span class="decorator">Global</span></div><p></p><p></p><br/></div>
+<div class="method" id="LEFT_ARROW"><div class="methodDeclaration"><code>LEFT_ARROW</code><span class="decorator">Global</span></div><p></p><p></p><br/></div>
+<div class="method" id="RIGHT_ARROW"><div class="methodDeclaration"><code>RIGHT_ARROW</code><span class="decorator">Global</span></div><p></p><p></p><br/></div>
+<div class="method" id="ENTER"><div class="methodDeclaration"><code>ENTER</code><span class="decorator">Global</span></div><p></p><p></p><br/></div>
+<div class="method" id="BACKSPACE"><div class="methodDeclaration"><code>BACKSPACE</code><span class="decorator">Global</span></div><p></p><p></p><br/></div>
 		</main>
   </body>
 </html>
