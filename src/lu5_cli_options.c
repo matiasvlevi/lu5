@@ -64,8 +64,6 @@ int lu5_option_log(int argc, char **argv, int idx, int cli_id, bool* defaultExec
 	// Check if error during parsing
 	if (
 		(argv[arg_1] == end) ||
-		(errno == ERANGE && log_level == LONG_MIN) ||
-		(errno == ERANGE && log_level == LONG_MAX) ||
 		(errno == EINVAL) ||
 		(errno != 0 && log_level == 0)
 	) {

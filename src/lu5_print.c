@@ -61,10 +61,12 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 		// TODO: Handle these
 		case LUA_TUSERDATA:
 		case LUA_TTHREAD: 
-		default:
+		default:{
 			const char* typename = lua_typename(L, type);
+			
 			printf("[unknown %s]%c", typename, sep);
 			break;
+		}
 	}
 }
  
