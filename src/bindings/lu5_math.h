@@ -3,6 +3,7 @@
 
 #include <lua.h>
 
+// not implemented
 int lu5_random(lua_State *L);
 
 /**
@@ -11,6 +12,7 @@ int lu5_random(lua_State *L);
  * @param x The value to round
  *
  * @return int The rounded value
+ *
  */
 int lu5_round(lua_State *L);
 
@@ -60,5 +62,32 @@ int lu5_cos(lua_State *L);
  * @return number The output value
  */
 int lu5_tan(lua_State *L);
+
+/**
+ * @brief PI
+ * @global
+ */
+#define LU5_PI 3.14159265358979323846
+
+/**
+ * @brief TWO_PI
+ * @global
+ */
+#define LU5_TWO_PI (2*LU5_PI)
+
+/**
+ * @brief HALF_PI
+ * @global
+ */
+#define LU5_HALF_PI (0.5*LU5_PI)
+
+/**
+ * @brief QUARTER_PI
+ * @global
+ *
+ */
+#define LU5_QUARTER_PI (0.25*LU5_PI)
+
+
 
 #endif
