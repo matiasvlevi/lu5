@@ -14,3 +14,11 @@ int print(lua_State *L)
 
 	return 0;
 }
+
+int loadJSON(lua_State *L) {
+	return 0;
+}
+
+int loadStrings(lua_State *L) {
+	return 0;
+}

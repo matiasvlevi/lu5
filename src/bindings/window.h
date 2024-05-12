@@ -3,7 +3,6 @@
 
 #include <lua.h>
 
-
 /**
  *
  * Create a GLFW window.
@@ -25,6 +24,59 @@
  * @example
  */ 
 int createWindow(lua_State *L);
+
+/**
+ * Set the frame rate 
+ *
+ * @param fps The frame rate to set
+ *
+ * If frame rate is called without an argument, it will return frame per seconds 
+ *
+ * @example
+ * x = 0;
+ *
+ * function setup()
+ *   createWindow(400, 400);
+ *   frameRate(24);
+ * end
+ *
+ * function draw()
+ *   background(51);
+ *   text('fps: ' .. frameRate(), 20, 10);
+ *
+ *   circle(x, 200, 32);
+ *   x = x + 1;
+ * end
+ * @example
+ */
+int frameRate(lua_State *L);
+
+/**
+ * @brief deltaTime
+ * @global 
+ *
+ * Elapsed time since the last draw call in seconds
+ *
+ * @example
+ * x = 0;
+ * vx = 128;
+ *
+ * function setup()
+ *   createWindow(400, 400);
+ *   frameRate(24); -- try with 60
+ * end
+ *
+ * function draw()
+ *   background(51);
+ *
+ *   circle(x, height/2, 32);
+ *
+ *   -- Get the same velocity with different framerates
+ *   x = x + vx * deltaTime;
+ * end
+ * @example
+ */
+#define LU5_DELTA_TIME "deltaTime"
 
 /**
  * @brief width
@@ -55,59 +107,5 @@ int createWindow(lua_State *L);
  * @example
  */
 #define LU5_HEIGHT "height"
-
-/**
- * Set the frame rate 
- *
- * @param fps The frame rate to set
- *
- * If frame rate is called without an argument, it will return frame per seconds 
- *
- * @example
- * x = 0;
- *
- * function setup()
- *   createWindow(400, 400);
- *   frameRate(24);
- * end
- *
- * function draw()
- *   background(51);
- *   text('fps: ' .. frameRate(), 20, 10);
- *
- *   circle(x, 200, 32);
- *   x = x + 1;
- * end
- * @example
- */
-int frameRate(lua_State *L);
-
-
-/**
- * @brief deltaTime
- * @global 
- *
- * Elapsed time since the last draw call in seconds
- *
- * @example
- * x = 0;
- * vx = 128;
- *
- * function setup()
- *   createWindow(400, 400);
- *   frameRate(24); -- try with 60
- * end
- *
- * function draw()
- *   background(51);
- *
- *   circle(x, height/2, 32);
- *
- *   -- Get the same velocity with different framerates
- *   x = x + vx * deltaTime;
- * end
- * @example
- */
-#define LU5_DELTA_TIME "deltaTime"
 
 #endif

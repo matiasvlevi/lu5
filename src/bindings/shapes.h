@@ -67,33 +67,6 @@ int line(lua_State *L);
 int quad(lua_State *L);
 
 /**
- * Draw text on the screen
- *
- * @param str String to render
- * @param x The x position of the start of the text
- * @param y The y position of the top of the text
- *
- * Fonts are not yet implemented
- *
- * @example
- * fill(150, 50, 255);
- * text('Hello lu5!', 40, 60);
- * @example
- */
-int text(lua_State *L);
-
-/**
- * Draw an image to the screen
- * 
- * @param image The image reference
- * @param x The x position of the image
- * @param y The y position of the image
- * @param [w] The width of the image, if not specified, using source width
- * @param [h] The height of the image, if not specified, using source height
- */
-int image(lua_State *L);
-
-/**
  * Draw a point on the screen
  *
  * @note Not implemented

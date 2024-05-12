@@ -63,48 +63,6 @@ int noStroke(lua_State *L)
 	return 0;
 }
 
-int textSize(lua_State *L)
-{
-	double size = lua_tonumber(L, 1);
-
-	// Get font, if none available, use default.
-	lu5_font *font = lu5.style.font_current;
-	if (font == NULL) {
-		font = lu5.font_default;
-	}
-
-	FT_Set_Char_Size(
-		font->face,
-		0,
-		size * 64,
-		0,
-		0
-	);
-
-	lu5.style.fontSize = size;
-
-	return 0;
-}
-
-
-int textFont(lua_State *L)
-{
-	// Check if valid
-	if (!lua_islightuserdata(L, 1)) {
-		luaL_error(L, "Expected first argument to be a font ptr");
-	
-		return 0;
-	}
-
-	// Get the font ptr
-	lu5_font *font_id = (lu5_font *)lua_touserdata(L, 1);
-	
-	// Set the current font ptr
-	lu5.style.font_current = font_id;
-
-	return 0;
-}
-
 int push(lua_State *L) 
 {
 	lu5.style_cache = lu5.style;

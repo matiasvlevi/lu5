@@ -1,9 +1,8 @@
-#include "loaders.h"
+#include "typography.h"
+
 #include <lauxlib.h>
 
-#include "../lu5_logger.h"
 #include "../lu5_font.h"
-#include "../lu5_image.h"
 
 int loadFont(lua_State *L) 
 {	
@@ -75,30 +74,68 @@ int loadFont(lua_State *L)
 	return 1;
 }
 
-int loadImage(lua_State *L) 
+int textSize(lua_State *L)
 {
-	const char *image_path = lua_tostring(L, 1);
-	if (!image_path) {
-		// Throw
-		luaL_error(L, "Expected first argument to be a string");
+	double size = lua_tonumber(L, 1);
+
+	// Get font, if none available, use default.
+	lu5_font *font = lu5.style.font_current;
+	if (font == NULL) {
+		font = lu5.font_default;
+	}
+
+	FT_Set_Char_Size(
+		font->face,
+		0,
+		size * 64,
+		0,
+		0
+	);
+
+	lu5.style.fontSize = size;
+
+	return 0;
+}
+
+
+int textFont(lua_State *L)
+{
+	// Check if valid
+	if (!lua_islightuserdata(L, 1)) {
+		luaL_error(L, "Expected first argument to be a font ptr");
+	
 		return 0;
 	}
 
-	// Returns the loaded image ptr
-	lu5_image *img = lu5_load_image(&lu5, image_path);
+	// Get the font ptr
+	lu5_font *font_id = (lu5_font *)lua_touserdata(L, 1);
+	
+	// Set the current font ptr
+	lu5.style.font_current = font_id;
 
-	lua_pushlightuserdata(L, img);
-	return 1;
-}
-
-int loadJSON(lua_State *L) {
 	return 0;
 }
 
-int loadCSV(lua_State *L) {
-	return 0;
-}
+int text(lua_State *L)
+{
+	const char *str = luaL_checkstring(L, 1);
+	if (!str) {
+		luaL_error(L, "Expected a string argument");
+		return 0;
+	}
 
-int loadText(lua_State *L) {
+	double x = lua_tonumber(L, 2);
+	double y = lua_tonumber(L, 3);
+
+	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
+	 
+	// Get font, if none available, use default.
+	lu5_font *font = lu5.style.font_current;
+	if (font == NULL) {
+		font = lu5.font_default;
+	}
+
+	lu5_render_text(str, x, y, lu5.style.fontSize, font);
+
 	return 0;
 }

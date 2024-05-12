@@ -1,7 +1,6 @@
 #include "lu5_bindings.h"
 
 #include "bindings/classes.h"
-#include "bindings/loaders.h"
 #include "bindings/window.h"
 #include "bindings/setting.h"
 #include "bindings/lu5_math.h"
@@ -9,6 +8,8 @@
 #include "bindings/shapes.h"
 #include "bindings/mouse.h"
 #include "bindings/keyboard.h"
+#include "bindings/typography.h"
+#include "bindings/image.h"
 
 void lu5_update_dynamic_variables(lu5_State *l5, GLFWwindow *window) 
 {

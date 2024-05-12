@@ -147,64 +147,6 @@ int line(lua_State *L)
 
 	return 0;
 }
-
-int text(lua_State *L)
-{
-	const char *str = luaL_checkstring(L, 1);
-	if (!str) {
-		luaL_error(L, "Expected a string argument");
-		return 0;
-	}
-
-	double x = lua_tonumber(L, 2);
-	double y = lua_tonumber(L, 3);
-
-	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
-	 
-	// Get font, if none available, use default.
-	lu5_font *font = lu5.style.font_current;
-	if (font == NULL) {
-		font = lu5.font_default;
-	}
-
-	lu5_render_text(str, x, y, lu5.style.fontSize, font);
-
-	return 0;
-}
-
-
-int image(lua_State *L) 
-{
-	// Get image reference
-	if (!lua_islightuserdata(L, 1)) {
-		luaL_error(L, "Expected first argument to be an image ptr");
-		return 0;
-	}
-
-	lu5_image *img = (lu5_image *)lua_touserdata(L, 1);
-
-	// Get position arguments
-	double x = lua_tonumber(L, 2);
-	double y = lua_tonumber(L, 3);
-
-	// Get optional width argument
-	double w = img->width;
-	if (lua_isnumber(L, 4)) {
-		w = lua_tonumber(L, 4);
-	}
-
-	// Get optional height
-	double h = img->height;
-	if (lua_isnumber(L, 5)) {
-		h = lua_tonumber(L, 5);
-	}
-
-	LU5_APPLY_COLOR(lu5.style.fill);
-	lu5_render_image(L, img->texture, x, y, w, h);
-
-	return 0;
-}
-
 int quad(lua_State *L)
 {
 	int argc;
@@ -238,6 +180,8 @@ int point(lua_State *L)
 {
 	double x = lua_tonumber(L, 1);
 	double y = lua_tonumber(L, 2);
+
+	// refer to https://p5js.org/reference/#/p5/point
 
 	luaL_error(L, "TODO: Implement point.\t point(%f, %f);", x, y);
 	return 0;

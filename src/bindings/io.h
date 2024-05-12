@@ -10,4 +10,9 @@
  */ 
 int print(lua_State *L);
 
+int loadJSON(lua_State *L);
+
+int loadStrings(lua_State *L);
+
+
 #endif

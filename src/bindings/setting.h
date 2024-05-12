@@ -73,38 +73,6 @@ int stroke(lua_State *L);
 int noStroke(lua_State *L);
 
 /**
- * Set the font size
- *
- * @param size The size of the font in pixels
- *
- * If this is called using fonts, make sure to call `textSize` after calling `textFont`
- *
- */
-int textSize(lua_State *L);
-
-/**
- * Set the font family
- *
- * @param font The font value returned when using loadFont
- *
- * @example
- * function setup()
- *   createWindow(600, 600);
- *
- *   myfont = loadFont('path/to/myfont.ttf');
- * end
- *
- * function draw()
- *   background(51);
- * 
- *   textFont(myfont);
- *   text('Hello world!', 100, 200);
- * end
- * @example
- */ 
-int textFont(lua_State *L);
-
-/**
  * Save the style settings
  */
 int push(lua_State *L);
