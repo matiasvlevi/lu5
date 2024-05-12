@@ -4,7 +4,16 @@
 
 int isKeyDown(lua_State *L) 
 {
-	int key = lua_tointeger(L, 1);
+	int key = -1;
+	if (lua_isnumber(L, 1)) {
+		key = lua_tointeger(L, 1);
+	} else {
+		const char *str = lua_tostring(L, 1);
+		if (str != NULL) {
+			// Convert to keyCode value
+			key = ((int)str[0]) - ((int)' ');
+		}
+	}
 
 	bool down = false;
 
