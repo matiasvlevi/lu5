@@ -43,7 +43,8 @@ lu5_option cli_options[LU5_OPTION_COUNT] = {
 	}
 };
 
-int lu5_option_log(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename) {
+int lu5_option_log(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename) 
+{
 
 	// option position + nb of args must be smaller than argc
 	if (idx+cli_options[cli_id].arg_count >= argc) {

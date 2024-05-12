@@ -68,8 +68,8 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 	}
 }
  
-void lu5_print_list(lua_State *L, int index, int depth, char sep) {
-
+void lu5_print_list(lua_State *L, int index, int depth, char sep) 
+{
 	// Placeholder to avoid infinite recursion
 	if (depth > PRINT_DEPTH) {  
 		int elem_length = luaL_len(L, index);

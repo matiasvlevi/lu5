@@ -8,7 +8,8 @@
 #include <math.h>
 #define PI 3.14159265358979323846
 
-int circle(lua_State *L) {
+int circle(lua_State *L) 
+{
 	double x = lua_tonumber(L, 1);  
 	double y = lua_tonumber(L, 2);  
 	double d = lua_tonumber(L, 3);  
@@ -67,7 +68,8 @@ int square(lua_State *L)
 	return 0;
 }
 
-int rect(lua_State *L) {
+int rect(lua_State *L) 
+{
 	double x = lua_tonumber(L, 1);  
 	double y = lua_tonumber(L, 2);  
 	double w = lua_tonumber(L, 3);  

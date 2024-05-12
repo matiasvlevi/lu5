@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-void lu5_logger_trace(lua_State *L) {
+void lu5_logger_trace(lua_State *L) 
+{
 	// Get debug table
 	lua_getglobal(L, "debug");
 	if (lua_istable(L, -1)) {

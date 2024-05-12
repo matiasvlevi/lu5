@@ -4,14 +4,16 @@
 
 #include "lu5_state.h"
 
-void lu5_init_freetype(lu5_State *l5) {
+void lu5_init_freetype(lu5_State *l5) 
+{
 	if (FT_Init_FreeType(&(l5->ft)))
 	{
 		LU5_ERROR("Failed to initialize FreeType");
 	}
 }
 
-int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath) {
+int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath) 
+{
 
 	lu5_font *font = (lu5_font*)malloc(sizeof(lu5_font));
 	if (font == NULL) {
@@ -86,7 +88,8 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath) {
 	return FT_Err_Ok;
 }
 
-void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_font *font) {
+void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_font *font) 
+{
 	glEnable(GL_TEXTURE_2D);
 	glPushMatrix();
 	glTranslatef(x, y, 0);

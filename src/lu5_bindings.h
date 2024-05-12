@@ -8,7 +8,6 @@
 #define LUA_ADD_BOOL_GLOBAL(l, name)				  lua_pushboolean(l, name); lua_setglobal(l, #name)
 #define LUA_ADD_BOOL_GLOBAL_BY_NAME(l, name, value)   lua_pushboolean(l, value); lua_setglobal(l, name)
 
-
 #define LUA_ADD_STRING_GLOBAL(l, name)				  lua_pushstring(l, name); lua_setglobal(l, #name)
 #define LUA_ADD_STRING_GLOBAL_BY_NAME(l, name, value) lua_pushstring(l, value); lua_setglobal(l, name)
 

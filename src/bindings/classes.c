@@ -10,7 +10,8 @@
  *
  * @return int The number of arguments
  */
-static int lu5_get_declaration_argc(lua_State *L, int index) {
+static int lu5_get_declaration_argc(lua_State *L, int index) 
+{
 	// Get arg count from declaration
 	lua_getglobal(L, "debug");
 
@@ -36,7 +37,8 @@ static int lu5_get_declaration_argc(lua_State *L, int index) {
 	return result;
 }
 
-static int lu5_call(lua_State *L) {
+static int lu5_call(lua_State *L) 
+{
 	// Create the instance table
 	lua_newtable(L); 
 	
@@ -80,7 +82,8 @@ static int lu5_call(lua_State *L) {
 	return 1;
 }
 
-int lu5_class(lua_State *L) {
+int lu5_class(lua_State *L) 
+{
 	// Get the class name
 	const char *name = luaL_checkstring(L, 1);
 	

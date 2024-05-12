@@ -5,8 +5,8 @@
 #include "../lu5_font.h"
 #include "../lu5_image.h"
 
-int loadFont(lua_State *L) {
-	
+int loadFont(lua_State *L) 
+{	
 	const char *font_path = lua_tostring(L, 1);
 	if (!font_path) {
 		// If default font is defined

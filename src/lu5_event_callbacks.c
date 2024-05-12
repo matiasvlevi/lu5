@@ -74,8 +74,8 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 
-void lu5_register_event_callbacks(GLFWwindow *window) {
-
+void lu5_register_event_callbacks(GLFWwindow *window) 
+{
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
 	glfwSetKeyCallback(window, key_callback);
 

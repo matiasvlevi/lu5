@@ -14,7 +14,8 @@
 
 #include "lu5_font.h"
 
-void lu5_draw(lu5_State *l5, GLFWwindow *window) {
+static void lu5_draw(lu5_State *l5, GLFWwindow *window) 
+{
 	lua_getglobal(l5->L, "draw");
 	if (lua_pcall(l5->L, 0, 0, 0) != LUA_OK) {
 		LU5_ERROR(lua_tostring(l5->L, -1));
@@ -24,7 +25,8 @@ void lu5_draw(lu5_State *l5, GLFWwindow *window) {
 	glfwSwapBuffers(window);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv) 
+{
 
 	char *filename;
 	// return if option ran

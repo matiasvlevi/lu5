@@ -16,7 +16,8 @@ lu5_State lu5 = {
 	}
 };
 
-void lu5_list_push(lu5_node **head, void *data, size_t data_size) {
+void lu5_list_push(lu5_node **head, void *data, size_t data_size) 
+{
 	lu5_node *new_node = (lu5_node*)malloc(sizeof(lu5_node));
 	
 	new_node->data = data;
@@ -25,7 +26,8 @@ void lu5_list_push(lu5_node **head, void *data, size_t data_size) {
 	*head = new_node;
 }
 
-void lu5_list_iter(lu5_node *node, void (*ptr)(void*)) {
+void lu5_list_iter(lu5_node *node, void (*ptr)(void*)) 
+{
 	while (node != NULL) {
 		if (ptr != NULL) 
 			(*ptr)(node->data);
