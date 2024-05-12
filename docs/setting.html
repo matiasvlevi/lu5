@@ -18,7 +18,7 @@
 	<body>
 		<div class="nav" id="menu">
 			<br/>
-			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./mouse.html"><h4>mouse</h4></a></li><li class="btn"><a class="light" href="./math.html"><h4>math</h4></a></li><li class="btn"><a class="light" href="./loaders.html"><h4>loaders</h4></a></li><li class="btn"><a class="light" href="./keyboard.html"><h4>keyboard</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./classes.html"><h4>classes</h4></a></li></ul>
+			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./typography.html"><h4>typography</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./mouse.html"><h4>mouse</h4></a></li><li class="btn"><a class="light" href="./math.html"><h4>math</h4></a></li><li class="btn"><a class="light" href="./keyboard.html"><h4>keyboard</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./image.html"><h4>image</h4></a></li><li class="btn"><a class="light" href="./classes.html"><h4>classes</h4></a></li></ul>
 		</div>
 		<main>
 			<header>
@@ -41,19 +41,6 @@
 <div class="method" id="stroke"><div class="methodDeclaration"><code>stroke(r, g, b, a);</code></div><p>Set the stroke color for shapes</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">r</code><span class="text desc">The red byte</span></div><div class="param"><code class="name">g</code><span class="text desc">The green byte</span></div><div class="param"><code class="name">b</code><span class="text desc">The blue byte</span></div><div class="param"><code class="name">a</code><span class="text desc">The alpha byte</span></div></div><p>Only implemented for <code class="inline">line</code> and <code class="inline">circle</code></p><br/></div>
 <div class="method" id="noStroke"><div class="methodDeclaration"><code>noStroke();</code></div><p>Only implemented for <code class="inline">line</code> and <code class="inline">circle</code>
 Disable stroke</p><p></p><br/></div>
-<div class="method" id="textSize"><div class="methodDeclaration"><code>textSize(size);</code></div><p>Set the font size</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">size</code><span class="text desc">The size of the font in pixels</span></div></div><p>If this is called using fonts, make sure to call <code class="inline">textSize</code> after calling <code class="inline">textFont</code></p><br/></div>
-<div class="method" id="textFont"><div class="methodDeclaration"><code>textFont(font);</code></div><p>Set the font family</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">font</code><span class="text desc">The font value returned when using loadFont</span></div></div><p></p><pre><code class="language-lua"> function setup()
-   createWindow(600, 600);
-
-   myfont = loadFont('path/to/myfont.ttf');
- end
-
- function draw()
-   background(51);
- 
-   textFont(myfont);
-   text('Hello world!', 100, 200);
- end</code></pre><br/></div>
 <div class="method" id="push"><div class="methodDeclaration"><code>push();</code></div><p>Save the style settings</p><p></p><br/></div>
 <div class="method" id="pop"><div class="methodDeclaration"><code>pop();</code></div><p>Restore the style settings </p><p></p><br/></div>
 		</main>
