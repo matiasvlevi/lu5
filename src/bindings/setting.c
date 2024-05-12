@@ -5,6 +5,21 @@
 #include "../lu5_state.h"
 #include "../lu5_font.h"
 
+int background(lua_State *L) 
+{
+	lu5_color color = lu5_args_to_color(L);
+
+	glClearColor(
+		((GLfloat)color.r)/255.0f, 
+		((GLfloat)color.g)/255.0f, 
+		((GLfloat)color.b)/255.0f, 
+		((GLfloat)color.a)/255.0f
+	);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	return 0;
+}
+
 int strokeWeight(lua_State *L) 
 {
 	double weight = lua_tonumber(L, 1);

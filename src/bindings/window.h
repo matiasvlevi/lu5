@@ -27,15 +27,34 @@
 int createWindow(lua_State *L);
 
 /**
- * Clear a background with a color
+ * @brief width
+ * @global
+ * 
+ * The window's width in pixels. If no window was created, this value is `nil`
  *
- * @param r The red byte
- * @param g The green byte
- * @param b The blue byte
- * @param a The alpha byte
+ * @example
+ * createWindow(800, 600);
  *
- */ 
-int background(lua_State *L);
+ * print(width);
+ * -- 800
+ * @example
+ */
+#define LU5_WIDTH "width"
+
+/**
+ * @brief height
+ * @global
+ *
+ * The window's height in pixels. If no window was created, this value is `nil`
+ *
+ * @example
+ * createWindow(800, 600);
+ *
+ * print(height);
+ * -- 600
+ * @example
+ */
+#define LU5_HEIGHT "height"
 
 /**
  * Set the frame rate 
@@ -90,4 +109,5 @@ int frameRate(lua_State *L);
  * @example
  */
 #define LU5_DELTA_TIME "deltaTime"
+
 #endif

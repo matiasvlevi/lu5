@@ -4,6 +4,17 @@
 #include <lua.h>
 
 /**
+ * Clear a background with a color
+ *
+ * @param r The red byte
+ * @param g The green byte
+ * @param b The blue byte
+ * @param a The alpha byte
+ *
+ */ 
+int background(lua_State *L);
+
+/**
  * Set the fill color for shapes
  *
  * @param r The red byte
