@@ -20,13 +20,12 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#define LU5_DEFAULT_STYLE (lu5_style_setting_t){\
-	.strokeWeight = 1,\
-	.stroke = LU5_BLACK,\
-	.fill = LU5_WHITE,\
-	.fontSize = 22,\
-	.font_current = NULL\
-}
+#define LU5_SET_DEFAULT_STYLE(s)\
+	(s)->strokeWeight = 1;\
+	(s)->stroke = LU5_BLACK;\
+	(s)->fill = LU5_WHITE;\
+	(s)->fontSize = 22;\
+	(s)->font_current = NULL;\
 
 typedef struct {
 	FT_Face face;

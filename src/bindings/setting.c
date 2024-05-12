@@ -66,13 +66,13 @@ int noStroke(lua_State *L)
 int push(lua_State *L) 
 {
 	lu5.style_cache = lu5.style;
-	lu5.style = LU5_DEFAULT_STYLE;
+	LU5_SET_DEFAULT_STYLE(&lu5.style);
 	return 0;
 }
 
 int pop(lua_State *L) 
 {
 	lu5.style = lu5.style_cache;
-	lu5.style_cache = LU5_DEFAULT_STYLE;
+	LU5_SET_DEFAULT_STYLE(&lu5.style_cache);
 	return 0;
 }
