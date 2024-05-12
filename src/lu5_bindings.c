@@ -10,7 +10,8 @@
 #include "bindings/mouse.h"
 #include "bindings/keyboard.h"
 
-void lu5_update_dynamic_variables(lu5_State *l5, GLFWwindow *window) {
+void lu5_update_dynamic_variables(lu5_State *l5, GLFWwindow *window) 
+{
 	
 	double mouseX, mouseY;
 	glfwGetCursorPos(window, &mouseX, &mouseY);
@@ -29,14 +30,15 @@ void lu5_update_dynamic_variables(lu5_State *l5, GLFWwindow *window) {
 	}
 }
 
+
 static void lu5_register_constants(lua_State *L) 
 {
-	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "LEFT_ARROW",  263);
-	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "RIGHT_ARROW", 262);
-	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "UP_ARROW",    265);
-	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "DOWN_ARROW",  264);
-	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "ENTER",       257);
-	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "BACKSPACE",   259);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "LEFT_ARROW",  LU5_KEY_LEFT_ARROW);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "RIGHT_ARROW", LU5_KEY_RIGHT_ARROW);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "UP_ARROW",    LU5_KEY_UP_ARROW);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "DOWN_ARROW",  LU5_KEY_DOWN_ARROW);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "ENTER",       LU5_KEY_ENTER);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "BACKSPACE",   LU5_KEY_BACKSPACE);
 }
 
 void lu5_register_symbols(lua_State *L) 
