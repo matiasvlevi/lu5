@@ -6,7 +6,32 @@
 
 #include <lauxlib.h>
 #include <math.h>
-#define PI 3.14159265358979323846
+#include "lu5_math.h"
+
+int beginShape(lua_State *L) 
+{
+	int shape_type = lua_tointeger(L, 1);
+
+	LU5_APPLY_COLOR(lu5.style.fill);
+	glBegin(shape_type);
+
+	return 0;
+}
+
+int vertex(lua_State *L) 
+{
+	double x = lua_tonumber(L, 1);
+	double y = lua_tonumber(L, 2);
+
+	glVertex2f(x, y);
+	return 0;
+}
+
+int endShape(lua_State *L)
+{
+	glEnd();
+	return 0;
+}
 
 int circle(lua_State *L) 
 {
@@ -15,7 +40,7 @@ int circle(lua_State *L)
 	double d = lua_tonumber(L, 3);  
 
 	float radius = d / 2.0f;
-	float angleStep = 2 * PI / LU5_CIRCLE_SEGMENTS;
+	float angleStep = 2 * LU5_PI / LU5_CIRCLE_SEGMENTS;
 
 	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
 
@@ -122,7 +147,7 @@ int line(lua_State *L)
 
 	float radius = ((float)lu5.style.strokeWeight) / 2.0f;
 
-	float angleStep = (2 * PI) / LINE_POINT_SEGMENTS;
+	float angleStep = (2 * LU5_PI) / LINE_POINT_SEGMENTS;
 
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex2f(x1, y1);

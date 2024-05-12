@@ -98,4 +98,38 @@ int ellipse(lua_State *L);
  */ 
 int triangle(lua_State *L);
 
+/**
+ * Begin adding vertices to a custom shape
+ * 
+ * @param mode The opengl shape mode `LINES`, `POINTS`, `QUADS`, `TRIANGLES`, `TRIANGLE_FAN` 
+ *
+ * The following would draw a 100 by 100 square at position 100, 100
+ * @example
+ * beginShape(QUADS);
+ *   vertex(100, 100);
+ *   vertex(100, 200);
+ *   vertex(200, 200);
+ *   vertex(200, 100);
+ * endShape();
+ * @example
+ */
+int beginShape(lua_State *L);
+
+/**
+ * `beginShape` must be called prior
+ * Adding a vertex to a custom shape
+ * 
+ * @param x The x position
+ * @param y The y position
+ *
+ */
+int vertex(lua_State *L);
+
+/**
+ * `beginShape` must be called prior
+ * Close the custom shape
+ *
+ */
+int endShape(lua_State *L);
+
 #endif
