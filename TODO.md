@@ -9,7 +9,7 @@ A list of possible functions to implement in lu5, these do not require any major
 - [ ] `noLoop()`
 - [ ] `redraw()`
 - [ ] `fullscreen()`
-- [ ] `windowResized()`
+- [x] `windowResized()`
 
 ### Geometry
 

@@ -1,12 +1,28 @@
 #include "lu5_window.h"
+
+#include "bindings/window.h"
+
 #include <lauxlib.h>
 
 #include "stb/stb_image.h"
 #include "static/lu5_icon.h"
 
-static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+#include "lu5_state.h"
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-	glViewport(0, 0, width, height);
+
+	lua_getglobal(lu5.L, LU5_WINDOW_RESIZED);
+	if (lua_isfunction(lu5.L, -1)) {
+		lua_pushnumber(lu5.L, width);
+		lua_pushnumber(lu5.L, height);
+		if (lua_pcall(lu5.L, 2, 0, 0) != LUA_OK) {
+			luaL_error(lu5.L, lua_tostring(lu5.L, -1));
+		}
+	}
+
+	//glViewport(0, 0, width, height);
+
 }
 
 GLFWwindow *lu5_create_glfw_window(
@@ -31,6 +47,9 @@ GLFWwindow *lu5_create_glfw_window(
 		glfwTerminate();
 		return NULL;
 	}
+
+	// No resize
+	// glfwWindowHint(GLFW_RESIZABLE, false);
 
 	// Make the window's context current
 	glfwMakeContextCurrent(window);

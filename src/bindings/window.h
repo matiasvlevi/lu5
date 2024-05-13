@@ -108,4 +108,12 @@ int frameRate(lua_State *L);
  */
 #define LU5_HEIGHT "height"
 
+/**
+ * @brief windowResized
+ *
+ * Called when the window is resized
+ *
+ */ 
+#define LU5_WINDOW_RESIZED "windowResized"
+
 #endif
