@@ -66,13 +66,13 @@ int lu5_map(lua_State *L);
 /**
  * Calculates the distance between 2 points in 2D space
  *
- * @param X1 The x coordinate of the first point
+ * @param x1 The x coordinate of the first point
  *
- * @param Y1 The y coordinate of the first point
+ * @param y1 The y coordinate of the first point
  *
- * @param X2 The x coordinate of the second point
+ * @param x2 The x coordinate of the second point
  *
- * @param Y1 The y coordinate of the second point
+ * @param y1 The y coordinate of the second point
  *
  * @return number The distance between the points
  */

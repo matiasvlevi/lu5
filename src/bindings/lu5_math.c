@@ -36,9 +36,7 @@ int lu5_abs(lua_State *L)
 {
 	double x = lua_tonumber(L, 1);
 
-	if (x < 0) x *= -1;
-	
-	lua_pushnumber(L, x);
+	lua_pushnumber(L, fabs(x));
 	return 1;
 }
 
@@ -58,12 +56,12 @@ int lu5_map(lua_State *L)
 
 int lu5_dist(lua_State *L)
 {
-	double X1 = lua_tonumber(L, 1);
-	double Y1 = lua_tonumber(L, 2);
-	double X2 = lua_tonumber(L, 3);
-	double Y2 = lua_tonumber(L, 4);
+	double x1 = lua_tonumber(L, 1);
+	double y1 = lua_tonumber(L, 2);
+	double x2 = lua_tonumber(L, 3);
+	double y2 = lua_tonumber(L, 4);
 
-	double value = sqrt(pow(X2 - X1, 2) + pow(Y2 - Y1, 2));
+	double value = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 	
 	lua_pushnumber(L, value);
 	return 1;
