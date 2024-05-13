@@ -112,7 +112,7 @@ void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_fon
 		if(FT_Load_Char(font->face, *p, FT_LOAD_DEFAULT)) continue;
 		
 		// Adjust height
-		float y_adjusted = y + ascender - font->face->glyph->bitmap_top;
+		float y_adjusted = ascender - font->face->glyph->bitmap_top;
 		
 		// Calculate the pen advances
 		float x_advance = 
@@ -135,7 +135,7 @@ void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_fon
 		glEnd();
 
 	   // Move to next glyph position
-	   glTranslatef(x_advance, -y_advance, 0);
+	   glTranslatef(x_advance, y_advance, 0);
 	}
 
 	glPopMatrix();
