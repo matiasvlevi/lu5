@@ -103,11 +103,16 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, arc);
 
 	LUA_ADD_FUNCTION_BY_NAME(L, "round", lu5_round);
-	LUA_ADD_FUNCTION_BY_NAME(L,  "ceil", lu5_ceil);
+	LUA_ADD_FUNCTION_BY_NAME(L, "ceil", lu5_ceil);
 	LUA_ADD_FUNCTION_BY_NAME(L, "floor", lu5_floor);
-	LUA_ADD_FUNCTION_BY_NAME(L,   "sin", lu5_sin);
-	LUA_ADD_FUNCTION_BY_NAME(L,   "cos", lu5_cos);
-	LUA_ADD_FUNCTION_BY_NAME(L,   "tan", lu5_tan);
+	LUA_ADD_FUNCTION_BY_NAME(L, "sin", lu5_sin);
+	LUA_ADD_FUNCTION_BY_NAME(L, "cos", lu5_cos);
+	LUA_ADD_FUNCTION_BY_NAME(L, "tan", lu5_tan);
+	LUA_ADD_FUNCTION_BY_NAME(L, "abs", lu5_abs);
+	LUA_ADD_FUNCTION_BY_NAME(L, "map", lu5_map);
+	LUA_ADD_FUNCTION_BY_NAME(L, "dist", lu5_dist);
+	LUA_ADD_FUNCTION_BY_NAME(L, "constrain", lu5_constrain);
+
 
 	lu5_register_constants(L);
 }
