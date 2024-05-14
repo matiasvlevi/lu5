@@ -40,9 +40,9 @@ int circle(lua_State *L)
 	double d = lua_tonumber(L, 3);  
 
 	float radius = d / 2.0f;
-	float angleStep = 2 * LU5_PI / LU5_CIRCLE_SEGMENTS;
+	float angleStep = LU5_TWO_PI / LU5_CIRCLE_SEGMENTS;
 
-	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
+	LU5_APPLY_COLOR(lu5.style.fill);
 
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex2f(x, y); // Center of the circle
@@ -51,13 +51,12 @@ int circle(lua_State *L)
 		float angle = angleStep * i;
 		float x_offset = radius * cos(angle);
 		float y_offset = radius * sin(angle);
-
 		glVertex2f(x + x_offset, y + y_offset);
 	}
 
 	glEnd();
 
-	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.stroke, lu5.style.fill);
+	LU5_APPLY_COLOR(lu5.style.stroke);
 
 	glBegin(GL_LINE_LOOP);
 		for (int i = 0; i <= LU5_CIRCLE_SEGMENTS; i++) {
