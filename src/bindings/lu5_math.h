@@ -37,6 +37,44 @@ int lu5_floor(lua_State *L);
 int lu5_ceil(lua_State *L);
 
 /**
+ * Return the smallest value.
+ * Can also take any number of arguments, or a table.
+ * 
+ * @param a The first value
+ * @param b The second value
+ *
+ * @example
+ * min(6, 7); -- returns 6
+ *
+ * min(6, 7, 4); -- returns 4
+ *
+ * min({ 6, 7, 4 }); -- returns 4
+ * @example
+ *
+ * @return number The smallest value 
+ */
+int lu5_min(lua_State *L);
+
+/**
+ * Return the largest value.
+ * Can also take any number of arguments, or a table.
+ * 
+ * @param a The first value
+ * @param b The second value
+ *
+ * @example
+ * max(2, 5); -- returns 5
+ *
+ * max(2, 5, 7); -- returns 7
+ *
+ * max({ 2, 5, 7 }); -- returns 7
+ * @example
+ *
+ * @return number The largest value 
+ */
+int lu5_max(lua_State *L);
+
+/**
  * Returns the absolute value of x which is its distance from 0
  * <a href="https://en.wikipedia.org/wiki/Absolute_value">see here</a> 
  *
@@ -50,13 +88,9 @@ int lu5_abs(lua_State *L);
  * Maps x from an original range to a target range
  *
  * @param x The value to map
- *
  * @param s1 The start of the initial range
- *
  * @param e1 The end of the initial range
- *
  * @param s2 The start of the target range
- *
  * @param e2 The end of the target range
  *
  * @return number The mapped value
@@ -67,11 +101,8 @@ int lu5_map(lua_State *L);
  * Calculates the distance between 2 points in 2D space
  *
  * @param x1 The x coordinate of the first point
- *
  * @param y1 The y coordinate of the first point
- *
  * @param x2 The x coordinate of the second point
- *
  * @param y1 The y coordinate of the second point
  *
  * @return number The distance between the points
@@ -82,9 +113,7 @@ int lu5_dist(lua_State *L);
  * Limits x to a minimum and maximum value
  *
  * @param x The input value
- *
  * @param min The minimum value
- *
  * @param max The maximum value
  *
  * @return number The constrained value

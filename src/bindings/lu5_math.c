@@ -1,6 +1,10 @@
 #include "lu5_math.h"
 #include "lauxlib.h"
+
+#include "../lu5_logger.h"
+
 #include <math.h>
+#include <float.h>
 
 int lu5_random(lua_State *L) 
 {
@@ -29,6 +33,85 @@ int lu5_ceil(lua_State *L)
 	double value = lua_tonumber(L, 1);
 
 	lua_pushinteger(L, ceil(value));
+	return 1;
+}
+
+static double lu5_assert_number(lua_State *L, int index, const char *fname) {
+	if (lua_isnumber(L, index)) 
+		return lua_tonumber(L, index);
+
+	int type = lua_type(L, index);
+	const char* typename = lua_typename(L, type);
+
+	return
+		luaL_error(L,  "Expected 'number' in function '%s' at argument %d. Found %s instead.", fname, index, typename);
+}
+
+int lu5_min(lua_State *L)
+{	
+	double result = DBL_MAX;
+
+	int argc = lua_gettop(L);
+	
+	if (argc >= 2) 
+	{
+		// Iterate over arguments
+		for (int i = 1; i <= argc; i++) {
+			result = fmin(
+				result, 
+				lu5_assert_number(L, i, "min")
+			);
+		}
+	} 
+	else if (argc == 1 && lua_istable(L, 1)) 
+	{
+		// Iterate lua table
+		lua_pushnil(L);
+		while (lua_next(L, 1) != 0) {
+			result = fmin(result, lu5_assert_number(L, -1, "min"));
+
+			lua_pop(L, 1);
+		}
+	} else {
+		return	
+			luaL_error(L, "Expected 2 or more arguments for 'min'");
+	}
+
+	lua_pushnumber(L, result);
+	return 1;
+}
+
+int lu5_max(lua_State *L)
+{	
+	double result = DBL_MIN;
+
+	int argc = lua_gettop(L);
+	
+	if (argc >= 2) 
+	{
+		// Iterate over arguments
+		for (int i = 1; i <= argc; i++) {
+			result = fmax(
+				result, 
+				lu5_assert_number(L, i, "max")
+			);
+		}
+	} 
+	else if (argc == 1 && lua_istable(L, 1)) 
+	{
+		// Iterate lua table
+		lua_pushnil(L);
+		while (lua_next(L, 1) != 0) {
+			result = fmax(result, lu5_assert_number(L, -1, "max"));
+
+			lua_pop(L, 1);
+		}
+	} else {
+		return	
+			luaL_error(L, "Expected 2 or more arguments for 'max'");
+	}
+
+	lua_pushnumber(L, result);
 	return 1;
 }
 

@@ -108,6 +108,8 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION_BY_NAME(L, "sin", lu5_sin);
 	LUA_ADD_FUNCTION_BY_NAME(L, "cos", lu5_cos);
 	LUA_ADD_FUNCTION_BY_NAME(L, "tan", lu5_tan);
+	LUA_ADD_FUNCTION_BY_NAME(L, "max", lu5_max);
+	LUA_ADD_FUNCTION_BY_NAME(L, "min", lu5_min);
 	LUA_ADD_FUNCTION_BY_NAME(L, "abs", lu5_abs);
 	LUA_ADD_FUNCTION_BY_NAME(L, "map", lu5_map);
 	LUA_ADD_FUNCTION_BY_NAME(L, "dist", lu5_dist);
