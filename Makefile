@@ -46,6 +46,8 @@ SOURCES = $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/bindings/*.c) $(wildcar
 OBJECTS := $(patsubst src/%.c,$(OBJDIR)/%.o,$(SOURCES))
 DEP = $(OBJECTS:.o=.d)
 
+EXAMPLES = $(wildcard examples/*.lua)
+
 all: $(BIN)
 
 -include $(DEP)
@@ -63,10 +65,16 @@ else
 endif
 
 
-.PHONY: all clean install docs zip
+.PHONY: all clean install docs zip examples
 
 run: $(BIN)
 	$(BIN) ./test.lua
+
+examples: $(all) $(EXAMPLES:=.run)
+
+examples/%.lua.run: examples/%.lua 
+	$(BIN) $<
+	rm -f $@
 
 docs: $(BIN)
 	$(BIN) ./tasks/$(DOC_BUILD_SCRIPT)
@@ -83,5 +91,6 @@ clean:
 	rm -fr docs/assets/*.svg
 	rm -fr docs/assets/*.css
 	rm -fr docs/assets/*.js
+	rm -fr examples/*.lua.run
 
 
