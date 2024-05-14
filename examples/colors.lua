@@ -1,8 +1,13 @@
+offset = 0;
+side_margin = 50;
 
 function setup()
     createWindow(400, 400); 
 
-    size = width/#colors;
+    size = width/(#colors-2);
+    margin = size/4;
+    
+    textSize(26);
 end
 
 function draw()
@@ -10,7 +15,23 @@ function draw()
 
     for i=1, #colors do
         fill(colors[i]);
-        rect((i-1)*size - size, 0, size, height);
+
+        local ypos = ((i - 1) * size + offset) % (height + size) - size + margin;
+        rect(
+            side_margin,
+            ypos,
+            height - side_margin*2,
+            size - margin
+        );
+
+        if (colors[i] == 'black') then
+           fill(255, 100);
+        else
+            fill(0, 100);
+        end
+            text(colors[i], side_margin + 16, ypos - 2);
     end
+
+    offset = offset + 2; 
 end
 

@@ -1,16 +1,25 @@
+size = 48;
+
 function setup()
     createWindow(400, 400);
+    textSize(22);
 end
 
 function draw()
     background(51);
+
+    fill(255);
+    text('Click the mouse to', 10, 10);
+    text('change the circle\'s size', 10, 32);
+
     if (mouseIsPressed) then
-        fill(255, 155, 50);
+        size = 32
     else
-        fill(155, 50, 255);
+        size = 48;
     end
 
-    circle(mouseX, mouseY, 32);
+    fill(255, 155, 50);
+    circle(mouseX, mouseY, size);
 end
 
 

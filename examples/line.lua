@@ -9,9 +9,15 @@ end
 function draw()
     background(51);
 
+    text('Click & Drag the mouse', 30, 30);
+
+
     strokeWeight(12);
+    stroke(255);
     if (mouseIsPressed) then
         line(prevX, prevY, mouseX, mouseY);
+    else
+        circle(mouseX, mouseY, 6);
     end
 end
 
