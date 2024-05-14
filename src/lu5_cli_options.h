@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define LU5_OPTION_COUNT 3
+#define LU5_OPTION_COUNT 4
 
 typedef struct {
 	const char *name;
@@ -17,6 +17,7 @@ extern lu5_option cli_options[LU5_OPTION_COUNT];
 
 int lu5_option_log(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename);
 int lu5_option_init(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename);
+int lu5_option_install(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename);
 int lu5_option_help(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename);
 
 #endif

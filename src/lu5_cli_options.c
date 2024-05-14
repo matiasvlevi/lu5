@@ -5,9 +5,12 @@
 #include "lu5_cli_options.h"
 
 #include "lu5_state.h"
+#include "lu5_fs.h"
 
 #include <sys/stat.h>
 #include <errno.h>
+
+#include <unistd.h>
 
 #define LU5_SKETCH_BOILERPLATE \
 		"\n"\
@@ -39,6 +42,13 @@ lu5_option cli_options[LU5_OPTION_COUNT] = {
 		.description = " Set lu5's log level. Value 0 will disable all logs",
 		.example = "lu5 sketch.lua --log 1",
 		.handler = lu5_option_log,
+		.arg_count = 1
+	},
+	{
+		.name = "install",
+		.description = "Install a lu5 sketch on the system globally",
+		.example = "lu5 --install sketch.lua",
+		.handler = lu5_option_install,
 		.arg_count = 1
 	}
 };
@@ -94,10 +104,10 @@ int lu5_option_init(int argc, char **argv, int idx, int cli_id, bool* defaultExe
 
 	// first option argument is filename
 	*filename = argv[arg_1];
-	struct stat buffer;
 
 	// If file exists
-	if (stat(*filename, &buffer) == 0) {
+	struct stat file_info;
+	if (stat(*filename, &file_info) == 0) {
 		
 		LU5_WARN(
 			"It seems that \x1b[90m%s\x1b[0m already exists", 
@@ -124,9 +134,9 @@ int lu5_option_init(int argc, char **argv, int idx, int cli_id, bool* defaultExe
 	
 	}
 
-	FILE *sketch = fopen(argv[arg_1], "w");
+	FILE *sketch = fopen(argv[arg_1], "wr");
 
-	LU5_INFO("Overwriting %s", *filename);
+	LU5_INFO("Writing %s", *filename);
 
 	// Write to file
 	fprintf(sketch, LU5_SKETCH_BOILERPLATE);
@@ -135,6 +145,148 @@ int lu5_option_init(int argc, char **argv, int idx, int cli_id, bool* defaultExe
 	fclose(sketch);
 
 	return 0;
+}
+
+int lu5_option_install(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename) 
+{
+#ifdef _WIN32
+	LU5_WARN("Feature not implemented for windows yet. exiting.");
+	
+	// avoid unused warnings
+	(void)lu5_read_file;
+	(void)lu5_write_file;
+
+	return 0;
+#else
+	// option position + nb of args must be smaller than argc
+	if (idx+cli_options[cli_id].arg_count >= argc) {
+		LU5_ERROR(LU5_FILE_NOT_SPECIFIED);
+		return 1;
+	}
+
+	int arg_1 = idx+1;
+
+	// first option argument is filename
+	*filename = argv[arg_1];
+
+	// If does not file exist
+	struct stat file_info;
+	if LU5_FILE_NOT_EXISTS(*filename, &file_info) {
+		
+		LU5_ERROR(
+			"Could not find \x1b[90m'%s'\x1b[0m", 
+			argv[arg_1]
+		);
+
+		if (errno) LU5_ERROR("errno: %i", errno);
+		
+		return 1;
+	}
+
+	int err;
+
+	char *installed_path, 
+		 *first_line_str, 
+		 *sketch_source, 
+		 *sketch_name = lu5_get_file_name(*filename);
+
+	int sketch_name_len = strlen(sketch_name);
+
+	// Create a destination path
+	installed_path = malloc(sketch_name_len + 10);
+	if (!installed_path) {
+		LU5_ERROR("Not enough memory to allocate \x1b[90m'%s'\x1b[0m source in heap", *filename);
+
+		free(sketch_name);
+		return 1;
+	}
+
+	// Format destination path
+	sprintf(installed_path, "/usr/bin/%s", sketch_name);
+
+	// Check if file at path exists
+	struct stat dest_file_info;
+	if (LU5_FILE_EXISTS(installed_path, &dest_file_info)) {
+
+		LU5_ERROR(
+			"\x1b[90m'%s'\x1b[0m already exists, cancelling.",
+			installed_path
+		);
+
+		if (errno) LU5_ERROR("errno: %i", errno);
+
+		free(installed_path);
+		return 1;
+	}
+
+	LU5_INFO("Installing %s to %s", *filename, installed_path);
+
+	// Read the source file
+	long sketch_length;
+	sketch_source = lu5_read_file(*filename, &sketch_length);
+
+	// check for hashbang
+	const char *hashbang = "#!/usr/bin/lu5";
+	const char *end_line = strchr(sketch_source, '\n');
+	int first_line_length = (end_line) ? (end_line - sketch_source) : sketch_length;
+
+	// 
+	first_line_str = malloc(first_line_length+1);
+	if (!first_line_str) {
+		LU5_ERROR("Not enough memory to allocate \x1b[90m'%s'\x1b[0m source in heap", *filename);
+
+		free(installed_path);
+		free(sketch_source);
+		return 1;
+	}
+
+	strncpy(first_line_str, sketch_source, first_line_length);
+	if (strstr(first_line_str, hashbang) == NULL) {
+		LU5_ERROR("lu5 sketch \x1b[90m'%s'\x1b[0m must have a hashbang \x1b[90m'%s'\x1b[0m as the first line of the script.", *filename, hashbang);
+
+		free(installed_path);
+		free(sketch_source);
+		free(first_line_str);
+		return 1;
+	}
+
+	// Write to destination file
+	if (lu5_write_file(installed_path, sketch_source, sketch_length)) {
+		// Error handled in write file
+		free(installed_path);
+		free(sketch_source);
+		free(first_line_str);
+		return 1;
+	}
+
+	// Set execute permitions for everyone
+	err = chmod(
+		installed_path, 
+		S_IRUSR | S_IWUSR | S_IXUSR |
+        		  S_IRGRP | S_IXGRP |
+        		  S_IROTH | S_IXOTH
+	);
+
+    if (err) {
+		LU5_ERROR("Could not properly install \x1b[90m'%s'\x1b[0m err: %i, errno: %i", *filename, err, errno);
+		err = 1;
+    }
+
+	// Clear allocated strings
+	if (installed_path != NULL) 
+		free(installed_path);
+
+	if (sketch_source != NULL) 
+		free(sketch_source);
+	
+	if (first_line_str != NULL) 
+		free(first_line_str);
+
+	if (sketch_name != NULL) 
+		free(sketch_name);
+
+	return err;
+#endif
 }
 
 int lu5_option_help(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename) 
