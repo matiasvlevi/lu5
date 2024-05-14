@@ -72,11 +72,8 @@ int lu5_constrain(lua_State *L)
 	double x = lua_tonumber(L, 1);
 	double min = lua_tonumber(L, 2);
 	double max = lua_tonumber(L, 3);
-
-	if (x < min) x = min;
-	if (x > max) x = max;
 	
-	lua_pushnumber(L, x);
+	lua_pushnumber(L, fmax(fmin(x, max), min));
 	return 1;
 }
 
