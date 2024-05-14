@@ -63,6 +63,7 @@ void lu5_list_iter_close(lu5_node *node, void(*callback)(void*))
 		if (next_node == NULL) 
 			break;
 		
+		free(node);
 		node = next_node;
 	};
 }
