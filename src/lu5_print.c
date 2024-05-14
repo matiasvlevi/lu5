@@ -83,11 +83,11 @@ void lu5_print_list(lua_State *L, int index, int depth, char sep)
 	lua_pushnil(L);
 
 	// Get length
-	int len = lua_rawlen(L, -2);
+	int len = lua_rawlen(L, index);
 	int i = 1;
 
 	putchar('{');
-	while (lua_next(L, -2) != 0) 
+	while (lua_next(L, index) != 0) 
 	{
 		putchar(' ');
 		lu5_print_any(L, -1, depth+1, (i != len) ? ',' : ' ');
