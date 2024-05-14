@@ -45,6 +45,7 @@ typedef struct lu5_node_ {
 void lu5_list_push(lu5_node **head, void *data, size_t data_size);
 
 void lu5_list_iter(lu5_node *node, void (*ptr)(void*));
+void lu5_list_iter_close(lu5_node *node, void (*ptr)(void*));
 
 typedef struct {
 	lu5_color fill;

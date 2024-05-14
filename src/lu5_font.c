@@ -157,5 +157,5 @@ void lu5_close_fonts(lu5_State *l5)
 	l5->style.font_current = NULL;
 
 	// Clear all fonts
-	lu5_list_iter(l5->fonts, (void(*)(void*))lu5_close_font);
+	lu5_list_iter_close(l5->fonts, (void(*)(void*))lu5_close_font);
 }

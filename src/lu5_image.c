@@ -79,5 +79,5 @@ void lu5_close_image(lu5_image *image)
 
 void lu5_close_images(lu5_State *l5) 
 {
-	lu5_list_iter(l5->images, (void (*)(void*))lu5_close_image);
+	lu5_list_iter_close(l5->images, (void (*)(void*))lu5_close_image);
 }

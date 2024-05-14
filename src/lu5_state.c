@@ -50,6 +50,29 @@ void lu5_list_iter(lu5_node *node, void (*ptr)(void*))
 	};
 }
 
+static lu5_node *lu5_list_elem_close(lu5_node *node, void(*callback)(void*)) 
+{
+	if (callback != NULL) 
+		(*callback)(node->data);
+
+	lu5_node *next = node->next;
+	free(node);
+
+	return next;
+}
+
+void lu5_list_iter_close(lu5_node *node, void(*callback)(void*)) 
+{
+	while (node != NULL) {
+		lu5_node *next_node = lu5_list_elem_close(node, callback);
+
+		if (next_node == NULL) 
+			break;
+		
+		node = next_node;
+	};
+}
+
 
 void lu5_close(lu5_State *l5) 
 {
