@@ -1,4 +1,4 @@
-src/**/*.c linguist-detectable
-src/**/*.h linguist-detectable
-*.lua linguist-detectable
 * linguist-vendored
+*.c linguist-detectable
+*.h linguist-detectable
+*.lua linguist-detectable
