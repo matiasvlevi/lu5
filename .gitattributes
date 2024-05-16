@@ -1,4 +1,8 @@
-* linguist-vendored
-*.c linguist-detectable
-*.h linguist-detectable
-*.lua linguist-detectable
+*.c linguist-language=C
+*.h linguist-language=C
+*.lua linguist-language=Lua
+
+*.js linguist-vendored
+*.html linguist-vendored
+*.css linguist-vendored
+
