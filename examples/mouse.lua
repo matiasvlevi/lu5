@@ -1,10 +1,11 @@
+time = 0;
 
 function setup()
     createWindow(600, 600);
 
     textSize(24);
 end
-time = 0;
+
 function draw()
     background(51);
 
