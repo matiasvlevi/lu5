@@ -3,6 +3,9 @@
 
 #include <GL/gl.h>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 #include "./lu5_state.h"
 
 typedef enum {
@@ -15,6 +18,11 @@ typedef enum {
 } lu5_loadfont_err;
 
 #define MAX_FONT_SIZE_PX 96
+
+typedef struct lu5_font_s {
+	FT_Face face;
+	GLuint textures[128];
+} lu5_font;
 
 void lu5_init_freetype(lu5_State *l5);
 

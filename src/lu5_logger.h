@@ -1,6 +1,8 @@
 #ifndef _LU5_LOGGER_H_
 #define _LU5_LOGGER_H_
 
+#include <lua.h>
+
 typedef enum {
 	LU5_ERROR_LOG,
 	LU5_NONE_LOG,
@@ -8,8 +10,6 @@ typedef enum {
 	LU5_INFO_LOG,
 	LU5_WARN_LOG
 } lu5_log_level;
-
-#include <lua.h>
 
 void lu5_logger_trace(lua_State *L);
 void lu5_logger_print(lu5_log_level level, const char* fmt, ...);

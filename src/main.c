@@ -13,8 +13,9 @@
 #include "lu5_bindings.h"
 
 #include "lu5_font.h"
+#include "lu5_core.h"
 
-static void lu5_draw(lu5_State *l5, GLFWwindow *window) 
+static void lu5_run_draw(lu5_State *l5, GLFWwindow *window) 
 {
 	lua_getglobal(l5->L, "draw");
 	if (lua_pcall(l5->L, 0, 0, 0) != LUA_OK) {
@@ -25,27 +26,35 @@ static void lu5_draw(lu5_State *l5, GLFWwindow *window)
 	glfwSwapBuffers(window);
 }
 
+static int lu5_run_setup(lu5_State *l5) 
+{
+	// Get the setup function, if found, run it
+	lua_getglobal(l5->L, "setup");
+	if (lua_isfunction(l5->L, -1)) {
+		LU5_RUN_LOG("setup");
+
+		// Run Setup
+		lua_getglobal(l5->L, "setup"); 
+		if (lua_pcall(l5->L, 0, 0, 0) != LUA_OK) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
 int main(int argc, char **argv) 
 {
-
 	char *filename;
 	// return if option ran
 	if (!handle_args(argc, argv, &filename)) 
 		return 0;
 
-	lu5_init_freetype(&lu5);
-	
-	// Start lua
-	lu5.L = luaL_newstate();
-	luaL_openlibs(lu5.L);
+	// Start lu5 & lua
+	lu5_init(&lu5);	
 
-	// Add `sketch` as a variable holding the filename
+	// Add `sketch` as a string variable holding the filename
 	lua_pushstring(lu5.L, filename);
 	lua_setglobal(lu5.L, "sketch");
-
-	// Register functions & constants
-	lu5_register_symbols(lu5.L);
-	lu5_register_colors(lu5.L);
 
 	// Print Running log
 	LU5_RUN_LOG(filename);
@@ -57,17 +66,12 @@ int main(int argc, char **argv)
 	}
 
 	// Get the setup function, if found, run it
-	lua_getglobal(lu5.L, "setup");
-	if (lua_isfunction(lu5.L, -1)) {
-		LU5_RUN_LOG("setup");
-
-		// Run Setup
-		lua_getglobal(lu5.L, "setup"); 
-		if (lua_pcall(lu5.L, 0, 0, 0) != LUA_OK) {
-			LU5_ERROR(lua_tostring(lu5.L, -1));
-			goto cleanup;
-		}
-	} // else ignore;
+	// None found, ignore
+	if (lu5_run_setup(&lu5)) {
+		// Setup threw an error
+		LU5_ERROR(lua_tostring(lu5.L, -1));
+		goto cleanup; 
+	}
 
 	// Get the draw function, if not found, exit
 	lua_getglobal(lu5.L, "draw");
@@ -111,7 +115,7 @@ int main(int argc, char **argv)
 		// If no target framerate, draw
 		if (lu5.env.target_framerate == -1) 
 		{
-			lu5_draw(&lu5, window);
+			lu5_run_draw(&lu5, window);
 		} 
 		else 
 		{
@@ -119,7 +123,7 @@ int main(int argc, char **argv)
 			if((lu5.env.now_time - lu5.env.last_frame_time) >= (1.0 / lu5.env.target_framerate)) 
 			{
 				// TODO: handle events in `./src/lu5_event_callbacks.c` the same way
-				lu5_draw(&lu5, window);
+				lu5_run_draw(&lu5, window);
 
 				// Record for framerate
 				lu5.env.last_frame_time = lu5.env.now_time;

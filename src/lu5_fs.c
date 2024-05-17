@@ -2,20 +2,25 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "lu5_logger.h"
 
 #include <sys/stat.h>
 #include <errno.h>
 
+#include <string.h>
+
+// Forward declare strdup 
+// is required for some systems
+char* strdup(const char*);
+
 char *lu5_get_file_name(const char *filename) {
     // Find the last dot in the filename
     char *dot = strrchr(filename, '.');
     if (!dot || dot == filename) {
         return strdup(filename);
-    }
-    
+	}
+
 	// Get the position of the dot
     size_t length = dot - filename;
     

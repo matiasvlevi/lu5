@@ -1,8 +1,7 @@
 #include "lu5_print.h"
 
-#include <lauxlib.h>
 #include <stdio.h>
-
+#include <lauxlib.h>
 #include "lu5_logger.h"
 
 void lu5_print_any(lua_State *L, int index, int nested, char sep) 

@@ -3,6 +3,7 @@
 #include "lu5_logger.h"
 
 #include "lu5_state.h"
+#include "lu5_core.h"
 
 void lu5_init_freetype(lu5_State *l5) 
 {

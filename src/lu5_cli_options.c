@@ -10,7 +10,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 
-#include <unistd.h>
+#include <string.h>
 
 #define LU5_SKETCH_BOILERPLATE \
 		"\n"\
