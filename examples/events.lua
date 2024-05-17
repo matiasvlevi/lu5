@@ -6,11 +6,11 @@ function draw()
     background(51);
 
     textSize(32);
-    text("Events example", 20, 40);
+    text("Events example", 20, 20);
 
     textSize(18);
-    text("Press any key, or mouse button and", 20, 76);
-    text("trigger logs in the console", 20, 95);
+    text("Press any key, or mouse button and", 20, 56);
+    text("trigger logs in the console", 20, 75);
 end
 
 function mousePressed(button)
