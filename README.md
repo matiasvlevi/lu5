@@ -88,9 +88,70 @@ lu5 file.lua
 
 ### Preview
 
-![lu5 preview circle](./docs/assets/lu5_preview_2.png)
+
+
+<table align="center">
+
+<tr>
+<td>
+
+```lua
+x = 100
+vx = 7;
+
+function setup()
+	createWindow(400, 400);
+	
+	-- Lock fps
+	frameRate(60);
+end
+
+function draw()
+	background(51);
+	
+	-- render fps
+	text('fps: ' .. frameRate(), 20, 10);
+
+	-- render circle
+	circle(x, 200, 32);
+
+	-- bounce
+	if (x > width-16 or x < 16) then
+		vx = -vx;
+	end
+
+	-- move
+	x = x + vx;
+end
+
+```
+
+</td>
+<td>
+
+<img src="./docs/assets//lu5_frameRate.gif" width="100%"/>
+
+</td>
+</tr>
+
+<!-- ![lu5 preview circle](./docs/assets/lu5_preview_2.png)
 ![lu5 preview instances](./docs/assets/lu5_instances.png)
-![lu5 preview instances](./docs/assets/text_demo.png)
+![lu5 preview instances](./docs/assets/text_demo.png) -->
+
+</table>
+
+<table>
+<tr><td>
+    <img src="./docs/assets/lu5_preview_2.png"/>
+</td></tr>
+<tr><td>
+    <img src="./docs/assets/lu5_instances.png"/>
+</td></tr>
+<tr><td>
+    <img src="./docs/assets/text_demo.png"/>
+</td></tr>
+</table>
+
 
 <br>
 
