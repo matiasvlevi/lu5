@@ -140,17 +140,12 @@ end
 
 </table>
 
-<table>
-<tr><td>
-    <img src="./docs/assets/lu5_preview_2.png"/>
-</td></tr>
-<tr><td>
-    <img src="./docs/assets/lu5_instances.png"/>
-</td></tr>
-<tr><td>
-    <img src="./docs/assets/text_demo.png"/>
-</td></tr>
-</table>
+<p align="center">
+    <img width="95%" src="./docs/assets/lu5_instances.png"/>
+</p>
+<p align="center">
+    <img width="95%" src="./docs/assets/text_demo.png"/>
+</p>
 
 
 <br>
