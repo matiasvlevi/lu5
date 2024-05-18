@@ -5,6 +5,10 @@
 
 typedef struct lu5_font_s lu5_font;
 
+#ifndef GL_CLAMP_TO_EDGE
+#define GL_CLAMP_TO_EDGE 0x812F
+#endif
+
 #define LU5_SET_DEFAULT_STYLE(s)\
 	(s)->strokeWeight = 1;\
 	(s)->stroke = LU5_BLACK;\

@@ -12,8 +12,7 @@
 
 #include "lu5_bindings.h"
 
-#include "lu5_font.h"
-#include "lu5_core.h"
+#include "lu5_list.h"
 
 static void lu5_run_draw(lu5_State *l5, GLFWwindow *window) 
 {
