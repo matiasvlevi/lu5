@@ -1,6 +1,6 @@
 #include "lu5_image.h"
 
-#include "lu5_core.h"
+#include "lu5_list.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "./stb/stb_image.h"

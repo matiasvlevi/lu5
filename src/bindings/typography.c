@@ -3,7 +3,7 @@
 #include <lauxlib.h>
 
 #include "../lu5_font.h"
-#include "../lu5_core.h"
+#include "../lu5_list.h"
 
 int loadFont(lua_State *L) 
 {	
