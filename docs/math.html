@@ -18,7 +18,7 @@
 	<body>
 		<div class="nav" id="menu">
 			<br/>
-			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./typography.html"><h4>typography</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./mouse.html"><h4>mouse</h4></a></li><li class="btn"><a class="light" href="./math.html"><h4>math</h4></a></li><li class="btn"><a class="light" href="./keyboard.html"><h4>keyboard</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./image.html"><h4>image</h4></a></li><li class="btn"><a class="light" href="./classes.html"><h4>classes</h4></a></li></ul>
+			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./typography.html"><h4>typography</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./mouse.html"><h4>mouse</h4></a></li><li class="btn"><a class="light" href="./vector.html"><h4>vector</h4></a></li><li class="btn"><a class="light" href="./math.html"><h4>math</h4></a></li><li class="btn"><a class="light" href="./keyboard.html"><h4>keyboard</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./image.html"><h4>image</h4></a></li><li class="btn"><a class="light" href="./classes.html"><h4>classes</h4></a></li></ul>
 		</div>
 		<main>
 			<header>
@@ -32,6 +32,12 @@
 			</header>
 
 			
+<div class="method" id="randomSeed"><div class="methodDeclaration"><code>randomSeed(seed);</code></div><p>Set a random seed</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">seed</code><span class="text desc">The seed value</span></div></div><h4>Returns</h4><div class="param"><code class="name">number</code><span class="text desc">The random value</span></div><p></p><br/></div>
+<div class="method" id="random"><div class="methodDeclaration"><code>random(min, max);</code></div><p>Get a random number</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">min</code><span class="text desc">The minimum of the range</span></div><div class="param"><code class="name">max</code><span class="text desc">The maximum of the range</span></div></div><h4>Returns</h4><div class="param"><code class="name">number</code><span class="text desc">The random value</span></div><p></p><pre><code class="language-lua"> random()      -- random number between 0 and 1
+ random(3)     -- random number between 0 and 3
+ random(3, 12) -- random number between 3 and 12
+
+ random({ 'A', 'B', 'C' }) -- random element in table</code></pre><br/></div>
 <div class="method" id="round"><div class="methodDeclaration"><code>round(x);</code></div><p>Round a number to the nearest integer</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The value to round</span></div></div><h4>Returns</h4><div class="param"><code class="name">int</code><span class="text desc">The rounded value</span></div><p></p><br/></div>
 <div class="method" id="floor"><div class="methodDeclaration"><code>floor(x);</code></div><p><a href="https://en.wikipedia.org/wiki/Floor_and_ceiling_functions">see here</a> 
 floor is a function that takes in a number, and returns the greatest integer less or equal to x</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The value to floor</span></div></div><h4>Returns</h4><div class="param"><code class="name">int</code><span class="text desc">greatest integer less than or equals to x</span></div><p></p><br/></div>
