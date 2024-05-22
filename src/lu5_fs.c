@@ -14,7 +14,7 @@
 // is required for some systems
 char* strdup(const char*);
 
-char *lu5_get_file_name(const char *filename) {
+char *lu5_name_without_extention(const char *filename) {
     // Find the last dot in the filename
     char *dot = strrchr(filename, '.');
     if (!dot || dot == filename) {
@@ -28,7 +28,7 @@ char *lu5_get_file_name(const char *filename) {
     char *name_without_extention = (char *)malloc(length + 1);
     if (!name_without_extention) {
         LU5_ERROR("No memory left on the device");
-        return strdup(filename);
+        return NULL;
     }
 
     strncpy(name_without_extention, filename, length);
@@ -37,22 +37,26 @@ char *lu5_get_file_name(const char *filename) {
 	return name_without_extention;
 }
 
-int lu5_write_file(const char *path, const void *buffer, size_t len) {
-    // Open the file in binary write mode
-    FILE *file = fopen(path, "wb");
+
+FILE *lu5_open_file(const char *path, const char *mode) 
+{
+    errno = 0;
+	FILE *file = fopen(path, mode);
     if (file == NULL) {
-		switch(errno) {
-			case EACCES: {
-        		LU5_ERROR("Permission denied when writing \x1b[90m'%s'\x1b[0m", path);
-				break;
-			}
-			default: {
-        		LU5_ERROR("Something went wrong when writing \x1b[90m'%s'\x1b[0m, errno: %i", path, errno);
-				break;
-			}
+		if (errno) {
+			LU5_ERROR("%s", strerror(errno));
+		} else {
+        	LU5_ERROR("Something went wrong when opening file \x1b[90m'%s'\x1b[0m", path);
 		}
-        return 1;
     }
+	return file;
+}
+
+int lu5_write_file(const char *path, const void *buffer, size_t len) 
+{
+    
+	FILE *file = lu5_open_file(path, "wb");
+	if (file == NULL) return 1;
 
     // Write the buffer to the file
     size_t written = fwrite(buffer, 1, len, file);
@@ -66,45 +70,34 @@ int lu5_write_file(const char *path, const void *buffer, size_t len) {
     return 0;
 }
 
-/**
- * Read a file entirely
- *
- * caller must free the returned buffer.
- */
 char *lu5_read_file(const char* path, long *size) {
-    FILE *fp;
-    long length;
-    char *buffer;
-
-    // Open the file
-    fp = fopen(path, "rb");
-    if (fp == NULL) {
-		switch(errno) {
-			case EACCES: {
-        		LU5_ERROR("No permission to read \x1b[90m'%s'\x1b[0m", path);
-				break;
-			}
-			default: {
-        		LU5_ERROR("Could not open file: %s\n", path);
-				break;
-			}
-		}
-        return NULL;
-    }
+    
+	FILE *file = lu5_open_file(path, "rb");
+	if (file == NULL) return NULL;
 
     // Get the length of the file
-    fseek(fp, 0, SEEK_END);
-    length = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
+    fseek(file, 0, SEEK_END);
+    long length = ftell(file);
+    fseek(file, 0, SEEK_SET);
 
     // Read the file contents
-    buffer = (char*)malloc((length + 1) * sizeof(char));
-    if (buffer) {
-        fread(buffer, sizeof(char), length, fp);
-        buffer[length] = '\0'; // Null-terminate the string
-    }
-    fclose(fp);
+    char *buffer = (char*)malloc((length + 1) * sizeof(char));
+    if (buffer == NULL) {
+		LU5_ERROR("Could not allocate memory for file");
 
+		fclose(file);
+		return NULL;
+	}
+
+	// Read file
+	fread(buffer, sizeof(char), length, file);
+
+	// Add null-termination
+	buffer[length] = '\0';
+
+    fclose(file);
+
+	// Set length return
 	*size = length;
 
     return buffer;

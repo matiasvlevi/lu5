@@ -72,12 +72,12 @@ int lu5_option_log(int argc, char **argv, int idx, int cli_id, bool* defaultExec
 	errno = 0;
 
 	// Check if error during parsing
-	if (
-		(argv[arg_1] == end) ||
-		(errno == EINVAL) ||
-		(errno != 0 && log_level == 0)
-	) {
-		LU5_ERROR("Invalid parameter in %s option, expected number but got %s", argv[idx], argv[arg_1]);
+	if (argv[arg_1] == end) {
+		if (errno) {
+			LU5_ERROR("Invalid parameter in %s option, expected number but got %s", argv[idx], argv[arg_1]);
+		} else {
+			LU5_ERROR("%s\n %s option, expected number but got %s", strerror(errno), argv[idx], argv[arg_1]);
+		}
 	}
 
 	// Check if number parsed correctly
@@ -111,7 +111,7 @@ int lu5_option_init(int argc, char **argv, int idx, int cli_id, bool* defaultExe
 		
 		LU5_WARN(
 			"It seems that \x1b[90m%s\x1b[0m already exists", 
-			argv[arg_1]
+			*filename
 		);
 
 		printf("Do you want to overwrite the sketch? (y/N):");
@@ -126,23 +126,22 @@ int lu5_option_init(int argc, char **argv, int idx, int cli_id, bool* defaultExe
 		*defaultExec = true;
 
 		if (overwrite != 'y') {
-
 			LU5_INFO("Kept the old %s", *filename);
-
 			return 0;
 		}
 	
 	}
 
-	FILE *sketch = fopen(argv[arg_1], "wr");
+	FILE *file = lu5_open_file(*filename, "wr");
+	if (file == NULL) return 1;
 
 	LU5_INFO("Writing %s", *filename);
 
 	// Write to file
-	fprintf(sketch, LU5_SKETCH_BOILERPLATE);
+	fprintf(file, LU5_SKETCH_BOILERPLATE);
 
 	// Close the file
-	fclose(sketch);
+	fclose(file);
 
 	return 0;
 }
@@ -183,12 +182,10 @@ int lu5_option_install(int argc, char **argv, int idx, int cli_id, bool* default
 		return 1;
 	}
 
-	int err;
-
 	char *installed_path, 
 		 *first_line_str, 
 		 *sketch_source, 
-		 *sketch_name = lu5_get_file_name(*filename);
+		 *sketch_name = lu5_name_without_extention(*filename);
 
 	int sketch_name_len = strlen(sketch_name);
 
@@ -260,7 +257,7 @@ int lu5_option_install(int argc, char **argv, int idx, int cli_id, bool* default
 	}
 
 	// Set execute permitions for everyone
-	err = chmod(
+	int err = chmod(
 		installed_path, 
 		S_IRUSR | S_IWUSR | S_IXUSR |
         		  S_IRGRP | S_IXGRP |
