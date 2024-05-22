@@ -3,7 +3,33 @@
 
 #include <lua.h>
 
-// not implemented
+/**
+ * Set a random seed
+ * 
+ * @param seed The seed value
+ * 
+ * This is a one to one binding of `math.randomseed`
+ *
+ * @return number The random value 
+ */
+int lu5_randomSeed(lua_State *L);
+
+/**
+ * Get a random number
+ * 
+ * @param min The minimum of the range
+ * @param max The maximum of the range
+ * 
+ * @example
+ * random()      -- random number between 0 and 1
+ * random(3)     -- random number between 0 and 3
+ * random(3, 12) -- random number between 3 and 12
+ *
+ * random({ 'A', 'B', 'C' }) -- random element in table
+ * @example
+ *
+ * @return number The random value 
+ */
 int lu5_random(lua_State *L);
 
 /**

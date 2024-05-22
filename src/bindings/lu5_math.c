@@ -2,14 +2,76 @@
 #include "lauxlib.h"
 
 #include "../lu5_logger.h"
+#include "../lu5_bindings.h"
 
 #include <math.h>
 #include <float.h>
 
+int lu5_randomSeed(lua_State *L) 
+{
+	LU5_ONE_TO_ONE_BINDING("math", "randomseed");
+	return 1;
+}
+
 int lu5_random(lua_State *L) 
 {
-	luaL_error(L, "random not implemented");
-	return 1;
+	int argc = lua_gettop(L);
+
+	// Call random
+	lua_getglobal(L, "math");
+	lua_getfield(L, -1, "random");
+	lua_call(L, 0, 1);
+
+	// Branch according to number of args
+	switch(argc) {
+		// Return random value as is if 0 arguments found
+		case 0: return 1;
+
+		case 1: {
+			double value = lua_tonumber(L, -1);
+			// Handle scalar range
+			if (lua_isnumber(L, 1)) 
+			{
+				double scalar = lua_tonumber(L, 1);
+				lua_pushnumber(L, scalar * value);
+				return 1;
+			}
+			// Handle Table
+			else if (lua_istable(L, 1)) 
+			{
+				int len = lua_rawlen(L, 1);
+				int index = ceil(len * value);
+
+				lua_pushinteger(L, index);
+				lua_gettable(L, 1);
+
+				return 1;
+			}
+		}
+
+		// Handle min/max range
+		case 2: {
+			double value = lua_tonumber(L, -1);
+
+			double min, max;
+			if (lua_isnumber(L, 1) && lua_isnumber(L, 2)) {
+				min = lua_tonumber(L, 1);
+				max = lua_tonumber(L, 2);
+			} else {
+				luaL_error(L, "Expected number as arguments");
+				return 0;
+			}
+
+			// Map in range
+			lua_pushnumber(L, value * (max - min) + min);
+			return 1;
+		}
+
+		default: {
+			luaL_error(L, "Expected 0 to 2 arguments, got %i", argc);
+			return 0;
+		}
+	}
 }
 
 int lu5_round(lua_State *L) 

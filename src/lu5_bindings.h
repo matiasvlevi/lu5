@@ -17,6 +17,15 @@
 #define LUA_ADD_FUNCTION(l, name)					  lua_pushcfunction(l, name); lua_setglobal(l, #name)
 #define LUA_ADD_FUNCTION_BY_NAME(l, name, func)		  lua_pushcfunction(l, func); lua_setglobal(l, name)
 
+#define LU5_ONE_TO_ONE_BINDING(lib, name)\
+	int argc = lua_gettop(L);\
+	lua_getglobal(L, lib);\
+	lua_getfield(L, -1, name);\
+	for (int i = 1; i <= argc; i++) {\
+		lua_pushvalue(L, i);\
+	}\
+	lua_call(L, argc, 1);
+
 /**
  * Updates global variables mouseX, mouseY, mouseIsPressed
  * 

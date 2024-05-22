@@ -110,6 +110,8 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION_BY_NAME(L, "class", lu5_class);
 
 	// MATH
+	LUA_ADD_FUNCTION_BY_NAME(L,"randomSeed", lu5_randomSeed);
+	LUA_ADD_FUNCTION_BY_NAME(L,    "random", lu5_random);
 	LUA_ADD_FUNCTION_BY_NAME(L,     "round", lu5_round);
 	LUA_ADD_FUNCTION_BY_NAME(L,      "ceil", lu5_ceil);
 	LUA_ADD_FUNCTION_BY_NAME(L,     "floor", lu5_floor);
