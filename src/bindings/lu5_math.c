@@ -3,20 +3,10 @@
 
 #include "../lu5_logger.h"
 #include "../lu5_bindings.h"
+#include "../lu5_types.h"
 
 #include <math.h>
 #include <float.h>
-
-static double lu5_assert_number(lua_State *L, int index, const char *fname) {
-	if (lua_isnumber(L, index)) 
-		return lua_tonumber(L, index);
-
-	int type = lua_type(L, index);
-	const char* typename = lua_typename(L, type);
-
-	return
-		luaL_error(L, "Function \x1b[90m'%s'\x1b[0m expected \x1b[90m'number'\x1b[0m at argument \x1b[33m%d\x1b[0m. Found %s instead.", fname, index, typename);
-}
 
 int lu5_round(lua_State *L) 
 {
