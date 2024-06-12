@@ -70,7 +70,7 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, frameRate);
 
 	// Input
-	LUA_ADD_FUNCTION(L, isKeyDown);
+	LUA_ADD_FUNCTION(L, keyIsDown);
 
 	// Setting
 	LUA_ADD_FUNCTION(L, push);

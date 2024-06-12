@@ -10,19 +10,19 @@
  *
  * @example
  * -- Use a string 
- * if (isKeyDown('a')) then
+ * if (keyIsDown('a')) then
  *   -- key 'a' is down
  * end
  *
  * -- use a global
- * if (isKeyDown(LEFT_ARROW)) then
+ * if (keyIsDown(LEFT_ARROW)) then
  *   -- left arrow is down
  * end
  * @example
  *
  * @return boolean Whether or not the key is down
  */
-int isKeyDown(lua_State *L);
+int keyIsDown(lua_State *L);
 
 /**
  * @brief keyPressed

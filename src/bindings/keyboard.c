@@ -1,14 +1,18 @@
 #include "keyboard.h"
 
 #include "../lu5_state.h"
+#include "../lu5_types.h"
 
-int isKeyDown(lua_State *L) 
+int keyIsDown(lua_State *L) 
 {
 	int key = -1;
-	if (lua_isnumber(L, 1)) {
+	if (lua_isinteger(L, 1)) 
+	{
 		key = lua_tointeger(L, 1);
-	} else {
-		const char *str = lua_tostring(L, 1);
+	} 
+	else 
+	{
+		const char *str = lu5_assert_string(L, 1, "keyIsDown");
 		if (str != NULL) {
 			// Convert to keyCode value
 			key = ((int)str[0]) - ((int)' ');
