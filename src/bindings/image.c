@@ -2,10 +2,11 @@
 #include <lauxlib.h>
 
 #include "../lu5_image.h"
+#include "../lu5_types.h"
 
 int loadImage(lua_State *L) 
 {
-	const char *image_path = lua_tostring(L, 1);
+	const char *image_path = lu5_assert_string(L, 1, "loadImage");
 	if (!image_path) {
 		// Throw
 		luaL_error(L, "Expected first argument to be a string");

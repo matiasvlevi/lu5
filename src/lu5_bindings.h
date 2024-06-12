@@ -14,6 +14,10 @@
 #define LUA_ADD_NUMBER_GLOBAL(l, name)		          lua_pushnumber(l, name); lua_setglobal(l, #name)
 #define LUA_ADD_NUMBER_GLOBAL_BY_NAME(l, name, value) lua_pushnumber(l, value); lua_setglobal(l, name)
 
+#define LUA_ADD_INTEGER_GLOBAL(l, name)		          lua_pushinteger(l, name); lua_setglobal(l, #name)
+#define LUA_ADD_INTEGER_GLOBAL_BY_NAME(l, name, value) lua_pushinteger(l, value); lua_setglobal(l, name)
+
+
 #define LUA_ADD_FUNCTION(l, name)					  lua_pushcfunction(l, name); lua_setglobal(l, #name)
 #define LUA_ADD_FUNCTION_BY_NAME(l, name, func)		  lua_pushcfunction(l, func); lua_setglobal(l, name)
 

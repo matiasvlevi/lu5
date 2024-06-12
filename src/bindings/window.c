@@ -3,6 +3,7 @@
 #include "../lu5_bindings.h"
 #include "../lu5_state.h"
 #include "../lu5_font.h"
+#include "../lu5_types.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,8 +19,8 @@ int createWindow(lua_State *L)
 		return 0;
 	}
 
-	int screenWidth = lua_tointeger(L, 1);
-	int screenHeight = lua_tointeger(L, 2);
+	int screenWidth = lu5_assert_integer(L, 1, "createWindow");
+	int screenHeight = lu5_assert_integer(L, 2, "createWindow");
 
 	// Expose window width & height to user
 	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, LU5_WIDTH, screenWidth);
@@ -92,13 +93,12 @@ int createWindow(lua_State *L)
 
 int frameRate(lua_State *L) 
 {
-	int fps = lua_tonumber(L, 1);
-
-	if (lua_gettop(L) > 0 && fps >= 0) {
-		lu5.env.target_framerate = fps;
+	if (lua_gettop(L) > 0) {
+		lu5.env.target_framerate = lu5_assert_number(L, 1, "frameRate");
 		return 0;
 	} else {
-		
+		// Return the current framerate
+
 		if (lu5.env.target_framerate == -1) 
 			// For free frame rates
 			lua_pushnumber(L, roundf(1000.0 / (lu5.env.delta_time))/1000.0);

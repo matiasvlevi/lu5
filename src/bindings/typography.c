@@ -4,10 +4,11 @@
 
 #include "../lu5_font.h"
 #include "../lu5_list.h"
+#include "../lu5_types.h"
 
 int loadFont(lua_State *L) 
 {	
-	const char *font_path = lua_tostring(L, 1);
+	const char *font_path = lu5_assert_string(L, 1, "loadFont");
 	if (!font_path) {
 		// If default font is defined
 		if (lu5.font_default != NULL) {
@@ -77,7 +78,7 @@ int loadFont(lua_State *L)
 
 int textSize(lua_State *L)
 {
-	double size = lua_tonumber(L, 1);
+	double size = lu5_assert_number(L, 1, "textSize");
 
 	// Get font, if none available, use default.
 	lu5_font *font = lu5.style.font_current;
@@ -119,11 +120,7 @@ int textFont(lua_State *L)
 
 int text(lua_State *L)
 {
-	const char *str = luaL_checkstring(L, 1);
-	if (!str) {
-		luaL_error(L, "Expected a string argument");
-		return 0;
-	}
+	const char *str = lu5_assert_string(L, 1, "text");
 
 	double x = lua_tonumber(L, 2);
 	double y = lua_tonumber(L, 3);

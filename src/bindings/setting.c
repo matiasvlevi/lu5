@@ -4,6 +4,7 @@
 
 #include "../lu5_state.h"
 #include "../lu5_font.h"
+#include "../lu5_types.h"
 
 int background(lua_State *L) 
 {
@@ -22,7 +23,7 @@ int background(lua_State *L)
 
 int strokeWeight(lua_State *L) 
 {
-	double weight = lua_tonumber(L, 1);
+	double weight = lu5_assert_integer(L, 1, "strokeWeight");
 
 	glLineWidth(weight);
 	

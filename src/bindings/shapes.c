@@ -3,6 +3,7 @@
 #include "../lu5_state.h"
 #include "../lu5_font.h"
 #include "../lu5_image.h"
+#include "../lu5_types.h"
 
 #include <lauxlib.h>
 #include <math.h>
@@ -10,7 +11,7 @@
 
 int beginShape(lua_State *L) 
 {
-	int shape_type = lua_tointeger(L, 1);
+	int shape_type = lu5_assert_integer(L, 1, "beginShape");
 
 	LU5_APPLY_COLOR(lu5.style.fill);
 	glBegin(shape_type);
@@ -20,8 +21,8 @@ int beginShape(lua_State *L)
 
 int vertex(lua_State *L) 
 {
-	double x = lua_tonumber(L, 1);
-	double y = lua_tonumber(L, 2);
+	double x = lu5_assert_number(L, 1, "vertex");
+	double y = lu5_assert_number(L, 2, "vertex");
 
 	glVertex2f(x, y);
 	return 0;
@@ -35,9 +36,9 @@ int endShape(lua_State *L)
 
 int circle(lua_State *L) 
 {
-	double x = lua_tonumber(L, 1);  
-	double y = lua_tonumber(L, 2);  
-	double d = lua_tonumber(L, 3);  
+	double x = lu5_assert_number(L, 1, "circle");  
+	double y = lu5_assert_number(L, 2, "circle");
+	double d = lu5_assert_number(L, 3, "circle");
 
 	float radius = d / 2.0f;
 	float angleStep = LU5_TWO_PI / LU5_CIRCLE_SEGMENTS;
@@ -73,9 +74,9 @@ int circle(lua_State *L)
 
 int square(lua_State *L)
 {
-	double x = lua_tonumber(L, 1);  
-	double y = lua_tonumber(L, 2);  
-	double s = lua_tonumber(L, 3);  
+	double x = lu5_assert_number(L, 1, "square");
+	double y = lu5_assert_number(L, 2, "square");  
+	double s = lu5_assert_number(L, 3, "square");  
 
 	float x2 = x + s;
 	float y2 = y + s;
@@ -94,13 +95,13 @@ int square(lua_State *L)
 
 int rect(lua_State *L) 
 {
-	double x = lua_tonumber(L, 1);  
-	double y = lua_tonumber(L, 2);  
-	double w = lua_tonumber(L, 3);  
+	double x = lu5_assert_number(L, 1, "rect");  
+	double y = lu5_assert_number(L, 2, "rect");  
+	double w = lu5_assert_number(L, 3, "rect");  
 
 	double h = w;
 	if (lua_gettop(L) > 3) {
-		h = lua_tonumber(L, 4);
+		h = lu5_assert_number(L, 4, "rect");
 	}  
 
 	float x2 = x + w;
@@ -120,10 +121,10 @@ int rect(lua_State *L)
 
 int line(lua_State *L) 
 {
-	double x1 = lua_tonumber(L, 1);
-	double y1 = lua_tonumber(L, 2);
-	double x2 = lua_tonumber(L, 3);
-	double y2 = lua_tonumber(L, 4);
+	double x1 = lu5_assert_number(L, 1, "line");
+	double y1 = lu5_assert_number(L, 2, "line");
+	double x2 = lu5_assert_number(L, 3, "line");
+	double y2 = lu5_assert_number(L, 4, "line");
 
 	float dx = x2 - x1;
 	float dy = y2 - y1;
@@ -179,14 +180,14 @@ int quad(lua_State *L)
 		return 0;
 	}
 
-	double x1 = lua_tonumber(L, 1);
-	double y1 = lua_tonumber(L, 2);
-	double x2 = lua_tonumber(L, 3);
-	double y2 = lua_tonumber(L, 4);
-	double x3 = lua_tonumber(L, 5);
-	double y3 = lua_tonumber(L, 6);
-	double x4 = lua_tonumber(L, 7);
-	double y4 = lua_tonumber(L, 8);
+	double x1 = lu5_assert_number(L, 1, "quad");
+	double y1 = lu5_assert_number(L, 2, "quad");
+	double x2 = lu5_assert_number(L, 3, "quad");
+	double y2 = lu5_assert_number(L, 4, "quad");
+	double x3 = lu5_assert_number(L, 5, "quad");
+	double y3 = lu5_assert_number(L, 6, "quad");
+	double x4 = lu5_assert_number(L, 7, "quad");
+	double y4 = lu5_assert_number(L, 8, "quad");
 
 	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
 
@@ -202,8 +203,8 @@ int quad(lua_State *L)
 
 int point(lua_State *L)
 {
-	double x = lua_tonumber(L, 1);
-	double y = lua_tonumber(L, 2);
+	double x = lu5_assert_number(L, 1, "point");
+	double y = lu5_assert_number(L, 2, "point");
 
 	// refer to https://p5js.org/reference/#/p5/point
 
@@ -213,8 +214,8 @@ int point(lua_State *L)
 
 int triangle(lua_State *L)
 {
-	double x1 = lua_tonumber(L, 1);
-	double y1 = lua_tonumber(L, 2);
+	double x1 = lu5_assert_number(L, 1, "triangle");
+	double y1 = lu5_assert_number(L, 2, "triangle");
 	// ... more arguments
 	// refer to https://p5js.org/reference/#/p5/triangle
 
@@ -224,8 +225,8 @@ int triangle(lua_State *L)
 
 int ellipse(lua_State *L)
 {
-	double x = lua_tonumber(L, 1);
-	double y = lua_tonumber(L, 2);
+	double x = lu5_assert_number(L, 1, "ellipse");
+	double y = lu5_assert_number(L, 2, "ellipse");
 	// ... more arguments
 	// refer to https://p5js.org/reference/#/p5/ellipse
 
@@ -236,8 +237,8 @@ int ellipse(lua_State *L)
 
 int arc(lua_State *L)
 {
-	double x = lua_tonumber(L, 1);
-	double y = lua_tonumber(L, 2);
+	double x = lu5_assert_number(L, 1, "arc");
+	double y = lu5_assert_number(L, 2, "arc");
 	// ... more arguments
 	// refer to https://p5js.org/reference/#/p5/arc
 
