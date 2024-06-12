@@ -1,5 +1,7 @@
 #include "classes.h"
+
 #include "../lu5_logger.h"
+#include "../lu5_types.h"
 
 #include <lauxlib.h>
 
@@ -43,7 +45,7 @@ static int lu5_call(lua_State *L)
 	lua_newtable(L); 
 	
 	// Set the class table as the metatable of the instance
-	lua_pushvalue(L, 1); 
+	lua_pushvalue(L, 1);
 	lua_setmetatable(L, -2);
 
 	// Get the 'init' method from the class table
@@ -58,7 +60,7 @@ static int lu5_call(lua_State *L)
 	int caller_argc = lua_gettop(L)-2;
 	
 	if (declaration_argc != caller_argc) {
-		LU5_ERROR("Expected %i arguments in constructor, recieved %i", declaration_argc-1, caller_argc-1);
+		luaL_error(L, "Expected %i arguments in constructor, recieved %i", declaration_argc-1, caller_argc-1);
 		lua_pushvalue(L, -1);
 		return 1;
 	}
@@ -85,10 +87,10 @@ static int lu5_call(lua_State *L)
 int lu5_class(lua_State *L) 
 {
 	// Get the class name
-	const char *name = luaL_checkstring(L, 1);
+	const char *name = lu5_assert_string(L, 1, "class");
 	
 	// Create class table
-	lua_newtable(L);
+	luaL_newmetatable(L, name);
 
 	// Set class name in class table for possible use
 	lua_pushstring(L, name);
