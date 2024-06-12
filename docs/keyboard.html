@@ -32,13 +32,13 @@
 			</header>
 
 			
-<div class="method" id="isKeyDown"><div class="methodDeclaration"><code>isKeyDown(k);</code></div><p>Check if a keyboard key is pressed, returns <code class="inline">true</code> if key is down and returns <code class="inline">false</code> if it's not</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">k</code><span class="text desc">The keyboard key to check as a key global, or a string</span></div></div><h4>Returns</h4><div class="param"><code class="name">boolean</code><span class="text desc">Whether or not the key is down</span></div><p></p><pre><code class="language-lua"> -- Use a string 
- if (isKeyDown('a')) then
+<div class="method" id="keyIsDown"><div class="methodDeclaration"><code>keyIsDown(k);</code></div><p>Check if a keyboard key is pressed, returns <code class="inline">true</code> if key is down and returns <code class="inline">false</code> if it's not</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">k</code><span class="text desc">The keyboard key to check as a key global, or a string</span></div></div><h4>Returns</h4><div class="param"><code class="name">boolean</code><span class="text desc">Whether or not the key is down</span></div><p></p><pre><code class="language-lua"> -- Use a string 
+ if (keyIsDown('a')) then
    -- key 'a' is down
  end
 
  -- use a global
- if (isKeyDown(LEFT_ARROW)) then
+ if (keyIsDown(LEFT_ARROW)) then
    -- left arrow is down
  end</code></pre><br/></div>
 <div class="method" id="keyPressed"><div class="methodDeclaration"><code>keyPressed(key);</code><span class="decorator">Event</span></div><p>Called whenever a key is pressed.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">key</code><span class="text desc">The pressed key</span></div></div><p></p><br/></div>
