@@ -14,16 +14,6 @@
 
 #include "lu5_list.h"
 
-static void lu5_run_draw(lu5_State *l5, GLFWwindow *window) 
-{
-	lua_getglobal(l5->L, "draw");
-	if (lua_pcall(l5->L, 0, 0, 0) != LUA_OK) {
-		LU5_ERROR(lua_tostring(l5->L, -1));
-		// EXIT
-		glfwSetWindowShouldClose(window, 1);
-	}
-	glfwSwapBuffers(window);
-}
 
 static int lu5_run_setup(lu5_State *l5) 
 {
@@ -39,6 +29,17 @@ static int lu5_run_setup(lu5_State *l5)
 		}
 	}
 	return 0;
+}
+
+static void lu5_run_draw(lu5_State *l5, GLFWwindow *window) 
+{
+	lua_getglobal(l5->L, "draw");
+	if (lua_pcall(l5->L, 0, 0, 0) != LUA_OK) {
+		LU5_ERROR(lua_tostring(l5->L, -1));
+		// EXIT
+		glfwSetWindowShouldClose(window, 1);
+	}
+	glfwSwapBuffers(window);
 }
 
 int main(int argc, char **argv) 

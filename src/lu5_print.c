@@ -21,7 +21,7 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 			break;
 		}
 		case LUA_TFUNCTION:{
-			printf("\x1b[34m[lua function]%c\x1b[0m", sep);
+			printf("\x1b[34m[lua function]\x1b[0m%c", sep);
 			break;
 		}
 		case LUA_TNUMBER:{
