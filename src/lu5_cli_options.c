@@ -31,6 +31,13 @@ lu5_option cli_options[LU5_OPTION_COUNT] = {
 		.arg_count = 0
 	},
 	{
+		.name = "version",
+		.description = "Displays the current version",
+		.example = "",
+		.handler = lu5_option_version,
+		.arg_count = 0
+	},
+	{
 		.name = "init",
 		.description = "Creates a lu5 sketch",
 		.example = "lu5 --init sketch.lua",
@@ -284,6 +291,16 @@ int lu5_option_install(int argc, char **argv, int idx, int cli_id, bool* default
 
 	return err;
 #endif
+}
+
+int lu5_option_version(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename) 
+{   
+	printf(
+		"%s\n",
+		LU5_VERSION
+	);
+
+	return 0;
 }
 
 int lu5_option_help(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename) 
