@@ -66,5 +66,6 @@ See `./src/lu5_types.h` for error handling source
 
 ### Load formats
 
-- [ ] `loadStrings()` Load text by lines
+- [x] `loadStrings()` Load text by lines
+- [x] `loadText()` Load text as string
 - [ ] `loadJSON()` 

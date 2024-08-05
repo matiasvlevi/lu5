@@ -63,6 +63,8 @@ void lu5_register_symbols(lua_State *L)
 
 	// IO
 	LUA_ADD_FUNCTION(L, print);
+	LUA_ADD_FUNCTION(L, loadStrings);
+	LUA_ADD_FUNCTION(L, loadText);
 
 	// Window
 	LUA_ADD_FUNCTION(L, createWindow);
