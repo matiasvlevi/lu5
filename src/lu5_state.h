@@ -10,7 +10,6 @@
 
 #define MAX_MOUSE_BUTTONS 8
 #define MAX_KEYBOARD_KEYS 512
-#define MAX_KEY_PRESSED_QUEUE 64
 
 typedef struct lu5_node_s lu5_node;
 typedef struct lu5_font_s lu5_font;
@@ -42,9 +41,7 @@ typedef struct {
 
 		struct {
 			int current_keys[MAX_KEYBOARD_KEYS];
-
-			int keypress_queue_count;
-			int keypress_queue[MAX_KEY_PRESSED_QUEUE];
+			bool is_down[MAX_KEYBOARD_KEYS];
 		} keyboard;
 
 	} input;

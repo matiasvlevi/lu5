@@ -31,26 +31,18 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
 	if (!lu5.L) return;
 
-	// TODO: Force down state when CAPS lock or other mods found
-
-	// Check if there is space available in the key queue
-	if ((lu5.input.keyboard.keypress_queue_count < MAX_KEY_PRESSED_QUEUE) && (action == GLFW_PRESS))
-	{
-		// Add key to queue
-		lu5.input.keyboard.keypress_queue[lu5.input.keyboard.keypress_queue_count] = key;
-		lu5.input.keyboard.keypress_queue_count++;
-	}
-
 	switch(action) {
 		case GLFW_RELEASE: 
 			lu5.input.keyboard.current_keys[key] = GLFW_RELEASE;
+			lu5.input.keyboard.is_down[key] = false;
 
 			// Get keyReleased
 			lua_getglobal(lu5.L, "keyReleased");
 			break;
 		case GLFW_PRESS: 
 			lu5.input.keyboard.current_keys[key] = GLFW_PRESS;
-
+			lu5.input.keyboard.is_down[key] = true;
+			
 			// Get keyPressed
 			lua_getglobal(lu5.L, "keyPressed");
 			break;
@@ -64,9 +56,20 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 	// Check if callback event is a function
 	if (lua_isfunction(lu5.L, -1)) {
-		lua_pushinteger(lu5.L, key);
+		char key_string[2] = {};
 
-		if (lua_pcall(lu5.L, 1, 0, 0) != LUA_OK) {
+		if (key >= 65 && key <= 90) {
+			bool is_upper = 
+				(mods & GLFW_MOD_CAPS_LOCK) ||
+				(mods & GLFW_MOD_SHIFT);
+
+			int err = sprintf(key_string, "%c", is_upper ? key : (key + 32));
+		}
+
+		lua_pushinteger(lu5.L, key);
+		lua_pushlstring(lu5.L, key_string, 1);
+
+		if (lua_pcall(lu5.L, 2, 0, 0) != LUA_OK) {
 			LU5_ERROR(lua_tostring(lu5.L, -1));
 		}
 	}
