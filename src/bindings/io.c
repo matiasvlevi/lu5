@@ -11,6 +11,10 @@
 int print(lua_State *L)
 {
 	int argc = lua_gettop(L);
+	if (argc == 0) {
+		putchar('\n');
+		return 0;
+	}
 	
 	// Print all arguments
 	for (int i = 1; i < argc; i++) {
