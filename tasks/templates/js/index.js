@@ -22,7 +22,7 @@ function toggleMenu() {
 	}
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function main() {
     menu = document.getElementById('menu');
 
 	if (window.innerWidth > 900) {
@@ -54,4 +54,4 @@ document.addEventListener('DOMContentLoaded', function() {
 			closeMenu(menu);
 		}, 150);
 	})
-});
+}

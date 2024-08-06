@@ -4,6 +4,27 @@ local Parse      = require("./tasks/lib/parse");
 local Minify     = require("./tasks/lib/minify")
 local fs         = require("./tasks/lib/file");
 
+local metadata = {
+    url = "https://matiasvlevi.github.io/lu5",
+    assets = "./assets",
+    title="Lua Interpreter for Creative Coding",
+    keywords=join({
+        "Lua",
+        "Creative Coding",
+        "p5.js",
+        "OpenGL",
+        "Lua Interpreter",
+        "Lua sketches",
+        "programming",
+        "coding",
+        "learn code"
+    }, ', '),
+    author = "Matias Vazquez-Levi",
+    description = "A Lua interpreter for Creative Coding. "..
+    "Provides a similar experience to well known p5.js library. "..
+    "Perfect for running Lua graphical sketches with ease.",
+}
+
 doc_source_path = './src/bindings/';
 template_path = './tasks/templates/';
 
@@ -58,7 +79,7 @@ for i, filename in pairs(source_files) do
         body = Components.Module(Modules[module_name]),
         nav  = nav,
         version = VERSION
-    });
+    }, metadata);
 
     fs.write_file(doc_path .. module_name .. '.html', static_docs);
 end
@@ -67,10 +88,10 @@ end
 local homepage_name = 'Reference'; 
 local static_homepage = Handlebars.use_template(page_template, {
     filename = homepage_name,
-    nav = nav, 
+    nav = nav,
     body = Components.Index(Modules, 'dark'),
     version = VERSION
-});
+}, metadata);
 
 fs.write_file(doc_path .. 'index.html', static_homepage);
 

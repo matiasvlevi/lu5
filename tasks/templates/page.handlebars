@@ -4,16 +4,36 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
-		<link rel="stylesheet" href="./assets/style.css" />
-		<script type="text/javascript" src="./assets/index.js"></script>
-
-		<link rel="stylesheet" href="./assets/lu5-hljs-theme.css">
-		<script src="./assets/hljs.min.js"></script>
-
-		<script>hljs.highlightAll();</script>
 		
-		<title>{{filename}} | Documentation</title>
+		<meta name="description" content="{{description}}" />
+		<meta name="keywords" content="{{keywords}}" />
+		<meta name="author" content="{{author}}" />
+
+		<meta property="og:title" content="{{filename}} | {{title}}" />
+		<meta property="og:description" content="{{description}}." />
+		<meta property="og:image" content="{{assets}}/lu5_thumbnail.png" />
+		<meta property="og:url" content="{{url}}" />
+		
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="{{filename}} | {{title}}" />
+		<meta name="twitter:description" content="{{description}}" />
+		<meta name="twitter:image" content="{{assets}}/lu5_thumbnail.png" />
+
+		<link rel="stylesheet" href="{{assets}}/style.css"/>
+		<script type="text/javascript" src="{{assets}}/index.js"></script>
+
+		<link rel="stylesheet" href="{{assets}}/lu5-hljs-theme.css">
+		<script src="{{assets}}/hljs.min.js"></script>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function (event) {
+				hljs.highlightAll();
+			
+				main();
+			});
+		</script>
+
+		<title>{{filename}} | {{title}}</title>
 	</head>
 	<body>
 		<div class="nav" id="menu">
