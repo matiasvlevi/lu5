@@ -46,21 +46,63 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 			break;
 		}
 		case LUA_TTABLE: {
+			// If implements the print method,
+			// run it
+			int has_metatable = lua_getmetatable(L, index);
+			if (has_metatable) {
+				lua_getfield(L, -1, "print");
+				if (lua_isfunction(L, -1)) {
+
+					lua_pushvalue(L, index);
+
+					if (lua_pcall(L, 1, 0, 0) != LUA_OK) {
+						luaL_error(L, lua_tostring(L, -1));
+					}
+
+					break;
+				} else {
+					luaL_error(L, "Does not implement the `print` method");
+					break;
+				}
+				break;
+			}
+
+			// else print as table
 			lu5_print_list(L, index, nested, sep);
 			break;
 		}
-		case LUA_TLIGHTUSERDATA:
+		case LUA_TLIGHTUSERDATA: {
 			if (lua_islightuserdata(L, index)) {
 				void* ptr = lua_touserdata(L, index);
 
 				printf("\x1b[35m[ptr: %p]\x1b[0m%c", ptr, sep);
 			}
 			break;
+		}
+		case LUA_TUSERDATA: {
 
+			// If implements the print method,
+			// run it
+			int has_metatable = lua_getmetatable(L, index);
+			if (has_metatable) {
+				lua_getfield(L, -1, "__methods");
+				lua_getfield(L, -1, "print");
+				if (lua_isfunction(L, -1)) {
+					lua_pushvalue(L, index);
+					lua_pcall(L, 1, 0, 0);
+					break;
+				} else {
+					luaL_error(L, "Does not implement the `print` method");
+					break;
+				}
+			} else {
+				luaL_error(L, "Does not contain metatable");
+				break;
+			}
+		}
 		// TODO: Handle these
-		case LUA_TUSERDATA:
 		case LUA_TTHREAD: 
-		default:{
+		default: {
 			const char* typename = lua_typename(L, type);
 			
 			printf("[unknown %s]%c", typename, sep);
@@ -84,11 +126,11 @@ void lu5_print_list(lua_State *L, int index, int depth, char sep)
 	// Get length
 	int len = lua_rawlen(L, index);
 	int i = 1;
-
 	putchar('{');
 	while (lua_next(L, index) != 0) 
 	{
 		putchar(' ');
+
 		lu5_print_any(L, -1, depth+1, (i != len) ? ',' : ' ');
 
 		// Remove value, keep key for next iteration
