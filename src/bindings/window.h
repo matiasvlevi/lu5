@@ -113,6 +113,19 @@ int frameRate(lua_State *L);
  *
  * Called when the window is resized
  *
+ * @example
+ * function setup()
+ *     createWindow(500, 500);
+ * end
+ * 
+ * function draw()
+ *     background(51)
+ * end
+ * 
+ * function windowResized()
+ *     print('Resized!')
+ * end
+ * @example
  */ 
 #define LU5_WINDOW_RESIZED "windowResized"
 
