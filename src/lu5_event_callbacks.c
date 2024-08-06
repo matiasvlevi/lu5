@@ -5,6 +5,9 @@
 #include "bindings/mouse.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) 
 {
@@ -29,6 +32,7 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	errno = 0;
 	if (!lu5.L) return;
 
 	switch(action) {
@@ -56,22 +60,65 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 	// Check if callback event is a function
 	if (lua_isfunction(lu5.L, -1)) {
-		char key_string[2] = {};
+		const char *name = glfwGetKeyName(key, scancode);
+		size_t key_name_length;
+		if (name == NULL) {
+			// Push event arguments (key, keyCode)
+			lua_pushnil(lu5.L);
+			lua_pushinteger(lu5.L, key);
 
-		if (key >= 65 && key <= 90) {
-			bool is_upper = 
-				(mods & GLFW_MOD_CAPS_LOCK) ||
-				(mods & GLFW_MOD_SHIFT);
-
-			int err = sprintf(key_string, "%c", is_upper ? key : (key + 32));
+			if (lua_pcall(lu5.L, 2, 0, 0) != LUA_OK) {
+				LU5_ERROR(lua_tostring(lu5.L, -1));
+			}
+			return;
+		} else {
+			key_name_length = strlen(name);
 		}
 
+		char *key_name = (char*)malloc(key_name_length);
+
+		// Is printable character
+		if (key >= 65 && key <= 90) {
+			
+			// is letter & lower case
+			bool is_lowercase =
+				((mods & GLFW_MOD_CAPS_LOCK) ||
+				(mods & GLFW_MOD_SHIFT));
+
+			// Format key character to string
+			int err = sprintf(key_name, "%c", is_lowercase ? key : (key + 32));
+			if (err == -1) {
+				LU5_ERROR("%s", strerror(errno));
+
+				if (key_name != NULL)
+					free(key_name);
+
+				return;
+			}
+		} else {
+			// Format key name as string for edge cases
+			LU5_LOG("Formatting with name");
+			int err = sprintf(key_name, "%s", name);
+			if (err == -1) {
+				LU5_ERROR("%s", strerror(errno));
+				
+				if (key_name != NULL)
+					free(key_name);
+				
+				return;
+			}
+		}
+
+		// Push event arguments (key, keyCode)
+		lua_pushlstring(lu5.L, key_name, 1);
 		lua_pushinteger(lu5.L, key);
-		lua_pushlstring(lu5.L, key_string, 1);
 
 		if (lua_pcall(lu5.L, 2, 0, 0) != LUA_OK) {
 			LU5_ERROR(lua_tostring(lu5.L, -1));
 		}
+
+		if (key_name != NULL)
+			free(key_name);
 	}
 
 }
@@ -81,7 +128,8 @@ void lu5_register_event_callbacks(GLFWwindow *window)
 {
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
 	glfwSetKeyCallback(window, key_callback);
-
+	glfwSetInputMode(window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
+	
 	return;
 }
 	

@@ -28,8 +28,23 @@ int keyIsDown(lua_State *L);
  * @brief keyPressed
  * 
  * Called whenever a key is pressed.
+ * 
+ * @param key The pressed key as a string, is nil if glfw cannot find a name for the key
+ * @param keyCode The pressed key as a key code
  *
- * @param key The pressed key
+ * @example
+ * function setup()
+ *    createWindow(600, 600);
+ * end
+ * 
+ * function draw()
+ *    background(51);
+ * end
+ * 
+ * function keyPressed(key, keyCode)
+ *    print(key, keyCode)
+ * end
+ * @example
  *
  */
 #define LU5_KEY_PRESSED "keyPressed"
@@ -39,7 +54,9 @@ int keyIsDown(lua_State *L);
  * 
  * Called whenever a key is released.
  *
- * @param key The released key
+ * @param key The released key as a string, is nil if glfw cannot find a name for the key
+ * @param keyCode The released key as a key code
+ *
  */ 
 #define LU5_KEY_RELEASED "keyReleased"
 
@@ -48,7 +65,9 @@ int keyIsDown(lua_State *L);
  * 
  * Called whenever a key is held down.
  *
- * @param key The held key
+ * @param key The held key as a string, is nil if glfw cannot find a name for the key
+ * @param keyCode The held key as a key code
+ *
  */ 
 #define LU5_KEY_HELD "keyHeld"
 
@@ -69,29 +88,130 @@ int keyIsDown(lua_State *L);
 /**
  * @brief LEFT_ARROW
  * @global
- * 
  */
 #define LU5_KEY_LEFT_ARROW 263
 
 /**
  * @brief RIGHT_ARROW
  * @global
- * 
  */
 #define LU5_KEY_RIGHT_ARROW 262
 
 /**
- * @brief ENTER
+ * @brief KEY_ENTER
  * @global
- * 
  */
 #define LU5_KEY_ENTER 257
 
 /**
- * @brief BACKSPACE
+ * @brief KEY_BACKSPACE
  * @global
- * 
  */
 #define LU5_KEY_BACKSPACE 259
+
+/**
+ * @brief KEY_A
+ * @global
+ */
+/**
+ * @brief KEY_B
+ * @global
+ */
+/**
+ * @brief KEY_C
+ * @global
+ */
+/**
+ * @brief KEY_D
+ * @global
+ */
+/**
+ * @brief KEY_E
+ * @global
+ */
+/**
+ * @brief KEY_F
+ * @global
+ */
+/**
+ * @brief KEY_G
+ * @global
+ */
+/**
+ * @brief KEY_H
+ * @global
+ */
+/**
+ * @brief KEY_I
+ * @global
+ */
+/**
+ * @brief KEY_J
+ * @global
+ */
+/**
+ * @brief KEY_K
+ * @global
+ */
+/**
+ * @brief KEY_L
+ * @global
+ */
+/**
+ * @brief KEY_M
+ * @global
+ */
+/**
+ * @brief KEY_N
+ * @global
+ */
+/**
+ * @brief KEY_O
+ * @global
+ */
+/**
+ * @brief KEY_P
+ * @global
+ */
+/**
+ * @brief KEY_Q
+ * @global
+ */
+/**
+ * @brief KEY_R
+ * @global
+ */
+/**
+ * @brief KEY_S
+ * @global
+ */
+/**
+ * @brief KEY_T
+ * @global
+ */
+/**
+ * @brief KEY_U
+ * @global
+ */
+/**
+ * @brief KEY_V
+ * @global
+ */
+/**
+ * @brief KEY_W
+ * @global
+ */
+/**
+ * @brief KEY_X
+ * @global
+ */
+/**
+ * @brief KEY_Y
+ * @global
+ */
+/**
+ * @brief KEY_Z
+ * @global
+ */
 
 #endif
