@@ -167,6 +167,9 @@ void lu5_register_symbols(lua_State *L)
 	// OOP
 	LUA_ADD_FUNCTION_BY_NAME(L, "class", lu5_class);
 
+	// Vector
+	lu5_bind_vector(L);
+
 	// MATH
 	LUA_ADD_FUNCTION_BY_NAME(L,"randomSeed", lu5_randomSeed);
 	LUA_ADD_FUNCTION_BY_NAME(L,    "random", lu5_random);
