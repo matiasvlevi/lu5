@@ -22,23 +22,31 @@ local function Panel(headers, class)
     return "<ul>".. panel .."</ul>";
 end
 
-local function MethodSummary(parent, methods, class)
+local function ModuleSummary(parent, methods, class)
 
     local summary = '';
+
 
     if (class == nil) then
         class = "dark"
     end
 
+    -- Avoid showing empty modules
+    if (#methods == 0) then
+        return ''
+    end
+
     for i, method in pairs(methods) do
 
         local link = './' .. parent .. '.html#' .. method.name;
-
-        summary = summary .. "<li class=\"index\">"..
-            "<a class=\"".. class .." index\" href=\"".. link .."\">"..
-                method.name..
-            "</a>"..
-        "</li>";
+        -- Do not show global constants in ModuleSummary
+        if (method._type ~= "global") then
+            summary = summary .. "<li class=\"index\">"..
+                "<a class=\"".. class .." index\" href=\"".. link .."\">"..
+                    method.name..
+                "</a>"..
+            "</li>";
+        end
     end
 
     return 
@@ -58,7 +66,7 @@ local function Index(modules, class)
 
     for header, methods in pairs(modules) do
         -- Panel
-        index = index .. MethodSummary(header, methods);
+        index = index .. ModuleSummary(header, methods);
     end
     
     return 
