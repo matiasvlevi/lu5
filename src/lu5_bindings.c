@@ -4,6 +4,7 @@
 #include "bindings/window.h"
 #include "bindings/setting.h"
 #include "bindings/lu5_math.h"
+#include "bindings/lu5_vector.h"
 #include "bindings/io.h"
 #include "bindings/shapes.h"
 #include "bindings/mouse.h"
@@ -30,7 +31,6 @@ void lu5_update_dynamic_variables(lu5_State *l5, GLFWwindow *window)
 		LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, LU5_DELTA_TIME, (lu5.env.now_time - lu5.env.last_frame_time));
 	}
 }
-
 
 static void lu5_register_constants(lua_State *L) 
 {
@@ -116,6 +116,7 @@ static void lu5_register_constants(lua_State *L)
 void lu5_register_symbols(lua_State *L) 
 {
 	LUA_ADD_STRING_GLOBAL_BY_NAME(L, "VERSION", LU5_VERSION);
+
 
 	// IO
 	LUA_ADD_FUNCTION(L, print);

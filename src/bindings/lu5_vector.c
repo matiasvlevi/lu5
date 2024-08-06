@@ -2,8 +2,6 @@
 
 #include "../lu5_types.h"
 #include "../lu5_logger.h"
-#include "../lu5_metatables.h"
-
 #include <string.h>
 #include "../lu5_print.h"
 
