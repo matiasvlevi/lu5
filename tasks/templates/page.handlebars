@@ -9,15 +9,15 @@
 		<meta name="keywords" content="{{keywords}}" />
 		<meta name="author" content="{{author}}" />
 
-		<meta property="og:title" content="{{filename}} | {{title}}" />
+		<meta property="og:title" content="{{page_name}} | {{title}}" />
 		<meta property="og:description" content="{{description}}." />
-		<meta property="og:image" content="{{assets}}/lu5_thumbnail.png" />
+		<meta property="og:image" content="{{assets}}/{{thumbnail}}" />
 		<meta property="og:url" content="{{url}}" />
 		
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content="{{filename}} | {{title}}" />
+		<meta name="twitter:title" content="{{page_name}} | {{title}}" />
 		<meta name="twitter:description" content="{{description}}" />
-		<meta name="twitter:image" content="{{assets}}/lu5_thumbnail.png" />
+		<meta name="twitter:image" content="{{assets}}/{{thumbnail}}" />
 
 		<link rel="stylesheet" href="{{assets}}/style.css"/>
 		<script type="text/javascript" src="{{assets}}/index.js"></script>
@@ -33,7 +33,7 @@
 			});
 		</script>
 
-		<title>{{filename}} | {{title}}</title>
+		<title>{{page_name}} | {{title}}</title>
 	</head>
 	<body>
 		<div class="nav" id="menu">
@@ -42,10 +42,10 @@
 		</div>
 		<main>
 			<header>
-				<a href="./"><img width="100px" src="./assets/logo.svg"/></a>
-				<h1 class="module">{{filename}}</h1>
+				<a href="./"><img width="100px" src="{{assets}}/logo.svg"/></a>
+				<h1 class="module">{{page_name}}</h1>
 				<button class="menuBtn" onclick="toggleMenu()">
-					<img class="menuIcon" width="40px" src="./assets/arrow_left.svg"/>
+					<img class="menuIcon" width="40px" src="{{assets}}/arrow_left.svg"/>
 				</button>
 
 				<span class="text version">v{{version}}</span>

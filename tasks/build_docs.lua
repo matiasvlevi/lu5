@@ -6,8 +6,14 @@ local fs         = require("./tasks/lib/file");
 
 local metadata = {
     url = "https://matiasvlevi.github.io/lu5",
+    version = VERSION,
     assets = "./assets",
-    title="Lua Interpreter for Creative Coding",
+    thumbnail = "lu5_thumbnail.png",
+    title="lu5, a Lua Interpreter for Creative Coding",
+    author = "Matias Vazquez-Levi",
+    description = "A Lua interpreter for Creative Coding. "..
+    "Provides a similar experience to well known p5.js library. "..
+    "Perfect for running Lua graphical sketches with ease.",
     keywords=join({
         "Lua",
         "Creative Coding",
@@ -19,10 +25,6 @@ local metadata = {
         "coding",
         "learn code"
     }, ', '),
-    author = "Matias Vazquez-Levi",
-    description = "A Lua interpreter for Creative Coding. "..
-    "Provides a similar experience to well known p5.js library. "..
-    "Perfect for running Lua graphical sketches with ease.",
 }
 
 doc_source_path = './src/bindings/';
@@ -75,10 +77,9 @@ for i, filename in pairs(source_files) do
 
     -- Formatting module page
     local static_docs = Handlebars.use_template(page_template, {
-        filename = module_name,
+        page_name = module_name,
         body = Components.Module(Modules[module_name]),
-        nav  = nav,
-        version = VERSION
+        nav  = nav
     }, metadata);
 
     fs.write_file(doc_path .. module_name .. '.html', static_docs);
@@ -87,10 +88,9 @@ end
 -- Formatting homepage
 local homepage_name = 'Reference'; 
 local static_homepage = Handlebars.use_template(page_template, {
-    filename = homepage_name,
+    page_name = homepage_name,
     nav = nav,
     body = Components.Index(Modules, 'dark'),
-    version = VERSION
 }, metadata);
 
 fs.write_file(doc_path .. 'index.html', static_homepage);
