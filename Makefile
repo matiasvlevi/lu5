@@ -16,13 +16,15 @@ ifeq ($(PLATFORM), win)
 	OBJDIR = $(BINDIR)/win64/obj
 	CFLAGS = -Wall -I/usr/x86_64-w64-mingw32/include -L/usr/x86_64-w64-mingw32/lib $(shell pkg-config --cflags freetype2)
 	LDFLAGS := -L/usr/x86_64-w64-mingw32\
+				-static \
 				$(shell pkg-config --static --libs freetype2)\
+			   	-static-libgcc \
+			   	-static-libstdc++ \
 				-lglfw3\
 				-lopengl32\
 				-lgdi32\
 				-llua\
-				-lm\
-				-lstdc++ 
+				-lm
 else
 	CC := gcc
 	BIN = $(BINDIR)/linux/$(APP_NAME)
@@ -64,7 +66,6 @@ else
 	$(CC) -o $@ $^ $(LDFLAGS) 
 endif
 
-
 .PHONY: all clean install docs zip examples
 
 run: $(BIN)
@@ -87,7 +88,7 @@ install:
 
 clean: 
 	rm -fr bin/*
-	rm -fr docs/*.html
+	rm -fr docs/latest/*.html
 	rm -fr docs/assets/*.svg
 	rm -fr docs/assets/*.css
 	rm -fr docs/assets/*.js
