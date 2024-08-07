@@ -36,7 +36,10 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 		}
 		case LUA_TSTRING: {
 			str = lua_tostring(L, index);
-			if (str == NULL) return;
+			if (str == NULL) {
+				printf("(nil str)");
+				return;
+			}
 
 			if (nested > 0) {
 				printf("\x1b[32m\'%s\'\x1b[0m%c", str, sep);
@@ -57,14 +60,16 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 
 					if (lua_pcall(L, 1, 0, 0) != LUA_OK) {
 						luaL_error(L, lua_tostring(L, -1));
+						lua_pop(L, 1);
 					}
-
+					
+					lua_pop(L, 1);
 					break;
 				} else {
 					luaL_error(L, "Does not implement the `print` method");
+					lua_pop(L, 2);
 					break;
 				}
-				break;
 			}
 
 			// else print as table
@@ -72,10 +77,11 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 			break;
 		}
 		case LUA_TLIGHTUSERDATA: {
-			if (lua_islightuserdata(L, index)) {
-				void* ptr = lua_touserdata(L, index);
-
+			void *ptr = lua_touserdata(L, index);
+			if (ptr != NULL) {
 				printf("\x1b[35m[ptr: %p]\x1b[0m%c", ptr, sep);
+			} else {
+				printf("Error: Null light userdata\n");
 			}
 			break;
 		}
@@ -89,10 +95,16 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 				lua_getfield(L, -1, "print");
 				if (lua_isfunction(L, -1)) {
 					lua_pushvalue(L, index);
-					lua_pcall(L, 1, 0, 0);
+					
+					if (lua_pcall(L, 1, 0, 0) != LUA_OK) {
+						luaL_error(L, lua_tostring(L, -1));
+						lua_pop(L, 1);
+					}
+					lua_pop(L, 2);
 					break;
 				} else {
 					luaL_error(L, "Does not implement the `print` method");
+					lua_pop(L, 2);
 					break;
 				}
 			} else {
@@ -116,7 +128,7 @@ void lu5_print_list(lua_State *L, int index, int depth, char sep)
 	// Placeholder to avoid infinite recursion
 	if (depth > PRINT_DEPTH) {  
 		int elem_length = luaL_len(L, index);
-		printf("{ \x1b[90m... %i elements\x1b[0m }%c", elem_length, sep);
+		printf("{ \x1b[90m... %i elements\x1b[0m }%c", elem_length+1, sep);
 		return;
 	}
 
@@ -129,13 +141,28 @@ void lu5_print_list(lua_State *L, int index, int depth, char sep)
 	putchar('{');
 	while (lua_next(L, index) != 0) 
 	{
+		if (lua_gettop(L) < 2) {
+			LU5_ERROR("Lua stack does not have enough elements\n");
+			lua_pop(L, lua_gettop(L));
+			return;
+		}
 		putchar(' ');
 
-		lu5_print_any(L, -1, depth+1, (i != len) ? ',' : ' ');
+		// key -2
+		// value -1
 
-		// Remove value, keep key for next iteration
+		// Print Key
+		if (lua_type(L, -2) == LUA_TSTRING) {
+			const char *str = lua_tostring(L, -2);
+			
+			printf("%s=", str);
+		}
+
+		// Print Value
+
+		lu5_print_any(L, lua_gettop(L), depth + 1, (i != len) ? ',' : ' ');
+
 		lua_pop(L, 1);
-
 		i++;
 	}
 	putchar('}');

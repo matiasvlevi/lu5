@@ -3,7 +3,7 @@
 
 #include <lua.h>
 
-#define PRINT_DEPTH 2
+#define PRINT_DEPTH 3
 
 // TODO: Make these function buffered
 
