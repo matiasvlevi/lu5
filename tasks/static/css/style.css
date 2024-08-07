@@ -129,6 +129,10 @@ a:visited {
 	text-decoration: none;
 }
 
+.method > p > a {
+	text-decoration: underline;
+	text-underline-offset: 0.2rem;
+}
 
 .version {
 	color: var(--dark);
