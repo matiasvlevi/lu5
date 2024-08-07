@@ -1,8 +1,8 @@
 # Maintainer Matias Vazquez-Levi <matiasvlevi@gmail.com>
 
 pkgname=lu5
-pkgver=0.0.4
-pkgrel=1
+pkgver=0.0.6
+pkgrel=3
 pkgdesc="Lua interpreter for Creative Coding"
 arch=('x86_64')
 url="https://github.com/matiasvlevi/lu5"
