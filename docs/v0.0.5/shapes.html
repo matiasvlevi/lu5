@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+		<link rel="stylesheet" href="../assets/style.css" />
+		<script type="text/javascript" src="../assets/index.js"></script>
+
+		<link rel="stylesheet" href="../assets/lu5-hljs-theme.css">
+		<script src="../assets/hljs.min.js"></script>
+
+		<script>hljs.highlightAll();</script>
+		
+		<title>shapes | Documentation</title>
+	</head>
+	<body>
+		<div class="nav" id="menu">
+			<br/>
+			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./typography.html"><h4>typography</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./mouse.html"><h4>mouse</h4></a></li><li class="btn"><a class="light" href="./math.html"><h4>math</h4></a></li><li class="btn"><a class="light" href="./keyboard.html"><h4>keyboard</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./image.html"><h4>image</h4></a></li><li class="btn"><a class="light" href="./classes.html"><h4>classes</h4></a></li></ul>
+		</div>
+		<main>
+			<header>
+				<a href="./"><img width="100px" src="../assets/logo.svg"/></a>
+				<h1 class="module">shapes</h1>
+				<button class="menuBtn" onclick="toggleMenu()">
+					<img class="menuIcon" width="40px" src="../assets/arrow_left.svg"/>
+				</button>
+
+				<span class="text version">v0.0.5</span>
+			</header>
+
+			
+<div class="method" id="circle"><div class="methodDeclaration"><code>circle(x, y, d);</code></div><p>Draw a circle to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The x position of the circle</span></div><div class="param"><code class="name">y</code><span class="text desc">The y position of the circle</span></div><div class="param"><code class="name">d</code><span class="text desc">The diameter of the circle</span></div></div><p></p><br/></div>
+<div class="method" id="rect"><div class="methodDeclaration"><code>rect(x, y, w, h);</code></div><p>Draw a rectangle to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The x position of the reactangle</span></div><div class="param"><code class="name">y</code><span class="text desc">The y position of the reactangle</span></div><div class="param"><code class="name">w</code><span class="text desc">The width</span></div><div class="param"><code class="name">h</code><span class="text desc">The height</span></div></div><p></p><br/></div>
+<div class="method" id="square"><div class="methodDeclaration"><code>square(x, y, s);</code></div><p>Draw a square to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The x position of the square</span></div><div class="param"><code class="name">y</code><span class="text desc">The y position of the square</span></div><div class="param"><code class="name">s</code><span class="text desc">The size of the square</span></div></div><p></p><br/></div>
+<div class="method" id="line"><div class="methodDeclaration"><code>line(x1, y1, x2, y2);</code></div><p>Draw a line to the opengl context</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x1</code><span class="text desc">The x position of the first point</span></div><div class="param"><code class="name">y1</code><span class="text desc">The y position of the first point</span></div><div class="param"><code class="name">x2</code><span class="text desc">The x position of the second point</span></div><div class="param"><code class="name">y2</code><span class="text desc">The y position of the second point</span></div></div><p></p><br/></div>
+<div class="method" id="quad"><div class="methodDeclaration"><code>quad(x1, y1, x2, y2, x3, y3, x4, y4);</code></div><p>Draw a quad on the screen</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x1</code><span class="text desc">The x position of the first point</span></div><div class="param"><code class="name">y1</code><span class="text desc">The y position of the first point</span></div><div class="param"><code class="name">x2</code><span class="text desc">The x position of the second point</span></div><div class="param"><code class="name">y2</code><span class="text desc">The y position of the second point</span></div><div class="param"><code class="name">x3</code><span class="text desc">The x position of the third point</span></div><div class="param"><code class="name">y3</code><span class="text desc">The y position of the third point</span></div><div class="param"><code class="name">x4</code><span class="text desc">The x position of the fourth point</span></div><div class="param"><code class="name">y4</code><span class="text desc">The y position of the fourth point</span></div></div><p></p><br/></div>
+<div class="method" id="point"><div class="methodDeclaration"><code>point();</code></div><p>Draw a point on the screen</p><p></p><br/></div>
+<div class="method" id="arc"><div class="methodDeclaration"><code>arc();</code></div><p>Draw an arc on the screen</p><p></p><br/></div>
+<div class="method" id="ellipse"><div class="methodDeclaration"><code>ellipse();</code></div><p> 
+Draw an ellipse on the screen</p><p></p><br/></div>
+<div class="method" id="triangle"><div class="methodDeclaration"><code>triangle();</code></div><p>Draw a triangle on the screen</p><p></p><br/></div>
+<div class="method" id="beginShape"><div class="methodDeclaration"><code>beginShape(mode);</code></div><p>Begin adding vertices to a custom shape</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">mode</code><span class="text desc">The opengl shape mode <code class="inline">LINES</code>, <code class="inline">POINTS</code>, <code class="inline">QUADS</code>, <code class="inline">TRIANGLES</code>, <code class="inline">TRIANGLE_FAN</code></span></div></div><p>The following would draw a 100 by 100 square at position 100, 100
+The following would draw a 100 by 100 square at position 100, 100</p><pre><code class="language-lua"> beginShape(QUADS);
+   vertex(100, 100);
+   vertex(100, 200);
+   vertex(200, 200);
+   vertex(200, 100);
+ endShape();</code></pre><br/></div>
+<div class="method" id="vertex"><div class="methodDeclaration"><code>vertex(x, y);</code></div><p>Adding a vertex to a custom shape
+<code class="inline">beginShape</code> must be called prior</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The x position</span></div><div class="param"><code class="name">y</code><span class="text desc">The y position</span></div></div><p></p><br/></div>
+<div class="method" id="endShape"><div class="methodDeclaration"><code>endShape();</code></div><p>Close the custom shape
+<code class="inline">beginShape</code> must be called prior</p><p></p><br/></div>
+		</main>
+  </body>
+</html>

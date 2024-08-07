@@ -27,7 +27,6 @@ local function Home(props)
             luax('p', { style="max-width:34rem;" }, {
                 'Lu5 is a free and open-source Lua interpreter for Creative Coding.',
                 luax('br'),
-                'Its simple nature makes it a great choice for beginning your coding journey'
             })
         }),
         luax('div', {

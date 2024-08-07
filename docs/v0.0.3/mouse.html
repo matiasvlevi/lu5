@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+		<link rel="stylesheet" href="../assets/style.css" />
+		<script type="text/javascript" src="../assets/index.js"></script>
+
+		<link rel="stylesheet" href="../assets/lu5-hljs-theme.css">
+		<script src="../assets/hljs.min.js"></script>
+
+		<script>hljs.highlightAll();</script>
+		
+		<title>mouse | Documentation</title>
+	</head>
+	<body>
+		<div class="nav" id="menu">
+			<br/>
+			<ul><li class="btn"><a class="light" href="./window.html"><h4>window</h4></a></li><li class="btn"><a class="light" href="./shapes.html"><h4>shapes</h4></a></li><li class="btn"><a class="light" href="./setting.html"><h4>setting</h4></a></li><li class="btn"><a class="light" href="./mouse.html"><h4>mouse</h4></a></li><li class="btn"><a class="light" href="./math.html"><h4>math</h4></a></li><li class="btn"><a class="light" href="./loaders.html"><h4>loaders</h4></a></li><li class="btn"><a class="light" href="./keyboard.html"><h4>keyboard</h4></a></li><li class="btn"><a class="light" href="./io.html"><h4>io</h4></a></li><li class="btn"><a class="light" href="./classes.html"><h4>classes</h4></a></li></ul>
+		</div>
+		<main>
+			<header>
+				<a href="./"><img width="100px" src="../assets/logo.svg"/></a>
+				<h1 class="module">mouse</h1>
+				<button class="menuBtn" onclick="toggleMenu()">
+					<img class="menuIcon" width="40px" src="../assets/arrow_left.svg"/>
+				</button>
+
+				<span class="text version">v0.0.3</span>
+			</header>
+
+			
+<div class="method" id="mouseX"><div class="methodDeclaration"><code>mouseX</code><span class="decorator">Global</span></div><p>The x mouse coordinate</p><p></p><pre><code class="language-lua"> createWindow(400, 400);
+
+ function draw()
+   background(51);
+   
+   line(mouseX, 0, mouseX, height);
+ end</code></pre><br/></div>
+<div class="method" id="mouseY"><div class="methodDeclaration"><code>mouseY</code><span class="decorator">Global</span></div><p>The y mouse coordinate</p><p></p><pre><code class="language-lua"> createWindow(400, 400);
+
+ function draw()
+   background(51);
+   
+   line(0, mouseY, width, mouseY);
+ end</code></pre><br/></div>
+<div class="method" id="mouseIsPressed"><div class="methodDeclaration"><code>mouseIsPressed</code><span class="decorator">Global</span></div><p>Is <code class="inline">true</code> when the mouse is pressed, is <code class="inline">false</code> when it's not</p><p></p><br/></div>
+<div class="method" id="mousePressed"><div class="methodDeclaration"><code>mousePressed(button);</code><span class="decorator">Event</span></div><p>Called when a mouse button is pressed.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">button</code><span class="text desc">The pressed mouse button</span></div></div><p><br/>
+In the following example, the circle's size increases when the user clicks the mouse.</p><pre><code class="language-lua"> size = 0;
+
+ function setup()
+   createWindow(400, 400);
+ end
+
+ function draw()
+   background(51);
+
+   circle(mouseX, mouseY, size);
+ end
+
+ -- Increase circle size when mouse pressed
+ function mousePressed()
+   size = size + 1;
+ end</code></pre><br/></div>
+<div class="method" id="mouseReleased"><div class="methodDeclaration"><code>mouseReleased(button);</code><span class="decorator">Event</span></div><p>Called when a mouse button is released.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">button</code><span class="text desc">The released mouse button</span></div></div><p><br/>
+In the following example, the circle's size increases when the user clicks the mouse.</p><pre><code class="language-lua"> size = 32;
+
+ function setup()
+   createWindow(400, 400);
+ end
+
+ function draw()
+   background(51);
+
+   circle(mouseX, mouseY, size);
+ end
+
+ -- Set larger circle size
+ function mousePressed()
+   size = 64;
+ end
+
+ -- Reset size
+ function mouseReleased()
+   size = 32;
+ end</code></pre><br/></div>
+		</main>
+  </body>
+</html>
