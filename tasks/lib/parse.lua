@@ -79,12 +79,12 @@ function parse_description(comment)
         
         local m = string.match(lines[i], "%s%*%s.+");
         if (m ~= nil) then
-            table.insert(result, 1, from_md(string.sub(m, 4, #m)));
+            table.insert(result, from_md(string.sub(m, 4, #m)));
         end
     
         ::continue::
 	end
-	return luax.join(result, '\n');
+	return luax.join(result, '<br/>');
 end
 
 function parse_bottom_description(comment)
@@ -198,6 +198,12 @@ function parse_comment(comment, name, is_event)
         _type = 'method';
     end
     
+    -- Override name if name tag found
+    local name_match = comment:match('%@name [%w%.]+')
+    if (name_match) then
+        name = luax.split(name_match, ' ')[2];
+    end
+
     -- TMethod
     return {
 		name              =name,
