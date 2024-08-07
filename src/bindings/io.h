@@ -4,9 +4,19 @@
 #include <lua.h>
 
 /**
- * Printing utility, can take any lua type (except objects).
+ * Printing utility, can take any lua type.
  *
  * @param value The value to print to stdout
+ *
+ * @example
+ * print(42);
+ *
+ * print(1, 2, 3);
+ * 
+ * print('Hello world');
+ *
+ * print({ 3, 8, 1 });
+ * @example
  */ 
 int print(lua_State *L);
 

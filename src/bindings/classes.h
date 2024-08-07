@@ -2,7 +2,8 @@
 #define _LU5_CLASSES_H_
 #include <lua.h>
 /**
- * Create a metatable
+ * Create a class. 
+ * if a class implements a `print` method, it can be used in the <a href="./io.html#print">`print`</a> function
  * 
  * @param name The class name
  *
