@@ -8,8 +8,12 @@ local Method = require('tasks/lib/components/Method')
 --      methods: TMethod[];
 -- }
 ---
-function Module(props) 
-    return luax.map(props.methods, Method)
+function Module(props)
+    return luax('', {
+        luax.map(props.methods, function(method, i)
+            return Method(method)
+        end)
+    })
 end
 
 return Module

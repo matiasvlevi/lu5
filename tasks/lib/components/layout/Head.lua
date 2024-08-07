@@ -10,7 +10,7 @@ local luax = require('tasks/lib/luax');
 ---
 function Head(props)
     local title = props.page_name .. ' | ' .. props.meta.title;
-    local thumbnail = '../' .. props.media.assets ..'/' .. props.media.thumbnail;
+    local thumbnail = props.root .. props.media.assets ..'/' .. props.media.thumbnail;
 
     return luax('head', {
         luax('meta', {charset='UTF-8'}),
@@ -38,12 +38,12 @@ function Head(props)
         luax('link', {rel='canonical', href=props.meta.url .. '/latest/' }),
     
         -- CSS
-        luax('link', {rel='stylesheet', href='../' .. props.media.assets ..'/style.css'}),
-        luax('link', {rel='stylesheet', href='../' .. props.media.assets .. '/lu5-hljs-theme.css'}),
+        luax('link', {rel='stylesheet', href=props.root .. props.media.assets ..'/style.css'}),
+        luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
 
         -- JS
-        luax('script', {src= '../' .. props.media.assets .. '/hljs.min.js'}, {}),
-        luax('script', {type='text/javascript', src='../' .. props.media.assets ..'/index.js'}, {}),
+        luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
+        luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/index.js'}, {}),
         luax('script', {
             'document.addEventListener("DOMContentLoaded", function (event) {',
                 'hljs.highlightAll();',

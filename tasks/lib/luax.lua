@@ -1,11 +1,7 @@
+
 ---
 -- A simple JSX-Like String builder
 --
--- With 2 arguments:
--- @param tag - The element's tag name
--- @param children - Children elements
---
--- With 3 arguments:
 -- @param tag - The element's tag name
 -- @param props - Properties & attributes
 -- @param children - Children elements
@@ -25,21 +21,10 @@
 -- print(div) -- <div class="container"><h2>Hello world!</h2><span class="red">This text is red.</span></div>
 -- @example
 ---
-function luax(t, tag, arg1, arg2)
-    -- Set arguments
-    local props = {}
-    local children = {}
-    if (arg2 == nil and (type(arg1) ~= "table" or arg1[1] ~= nil)) then
-        props = {};
-        children = arg1;
-    else
-        props = arg1;
-        children = arg2;
-    end
-
+function luax(tag, props, children)
     -- Format props to string
     local prop_index = 1;
-    local prop_count = 0
+    local prop_count = 0;
     for _,_ in pairs(props) do prop_count = prop_count + 1 end
 
     local prop_string = (prop_count > 0 and ' ' or '');
@@ -55,18 +40,23 @@ function luax(t, tag, arg1, arg2)
 
     -- Format children to string
     local children_string = '';
+
     if (type(children) == "table") then
         -- Mutliple children
         for index, child in ipairs(children) do
-            children_string = children_string .. tostring(child);
+            if (type(child) == "table") then
+                children_string = children_string .. luax('', {}, child)
+            else
+                children_string = children_string .. tostring(child);
+            end
         end
     elseif (children ~= nil) then
         -- Single children value
         children_string = tostring(children);
     end
-
+    
     -- No root tag
-    if (string.len(tag) == 0) then
+    if (#tag == 0 or string.len(tag) == 0) then
         -- Return formatted children
         return children_string;
     end
@@ -110,10 +100,10 @@ local utils = {};
 -- @example
 ---
 function utils.map(data, cb)
-    local res = '';
-    local it = is_array(data) and ipairs or pairs;
-    for i, value in it(data) do
-        res = res .. cb(value, i);
+    local res = {}
+    local it = is_array(data) and pairs or ipairs;
+    for k, value in it(data) do
+        res[k] = cb(value, k);
     end
     return res;
 end
@@ -167,9 +157,50 @@ function utils.split(input, sep)
     return content
 end
 
+function utils.filter(list, cb)
+    local res = {}
+    for i, elem in ipairs(list) do
+        if (cb(elem, i)) then
+            table.insert(res, elem)
+        end
+    end
+    return res;
+end
+
+function utils.reverse(list)
+    local res = {}
+    for i, elem in ipairs(list) do
+        table.insert(res, 1, elem)
+    end
+    return res;
+end
+
+-- function utils.map(list, cb)
+--     local res = {}
+--     for i, elem in ipairs(list) do
+--         table.insert(res, cb(elem, i))
+--     end
+--     return res;
+-- end
+
 function utils.insert(host, segment, pos)
     return host:sub(1,pos-1)..segment..host:sub(pos+1)
 end
 
-local mt = { __call=luax };
+local mt = { 
+    __call=function(t, tag, arg1, arg2)
+        -- Set arguments
+        local props = {}
+        local children = {}
+        if (arg2 == nil and (type(arg1) ~= "table" or arg1[1] ~= nil)) then
+            props = {};
+            children = arg1;
+        else
+            props = arg1;
+            children = arg2;
+        end
+
+        return luax(tag, props, children);
+    end
+};
 return setmetatable(utils, mt);

@@ -19,7 +19,9 @@ function find_files_in_dir(directory, f)
     return t;
 end
 
-function write_file(path, content)
+function write_file(path, content, log)
+    if (log == nil) then log = false end;
+
     -- Write to file
     docs_file = io.open(path, "w");
     docs_file:write(content);
@@ -38,7 +40,18 @@ function write_file(path, content)
     local fmt_size = '\x1b['.. color ..'m' .. 
         string.format("%.2f kB", bytes/1000) .. '\x1b[0m';
 
-    print(fmt_size .. ' written in \x1b[90m' .. path .. '\x1b[0m');
+    if (log) then
+        print(fmt_size .. ' written in \x1b[90m' .. path .. '\x1b[0m');
+    end
+end
+
+function scandir(dir, _type)
+    local p = io.popen('find "'..dir..'" -type ' .. _type)     
+    local res = {}
+    for file in p:lines() do
+        table.insert(res, file)
+    end
+    return res;
 end
 
 function mkdir(path)
@@ -56,6 +69,9 @@ end
 
 return {
     mkdir=mkdir,
+    scandir=scandir,
+    map=map,
+    filter=filter,
 	write_file=write_file,
     read_file=read_file,
 	find_files_in_dir=find_files_in_dir

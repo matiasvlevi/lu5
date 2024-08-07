@@ -4,6 +4,8 @@
 	--primary: #AA36EF;
 	--lighter: #d49af7;
 	--white: #efefef;
+	--grey: #4f4f4f;
+	--black: #181021;
 }
 
 
@@ -52,6 +54,19 @@ body {
 
 a, p, span.text, span.decorator, h1, h2, h3, h4, h5, h6  {
 	font-family: "Trebuchet MS", Tahoma, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: var(--black);
+}
+
+.light > h1,
+.light > h2,
+.light > h3,
+.light > h4,
+.light > h5,
+.light > h6 {
+	color: var(--white) !important;
 }
 
 .decorator {
@@ -112,14 +127,24 @@ header {
 	flex-wrap: wrap;
 }
 
-
 .modules {
 	display: flex;
 	flex-wrap: wrap;
-	width: 76%;
 	gap: 3.5rem;
 }
 
+.container {
+	width: 76%;
+	margin: 0 auto;
+}
+
+.flex { 
+	display: flex;
+}
+
+.flex-col {
+	flex-direction: column;
+}
 
 a {
 	text-decoration: none;
@@ -127,6 +152,10 @@ a {
 
 a:visited {
 	text-decoration: none;
+}
+
+.underline {
+	text-decoration: underline;
 }
 
 .method > p > a {
@@ -183,9 +212,22 @@ pre code.hljs {
 	margin-right:10.2rem;
 	margin-left: 2em;
 }
+.builds {
+	display: flex;
+	flex-direction: column;
+}
+
+
+.tags {
+	display: none;
+}
 
 /* PC Version */
 @media (min-width: 900px) {
+
+	.tags {
+		display: block;
+	}
 
 	.modules {
 		margin-right:auto;
@@ -212,9 +254,13 @@ pre code.hljs {
 		width: fit-content;
         font-size: 13pt;
 	}
+
+	.builds {
+		display: flex;
+		flex-direction: row;
+	}
 	
 }
-
 
 .param {
 	display: flex;
@@ -270,7 +316,6 @@ pre code.hljs {
 	right: calc(-100%);
 
 	z-index: 10;
-
 }
 
 .nav.open {

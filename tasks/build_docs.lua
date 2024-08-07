@@ -3,17 +3,24 @@ local Parse      = require("./tasks/lib/parse");
 local Minify     = require("./tasks/lib/minify");
 local fs         = require("./tasks/lib/file");
 
-local Config     = require('./tasks/siteconfig')
+local Config     = require('./tasks/siteconfig');
 
 -- Components
-local RootLayout = require('./tasks/lib/components/layout/RootLayout')
-local Home       = require('./tasks/lib/components/Home')
-local Module     = require('./tasks/lib/components/Module')
+local RootLayout = require('./tasks/lib/components/layout/RootLayout');
+local Home       = require('./tasks/lib/components/Home');
+local Reference  = require('./tasks/lib/components/Reference');
+local Module     = require('./tasks/lib/components/Module');
+local Panel      = require('./tasks/lib/components/Panel');
+local HeaderPanel= require('./tasks/lib/components/HeaderPanel');
+
+local get_version_tags = require('./tasks/lib/get_tags');
 
 -- Find documentation header files
 source_header_files = fs.find_files_in_dir(Config.build.source.headers, function (str)
     return string.find(str, "%.h");
 end);
+
+
 
 fs.mkdir(Config.build.dest .. '/' .. 'latest');
 
@@ -26,31 +33,53 @@ for i, filename in pairs(source_header_files) do
     module_name = module_name:gsub('lu5%_', '');
     
     -- Read header source documentation
-    modules[module_name] = Parse.header(fs.read_file(Config.build.source.headers .. '/' .. filename));
+    modules[i] = {
+        name= module_name,
+        methods= Parse.header(fs.read_file(Config.build.source.headers .. '/' .. filename))
+    };
 
     -- Formatting module page
     fs.write_file(Config.build.dest .. '/' .. 'latest' .. '/' .. module_name .. '.html', RootLayout({
         page_name=module_name,
-        headers=source_header_files,
+        version=true,
+        root="../",
         media=Config.media,
         meta=Config.metadata,
-        children=Module({
-            methods=modules[module_name]
-        })
-    }));
+        nav=HeaderPanel({ 
+            class="light", headers=source_header_files 
+        }),
+        children=Module(
+            modules[i]
+        )
+    }), true);
 end
 
 -- Formatting homepage
-local homepage_name = 'Reference';
 fs.write_file(Config.build.dest .. '/' .. 'latest'.. '/' .. 'index.html', RootLayout({
-    page_name=homepage_name,
-    headers=source_header_files,
+    page_name='Reference',
+    version=true,
+    root="../",
     media=Config.media,
     meta=Config.metadata,
-    children=Home({ 
+    nav=HeaderPanel({ 
+        class="light", headers=source_header_files 
+    }),
+    children=Reference({ 
         modules=modules 
     })
-}));
+}), true);
+
+
+fs.write_file(Config.build.dest .. '/' .. 'index.html', RootLayout({
+    page_name='Interpreter for Creative Coding',
+    version=false,
+    root="./",
+    media=Config.media,
+    meta=Config.metadata,
+    children=Home({
+        versions=get_version_tags()
+    })
+}), true);
 
 -- Copy & Minify source assets
 Minify(Config.build.source.js, Minify.js, 
@@ -69,7 +98,8 @@ for i, filename in pairs(asset_files) do
         Config.build.dest .. '/' .. Config.media.assets .. '/' .. filename, 
         fs.read_file(
             Config.build.source.static .. '/' .. Config.media.assets .. '/' .. filename
-        )
+        ),
+        true
     );
 end
 

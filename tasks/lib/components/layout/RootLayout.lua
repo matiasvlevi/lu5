@@ -9,38 +9,43 @@ local Panel = require('tasks/lib/components/Panel');
 --      page_name: string;
 --      media: TMedia;
 --      meta: TMetadata;
---      headers: string[];
---      children: string
+--      nav: string;
+--      children: string;
 -- }
 ---
 function Layout(props)
+    local root = (props.root ~= nil) and props.root or './';
+
     return luax('html', {lang="en"}, {
         Head({
+            root=root,
             page_name=props.page_name,
             meta=props.meta,
             media=props.media
         }),
         luax('body', {
-            luax('div', {class="nav", id="menu"}, {
+            ((props.nav ~= nil) and luax('div', {class="nav", id="menu"}, {
                 luax('br'),
-                Panel({ class="light", headers=props.headers })
-            }),
+                props.nav 
+            }) or ''),
             luax('main', {
                 luax('header', {
-                    luax('a', {href="./"}, {
-                        luax('img', {width="100px", src='../' .. props.media.assets..'/logo.svg'}),
+                    luax('a', {href="../"}, {
+                        luax('img', {width="100px", src=root .. props.media.assets..'/logo.svg'}),
                     }),
                     luax('h1', {class="module"}, props.page_name),
-                    luax('button', {class="menuBtn", onclick="toggleMenu()"}, {
+
+                    ((props.nav ~= nil) and luax('button', {class="menuBtn", onclick="toggleMenu()"}, {
                         luax('img', {
                             class="menuIcon", 
                             width="40px", 
-                            src='../' .. props.media.assets..'/arrow_left.svg'
+                            src= root.. props.media.assets..'/arrow_left.svg'
                         })
-                    }),
-                    luax('span', {class="text version"}, {
+                    }) or ''),
+
+                    (props.version) and luax('span', {class="text version"}, {
                         'v', VERSION
-                    })
+                    }) or ''
                 }),
                 props.children
             })

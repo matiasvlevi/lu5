@@ -37,7 +37,7 @@ function mt.__call(t, files, minifier, source, dest)
         local min = filename:find(".min.") == nil and minifier or function(s) return s end;
         fs.write_file(dest .. '/'.. filename, min(
             fs.read_file(source .. '/' .. filename)
-        ));
+        ), true);
     end
 end
 
