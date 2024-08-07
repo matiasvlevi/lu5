@@ -15,6 +15,8 @@ source_header_files = fs.find_files_in_dir(Config.build.source.headers, function
     return string.find(str, "%.h");
 end);
 
+fs.mkdir(Config.build.dest .. '/' .. 'latest');
+
 -- Parse all headers and generate static pages
 local modules = {};
 for i, filename in pairs(source_header_files) do
@@ -27,7 +29,7 @@ for i, filename in pairs(source_header_files) do
     modules[module_name] = Parse.header(fs.read_file(Config.build.source.headers .. '/' .. filename));
 
     -- Formatting module page
-    fs.write_file(Config.build.dest .. '/' .. module_name .. '.html', RootLayout({
+    fs.write_file(Config.build.dest .. '/' .. 'latest' .. '/' .. module_name .. '.html', RootLayout({
         page_name=module_name,
         headers=source_header_files,
         media=Config.media,
@@ -40,7 +42,7 @@ end
 
 -- Formatting homepage
 local homepage_name = 'Reference';
-fs.write_file(Config.build.dest .. '/' .. 'index.html', RootLayout({
+fs.write_file(Config.build.dest .. '/' .. 'latest'.. '/' .. 'index.html', RootLayout({
     page_name=homepage_name,
     headers=source_header_files,
     media=Config.media,
@@ -53,7 +55,7 @@ fs.write_file(Config.build.dest .. '/' .. 'index.html', RootLayout({
 -- Copy & Minify source assets
 Minify(Config.build.source.js, Minify.js, 
     Config.build.source.static .. '/' .. 'js', 
-    Config.build.dest .. '/' .. Config.media.assets
+    Config.build.dest ..  '/' .. Config.media.assets
 );
 Minify(Config.build.source.css, Minify.css, 
     Config.build.source.static .. '/' .. 'css', 
@@ -67,6 +69,18 @@ for i, filename in pairs(asset_files) do
         Config.build.dest .. '/' .. Config.media.assets .. '/' .. filename, 
         fs.read_file(
             Config.build.source.static .. '/' .. Config.media.assets .. '/' .. filename
+        )
+    );
+end
+
+-- Copy latest to its own corresponding version
+fs.mkdir(Config.build.dest .. '/v' .. VERSION);
+local html_latest_files = fs.find_files_in_dir(Config.build.dest .. '/' .. 'latest' .. '/');
+for i, filename in pairs(html_latest_files) do
+    fs.write_file(
+        Config.build.dest .. '/v' .. VERSION .. '/' .. filename,
+        fs.read_file(
+            Config.build.dest .. '/' .. 'latest' .. '/' .. filename
         )
     );
 end

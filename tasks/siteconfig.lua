@@ -6,7 +6,7 @@ return {
         keywords    = { "Lua", "Creative Coding", "p5.js", "OpenGL", "Lua Interpreter", "programming", "coding", "learn code" },
         description = "A Lua interpreter for Creative Coding. "..
         "Provides a similar experience to well known p5.js library. "..
-        "Perfect for running Lua graphical sketches with ease.",
+        "Perfect learning or quickly running Lua graphical windows.",
     },
     media={
         assets = "assets",

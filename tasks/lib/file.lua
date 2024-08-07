@@ -28,8 +28,10 @@ function write_file(path, content)
     local color = '92';
     local bytes = #content;
     if (bytes > 1024 * 16) then
-        color = '91'
+        color = '31'
     elseif (bytes > 1024 * 8) then
+        color = '33'
+    elseif (bytes > 1024 * 4) then
         color = '93'
     end
 
@@ -37,6 +39,11 @@ function write_file(path, content)
         string.format("%.2f kB", bytes/1000) .. '\x1b[0m';
 
     print(fmt_size .. ' written in \x1b[90m' .. path .. '\x1b[0m');
+end
+
+function mkdir(path)
+    -- TODO: Will not work on windows...
+    os.execute("mkdir -p " .. path)
 end
 
 function read_file(path)
@@ -48,6 +55,7 @@ function read_file(path)
 end
 
 return {
+    mkdir=mkdir,
 	write_file=write_file,
     read_file=read_file,
 	find_files_in_dir=find_files_in_dir

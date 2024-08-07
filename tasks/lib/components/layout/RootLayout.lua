@@ -28,17 +28,19 @@ function Layout(props)
             luax('main', {
                 luax('header', {
                     luax('a', {href="./"}, {
-                        luax('img', {width="100px", src=props.media.assets..'/logo.svg'}),
+                        luax('img', {width="100px", src='../' .. props.media.assets..'/logo.svg'}),
                     }),
                     luax('h1', {class="module"}, props.page_name),
                     luax('button', {class="menuBtn", onclick="toggleMenu()"}, {
                         luax('img', {
                             class="menuIcon", 
                             width="40px", 
-                            src=props.media.assets..'/arrow_left.svg'
+                            src='../' .. props.media.assets..'/arrow_left.svg'
                         })
                     }),
-                    luax('span', {class="text version"}, VERSION)
+                    luax('span', {class="text version"}, {
+                        'v', VERSION
+                    })
                 }),
                 props.children
             })
