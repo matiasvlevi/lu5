@@ -1,4 +1,4 @@
-local luax = require('tasks/lib/luax/luax');
+local luax = require('tasks/lib/luax');
 
 local Head = require('tasks/lib/components/layout/Head');
 local Panel = require('tasks/lib/components/Panel');

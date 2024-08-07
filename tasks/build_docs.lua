@@ -1,4 +1,4 @@
-local Handlebars = require("./tasks/lib/handlebars");
+local luax       = require('./tasks/lib/luax');
 local Parse      = require("./tasks/lib/parse");
 local Minify     = require("./tasks/lib/minify");
 local fs         = require("./tasks/lib/file");
@@ -20,7 +20,7 @@ local modules = {};
 for i, filename in pairs(source_header_files) do
 
     -- Remove file extention and prefix
-    local module_name = split(filename, '.')[1];
+    local module_name = luax.split(filename, '.')[1];
     module_name = module_name:gsub('lu5%_', '');
     
     -- Read header source documentation

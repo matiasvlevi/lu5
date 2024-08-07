@@ -1,32 +1,4 @@
-function split(input, sep)
-    local content={}
-    for str in string.gmatch(input, "([^"..sep.."]+)") do
-        table.insert(content, str);
-    end
-    return content
-end
-
-function join(list, sep)
-    if (#list < 1) then 
-        return '';
-    end
-
-    local str = list[1];
-
-    if (#list == 1) then
-        return str;
-    end
-
-    for i=2,#list do
-        str = str .. sep .. list[i];
-    end
-
-    return str;
-end
-
-function insert(str1, str2, pos)
-    return str1:sub(1,pos-1)..str2..str1:sub(pos+1)
-end
+local luax = require('tasks/lib/luax');
 
 function from_md(text)
     local in_scope = true;
@@ -41,10 +13,10 @@ function from_md(text)
             local added = '';
             if (in_scope) then
                 added = '<code class="inline">';
-                ans = insert(ans, added, i);
+                ans = luax.insert(ans, added, i);
             else
                 added = '</code>'
-                ans = insert(ans, added, i);
+                ans = luax.insert(ans, added, i);
 
             end
             in_scope = not in_scope;
@@ -65,7 +37,7 @@ end
 -- }
 ---
 function parse_param(param)
-    local words = split(param, ' ');
+    local words = luax.split(param, ' ');
 
     local param = {};
 
@@ -78,16 +50,16 @@ function parse_param(param)
     if (#words < 2) then
         param['description'] = 'No description.';
     else
-        -- Remove name, and join array
+        -- Remove name, and luax.join array
         table.remove(words, 1);
-        param['description'] = join(words, ' ');
+        param['description'] = luax.join(words, ' ');
     end
 
     return param;
 end
 
 function parse_description(comment)
-	local lines = split(comment, '\n');
+	local lines = luax.split(comment, '\n');
 	local result = {};
 	for i=1, #lines do
 		-- filter only text
@@ -112,7 +84,7 @@ function parse_description(comment)
     
         ::continue::
 	end
-	return join(result, '\n');
+	return luax.join(result, '\n');
 end
 
 function parse_bottom_description(comment)
@@ -120,7 +92,7 @@ function parse_bottom_description(comment)
         return ''; 
     end;
 
-	local lines = split(comment, '\n');
+	local lines = luax.split(comment, '\n');
 	local result = {};
     
     local ignore = false;
@@ -142,7 +114,7 @@ function parse_bottom_description(comment)
             -- if encounter a param, return bottom description
             local tagmatch = string.match(lines[i], "%@");
             if (tagmatch ~= nil) then
-                return join(result, '\n');
+                return luax.join(result, '\n');
             end
 
             local m = string.match(lines[i], "%s%*%s.+");
@@ -162,20 +134,20 @@ end
 -- }
 ---
 function parse_return(comment)
-	local lines = split(comment, '\n');
+	local lines = luax.split(comment, '\n');
 
 	for i=1, #lines do
 		-- filter only text
         local m = string.match(comment, "@return%s[%w ,.?!]+");
 		if (m ~= nil) then
-            local ws = split(m, ' ');
+            local ws = luax.split(m, ' ');
             local var = ws[2];
             table.remove(ws, 1);
             table.remove(ws, 1);
 
             return {
                 var=var,
-                description=join(ws, ' ')
+                description=luax.join(ws, ' ')
             };
         end
 	end
@@ -184,7 +156,7 @@ function parse_return(comment)
 end
 
 function parse_example(comment)
-	local lines = split(comment, '\n');
+	local lines = luax.split(comment, '\n');
 	local result = {};
 
     local i = 1;
@@ -211,7 +183,7 @@ function parse_example(comment)
     if (#result < 1) then
         return nil;
     end
-	return join(result, '\n');
+	return luax.join(result, '\n');
 end
 
 function parse_comment(comment, name, is_event)
@@ -261,11 +233,11 @@ function parse_header(source)
     for comment in function_comments do
 
         -- Get declaration and name
-        local lines = split(comment, '\n');
+        local lines = luax.split(comment, '\n');
 
         -- TODO: Add error handling for nil values to enhance DX
         local dec = string.match(lines[#lines], 'int .-%(.*%)'):gsub('lu5_', '') .. ';';
-        local name = split(split(dec, ' ')[2], '(')[1];
+        local name = luax.split(luax.split(dec, ' ')[2], '(')[1];
 
         methods[index] = parse_comment(comment, name, false, false);
         index = index + 1;
@@ -273,7 +245,7 @@ function parse_header(source)
 
     for comment in callback_comments do
         -- TODO: Add error handling for nil values to enhance DX
-        local name = split(string.match(comment, '@brief.-%\n'), ' ')[2]:sub(1, -2);
+        local name = luax.split(string.match(comment, '@brief.-%\n'), ' ')[2]:sub(1, -2);
         methods[index] = parse_comment(comment, name, true, false);
         index = index + 1;
     end
@@ -292,7 +264,7 @@ function get_declaration(method)
 
     -- Replace lua_State argument with actual lua arguments 
     return (
-        method.name .. '(' .. join(args, ', ') .. ');'
+        method.name .. '(' .. luax.join(args, ', ') .. ');'
     )
 end
 

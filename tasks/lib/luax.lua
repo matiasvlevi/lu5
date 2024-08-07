@@ -167,5 +167,9 @@ function utils.split(input, sep)
     return content
 end
 
+function utils.insert(host, segment, pos)
+    return host:sub(1,pos-1)..segment..host:sub(pos+1)
+end
+
 local mt = { __call=luax };
 return setmetatable(utils, mt);

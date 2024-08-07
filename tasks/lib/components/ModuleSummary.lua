@@ -1,4 +1,4 @@
-local luax = require('tasks/lib/luax/luax');
+local luax = require('tasks/lib/luax');
 
 ---
 -- @Component
