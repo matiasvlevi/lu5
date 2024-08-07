@@ -38,8 +38,10 @@ function Head(props)
         luax('script', {src= props.media.assets .. '/hljs.min.js'}, {}),
     
         luax('script', {
-            'hljs.highlightAll();',
-            'main();'
+            'document.addEventListener("DOMContentLoaded", function (event) {',
+                'hljs.highlightAll();',
+                'main();',
+            '})'
         }),
     
         luax('title', title)
