@@ -58,12 +58,15 @@ function from_md(text)
     return ans;
 end
 
+---
+-- @return TParam {
+--  name: string
+--  description: string
+-- }
+---
 function parse_param(param)
     local words = split(param, ' ');
 
-    -- param
-    --  name: string
-    --  description: string
     local param = {};
 
     -- Remove param tag
@@ -152,6 +155,12 @@ function parse_bottom_description(comment)
 	return '';
 end
 
+---
+-- @return TReturn {
+--      var: string;
+--      description: string;
+-- }
+---
 function parse_return(comment)
 	local lines = split(comment, '\n');
 
@@ -164,10 +173,6 @@ function parse_return(comment)
             table.remove(ws, 1);
             table.remove(ws, 1);
 
-			-- TReturn
-			-- var: string
-			-- description: string
-			--
             return {
                 var=var,
                 description=join(ws, ' ')
@@ -212,6 +217,7 @@ end
 function parse_comment(comment, name, is_event)
 
     local _type = '';
+
     if (comment:find('%@global')) then
         _type = 'global';
     elseif (comment:find('%@event') or is_event) then
@@ -220,6 +226,7 @@ function parse_comment(comment, name, is_event)
         _type = 'method';
     end
     
+    -- TMethod
     return {
 		name              =name,
         _type             =_type,

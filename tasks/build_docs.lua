@@ -1,102 +1,72 @@
-local Components = require("./tasks/lib/components");
 local Handlebars = require("./tasks/lib/handlebars");
 local Parse      = require("./tasks/lib/parse");
-local Minify     = require("./tasks/lib/minify")
+local Minify     = require("./tasks/lib/minify");
 local fs         = require("./tasks/lib/file");
 
-local metadata = {
-    url = "https://matiasvlevi.github.io/lu5",
-    version = VERSION,
-    assets = "./assets",
-    thumbnail = "lu5_thumbnail.png",
-    title="lu5, a Lua Interpreter for Creative Coding",
-    author = "Matias Vazquez-Levi",
-    description = "A Lua interpreter for Creative Coding. "..
-    "Provides a similar experience to well known p5.js library. "..
-    "Perfect for running Lua graphical sketches with ease.",
-    keywords=join({
-        "Lua",
-        "Creative Coding",
-        "p5.js",
-        "OpenGL",
-        "Lua Interpreter",
-        "Lua sketches",
-        "programming",
-        "coding",
-        "learn code"
-    }, ', '),
-}
+local Config     = require('./tasks/siteconfig')
 
-doc_source_path = './src/bindings/';
-template_path = './tasks/templates/';
+-- Components
+local RootLayout = require('./tasks/lib/components/layout/RootLayout')
+local Home       = require('./tasks/lib/components/Home')
+local Module     = require('./tasks/lib/components/Module')
 
-assets_source_path = template_path .. 'assets/';
-
-doc_path    = './docs/';
-asset_path  = doc_path .. 'assets/';
-
--- Minify CSS
-local css = Minify.css(fs.read_file(template_path .. 'css/style.css'));
-fs.write_file(asset_path .. 'style.css', css);
-
-local css_hljs = Minify.css(fs.read_file(template_path .. 'css/lu5-hljs-theme.css'));
-fs.write_file(asset_path .. 'lu5-hljs-theme.css', css_hljs);
-
-
--- Minify JS
-local js  = Minify.js(fs.read_file(template_path .. 'js/index.js'));
-fs.write_file(asset_path .. 'index.js', js);
-
-local js_hljs  = (fs.read_file(template_path .. 'js/hljs.min.js'));
-fs.write_file(asset_path .. 'hljs.min.js', js_hljs);
-
-function find_headers(str)
+-- Find documentation header files
+source_header_files = fs.find_files_in_dir(Config.build.source.headers, function (str)
     return string.find(str, "%.h");
-end
-
-source_files = fs.find_files_in_dir(doc_source_path, find_headers);
-
-local nav = Components.Panel(source_files, 'light');
-
--- Read template
-local page_template_file = io.open('./tasks/templates/page.handlebars', 'r');
-local page_template = page_template_file:read('a*');  
-
-local Modules = {};
+end);
 
 -- Parse all headers and generate static pages
-for i, filename in pairs(source_files) do
+local modules = {};
+for i, filename in pairs(source_header_files) do
+
+    -- Remove file extention and prefix
     local module_name = split(filename, '.')[1];
     module_name = module_name:gsub('lu5%_', '');
     
-    
-    -- Read header file source
-    local source = fs.read_file(doc_source_path .. filename);
-
-    Modules[module_name] = Parse.header(source);
+    -- Read header source documentation
+    modules[module_name] = Parse.header(fs.read_file(Config.build.source.headers .. '/' .. filename));
 
     -- Formatting module page
-    local static_docs = Handlebars.use_template(page_template, {
-        page_name = module_name,
-        body = Components.Module(Modules[module_name]),
-        nav  = nav
-    }, metadata);
-
-    fs.write_file(doc_path .. module_name .. '.html', static_docs);
+    fs.write_file(Config.build.dest .. '/' .. module_name .. '.html', RootLayout({
+        page_name=module_name,
+        headers=source_header_files,
+        media=Config.media,
+        meta=Config.metadata,
+        children=Module({
+            methods=modules[module_name]
+        })
+    }));
 end
 
 -- Formatting homepage
-local homepage_name = 'Reference'; 
-local static_homepage = Handlebars.use_template(page_template, {
-    page_name = homepage_name,
-    nav = nav,
-    body = Components.Index(Modules, 'dark'),
-}, metadata);
+local homepage_name = 'Reference';
+fs.write_file(Config.build.dest .. '/' .. 'index.html', RootLayout({
+    page_name=homepage_name,
+    headers=source_header_files,
+    media=Config.media,
+    meta=Config.metadata,
+    children=Home({ 
+        modules=modules 
+    })
+}));
 
-fs.write_file(doc_path .. 'index.html', static_homepage);
+-- Copy & Minify source assets
+Minify(Config.build.source.js, Minify.js, 
+    Config.build.source.static .. '/' .. 'js', 
+    Config.build.dest .. '/' .. Config.media.assets
+);
+Minify(Config.build.source.css, Minify.css, 
+    Config.build.source.static .. '/' .. 'css', 
+    Config.build.dest .. '/' .. Config.media.assets
+);
 
--- Copy all assets (!!! as text)
-local asset_files = fs.find_files_in_dir('./tasks/templates/assets/');
+-- Copy all assets
+local asset_files = fs.find_files_in_dir(Config.build.source.static .. '/' .. Config.media.assets);
 for i, filename in pairs(asset_files) do
-    fs.write_file(asset_path .. filename, fs.read_file(assets_source_path .. filename));
+    fs.write_file(
+        Config.build.dest .. '/' .. Config.media.assets .. '/' .. filename, 
+        fs.read_file(
+            Config.build.source.static .. '/' .. Config.media.assets .. '/' .. filename
+        )
+    );
 end

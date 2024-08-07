@@ -294,7 +294,7 @@ int lu5_option_install(int argc, char **argv, int idx, int cli_id, bool* default
 }
 
 int lu5_option_version(int argc, char **argv, int idx, int cli_id, bool* defaultExec, char **filename) 
-{   
+{	
 	printf(
 		"%s\n",
 		LU5_VERSION
