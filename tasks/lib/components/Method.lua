@@ -1,6 +1,5 @@
 local luax = require('tasks/lib/luax');
 
-
 ---
 -- @Component
 -- @props TMethod {
