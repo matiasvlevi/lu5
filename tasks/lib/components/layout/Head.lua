@@ -10,7 +10,7 @@ local luax = require('tasks/lib/luax');
 ---
 function Head(props)
     local title = 'lu5 | ' .. props.page_name;
-    local thumbnail = props.root .. props.media.assets ..'/' .. props.media.thumbnail;
+    local thumbnail = props.meta.url ..'/' .. props.media.thumbnail;
 
     return luax('head', {
         luax('meta', {charset='UTF-8'}),
@@ -22,7 +22,7 @@ function Head(props)
         luax('meta', {name='keywords', content=luax.join(props.meta.keywords, ', ')}),
         luax('meta', {name='author', content=props.meta.author}),
     
-        -- Facebook card
+        -- Open Graph
         luax('meta', {property='og:title', content=title}),
         luax('meta', {property='og:description', content=props.meta.description}),
         luax('meta', {property='og:image', content=thumbnail}),
