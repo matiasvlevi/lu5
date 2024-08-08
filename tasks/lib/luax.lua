@@ -29,12 +29,20 @@ function luax(tag, props, children)
 
     local prop_string = (prop_count > 0 and ' ' or '');
     for name, value in pairs(props) do
-        prop_string = prop_string .. 
-            -- Append property
-            name .. '="' .. value .. '"' ..
-            -- Space Separator 
-            ((prop_index < prop_count) and ' ' or '');
+        local value_type = type(value);
+        
+        -- Append property
+        if (value_type == "boolean") then
+            prop_string = prop_string ..  (value and name or '');
+        else
+            prop_string = prop_string .. 
+                name .. '="' .. value .. '"'
+        end
 
+         -- Space Separator 
+        prop_string = prop_string .. 
+                ((prop_index < prop_count and value) and ' ' or '');        
+        
         prop_index = prop_index + 1
     end
 

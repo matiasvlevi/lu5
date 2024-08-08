@@ -9,7 +9,7 @@ local luax = require('tasks/lib/luax');
 -- }
 ---
 function Head(props)
-    local title = props.page_name .. ' | ' .. props.meta.title;
+    local title = 'lu5 | ' .. props.page_name;
     local thumbnail = props.root .. props.media.assets ..'/' .. props.media.thumbnail;
 
     return luax('head', {
@@ -50,8 +50,17 @@ function Head(props)
                 'main();',
             '})'
         }),
+
+        -- Google tag (gtag.js) --
+        luax('script', {async=true, src="https://www.googletagmanager.com/gtag/js?id=" .. props.ga.gtag_id}, {}),
+        luax('script', {
+            'window.dataLayer = window.dataLayer || [];',
+            'function gtag(){dataLayer.push(arguments);};',
+            'gtag("js", new Date());',
+            'gtag("config", "', props.ga.gtag_id ,'");'
+        }),
     
-        luax('title', title)
+        luax('title', title);
     })
 end
 

@@ -46,7 +46,7 @@ function write_file(path, content, log)
 end
 
 function scandir(dir, _type)
-    local p = io.popen('find "'..dir..'" -type ' .. _type)     
+    local p = io.popen('find "'..dir..'" -maxdepth 1 -type ' .. _type)    
     local res = {}
     for file in p:lines() do
         table.insert(res, file)

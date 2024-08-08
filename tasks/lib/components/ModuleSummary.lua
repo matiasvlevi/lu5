@@ -16,7 +16,7 @@ function ModuleSummary(props)
     return luax('div', {class="summary"}, {
         luax('h3', props.title),
         luax('ul', luax.map(props.methods, function(method, key)
-            local link = './' .. props.title .. '.html#' .. method.name;
+            local link = './' .. props.title .. '/#' .. method.name;
 
             return (method._type == "global") and '' or 
                 luax('li', {class="index"}, {

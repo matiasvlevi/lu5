@@ -13,15 +13,18 @@ local Panel = require('tasks/lib/components/Panel');
 --      children: string;
 -- }
 ---
-function Layout(props)
+function Layout(props, children)
     local root = (props.root ~= nil) and props.root or './';
+
+    local title = props.page_name;
 
     return luax('html', {lang="en"}, {
         Head({
             root=root,
             page_name=props.page_name,
             meta=props.meta,
-            media=props.media
+            media=props.media,
+            ga=props.ga
         }),
         luax('body', {
             ((props.nav ~= nil) and luax('div', {class="nav", id="menu"}, {
@@ -33,7 +36,7 @@ function Layout(props)
                     luax('a', {href="../"}, {
                         luax('img', {width="100px", src=root .. props.media.assets..'/logo.svg'}),
                     }),
-                    luax('h1', {class="module"}, props.page_name),
+                    luax('h1', {class="module"}, title),
 
                     ((props.nav ~= nil) and luax('button', {class="menuBtn", onclick="toggleMenu()"}, {
                         luax('img', {
@@ -47,7 +50,7 @@ function Layout(props)
                         'v', VERSION
                     }) or ''
                 }),
-                props.children
+                children
             })
         })
     });

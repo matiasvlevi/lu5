@@ -20,8 +20,6 @@ source_header_files = fs.find_files_in_dir(Config.build.source.headers, function
     return string.find(str, "%.h");
 end);
 
-
-
 fs.mkdir(Config.build.dest .. '/' .. 'latest');
 
 -- Parse all headers and generate static pages
@@ -38,48 +36,63 @@ for i, filename in pairs(source_header_files) do
         methods= Parse.header(fs.read_file(Config.build.source.headers .. '/' .. filename))
     };
 
-    -- Formatting module page
-    fs.write_file(Config.build.dest .. '/' .. 'latest' .. '/' .. module_name .. '.html', RootLayout({
+    local html = RootLayout({
         page_name=module_name,
         version=true,
-        root="../",
+        root="../../",
         media=Config.media,
         meta=Config.metadata,
+        ga=Config.ga,
         nav=HeaderPanel({ 
             class="light", headers=source_header_files 
         }),
-        children=Module(
-            modules[i]
-        )
-    }), true);
+    }, Module(
+        modules[i]
+    ));
+
+    -- Formatting module page
+    local page_dir   = Config.build.dest .. '/latest/' .. module_name;
+    fs.mkdir(page_dir)
+    fs.write_file(page_dir .. '/index.html', html, false);
+
+    -- Write in specific version
+    local page_dir_v = Config.build.dest .. '/v'.. VERSION .. '/' .. module_name;
+    fs.mkdir(page_dir_v)
+    fs.write_file(page_dir_v .. '/index.html', html, true);
 end
 
--- Formatting homepage
-fs.write_file(Config.build.dest .. '/' .. 'latest'.. '/' .. 'index.html', RootLayout({
+local reference_html = RootLayout({
     page_name='Reference',
     version=true,
     root="../",
     media=Config.media,
     meta=Config.metadata,
+    ga=Config.ga,
     nav=HeaderPanel({ 
         class="light", headers=source_header_files 
     }),
-    children=Reference({ 
-        modules=modules 
-    })
-}), true);
+}, Reference({ 
+    modules=modules 
+}));
 
-
-fs.write_file(Config.build.dest .. '/' .. 'index.html', RootLayout({
+local homepage_html = RootLayout({
     page_name='Interpreter for Creative Coding',
+    title='lu5',
     version=false,
     root="./",
     media=Config.media,
     meta=Config.metadata,
-    children=Home({
-        versions=get_version_tags()
-    })
-}), true);
+    ga=Config.ga,
+}, Home({
+    versions=get_version_tags();
+}))
+
+-- Write reference page (Both in latest and version tag)
+fs.write_file(Config.build.dest .. '/latest/index.html', reference_html, false);
+fs.write_file(Config.build.dest .. '/v' .. VERSION .. '/index.html', reference_html, true);
+
+-- Write homepage
+fs.write_file(Config.build.dest .. '/index.html', homepage_html, true);
 
 -- Copy & Minify source assets
 Minify(Config.build.source.js, Minify.js, 
@@ -100,17 +113,5 @@ for i, filename in pairs(asset_files) do
             Config.build.source.static .. '/' .. Config.media.assets .. '/' .. filename
         ),
         true
-    );
-end
-
--- Copy latest to its own corresponding version
-fs.mkdir(Config.build.dest .. '/v' .. VERSION);
-local html_latest_files = fs.find_files_in_dir(Config.build.dest .. '/' .. 'latest' .. '/');
-for i, filename in pairs(html_latest_files) do
-    fs.write_file(
-        Config.build.dest .. '/v' .. VERSION .. '/' .. filename,
-        fs.read_file(
-            Config.build.dest .. '/' .. 'latest' .. '/' .. filename
-        )
     );
 end

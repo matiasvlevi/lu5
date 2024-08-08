@@ -1,4 +1,7 @@
 return {
+    ga={
+        gtag_id='G-CYFGDF41F4'
+    },
     metadata={
         url         = "https://matiasvlevi.github.io/lu5",
         title       = "lu5, a Lua Interpreter for Creative Coding",
