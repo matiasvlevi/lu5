@@ -15,7 +15,7 @@ function HeaderPanel(props)
             header = header:gsub('lu5%_', '');
 
             -- Create link to module page
-            local link = './' .. header .. '.html';
+            local link = './' .. header .. '/';
 
             return luax('li', {class="btn"}, {
                 luax('a', {href=link, class=props.class}, {
