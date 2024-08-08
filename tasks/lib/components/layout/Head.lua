@@ -10,7 +10,7 @@ local luax = require('tasks/lib/luax');
 ---
 function Head(props)
     local title = 'lu5 | ' .. props.page_name;
-    local thumbnail = props.meta.url ..'/' .. props.media.thumbnail;
+    local thumbnail = props.meta.url .. '/' .. props.media.assets .. '/' .. props.media.thumbnail;
 
     return luax('head', {
         luax('meta', {charset='UTF-8'}),
@@ -59,7 +59,9 @@ function Head(props)
             'gtag("js", new Date());',
             'gtag("config", "', props.ga.gtag_id ,'");'
         }),
-    
+        
+        -- Icon & Title
+        luax('link', {rel="icon", type="image/svg", href=props.root .. props.media.assets .. "/logo.svg"}),
         luax('title', title);
     })
 end
