@@ -77,16 +77,16 @@ int createWindow(lua_State *L)
 
 	glDisable(GL_DEPTH_TEST); 
 	glEnable(GL_ALPHA_TEST);
+	
+    // Load default font statically
+    int err = lu5_load_font(&lu5, &(lu5.font_default), NULL);
+    if (err != FT_Err_Ok) {
+        luaL_error(L, "Error loading default font, code: %i", err);
+        return 0;
+    }
 
-	// Load default font statically
-	int err = lu5_load_font(&lu5, &(lu5.font_default), NULL);
-	if (err != FT_Err_Ok) {
-		luaL_error(L, "Error loading default font, code: %i", err);
-		return 0;
-	}
-
-	// Set the current as the default font
-	lu5.style.font_current = lu5.font_default;
+    // Set the current as the default font
+    lu5.style.font_current = lu5.font_default;
 
 	return 0;
 }

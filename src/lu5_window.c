@@ -31,9 +31,9 @@ GLFWwindow *lu5_create_glfw_window(
 	int height,
 	const char *window_title)
 {
-	if (!glfwInit()) {
-		luaL_error(L, "Failed to initialize GLFW\n");
-		return NULL;
+	// If window exists, use it.
+	if (lu5.window != NULL) {
+		return lu5.window;
 	}
 
 	GLFWwindow* window = glfwCreateWindow(
