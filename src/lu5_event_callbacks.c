@@ -9,6 +9,9 @@
 #include <errno.h>
 #include <string.h>
 
+#include "./lu5_core.h"
+#include "./lu5_window.h"
+
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) 
 {
 	if (!lu5.L) return;
@@ -43,7 +46,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 			// Get keyReleased
 			lua_getglobal(lu5.L, "keyReleased");
 			break;
-		case GLFW_PRESS: 
+		case GLFW_PRESS:
 			// Restart key (CTRL + R)
 			if (key == GLFW_KEY_R && (mods & GLFW_MOD_CONTROL)) 
 			{
@@ -69,11 +72,15 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	if (lua_isfunction(lu5.L, -1)) {
 		const char *name = glfwGetKeyName(key, scancode);
 		size_t key_name_length;
-		if (name == NULL) {
+
+		// No name found (special key: ctrl, enter, shift, etc)
+		if (name == NULL) 
+		{
 			// Push event arguments (key, keyCode)
 			lua_pushnil(lu5.L);
 			lua_pushinteger(lu5.L, key);
 
+			// Call event callback
 			if (lua_pcall(lu5.L, 2, 0, 0) != LUA_OK) {
 				LU5_ERROR(lua_tostring(lu5.L, -1));
 			}
@@ -84,7 +91,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 		char *key_name = (char*)malloc(key_name_length);
 
-		// Is printable character
+		// Is letter character
 		if (key >= 65 && key <= 90) {
 			
 			// is letter & lower case
@@ -103,8 +110,9 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 				return;
 			}
 		} else {
+			// is not letter character
+
 			// Format key name as string for edge cases
-			LU5_LOG("Formatting with name");
 			int err = sprintf(key_name, "%s", name);
 			if (err == -1) {
 				LU5_ERROR("%s", strerror(errno));
@@ -120,6 +128,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 		lua_pushlstring(lu5.L, key_name, 1);
 		lua_pushinteger(lu5.L, key);
 
+		// Call event callback
 		if (lua_pcall(lu5.L, 2, 0, 0) != LUA_OK) {
 			LU5_ERROR(lua_tostring(lu5.L, -1));
 		}
@@ -127,9 +136,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 		if (key_name != NULL)
 			free(key_name);
 	}
-
 }
-
 
 void lu5_register_event_callbacks(GLFWwindow *window) 
 {
