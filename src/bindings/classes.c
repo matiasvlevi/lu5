@@ -39,7 +39,7 @@ static int lu5_get_declaration_argc(lua_State *L, int index)
 	return result;
 }
 
-static int lu5_call(lua_State *L) 
+static int lu5_new(lua_State *L) 
 {
 	// Create the instance table
 	lua_newtable(L); 
@@ -68,9 +68,9 @@ static int lu5_call(lua_State *L)
 	}
 
 	// Prepare to call 'init'
-	lua_pushvalue(L, -2);  // Push the instance (newly created table)
+	lua_pushvalue(L, -2);
 
-	// Push all arguments from the into the 'init' call
+	// Push all arguments into the 'init' call
 	for (int i = 2; i <= caller_argc; i++) {
 		lua_pushinteger(L, lua_tointeger(L, i));
 	}
@@ -97,12 +97,10 @@ static int lu5_class_index(lua_State *L) {
 		// Return the value found
         return 1;       
     }
-	// Pop the nil
     lua_pop(L, 1);
 
     // Get the metatable
     if (!lua_getmetatable(L, 1)) {
-        // Not found, return nil
 		lua_pushnil(L);
         return 1;
     }
@@ -111,6 +109,7 @@ static int lu5_class_index(lua_State *L) {
     lua_pushvalue(L, 2); // Push the key
     lua_rawget(L, -2);   // Raw get to avoid metamethod call again
     lua_remove(L, -2);   // Remove metatable from the stack
+
     return 1;            // Return the value (or nil)
 }
 
@@ -143,8 +142,7 @@ int lu5_class(lua_State *L)
 	lua_pushstring(L, name);
 	lua_setfield(L, -2, "__name");
 
-    lua_pushvalue(L, -1);  // Copy the metatable
-    lua_pushcclosure(L, lu5_call, 1);  // Pass the metatable as an upvalue
+    lua_pushcfunction(L, lu5_new);
     lua_setfield(L, -2, "new");
 
 	return 1;
