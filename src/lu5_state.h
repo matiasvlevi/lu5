@@ -21,6 +21,9 @@ typedef struct FT_LibraryRec_ *FT_Library;
 typedef struct {
 	lua_State *L;
 
+	GLFWwindow *window;
+	const char *sketch;
+
 	lu5_log_level log_level; 
 
 	// FONT
@@ -52,13 +55,10 @@ typedef struct {
 		double last_frame_time;
 		double delta_time;
 		int target_framerate;
+		bool restart;
 	} env;
 
 } lu5_State;
-
-void lu5_init(lu5_State *l5);
-
-void lu5_close(lu5_State *l5);
 
 extern lu5_State lu5;
 
