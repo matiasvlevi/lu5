@@ -86,6 +86,12 @@ int textSize(lua_State *L)
 		font = lu5.font_default;
 	}
 
+	if (font == NULL) {
+		// TODO: avoid having this warning
+		LU5_WARN("textSize needs to be called after creating the window");
+		return 0;
+	}
+
 	FT_Set_Char_Size(
 		font->face,
 		0,
@@ -131,6 +137,11 @@ int text(lua_State *L)
 	lu5_font *font = lu5.style.font_current;
 	if (font == NULL) {
 		font = lu5.font_default;
+	}
+
+	if (font == NULL) {
+		LU5_WARN("text needs to be called after creating the window");
+		return 0;
 	}
 
 	lu5_render_text(str, x, y, lu5.style.fontSize, font);
