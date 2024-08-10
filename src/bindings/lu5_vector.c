@@ -13,6 +13,7 @@ static int lu5_vector_index(lua_State *L) {
     lu5_vector *v = lu5_check_vector(L, 1);
     const char *key = luaL_checkstring(L, 2);
 
+
 	if (strcmp(key, "x") == 0) {
         lua_pushnumber(L, v->x);
     } else if (strcmp(key, "y") == 0) {
@@ -62,7 +63,8 @@ int lu5_vector_print(lua_State *L)
 {
 	lu5_vector *self = lu5_check_vector(L, 1);
 
-	LU5_LOG("%lf, %lf", self->x, self->y);
+	LU5_LOG("{ \x1b[33m%lf\x1b[0m, \x1b[33m%lf\x1b[0m }", 
+            self->x, self->y);
 	
 	return 0;
 }

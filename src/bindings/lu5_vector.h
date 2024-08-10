@@ -4,7 +4,6 @@
 #include <lua.h>
 #include <lauxlib.h>
 
-#define LU5_VECTOR_METHOD_COUNT 4
 #define LU5_VECTOR "lu5_vector_"
 
 typedef struct {
