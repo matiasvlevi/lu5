@@ -81,7 +81,7 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath)
 		font->textures[character] = texture;
 	}
 
-	// If fontId pointer is valid, 
+	// If fontId pointer is invalid, 
 	if (fontId != NULL) 
 		// set the value to the next fontId
 		*fontId = font;
@@ -146,17 +146,24 @@ void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_fon
 
 void lu5_close_font(lu5_font *font) 
 {
-	for (int i = 0; i < 128; i++) {
-		glDeleteTextures(1, &font->textures[i]);
+	if (font != NULL) {
+		for (int i = 0; i < 128; i++) {
+			glDeleteTextures(1, &font->textures[i]);
+		}
+		FT_Done_Face(font->face);
 	}
-	FT_Done_Face(font->face);
 }
 
 void lu5_close_fonts(lu5_State *l5) 
 {
+	// Clear default font
+	lu5_close_font(l5->font_default);
+	l5->font_default = NULL;
+
 	// Clear dangling reference
 	l5->style.font_current = NULL;
 
 	// Clear all fonts
 	lu5_list_iter_close(l5->fonts, (void(*)(void*))lu5_close_font);
+	l5->fonts = NULL;
 }

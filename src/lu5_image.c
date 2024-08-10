@@ -75,11 +75,14 @@ void lu5_render_image(lua_State* L, GLuint texture, double x, double y, double w
 
 void lu5_close_image(lu5_image *image) 
 {
-	glDeleteTextures(1, &(image->texture));
-	free(image);
+	if (image != NULL) {
+		glDeleteTextures(1, &(image->texture));
+		free(image);
+	}
 }
 
 void lu5_close_images(lu5_State *l5) 
 {
 	lu5_list_iter_close(l5->images, (void (*)(void*))lu5_close_image);
+	l5->images = NULL;
 }
