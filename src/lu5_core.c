@@ -58,10 +58,7 @@ int lu5_run_sketch(lu5_State *l5, const char *filename)
 	// Add `sketch` as a string variable holding the filename
 	lua_pushstring(l5->L, filename);
 	lua_setglobal(l5->L, "sketch");
-
-    // Store in state
-    l5->sketch = filename;
-
+    
 	// Print Running log
 	LU5_RUN_LOG(filename);
 

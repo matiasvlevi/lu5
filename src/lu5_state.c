@@ -4,7 +4,6 @@ lu5_State lu5 = {
 	// use LU5_ERROR_LOG for no logging
 	.log_level = LU5_WARN_LOG,
 	.window = NULL,
-	.sketch = NULL,
 	.style = {
 		.fontSize = 22,
 		.fill = LU5_WHITE,

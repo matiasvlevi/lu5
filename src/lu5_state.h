@@ -22,7 +22,6 @@ typedef struct {
 	lua_State *L;
 
 	GLFWwindow *window;
-	const char *sketch;
 
 	lu5_log_level log_level; 
 
