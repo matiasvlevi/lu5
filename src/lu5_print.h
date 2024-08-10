@@ -3,6 +3,7 @@
 
 #include <lua.h>
 
+#define PRINT_LIST_BREAK 3
 #define PRINT_DEPTH 3
 
 // TODO: Make these function buffered
