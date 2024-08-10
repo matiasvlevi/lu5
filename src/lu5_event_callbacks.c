@@ -44,6 +44,13 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 			lua_getglobal(lu5.L, "keyReleased");
 			break;
 		case GLFW_PRESS: 
+			// Restart key (CTRL + R)
+			if (key == GLFW_KEY_R && (mods & GLFW_MOD_CONTROL)) 
+			{
+				LU5_INFO("Refreshing sketch");
+				lu5.env.restart = true;
+			}
+
 			lu5.input.keyboard.current_keys[key] = GLFW_PRESS;
 			lu5.input.keyboard.is_down[key] = true;
 			
