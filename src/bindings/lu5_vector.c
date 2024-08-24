@@ -1,11 +1,23 @@
 #include "lu5_vector.h"
 
+#include <math.h>
+#include <string.h>
+
 #include "../lu5_types.h"
 #include "../lu5_logger.h"
-#include <string.h>
+
 #include "../lu5_print.h"
 
 static lu5_vector* lu5_check_vector(lua_State* L, int index) {
+    if (lua_isnumber(L, index)) {
+        double scalar = lua_tonumber(L, index);
+
+        lu5_vector *v = (lu5_vector *)lua_newuserdata(L, sizeof(lu5_vector));
+        v->x = scalar;
+        v->y = scalar;
+        return v;
+    }
+
     return (lu5_vector*)luaL_checkudata(L, index, LU5_VECTOR);
 }
 
@@ -69,30 +81,51 @@ int lu5_vector_print(lua_State *L)
 	return 0;
 }
 
+int lu5_vector_dist(lua_State *L) {
+    lu5_vector *p1 = lu5_check_vector(L, 1);
+    lu5_vector *p2 = lu5_check_vector(L, 2);
+
+    double dy = p2->y - p1->y;
+    double dx = p2->x - p1->x; 
+
+    lua_pushnumber(L, sqrt(dx * dx + dy * dy));
+
+    return 1;
+}
+
+int lu5_vector_dot(lua_State *L) {
+    lu5_vector *a = lu5_check_vector(L, 1);
+    lu5_vector *b = lu5_check_vector(L, 2);
+
+    lua_pushnumber(L, a->x * b->x + a->y * b->y);
+
+    return 1;
+}
+
 int lu5_vector_mult(lua_State *L) {
-    lu5_vector *v = lu5_check_vector(L, 1);
-    float scalar = (float)luaL_checknumber(L, 2);
+    lu5_vector *a = lu5_check_vector(L, 1);
+    lu5_vector *b = lu5_check_vector(L, 2);
 
     lu5_vector *result = (lu5_vector *)lua_newuserdata(L, sizeof(lu5_vector));
     luaL_getmetatable(L, LU5_VECTOR);
     lua_setmetatable(L, -2);
 
-    result->x = v->x * scalar;
-    result->y = v->y * scalar;
+    result->x = a->x * b->x;
+    result->y = a->y * b->y;
 
     return 1;
 }
 
 int lu5_vector_add(lua_State *L) {
-    lu5_vector *v1 = lu5_check_vector(L, 1);
-    lu5_vector *v2 = lu5_check_vector(L, 2);
+    lu5_vector *a = lu5_check_vector(L, 1);
+    lu5_vector *b = lu5_check_vector(L, 2);
 
     lu5_vector *result = (lu5_vector *)lua_newuserdata(L, sizeof(lu5_vector));
     luaL_getmetatable(L, LU5_VECTOR);
     lua_setmetatable(L, -2);
 
-    result->x = v1->x + v2->x;
-    result->y = v1->y + v2->y;
+    result->x = a->x + b->x;
+    result->y = a->y + b->y;
 
     return 1;
 }
@@ -101,6 +134,8 @@ static const luaL_Reg lu5_vector_methods[] = {
 	{"new", createVector},
 	{"add", lu5_vector_add},
 	{"mult", lu5_vector_mult},
+	{"dot", lu5_vector_dot},
+	{"dist", lu5_vector_dist},
 	{"print", lu5_vector_print},
 	{NULL, NULL}
 };
