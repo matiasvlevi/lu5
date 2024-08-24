@@ -173,8 +173,9 @@ function parse_example(comment)
     if (i < #lines) then
         while (string.find(lines[i], '@example') == nil and i < #lines) do
 
-            local str = lines[i]:gsub('%s-%*%s-', '');
-
+            -- trim 4 characters
+            local str = string.sub(lines[i], 4, #lines[i]);
+            
             table.insert(result, str);
             i = i + 1;
         end
