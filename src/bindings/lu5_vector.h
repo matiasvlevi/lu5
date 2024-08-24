@@ -20,12 +20,9 @@ typedef struct {
  * @return Vector The created vector
  *
  * @example
- * local a = createVector(3, 5);
- * local b = createVector(1, 3);
- * 
- * local c = a:add(b);
- * 
- * print(c);
+ * local point = createVector(80, 125);
+ *
+ * print(point);
  * @example
  */
 int createVector(lua_State *L);
@@ -48,6 +45,42 @@ int createVector(lua_State *L);
  * @example
  */
 int lu5_vector_print(lua_State *L);
+
+/**
+ * @name Vector.dist
+ *
+ * @param a The first point (vector)
+ * @param b The second point (vector)
+ *
+ * @return number The distance between the two points
+ *
+ * @example
+ * local a = createVector(3, 5);
+ * local b = createVector(1, 3);
+ * 
+ * local distance = a:dist(b);
+ * print(distance);
+ * @example
+ */
+int lu5_vector_dot(lua_State *L);
+
+/**
+ * @name Vector.dot
+ *
+ * @param a The first vector
+ * @param b The second vector
+ *
+ * @return number The dot product
+ *
+ * @example
+ * local a = createVector(3, 5);
+ * local b = createVector(1, 3);
+ * 
+ * print(a:dot(b));
+ * print(Vector.dot(a, b));
+ * @example
+ */
+int lu5_vector_dot(lua_State *L);
 
 /**
  * @name Vector.mult
