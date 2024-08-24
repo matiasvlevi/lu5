@@ -4,6 +4,66 @@
 #include "../lu5_image.h"
 #include "../lu5_types.h"
 
+#include "../lu5_print.h"
+
+static void lu5_new_image(lua_State *L, lu5_image *img)
+{
+
+	// Texture
+	lua_newtable(L);
+	lua_pushlightuserdata(L, img);
+	lua_setfield(L, -2, "texture");
+
+	// METATABLE
+	lua_newtable(L);
+	lua_pushcfunction(L, lu5_image_index);
+	lua_setfield(L, -2, "__index");
+	lua_pushcfunction(L, lu5_image_get);
+	lua_setfield(L, -2, "crop");
+
+
+	lua_setmetatable(L, -2);
+
+}
+
+int lu5_image_get(lua_State *L) 
+{
+	lua_getfield(L, 1, "texture");
+	
+	if (!lua_islightuserdata(L, -1)) {
+		luaL_error(L, "Expected first argument to be an image ptr");
+		return 0;
+	}
+
+	lu5_image *originalImage = (lu5_image *)lua_touserdata(L, -1);
+
+	int x = lu5_assert_number(L, 2, "Image.get");
+	int y = lu5_assert_number(L, 3, "Image.get");
+	int w = lu5_assert_number(L, 4, "Image.get");
+	int h = lu5_assert_number(L, 5, "Image.get");
+
+	// Add cropped img to images so it gets freed
+	lu5_image *croppedImage = lu5_image_crop(&lu5, originalImage, x, y, w, h);
+
+	lu5_new_image(L, croppedImage);
+
+	return 1;
+}
+
+int lu5_image_index(lua_State *L) 
+{
+    lua_getmetatable(L, 1);
+    lua_pushvalue(L, 2);
+    lua_rawget(L, -2);
+
+    if (lua_isfunction(L, -1)) {
+        return 1;
+    }
+    
+    lua_pop(L, 1);
+    return 0;
+}
+
 int loadImage(lua_State *L) 
 {
 	const char *image_path = lu5_assert_string(L, 1, "loadImage");
@@ -16,19 +76,22 @@ int loadImage(lua_State *L)
 	// Returns the loaded image ptr
 	lu5_image *img = lu5_load_image(&lu5, image_path);
 
-	lua_pushlightuserdata(L, img);
+	lu5_new_image(L, img);
+
 	return 1;
 }
 
 int image(lua_State *L) 
 {
+	lua_getfield(L, 1, "texture");
+
 	// Get image reference
-	if (!lua_islightuserdata(L, 1)) {
+	if (!lua_islightuserdata(L, -1)) {
 		luaL_error(L, "Expected first argument to be an image ptr");
 		return 0;
 	}
 
-	lu5_image *img = (lu5_image *)lua_touserdata(L, 1);
+	lu5_image *img = (lu5_image *)lua_touserdata(L, -1);
 
 	// Get position arguments
 	double x = lua_tonumber(L, 2);
