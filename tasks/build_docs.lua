@@ -25,38 +25,48 @@ fs.mkdir(Config.build.dest .. '/' .. 'latest');
 -- Parse all headers and generate static pages
 local modules = {};
 for i, filename in pairs(source_header_files) do
-
     -- Remove file extention and prefix
     local module_name = luax.split(filename, '.')[1];
     module_name = module_name:gsub('lu5%_', '');
+
+    local methods = Parse.header(fs.read_file(Config.build.source.headers .. '/' .. filename));
     
-    -- Read header source documentation
-    modules[i] = {
-        name= module_name,
-        methods= Parse.header(fs.read_file(Config.build.source.headers .. '/' .. filename))
-    };
+    if (#methods == 0) then
+        print('Skipping: ', filename);
+    else
+        table.insert(modules, {
+            name=module_name,
+            methods=methods
+        });
+    end
+end
+
+
+-- Format into webpage for Each header file (module)
+local documented_source_files = luax.map(modules, function(mod) return mod.name end)
+for i, mod in pairs(modules) do
 
     local html = RootLayout({
-        page_name=module_name,
+        page_name=mod.name,
         version=true,
         root="../../",
         media=Config.media,
         meta=Config.metadata,
         ga=Config.ga,
         nav=HeaderPanel({ 
-            class="light", headers=source_header_files 
+            class="light", headers=documented_source_files 
         }),
     }, Module(
-        modules[i]
+        mod
     ));
 
     -- Formatting module page
-    local page_dir   = Config.build.dest .. '/latest/' .. module_name;
+    local page_dir   = Config.build.dest .. '/latest/' .. mod.name;
     fs.mkdir(page_dir)
     fs.write_file(page_dir .. '/index.html', html, false);
 
     -- Write in specific version
-    local page_dir_v = Config.build.dest .. '/v'.. VERSION .. '/' .. module_name;
+    local page_dir_v = Config.build.dest .. '/v'.. VERSION .. '/' .. mod.name;
     fs.mkdir(page_dir_v)
     fs.write_file(page_dir_v .. '/index.html', html, true);
 end
@@ -69,7 +79,7 @@ local reference_html = RootLayout({
     meta=Config.metadata,
     ga=Config.ga,
     nav=HeaderPanel({ 
-        class="light", headers=source_header_files 
+        class="light", headers=documented_source_files 
     }),
 }, Reference({ 
     modules=modules 
