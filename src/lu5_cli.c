@@ -42,7 +42,7 @@ bool handle_args(int argc, char** argv, char **filename)
 			argv[i][0] == '-' &&
 			argv[i][1] == '-' 
 		) {
-			int offset;
+			int offset = 0;
 			int err = handle_option(argc-1, argv, i, &offset, &defaultExec, filename);
 			if (err) exit(err);
 
