@@ -78,7 +78,7 @@ int loadFont(lua_State *L)
 
 int textSize(lua_State *L)
 {
-	double size = lu5_assert_number(L, 1, "textSize");
+	lua_Number size = lu5_assert_number(L, 1, "textSize");
 
 	// Get font, if none available, use default.
 	lu5_font *font = lu5.style.font_current;
@@ -128,8 +128,8 @@ int text(lua_State *L)
 {
 	const char *str = lu5_assert_string(L, 1, "text");
 
-	double x = lua_tonumber(L, 2);
-	double y = lua_tonumber(L, 3);
+	lua_Number x = lua_tonumber(L, 2);
+	lua_Number y = lua_tonumber(L, 3);
 
 	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
 	 

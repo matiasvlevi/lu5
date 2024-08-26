@@ -117,7 +117,7 @@ lu5_image *lu5_image_crop(lu5_State *l5, lu5_image *image, int x, int y, int w, 
     return img;
 }
 
-void lu5_render_image(lua_State* L, GLuint texture, double x, double y, double w, double h) 
+void lu5_render_image(lua_State* L, GLuint texture, lua_Number x, lua_Number y, lua_Number w, lua_Number h) 
 {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture);

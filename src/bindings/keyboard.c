@@ -5,7 +5,7 @@
 
 int keyIsDown(lua_State *L) 
 {
-	int key = -1;
+	lua_Integer key = -1;
 	if (lua_isinteger(L, 1)) 
 	{
 		key = lua_tointeger(L, 1);

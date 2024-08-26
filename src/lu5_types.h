@@ -20,8 +20,10 @@
 		return (ctype)(0x00);\
 	};
 
-LU5_TYPE_BIND_DECLARATION(double      , number);
-LU5_TYPE_BIND_DECLARATION(int         , integer);
+LU5_TYPE_BIND_DECLARATION(lua_Number  , number);
+LU5_TYPE_BIND_DECLARATION(lua_Integer , integer);
 LU5_TYPE_BIND_DECLARATION(const char *, string);
+
+void lu5_log_types();
 
 #endif

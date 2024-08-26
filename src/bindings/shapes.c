@@ -11,11 +11,9 @@
 #include <math.h>
 #include "lu5_math.h"
 
-
-
 int beginShape(lua_State *L) 
 {
-	int shape_type = lu5_assert_integer(L, 1, "beginShape");
+	lua_Integer shape_type = lu5_assert_integer(L, 1, "beginShape");
 
 	LU5_APPLY_COLOR(lu5.style.fill);
 	glBegin(shape_type);

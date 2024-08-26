@@ -42,13 +42,13 @@ int lu5_abs(lua_State *L)
 
 int lu5_map(lua_State *L)
 {
-	double x  = lu5_assert_number(L, 1, "map");
-	double s1 = lu5_assert_number(L, 2, "map");
-	double e1 = lu5_assert_number(L, 3, "map");
-	double s2 = lu5_assert_number(L, 4, "map");
-	double e2 = lu5_assert_number(L, 5, "map");
+	lua_Number x  = lu5_assert_number(L, 1, "map");
+	lua_Number s1 = lu5_assert_number(L, 2, "map");
+	lua_Number e1 = lu5_assert_number(L, 3, "map");
+	lua_Number s2 = lu5_assert_number(L, 4, "map");
+	lua_Number e2 = lu5_assert_number(L, 5, "map");
 
-	double ratio = (x - s1) / (e1 - s1);
+	lua_Number ratio = (x - s1) / (e1 - s1);
 	
 	lua_pushnumber(L, ((e2 - s2) * ratio) + s2);
 	return 1;
@@ -69,9 +69,9 @@ int lu5_dist(lua_State *L)
 
 int lu5_constrain(lua_State *L)
 {
-	double x   = lu5_assert_number(L, 1, "constrain");
-	double min = lu5_assert_number(L, 2, "constrain");
-	double max = lu5_assert_number(L, 3, "constrain");
+	lua_Number x   = lu5_assert_number(L, 1, "constrain");
+	lua_Number min = lu5_assert_number(L, 2, "constrain");
+	lua_Number max = lu5_assert_number(L, 3, "constrain");
 	
 	lua_pushnumber(L, fmax(fmin(x, max), min));
 	return 1;
@@ -79,7 +79,7 @@ int lu5_constrain(lua_State *L)
 
 int lu5_sin(lua_State *L)
 {
-	double value = lu5_assert_number(L, 1, "sin");
+	lua_Number value = lu5_assert_number(L, 1, "sin");
 
 	lua_pushnumber(L, sin(value));
 	return 1;
@@ -95,7 +95,7 @@ int lu5_cos(lua_State *L)
 
 int lu5_tan(lua_State *L)
 {
-	double value = lu5_assert_number(L, 1, "tan");
+	lua_Number value = lu5_assert_number(L, 1, "tan");
 
 	lua_pushnumber(L, tan(value));
 	return 1;
@@ -123,7 +123,7 @@ int lu5_random(lua_State *L)
 		// Handle one argument
 		case 1: {
 			// Get the random value
-			double value = lua_tonumber(L, -1);
+			lua_Number value = lua_tonumber(L, -1);
 
 			// Handle table
 			if (lua_istable(L, 1)) 
@@ -141,7 +141,7 @@ int lu5_random(lua_State *L)
 			else
 			{
 				// Get arguments
-				double scalar = lu5_assert_number(L, 1, "random");
+				lua_Number scalar = lu5_assert_number(L, 1, "random");
 
 				// Scale random value
 				lua_pushnumber(L, scalar * value);
@@ -152,11 +152,13 @@ int lu5_random(lua_State *L)
 		// Handle min/max range
 		case 2: {
 			// Get random value
-			double value = lua_tonumber(L, -1);
+			lua_Number value = lua_tonumber(L, -1);
 
 			// Get arguments
-			double min = lu5_assert_number(L, 1, "random");
-			double max = lu5_assert_number(L, 2, "random");
+			lua_Number min = lu5_assert_number(L, 1, "random");
+			lua_Number max = lu5_assert_number(L, 2, "random");
+			
+			lua_pop(L, 1);
 
 			// Map in range
 			lua_pushnumber(L, value * (max - min) + min);
@@ -164,6 +166,7 @@ int lu5_random(lua_State *L)
 		}
 
 		default: {
+			lua_pop(L, 1);
 			luaL_error(L, "random expected 0 to 2 arguments, got %i", argc);
 			return 0;
 		}
@@ -172,7 +175,7 @@ int lu5_random(lua_State *L)
 
 int lu5_min(lua_State *L)
 {	
-	double result = DBL_MAX;
+	lua_Number result = DBL_MAX;
 
 	int argc = lua_gettop(L);
 	
@@ -206,7 +209,7 @@ int lu5_min(lua_State *L)
 
 int lu5_max(lua_State *L)
 {	
-	double result = DBL_MIN;
+	lua_Number result = DBL_MIN;
 
 	int argc = lua_gettop(L);
 	

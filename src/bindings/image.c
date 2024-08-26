@@ -52,16 +52,16 @@ int lu5_image_get(lua_State *L)
 
 int lu5_image_index(lua_State *L) 
 {
-    lua_getmetatable(L, 1);
-    lua_pushvalue(L, 2);
-    lua_rawget(L, -2);
+	lua_getmetatable(L, 1);
+	lua_pushvalue(L, 2);
+	lua_rawget(L, -2);
 
-    if (lua_isfunction(L, -1)) {
-        return 1;
-    }
-    
-    lua_pop(L, 1);
-    return 0;
+	if (lua_isfunction(L, -1)) {
+		return 1;
+	}
+	
+	lua_pop(L, 1);
+	return 0;
 }
 
 int loadImage(lua_State *L) 
@@ -94,17 +94,17 @@ int image(lua_State *L)
 	lu5_image *img = (lu5_image *)lua_touserdata(L, -1);
 
 	// Get position arguments
-	double x = lua_tonumber(L, 2);
-	double y = lua_tonumber(L, 3);
+	lua_Number x = lua_tonumber(L, 2);
+	lua_Number y = lua_tonumber(L, 3);
 
 	// Get optional width argument
-	double w = img->width;
+	lua_Number w = img->width;
 	if (lua_isnumber(L, 4)) {
 		w = lua_tonumber(L, 4);
 	}
 
 	// Get optional height
-	double h = img->height;
+	lua_Number h = img->height;
 	if (lua_isnumber(L, 5)) {
 		h = lua_tonumber(L, 5);
 	}

@@ -14,7 +14,7 @@ lu5_image *lu5_load_image(lu5_State *l5, const char* image_path);
 
 lu5_image *lu5_image_crop(lu5_State *l5, lu5_image *image, int x, int y, int w, int h);
 
-void lu5_render_image(lua_State *L, GLuint texture, double x, double y, double w, double h);
+void lu5_render_image(lua_State *L, GLuint texture, lua_Number x, lua_Number y, lua_Number w, lua_Number h);
 
 
 void lu5_close_image(lu5_image *image);

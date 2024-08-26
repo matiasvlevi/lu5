@@ -40,11 +40,11 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 		}
 		case LUA_TNUMBER:{
 			if (lua_isinteger(L, index)) {
-				int value = lua_tointeger(L, index);
+				lua_Integer value = lua_tointeger(L, index);
 				printf("\x1b[33m%i\x1b[0m%c", value, sep);
 			} else {
-				double value = lua_tonumber(L, index);
-				printf("\x1b[33m%.12lf\x1b[0m%c", value, sep);
+				lua_Number value = lua_tonumber(L, index);
+				printf("\x1b[33m%f\x1b[0m%c", value, sep);
 			}
 			break;
 		}
