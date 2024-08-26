@@ -54,6 +54,8 @@ GLFWwindow *lu5_create_glfw_window(
 	// Make the window's context current
 	glfwMakeContextCurrent(window);
 
+	glViewport(0, 0, width, height);
+
 	// Set necessary options for GLFW
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);

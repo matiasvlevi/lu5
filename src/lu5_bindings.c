@@ -127,6 +127,14 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, createWindow);
 	LUA_ADD_FUNCTION(L, background);
 	LUA_ADD_FUNCTION(L, frameRate);
+	LUA_ADD_INTEGER_GLOBAL_BY_NAME(L, "GL2D", LU5_GL2D);
+	LUA_ADD_INTEGER_GLOBAL_BY_NAME(L, "GL3D", LU5_GL3D);
+
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, LU5_MOUSE_X, 0.0f);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, LU5_MOUSE_Y, 0.0f);
+
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, LU5_PMOUSE_X, 0.0f);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, LU5_PMOUSE_Y, 0.0f);
 
 	// Input
 	LUA_ADD_FUNCTION(L, keyIsDown);
@@ -154,6 +162,29 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, triangle);
 	LUA_ADD_FUNCTION(L, point);
 	LUA_ADD_FUNCTION(L, arc);
+
+	// Shapes 3D
+	LUA_ADD_FUNCTION(L, box);
+	LUA_ADD_FUNCTION(L, sphere);
+	LUA_ADD_FUNCTION(L, plane);
+
+	// Geometry
+	LUA_ADD_FUNCTION(L, loadModel);
+	LUA_ADD_FUNCTION(L, model);
+	LUA_ADD_FUNCTION(L, debugMode);
+
+
+	// Transform
+	LUA_ADD_FUNCTION(L, translate);
+	LUA_ADD_FUNCTION(L, scale);
+	LUA_ADD_FUNCTION(L, rotate);
+
+	LUA_ADD_FUNCTION(L, rotateX);
+	LUA_ADD_FUNCTION(L, rotateY);
+	LUA_ADD_FUNCTION(L, rotateZ);
+
+	// Camera
+	LUA_ADD_FUNCTION(L, orbitControl);
 
 	// Typography
 	LUA_ADD_FUNCTION(L, loadFont);

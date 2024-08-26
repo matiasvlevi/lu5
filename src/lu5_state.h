@@ -22,6 +22,7 @@ typedef struct {
 	lua_State *L;
 
 	GLFWwindow *window;
+	int depth_mode;
 
 	lu5_log_level log_level; 
 
@@ -33,12 +34,18 @@ typedef struct {
 	// Images
 	lu5_node *images;
 
+	// Models
+	lu5_node *models;
+
 	lu5_style_setting_t style;
 	lu5_style_setting_t style_cache;
 
 	struct input {
 		struct {
 			int actions[MAX_MOUSE_BUTTONS];
+			lua_Number pmouseX;
+			lua_Number pmouseY;
+			float scrollY;
 		} mouse;
 
 		struct {
@@ -49,10 +56,10 @@ typedef struct {
 	} input;
 
 	struct env {
-		double now_time;
-		double last_time;
-		double last_frame_time;
-		double delta_time;
+		lua_Number now_time;
+		lua_Number last_time;
+		lua_Number last_frame_time;
+		lua_Number delta_time;
 		int target_framerate;
 		bool restart;
 	} env;

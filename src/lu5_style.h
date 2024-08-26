@@ -10,7 +10,7 @@ typedef struct lu5_font_s lu5_font;
 #endif
 
 #define LU5_SET_DEFAULT_STYLE(s)\
-	(s)->strokeWeight = 1;\
+	(s)->strokeWeight = 2;\
 	(s)->stroke = LU5_BLACK;\
 	(s)->fill = LU5_WHITE;\
 	(s)->fontSize = 22;\
@@ -19,8 +19,8 @@ typedef struct lu5_font_s lu5_font;
 typedef struct {
 	lu5_color fill;
 	lu5_color stroke;
-	double strokeWeight;
-	double fontSize;
+	lua_Number strokeWeight;
+	lua_Number fontSize;
 
 	// current font reference
 	lu5_font *font_current;

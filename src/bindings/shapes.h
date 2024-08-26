@@ -1,12 +1,13 @@
 #ifndef __LU5_SHAPE_BINDINGS__
 #define __LU5_SHAPE_BINDINGS__
-
+/**
+ * @module 2D Shapes
+ */
 #include <lua.h>
 #include <GLFW/glfw3.h>
 
 #include <stdbool.h>
 
-#define LU5_CIRCLE_SEGMENTS 36
 #define LINE_POINT_SEGMENTS 24
 
 /**

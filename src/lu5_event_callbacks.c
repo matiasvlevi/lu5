@@ -12,15 +12,55 @@
 #include "./lu5_core.h"
 #include "./lu5_window.h"
 
+#include "lu5_bindings.h"
+#include "bindings/mouse.h"
+
+#include <lauxlib.h>
+
+static void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	lu5.input.mouse.scrollY -= yoffset * 10;
+
+	lua_getglobal(lu5.L, LU5_MOUSE_WHEEL);
+	if (lua_isnil(lu5.L, -1)) {
+		return;
+	}
+
+	lua_pushnumber(lu5.L, yoffset);
+
+	if (lua_pcall(lu5.L, 1, 0, 0) != LUA_OK) {
+		luaL_error(lu5.L, lua_tostring(lu5.L, -1));
+	}
+}
+
+static void mouse_cursor_callback(GLFWwindow* window, double xpos, double ypos) {
+	static bool first_call = true;
+	if (first_call) {
+		// Save in state
+		lu5.input.mouse.pmouseX = xpos;
+		lu5.input.mouse.pmouseY = ypos;
+		first_call = false;
+	}
+
+	// Save in state
+	lu5.input.mouse.pmouseX = xpos;
+	lu5.input.mouse.pmouseY = ypos;
+
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(lu5.L, LU5_MOUSE_X, (lua_Number)xpos);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(lu5.L, LU5_MOUSE_Y, (lua_Number)ypos);
+}
+
 static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) 
 {
 	if (!lu5.L) return;
 
 	lu5.input.mouse.actions[button] = action;
-  
+
 	if (action == 1) {
+
 		lua_getglobal(lu5.L, LU5_MOUSE_PRESSED);
 	} else {
+
 		lua_getglobal(lu5.L, LU5_MOUSE_RELEASED);
 	}
 
@@ -141,8 +181,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 void lu5_register_event_callbacks(GLFWwindow *window) 
 {
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
+	glfwSetCursorPosCallback(window, mouse_cursor_callback);
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetInputMode(window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
+	glfwSetScrollCallback(window, mouse_scroll_callback);
 	
 	return;
 }

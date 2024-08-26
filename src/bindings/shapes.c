@@ -5,9 +5,13 @@
 #include "../lu5_image.h"
 #include "../lu5_types.h"
 
+#include "../geometry/lu5_geometry.h"
+
 #include <lauxlib.h>
 #include <math.h>
 #include "lu5_math.h"
+
+
 
 int beginShape(lua_State *L) 
 {
@@ -21,8 +25,8 @@ int beginShape(lua_State *L)
 
 int vertex(lua_State *L) 
 {
-	double x = lu5_assert_number(L, 1, "vertex");
-	double y = lu5_assert_number(L, 2, "vertex");
+	lua_Number x = lu5_assert_number(L, 1, "vertex");
+	lua_Number y = lu5_assert_number(L, 2, "vertex");
 
 	glVertex2f(x, y);
 	return 0;
@@ -36,51 +40,50 @@ int endShape(lua_State *L)
 
 int circle(lua_State *L) 
 {
-	double x = lu5_assert_number(L, 1, "circle");  
-	double y = lu5_assert_number(L, 2, "circle");
-	double d = lu5_assert_number(L, 3, "circle");
+	lua_Number x = lu5_assert_number(L, 1, "circle");  
+	lua_Number y = lu5_assert_number(L, 2, "circle");
+	lua_Number d = lu5_assert_number(L, 3, "circle");
 
 	float radius = d / 2.0f;
-	float angleStep = LU5_TWO_PI / LU5_CIRCLE_SEGMENTS;
 
-	LU5_APPLY_COLOR(lu5.style.fill);
+	if (lu5.style.fill.a != 0.0f)
+	{
+		LU5_APPLY_COLOR(lu5.style.fill);
 
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(x, y); // Center of the circle
-	
-	for (int i = 0; i <= LU5_CIRCLE_SEGMENTS; i++) {
-		float angle = angleStep * i;
-		float x_offset = radius * cos(angle);
-		float y_offset = radius * sin(angle);
-		glVertex2f(x + x_offset, y + y_offset);
+		lu5_render_ellipse(x, y, radius, radius, LU5_CIRCLE_SEGMENTS);
 	}
 
-	glEnd();
+	if (lu5.style.strokeWeight != 0.0f && lu5.style.stroke.a != 0.0f) 
+	{
+		LU5_APPLY_COLOR(lu5.style.stroke);
 
-	LU5_APPLY_COLOR(lu5.style.stroke);
-
-	glBegin(GL_LINE_LOOP);
-		for (int i = 0; i <= LU5_CIRCLE_SEGMENTS; i++) {
-			float angle = angleStep * i;
-			float x_offset = radius * cos(angle);
-			float y_offset = radius * sin(angle);
-
-			glVertex2f(x + x_offset, y + y_offset);
-		}
-	glEnd();
-
+		lu5_render_ring(x, y, radius, radius + lu5.style.strokeWeight, LU5_CIRCLE_SEGMENTS);
+	}
 	return 0;
 }
 
 int square(lua_State *L)
 {
-	double x = lu5_assert_number(L, 1, "square");
-	double y = lu5_assert_number(L, 2, "square");  
-	double s = lu5_assert_number(L, 3, "square");  
+	lua_Number x = lu5_assert_number(L, 1, "square");
+	lua_Number y = lu5_assert_number(L, 2, "square");  
+	lua_Number s = lu5_assert_number(L, 3, "square");  
 
 	float x2 = x + s;
 	float y2 = y + s;
 
+	if (lu5.style.strokeWeight) {
+		
+		LU5_APPLY_COLOR(lu5.style.stroke);
+		glLineWidth(lu5.style.strokeWeight);
+		float st = lu5.style.strokeWeight;
+
+		glBegin(GL_QUADS);
+			glVertex2f(x - st, y - st);
+			glVertex2f(x2 + st, y - st);
+			glVertex2f(x2 + st, y2 + st);
+			glVertex2f(x - st, y2 + st);
+		glEnd(); 
+	}
 	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
 
 	glBegin(GL_QUADS);
@@ -88,43 +91,57 @@ int square(lua_State *L)
 		glVertex2f(x2, y);
 		glVertex2f(x2, y2);
 		glVertex2f(x, y2);
-	glEnd(); 
+	glEnd();
+	
 
 	return 0;
 }
 
 int rect(lua_State *L) 
 {
-	double x = lu5_assert_number(L, 1, "rect");  
-	double y = lu5_assert_number(L, 2, "rect");  
-	double w = lu5_assert_number(L, 3, "rect");  
+	lua_Number x = lu5_assert_number(L, 1, "rect");  
+	lua_Number y = lu5_assert_number(L, 2, "rect");  
+	lua_Number w = lu5_assert_number(L, 3, "rect");  
 
-	double h = w;
+	lua_Number h = w;
 	if (lua_gettop(L) > 3) {
 		h = lu5_assert_number(L, 4, "rect");
 	}  
 
 	float x2 = x + w;
 	float y2 = y + h;
+	if (lu5.style.strokeWeight) {
+		
+		LU5_APPLY_COLOR(lu5.style.stroke);
+		glLineWidth(lu5.style.strokeWeight);
+		float st = lu5.style.strokeWeight;
 
-	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
+		glBegin(GL_QUADS);
+			glVertex2f(x - st, y - st);
+			glVertex2f(x2 + st, y - st);
+			glVertex2f(x2 + st, y2 + st);
+			glVertex2f(x - st, y2 + st);
+		glEnd(); 
+	}
+
+	LU5_APPLY_COLOR(lu5.style.fill);
 
 	glBegin(GL_QUADS);
 		glVertex2f(x, y);
 		glVertex2f(x2, y);
 		glVertex2f(x2, y2);
 		glVertex2f(x, y2);
-	glEnd(); 
+	glEnd();
 
 	return 0;
 }
 
 int line(lua_State *L) 
 {
-	double x1 = lu5_assert_number(L, 1, "line");
-	double y1 = lu5_assert_number(L, 2, "line");
-	double x2 = lu5_assert_number(L, 3, "line");
-	double y2 = lu5_assert_number(L, 4, "line");
+	lua_Number x1 = lu5_assert_number(L, 1, "line");
+	lua_Number y1 = lu5_assert_number(L, 2, "line");
+	lua_Number x2 = lu5_assert_number(L, 3, "line");
+	lua_Number y2 = lu5_assert_number(L, 4, "line");
 
 	float dx = x2 - x1;
 	float dy = y2 - y1;
@@ -133,7 +150,7 @@ int line(lua_State *L)
 	float ux = ((float)lu5.style.strokeWeight / 2) * (dy / length);
 	float uy = ((float)lu5.style.strokeWeight / 2) * (-dx / length);
 
-	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.stroke, lu5.style.fill);
+	LU5_APPLY_COLOR(lu5.style.stroke);
 
 	glBegin(GL_QUADS);
 		glVertex2f(x1 - ux, y1 - uy);
@@ -180,14 +197,14 @@ int quad(lua_State *L)
 		return 0;
 	}
 
-	double x1 = lu5_assert_number(L, 1, "quad");
-	double y1 = lu5_assert_number(L, 2, "quad");
-	double x2 = lu5_assert_number(L, 3, "quad");
-	double y2 = lu5_assert_number(L, 4, "quad");
-	double x3 = lu5_assert_number(L, 5, "quad");
-	double y3 = lu5_assert_number(L, 6, "quad");
-	double x4 = lu5_assert_number(L, 7, "quad");
-	double y4 = lu5_assert_number(L, 8, "quad");
+	lua_Number x1 = lu5_assert_number(L, 1, "quad");
+	lua_Number y1 = lu5_assert_number(L, 2, "quad");
+	lua_Number x2 = lu5_assert_number(L, 3, "quad");
+	lua_Number y2 = lu5_assert_number(L, 4, "quad");
+	lua_Number x3 = lu5_assert_number(L, 5, "quad");
+	lua_Number y3 = lu5_assert_number(L, 6, "quad");
+	lua_Number x4 = lu5_assert_number(L, 7, "quad");
+	lua_Number y4 = lu5_assert_number(L, 8, "quad");
 
 	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
 
@@ -203,8 +220,8 @@ int quad(lua_State *L)
 
 int point(lua_State *L)
 {
-	double x = lu5_assert_number(L, 1, "point");
-	double y = lu5_assert_number(L, 2, "point");
+	lua_Number x = lu5_assert_number(L, 1, "point");
+	lua_Number y = lu5_assert_number(L, 2, "point");
 
 	// refer to https://p5js.org/reference/#/p5/point
 
@@ -214,8 +231,8 @@ int point(lua_State *L)
 
 int triangle(lua_State *L)
 {
-	double x1 = lu5_assert_number(L, 1, "triangle");
-	double y1 = lu5_assert_number(L, 2, "triangle");
+	lua_Number x1 = lu5_assert_number(L, 1, "triangle");
+	lua_Number y1 = lu5_assert_number(L, 2, "triangle");
 	// ... more arguments
 	// refer to https://p5js.org/reference/#/p5/triangle
 
@@ -225,8 +242,8 @@ int triangle(lua_State *L)
 
 int ellipse(lua_State *L)
 {
-	double x = lu5_assert_number(L, 1, "ellipse");
-	double y = lu5_assert_number(L, 2, "ellipse");
+	lua_Number x = lu5_assert_number(L, 1, "ellipse");
+	lua_Number y = lu5_assert_number(L, 2, "ellipse");
 	// ... more arguments
 	// refer to https://p5js.org/reference/#/p5/ellipse
 
@@ -237,8 +254,8 @@ int ellipse(lua_State *L)
 
 int arc(lua_State *L)
 {
-	double x = lu5_assert_number(L, 1, "arc");
-	double y = lu5_assert_number(L, 2, "arc");
+	lua_Number x = lu5_assert_number(L, 1, "arc");
+	lua_Number y = lu5_assert_number(L, 2, "arc");
 	// ... more arguments
 	// refer to https://p5js.org/reference/#/p5/arc
 

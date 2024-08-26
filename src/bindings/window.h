@@ -3,6 +3,9 @@
 
 #include <lua.h>
 
+#define LU5_GL2D 0
+#define LU5_GL3D 1
+
 /**
  *
  * Create a GLFW window.
