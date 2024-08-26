@@ -63,34 +63,29 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 			break;
 		}
 		case LUA_TTABLE: {
-			// If implements the print method,
-			// run it
+			// If implements the __tostring or print method,
 			int has_metatable = lua_getmetatable(L, index);
 			if (has_metatable) {
+				
+				// From the print method
 				lua_getfield(L, -1, "print");
 				if (lua_isfunction(L, -1)) {
-
 					lua_pushvalue(L, index);
-
 					if (lua_pcall(L, 1, 0, 0) != LUA_OK) {
 						luaL_error(L, lua_tostring(L, -1));
-						lua_pop(L, 1);
 					}
 					
-					lua_pop(L, 1);
-					break;
 				} else {
-
 					// else print as table
 					lu5_print_list(L, index, nested, sep);
-
-					lua_pop(L, 2);
-					break;
 				}
+				
+				lua_pop(L, 1);
+			} else {
+				// else print as table
+				lu5_print_list(L, index, nested, sep);
 			}
 
-			// else print as table
-			lu5_print_list(L, index, nested, sep);
 			break;
 		}
 		case LUA_TLIGHTUSERDATA: {
@@ -110,25 +105,19 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 				lua_getfield(L, -1, "__methods");
 				lua_getfield(L, -1, "print");
 				if (lua_isfunction(L, -1)) {
-					
 					lua_pushvalue(L, index);
 					
 					if (lua_pcall(L, 1, 0, 0) != LUA_OK) {
-						luaL_error(L, lua_tostring(L, -1));
-						lua_pop(L, 1);
+						luaL_error(L, lua_tostring(L, -1));	
 					}
+					putchar(sep);
+
 					lua_pop(L, 2);
-					break;
-				} else {
-					lu5_print_list(L, index, nested, sep);
-					
-					lua_pop(L, 2);
-					break;
-				}
+				} 
 			} else {
 				luaL_error(L, "Does not contain metatable");
-				break;
 			}
+			break;
 		}
 		// TODO: Handle these
 		case LUA_TTHREAD: 
@@ -150,8 +139,6 @@ void lu5_print_list(lua_State *L, int index, int depth, char sep)
 		return;
 	}
 
-	// first key
-	lua_pushnil(L);
 
 	// Get length
 	int len = lu5_get_length(L, index);
@@ -160,6 +147,8 @@ void lu5_print_list(lua_State *L, int index, int depth, char sep)
 	putchar('{');
 	if (len > PRINT_LIST_BREAK) putchar('\n');
 
+	// first key
+	lua_pushnil(L);
 	while (lua_next(L, index) != 0) 
 	{
 		if (lua_gettop(L) < 2) {
@@ -180,9 +169,7 @@ void lu5_print_list(lua_State *L, int index, int depth, char sep)
 		}
 
 		// Print Value
-
 		lu5_print_any(L, lua_gettop(L), depth + 1, (i != len) ? ',' : ' ');
-
 		if (len > PRINT_LIST_BREAK) putchar('\n');
 
 		lua_pop(L, 1);
