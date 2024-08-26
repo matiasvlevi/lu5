@@ -1,6 +1,25 @@
 #ifndef _LU5_MOUSE_H_
 #define _LU5_MOUSE_H_
 
+
+/**
+ * @brief mouseY
+ * @global
+ *
+ * The y mouse coordinate
+ *
+ * @example
+ * createWindow(400, 400);
+ *
+ * function draw()
+ *   background(51);
+ *   
+ *   line(0, mouseY, width, mouseY);
+ * end
+ * @example
+ */
+#define LU5_MOUSE_Y "mouseY"
+
 /**
  * @brief mouseX
  * @global
@@ -20,22 +39,17 @@
 #define LU5_MOUSE_X "mouseX"
 
 /**
- * @brief mouseY
+ * @brief pmouseY
  * @global
- *
- * The y mouse coordinate
- *
- * @example
- * createWindow(400, 400);
- *
- * function draw()
- *   background(51);
- *   
- *   line(0, mouseY, width, mouseY);
- * end
- * @example
  */
-#define LU5_MOUSE_Y "mouseY"
+#define LU5_PMOUSE_Y "pmouseY"
+
+/**
+ * @brief pmouseX
+ * @global
+ */
+#define LU5_PMOUSE_X "pmouseX"
+
 
 /**
  * @brief mouseIsPressed
@@ -106,10 +120,41 @@
  *
  * -- Reset size
  * function mouseReleased()
- *   size = 32;
+ *   size = size + 6;
  * end
  * @example
  */
 #define LU5_MOUSE_RELEASED "mouseReleased"
+
+/**
+ * @brief mouseWheel
+ *
+ * Called when a mouse wheel is used
+ *
+ * @param button The pressed mouse button
+ *
+ * <br/>
+ * In the following example, the circle's size changes when the user scrolls
+ *
+ * @example
+ * size = 0;
+ *
+ * function setup()
+ *   createWindow(400, 400);
+ * end
+ *
+ * function draw()
+ *   background(51);
+ *
+ *   circle(mouseX, mouseY, size);
+ * end
+ *
+ * -- Change circle size when mouse is scrolled
+ * function mouseWheel(delta)
+ *   size = size + delta;
+ * end
+ * @example
+ */
+#define LU5_MOUSE_WHEEL "mouseWheel"
 
 #endif
