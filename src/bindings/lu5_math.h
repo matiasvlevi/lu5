@@ -2,6 +2,7 @@
 #define _LU5_MATH_H_
 
 #include <lua.h>
+#include <math.h>
 
 /**
  * Set a random seed
@@ -175,25 +176,25 @@ int lu5_tan(lua_State *L);
 
 /**
  * @brief PI
- * @global
+ * @constant
  */
-#define LU5_PI 3.14159265358979323846
+#define LU5_PI M_PI
 
 /**
  * @brief TWO_PI
- * @global
+ * @constant
  */
 #define LU5_TWO_PI (2*LU5_PI)
 
 /**
  * @brief HALF_PI
- * @global
+ * @constant
  */
 #define LU5_HALF_PI (0.5*LU5_PI)
 
 /**
  * @brief QUARTER_PI
- * @global
+ * @constant
  *
  */
 #define LU5_QUARTER_PI (0.25*LU5_PI)

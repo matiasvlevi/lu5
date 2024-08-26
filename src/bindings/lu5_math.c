@@ -1,16 +1,17 @@
 #include "lu5_math.h"
-#include "lauxlib.h"
+#include "lu5_vector.h"
+
 
 #include "../lu5_logger.h"
 #include "../lu5_bindings.h"
 #include "../lu5_types.h"
 
-#include <math.h>
+#include <lauxlib.h>
 #include <float.h>
 
 int lu5_round(lua_State *L) 
 {
-	double value = lu5_assert_number(L, 1, "round");
+	lua_Number value = lu5_assert_number(L, 1, "round");
 
 	lua_pushinteger(L, round(value));
 	return 1;
@@ -18,7 +19,7 @@ int lu5_round(lua_State *L)
 
 int lu5_floor(lua_State *L)
 {
-	double value = lu5_assert_number(L, 1, "floor");
+	lua_Number value = lu5_assert_number(L, 1, "floor");
 
 	lua_pushinteger(L, floor(value));
 	return 1;
@@ -26,7 +27,7 @@ int lu5_floor(lua_State *L)
 
 int lu5_ceil(lua_State *L)
 {
-	double value = lu5_assert_number(L, 1, "ceil");
+	lua_Number value = lu5_assert_number(L, 1, "ceil");
 
 	lua_pushinteger(L, ceil(value));
 	return 1;
@@ -34,7 +35,7 @@ int lu5_ceil(lua_State *L)
 
 int lu5_abs(lua_State *L)
 {
-	double x = lu5_assert_number(L, 1, "abs");
+	lua_Number x = lu5_assert_number(L, 1, "abs");
 
 	lua_pushnumber(L, fabs(x));
 	return 1;
@@ -56,14 +57,46 @@ int lu5_map(lua_State *L)
 
 int lu5_dist(lua_State *L)
 {
-	double x1 = lu5_assert_number(L, 1, "dist");
-	double y1 = lu5_assert_number(L, 2, "dist");
-	double x2 = lu5_assert_number(L, 3, "dist");
-	double y2 = lu5_assert_number(L, 4, "dist");
+	int argc = lua_gettop(L);
 
-	double value = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-	
-	lua_pushnumber(L, value);
+	switch (argc) {
+		case 2: {
+			lu5_vector_dist(L);
+			break;
+		}
+		case 4: {
+			lua_Number x1 = lu5_assert_number(L, 1, "dist");
+			lua_Number y1 = lu5_assert_number(L, 2, "dist");
+			lua_Number x2 = lu5_assert_number(L, 3, "dist");
+			lua_Number y2 = lu5_assert_number(L, 4, "dist");
+
+			lua_Number value = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+			
+			lua_pushnumber(L, value);
+
+			break;
+		}
+		case 6: {
+			lua_Number x1 = lu5_assert_number(L, 1, "dist");
+			lua_Number y1 = lu5_assert_number(L, 2, "dist");
+			lua_Number z1 = lu5_assert_number(L, 3, "dist");
+			lua_Number x2 = lu5_assert_number(L, 4, "dist");
+			lua_Number y2 = lu5_assert_number(L, 5, "dist");
+			lua_Number z2 = lu5_assert_number(L, 6, "dist");
+
+			lua_Number value = sqrt(
+				pow(x2 - x1, 2) +  
+				pow(y2 - y1, 2) +
+				pow(z2 - z1, 2)
+			);
+			
+			lua_pushnumber(L, value);
+
+			break;
+		}
+	}
+
+
 	return 1;
 }
 
@@ -87,7 +120,7 @@ int lu5_sin(lua_State *L)
 
 int lu5_cos(lua_State *L)
 {
-	double value = lu5_assert_number(L, 1, "cos");
+	lua_Number value = lu5_assert_number(L, 1, "cos");
 
 	lua_pushnumber(L, cos(value));
 	return 1;
