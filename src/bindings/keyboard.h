@@ -73,145 +73,145 @@ int keyIsDown(lua_State *L);
 
 /**
  * @brief UP_ARROW
- * @global
+ * @constant
  * 
  */
 #define LU5_KEY_UP_ARROW 265
 
 /**
  * @brief DOWN_ARROW
- * @global
+ * @constant
  * 
  */
 #define LU5_KEY_DOWN_ARROW 264
 
 /**
  * @brief LEFT_ARROW
- * @global
+ * @constant
  */
 #define LU5_KEY_LEFT_ARROW 263
 
 /**
  * @brief RIGHT_ARROW
- * @global
+ * @constant
  */
 #define LU5_KEY_RIGHT_ARROW 262
 
 /**
  * @brief KEY_ENTER
- * @global
+ * @constant
  */
 #define LU5_KEY_ENTER 257
 
 /**
  * @brief KEY_BACKSPACE
- * @global
+ * @constant
  */
 #define LU5_KEY_BACKSPACE 259
 
 /**
  * @brief KEY_A
- * @global
+ * @constant
  */
 /**
  * @brief KEY_B
- * @global
+ * @constant
  */
 /**
  * @brief KEY_C
- * @global
+ * @constant
  */
 /**
  * @brief KEY_D
- * @global
+ * @constant
  */
 /**
  * @brief KEY_E
- * @global
+ * @constant
  */
 /**
  * @brief KEY_F
- * @global
+ * @constant
  */
 /**
  * @brief KEY_G
- * @global
+ * @constant
  */
 /**
  * @brief KEY_H
- * @global
+ * @constant
  */
 /**
  * @brief KEY_I
- * @global
+ * @constant
  */
 /**
  * @brief KEY_J
- * @global
+ * @constant
  */
 /**
  * @brief KEY_K
- * @global
+ * @constant
  */
 /**
  * @brief KEY_L
- * @global
+ * @constant
  */
 /**
  * @brief KEY_M
- * @global
+ * @constant
  */
 /**
  * @brief KEY_N
- * @global
+ * @constant
  */
 /**
  * @brief KEY_O
- * @global
+ * @constant
  */
 /**
  * @brief KEY_P
- * @global
+ * @constant
  */
 /**
  * @brief KEY_Q
- * @global
+ * @constant
  */
 /**
  * @brief KEY_R
- * @global
+ * @constant
  */
 /**
  * @brief KEY_S
- * @global
+ * @constant
  */
 /**
  * @brief KEY_T
- * @global
+ * @constant
  */
 /**
  * @brief KEY_U
- * @global
+ * @constant
  */
 /**
  * @brief KEY_V
- * @global
+ * @constant
  */
 /**
  * @brief KEY_W
- * @global
+ * @constant
  */
 /**
  * @brief KEY_X
- * @global
+ * @constant
  */
 /**
  * @brief KEY_Y
- * @global
+ * @constant
  */
 /**
  * @brief KEY_Z
- * @global
+ * @constant
  */
 
 #endif
