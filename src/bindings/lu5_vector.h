@@ -3,13 +3,17 @@
 
 #include <lua.h>
 #include <lauxlib.h>
+#include <lualib.h>
 
 #define LU5_VECTOR "lu5_vector_"
 
 typedef struct {
-	double x;
-	double y;
+	lua_Number x;
+	lua_Number y;
+	lua_Number z;
 } lu5_vector;
+
+lu5_vector* lu5_check_vector(lua_State* L, int index);
 
 /**
  * Create a vector instance
@@ -55,14 +59,14 @@ int lu5_vector_print(lua_State *L);
  * @return number The distance between the two points
  *
  * @example
- * local a = createVector(3, 5);
- * local b = createVector(1, 3);
+ * local a = createVector(300, 500);
+ * local b = createVector(200, 250);
  * 
  * local distance = a:dist(b);
  * print(distance);
  * @example
  */
-int lu5_vector_dot(lua_State *L);
+int lu5_vector_dist(lua_State *L);
 
 /**
  * @name Vector.dot
@@ -76,29 +80,17 @@ int lu5_vector_dot(lua_State *L);
  * local a = createVector(3, 5);
  * local b = createVector(1, 3);
  * 
- * print(a:dot(b));
- * print(Vector.dot(a, b));
+ * -- From prototype
+ * print(a:dot(b)); -- 18.0
+ *
+ * -- With static method
+ * print(Vector.dot(a, b)); -- 18.0
+ *
+ * -- With concat syntax
+ * print(a .. b); -- 18.0
  * @example
  */
 int lu5_vector_dot(lua_State *L);
-
-/**
- * @name Vector.mult
- *
- * @param a The first vector
- * @param b The second vector
- *
- * @return Vector The added vector
- *
- * @example
- * local a = createVector(3, 5);
- * local b = createVector(1, 3);
- * 
- * print(a:mult(b));
- * print(Vector.mult(a, b));
- * @example
- */
-int lu5_vector_mult(lua_State *L);
 
 /**
  * @name Vector.add
@@ -106,21 +98,147 @@ int lu5_vector_mult(lua_State *L);
  * @param a The first vector
  * @param b The second vector
  *
- * @return Vector The multiplied vector
+ * @return Vector The added vector
  *
  * @example
- * local a = createVector(1, 4);
- * local b = createVector(8, 2);
+ * local a = createVector(4, 2);
+ * local b = createVector(2, 1);
+ *
+ * -- Non-mutable
+ * print(Vector.add(a, b)); -- { 6.0, 3.0 }
+ * print(a + b);            -- { 6.0, 3.0 }
+ * print(a);                -- { 4.0, 2.0 }
  * 
- * print(a:add(b));
- * print(Vector.add(a, b));
+ * -- Mutable
+ * print(a:add(b));	-- { 6.0, 3.0 }
+ * print(a) 		-- { 6.0, 3.0 }
  * @example
  */
 int lu5_vector_add(lua_State *L);
+
+/**
+ * @name Vector.sub
+ *
+ * @param a The first vector
+ * @param b The second vector
+ *
+ * @return Vector The subtracted vector
+ *
+ * @example
+ * local a = createVector(3, 5);
+ * local b = createVector(2, 3);
+ *
+ * -- Non-mutable
+ * print(Vector.sub(a, b)); -- { 1.0, 2.0 }
+ * print(a - b);            -- { 1.0, 2.0 }
+ * print(a);                -- { 3.0, 5.0 }
+ * 
+ * -- Mutable
+ * print(a:sub(b)); -- { 1.0, 2.0 }
+ * print(a);        -- { 1.0, 2.0 }
+ * @example
+ */
+int lu5_vector_sub(lua_State *L);
+
+/**
+ * @name Vector.mult
+ *
+ * @param a The first vector
+ * @param b The second vector
+ *
+ * @return Vector The multiplied vector
+ *
+ * @example
+ * local a = createVector(3, 5);
+ * local b = createVector(2, 3);
+ *
+ * -- Non-mutable
+ * print(Vector.mult(a, b)); -- { 6.0, 15.0 }
+ * print(a * b);             -- { 6.0, 15.0 }
+ * print(a);                 -- { 3.0, 5.0 }
+ * 
+ * -- Mutable
+ * print(a:mult(b)); -- { 3.0, 15.0 }
+ * print(a);         -- { 3.0, 15.0 }
+ * @example
+ */
+int lu5_vector_mult(lua_State *L);
+
+/**
+ * @name Vector.div
+ *
+ * @param a The first vector
+ * @param b The second vector
+ *
+ * @return Vector The divided vector
+ *
+ * @example
+ * local a = createVector(4, 2);
+ * local b = createVector(2, 1);
+ *
+ * -- Non-mutable
+ * print(Vector.div(a, b)); -- { 2.0, 2.0 }
+ * print(a / b);            -- { 2.0, 2.0 }
+ * print(a);                -- { 4.0, 2.0 }
+ * 
+ * -- Mutable
+ * print(a:div(b));	-- { 2.0, 2.0 }
+ * print(a) 		-- { 2.0, 2.0 }
+ * @example
+ */
+int lu5_vector_div(lua_State *L);
+
+
+
+/**
+ * @name Vector.idiv
+ *
+ * @param a The first vector
+ * @param b The second vector
+ *
+ * @return Vector The divided vector
+ *
+ * @example
+ * local a = createVector(7, 8);
+ * local b = createVector(2, 3);
+ * 
+ * -- Non-mutable
+ * print(Vector.idiv(a, b)) -- { 3.0, 2.0 }
+ * print(a // b);           -- { 3.0, 2.0 }
+ * print(a);                -- { 7.0, 8.0 }
+ * 
+ * -- Mutable
+ * print(a:idiv(b)); -- { 3.0, 2.0 }
+ * print(a)          -- { 3.0, 2.0 }
+ * @example
+ */
+int lu5_vector_idiv(lua_State *L);
+
+
+/**
+ * @name Vector.copy
+ *
+ * @return Vector The divided vector
+ *
+ * @example
+ * local a = createVector(300, 450, 400);
+ * 
+ * local copy_1 = a:copy();
+ *
+ * local copy_2 = Vector.copy(a);
+ * @example
+ */
+int lu5_vector_copy(lua_State *L);
+
 
 /*
  * Bind the vector to lua_State
  */
 int lu5_bind_vector(lua_State *L);
+
+int lu5_vector_mut_mult(lua_State *L);
+int lu5_vector_mut_sub(lua_State *L);
+int lu5_vector_mut_div(lua_State *L);
+int lu5_vector_mut_idiv(lua_State *L);
 
 #endif
