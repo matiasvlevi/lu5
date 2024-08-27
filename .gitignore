@@ -1,5 +1,6 @@
 bin/*
 shaders
 test.lua
-example/models/*.obj
-!example/models/ship.obj
+
+examples/models/*.obj
+!examples/models/ship.obj
