@@ -39,8 +39,6 @@ You can download a built executable for lu5 [here](https://github.com/matiasvlev
 
 ### GNU/Linux
 
-Build with `make`
-
 ```sh
 git clone --recurse-submodules https://github.com/matiasvlevi/lu5
 cd lu5
