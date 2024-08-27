@@ -218,7 +218,7 @@ int lu5_vector_idiv(lua_State *L);
 /**
  * @name Vector.copy
  *
- * @return Vector The divided vector
+ * @return Vector The copied vector
  *
  * @example
  * local a = createVector(300, 450, 400);
@@ -230,6 +230,22 @@ int lu5_vector_idiv(lua_State *L);
  */
 int lu5_vector_copy(lua_State *L);
 
+/**
+ * @name Vector swizzling
+ *
+ * @return Vector The composed vector
+ *
+ * @example
+ * local a = createVector(300, 450, 400);
+ * 
+ * local copy = a.xyz;
+ *
+ * local a_2d = a.xy; -- { 300, 450 }
+
+ * local b = a.xyx; -- { 300, 450, 300 }
+ * local c = a.zxy; -- { 400, 300, 450 }
+ * @example
+ */
 
 /*
  * Bind the vector to lua_State

@@ -240,7 +240,7 @@ int arc(lua_State *L)
 	if (lu5_has_fill())
 	{
 		lu5_apply_color(lu5.style.fill);
-		lu5_render_arc(
+		lu5_render_arc_fill(
 			x, y, 
 			w, h, 
 			sa, ea, 
