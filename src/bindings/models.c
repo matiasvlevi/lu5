@@ -22,7 +22,7 @@ int model(lua_State *L)
 	lu5_model *model = (lu5_model*)lua_touserdata(L, 1);
 
 	if (lu5.style.fill.a != 0.0f) {
-		LU5_APPLY_COLOR(lu5.style.fill);
+		lu5_apply_color(lu5.style.fill);
 		for (int j = 0; j <  model->face_count; j++) {
 			lu5_face f = model->faces[j];
 			glBegin(f.is_quad ? GL_QUADS : GL_TRIANGLES);
@@ -47,7 +47,7 @@ int model(lua_State *L)
 	}
 
 	if (lu5.style.stroke.a != 0.0f) {
-		LU5_APPLY_COLOR(lu5.style.stroke);
+		lu5_apply_color(lu5.style.stroke);
 		glLineWidth(lu5.style.strokeWeight);
 		glBegin(GL_LINES);
 

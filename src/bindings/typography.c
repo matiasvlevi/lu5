@@ -131,7 +131,7 @@ int text(lua_State *L)
 	lua_Number x = lua_tonumber(L, 2);
 	lua_Number y = lua_tonumber(L, 3);
 
-	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
+	lu5_apply_color(lu5.style.fill);
 	 
 	// Get font, if none available, use default.
 	lu5_font *font = lu5.style.font_current;
