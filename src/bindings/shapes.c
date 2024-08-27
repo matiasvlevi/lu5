@@ -15,7 +15,7 @@ int beginShape(lua_State *L)
 {
 	lua_Integer shape_type = lu5_assert_integer(L, 1, "beginShape");
 
-	LU5_APPLY_COLOR(lu5.style.fill);
+	lu5_apply_color(lu5.style.fill);
 	glBegin(shape_type);
 
 	return 0;
@@ -44,54 +44,19 @@ int circle(lua_State *L)
 
 	float radius = d / 2.0f;
 
-	if (lu5.style.fill.a != 0.0f)
+	if (lu5_has_fill())
 	{
-		LU5_APPLY_COLOR(lu5.style.fill);
+		lu5_apply_color(lu5.style.fill);
 
 		lu5_render_ellipse(x, y, radius, radius, LU5_CIRCLE_SEGMENTS);
 	}
 
-	if (lu5.style.strokeWeight != 0.0f && lu5.style.stroke.a != 0.0f) 
+	if (lu5_has_stroke()) 
 	{
-		LU5_APPLY_COLOR(lu5.style.stroke);
+		lu5_apply_color(lu5.style.stroke);
 
 		lu5_render_ring(x, y, radius, radius + lu5.style.strokeWeight, LU5_CIRCLE_SEGMENTS);
 	}
-	return 0;
-}
-
-int square(lua_State *L)
-{
-	lua_Number x = lu5_assert_number(L, 1, "square");
-	lua_Number y = lu5_assert_number(L, 2, "square");  
-	lua_Number s = lu5_assert_number(L, 3, "square");  
-
-	float x2 = x + s;
-	float y2 = y + s;
-
-	if (lu5.style.strokeWeight) {
-		
-		LU5_APPLY_COLOR(lu5.style.stroke);
-		glLineWidth(lu5.style.strokeWeight);
-		float st = lu5.style.strokeWeight;
-
-		glBegin(GL_QUADS);
-			glVertex2f(x - st, y - st);
-			glVertex2f(x2 + st, y - st);
-			glVertex2f(x2 + st, y2 + st);
-			glVertex2f(x - st, y2 + st);
-		glEnd(); 
-	}
-	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
-
-	glBegin(GL_QUADS);
-		glVertex2f(x, y);
-		glVertex2f(x2, y);
-		glVertex2f(x2, y2);
-		glVertex2f(x, y2);
-	glEnd();
-	
-
 	return 0;
 }
 
@@ -102,34 +67,47 @@ int rect(lua_State *L)
 	lua_Number w = lu5_assert_number(L, 3, "rect");  
 
 	lua_Number h = w;
-	if (lua_gettop(L) > 3) {
+	if (lua_isnumber(L, 4)) {
 		h = lu5_assert_number(L, 4, "rect");
 	}  
 
 	float x2 = x + w;
 	float y2 = y + h;
-	if (lu5.style.strokeWeight) {
-		
-		LU5_APPLY_COLOR(lu5.style.stroke);
-		glLineWidth(lu5.style.strokeWeight);
-		float st = lu5.style.strokeWeight;
+
+	if (lu5_has_stroke()) 
+	{
+		lu5_apply_color(lu5.style.stroke);
 
 		glBegin(GL_QUADS);
-			glVertex2f(x - st, y - st);
-			glVertex2f(x2 + st, y - st);
-			glVertex2f(x2 + st, y2 + st);
-			glVertex2f(x - st, y2 + st);
+			glVertex2f( x - lu5.style.strokeWeight,  y - lu5.style.strokeWeight);
+			glVertex2f(x2 + lu5.style.strokeWeight,  y - lu5.style.strokeWeight);
+			glVertex2f(x2 + lu5.style.strokeWeight, y2 + lu5.style.strokeWeight);
+			glVertex2f( x - lu5.style.strokeWeight, y2 + lu5.style.strokeWeight);
 		glEnd(); 
 	}
 
-	LU5_APPLY_COLOR(lu5.style.fill);
+	if (lu5_has_fill()) 
+	{
+		lu5_apply_color(lu5.style.fill);
+		glBegin(GL_QUADS);
+			glVertex2f(x, y);
+			glVertex2f(x2, y);
+			glVertex2f(x2, y2);
+			glVertex2f(x, y2);
+		glEnd();
+	}
 
-	glBegin(GL_QUADS);
-		glVertex2f(x, y);
-		glVertex2f(x2, y);
-		glVertex2f(x2, y2);
-		glVertex2f(x, y2);
-	glEnd();
+	return 0;
+}
+
+int square(lua_State *L)
+{
+	if (lua_gettop(L) != 3) {
+		luaL_error(L, "square expects 3 arguments");
+		return 0;
+	}
+
+	rect(L);
 
 	return 0;
 }
@@ -145,48 +123,28 @@ int line(lua_State *L)
 	float dy = y2 - y1;
 	float length = sqrt(dx * dx + dy * dy);
 
-	float ux = ((float)lu5.style.strokeWeight / 2) * (dy / length);
-	float uy = ((float)lu5.style.strokeWeight / 2) * (-dx / length);
+	float strokeWeight = ((float)lu5.style.strokeWeight / 2);
 
-	LU5_APPLY_COLOR(lu5.style.stroke);
+	float nx = strokeWeight * ( dy / length);
+	float ny = strokeWeight * (-dx / length);
 
+	lu5_apply_color(lu5.style.stroke);
 	glBegin(GL_QUADS);
-		glVertex2f(x1 - ux, y1 - uy);
-		glVertex2f(x1 + ux, y1 + uy);
-		glVertex2f(x2 + ux, y2 + uy);
-		glVertex2f(x2 - ux, y2 - uy);
+		glVertex2f(x1 - nx, y1 - ny);
+		glVertex2f(x1 + nx, y1 + ny);
+		glVertex2f(x2 + nx, y2 + ny);
+		glVertex2f(x2 - nx, y2 - ny);
 	glEnd();
 
-	// Draw rounded circles
-	if (lu5.style.strokeWeight < 3) return 0;
-
-	float radius = ((float)lu5.style.strokeWeight) / 2.0f;
-
-	float angleStep = (2 * LU5_PI) / LINE_POINT_SEGMENTS;
-
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(x1, y1);
-	for (int i = 0; i <= LINE_POINT_SEGMENTS; i++) {
-		float angle = i * angleStep;
-		float x = x1 + cos(angle) * radius;
-		float y = y1 + sin(angle) * radius;
-		glVertex2f(x, y);
-	}
-	glEnd();
-
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(x2, y2);
-	for (int i = 0; i <= LINE_POINT_SEGMENTS; i++) {
-		float angle = i * angleStep;
-		float x = x2 + cos(angle) * radius;
-		float y = y2 + sin(angle) * radius;
-		glVertex2f(x, y);
-	}
-	glEnd();
-
+	if (lu5.style.strokeWeight >= 3) 
+	{
+		lu5_render_ellipse(x1, y1, strokeWeight, strokeWeight, LINE_POINT_SEGMENTS);
+		lu5_render_ellipse(x2, y2, strokeWeight, strokeWeight, LINE_POINT_SEGMENTS);
+	};
 
 	return 0;
 }
+
 int quad(lua_State *L)
 {
 	int argc;
@@ -204,8 +162,7 @@ int quad(lua_State *L)
 	lua_Number x4 = lu5_assert_number(L, 7, "quad");
 	lua_Number y4 = lu5_assert_number(L, 8, "quad");
 
-	LU5_APPLY_COLOR_IF_DIFFERENT(lu5.style.fill, lu5.style.stroke);
-
+	lu5_apply_color(lu5.style.fill);
 	glBegin(GL_QUADS);
 		glVertex2f(x1, y1);
 		glVertex2f(x2, y2);
@@ -242,21 +199,67 @@ int ellipse(lua_State *L)
 {
 	lua_Number x = lu5_assert_number(L, 1, "ellipse");
 	lua_Number y = lu5_assert_number(L, 2, "ellipse");
-	// ... more arguments
-	// refer to https://p5js.org/reference/#/p5/ellipse
+	
+	lua_Number w = lu5_assert_number(L, 3, "ellipse");
+	lua_Number h = w;
+	if (lua_isnumber(L, 4)) {
+		h = lua_tonumber(L, 4);
+	}
 
-	luaL_error(L, "TODO: Implement ellipse.\t ellipse(%f, %f, ...more args);", x, y);
+	w /= 2.0f;
+	h /= 2.0f;
+
+	if (lu5_has_stroke()) 
+	{
+		lu5_apply_color(lu5.style.stroke);
+
+		lu5_render_ellipse(x, y, w + lu5.style.strokeWeight, h + lu5.style.strokeWeight, LU5_CIRCLE_SEGMENTS);
+	}
+
+	if (lu5_has_fill())
+	{
+		lu5_apply_color(lu5.style.fill);
+
+		lu5_render_ellipse(x, y, w, h, LU5_CIRCLE_SEGMENTS);
+	}
+
 	return 0;
 }
-
 
 int arc(lua_State *L)
 {
 	lua_Number x = lu5_assert_number(L, 1, "arc");
 	lua_Number y = lu5_assert_number(L, 2, "arc");
-	// ... more arguments
-	// refer to https://p5js.org/reference/#/p5/arc
 
-	luaL_error(L, "TODO: Implement arc.\t arc(%f, %f, ...more args);", x, y);
+	lua_Number w = lu5_assert_number(L, 3, "arc");
+	lua_Number h = lu5_assert_number(L, 4, "arc");
+
+	lua_Number sa = lu5_assert_number(L, 5, "arc");
+	lua_Number ea = lu5_assert_number(L, 6, "arc");
+
+	if (lu5_has_fill())
+	{
+		lu5_apply_color(lu5.style.fill);
+		lu5_render_arc(
+			x, y, 
+			w, h, 
+			sa, ea, 
+			LU5_CIRCLE_SEGMENTS);
+	}
+
+	if (lu5_has_stroke())
+	{
+		lu5_apply_color(lu5.style.stroke);
+		glLineWidth(lu5.style.strokeWeight);
+		lu5_render_arc_stroke(
+			x, y, 
+			w, h, 
+			w + lu5.style.strokeWeight, 
+			h + lu5.style.strokeWeight, 
+			sa, ea, 
+			LU5_CIRCLE_SEGMENTS
+		);
+	}
+
 	return 0;
 }

@@ -4,17 +4,7 @@
 #include <lua.h>
 #include <stdint.h>
 
-#define LU5_APPLY_COLOR_IF_DIFFERENT(c1, c2)\
-	if (c1.hexadecimal != c2.hexadecimal) {\
-		glColor4ub(\
-			c1.r,\
-			c1.g,\
-			c1.b,\
-			c1.a\
-		);\
-	}
-
-#define LU5_APPLY_COLOR(c1)\
+#define lu5_apply_color(c1)\
 	glColor4ub(\
 		c1.r,\
 		c1.g,\

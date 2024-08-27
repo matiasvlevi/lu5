@@ -9,6 +9,12 @@ typedef struct lu5_font_s lu5_font;
 #define GL_CLAMP_TO_EDGE 0x812F
 #endif
 
+#define lu5_has_stroke()\
+	(lu5.style.strokeWeight != 0.0f && lu5.style.stroke.a != 0.0f)
+
+#define lu5_has_fill()\
+	(lu5.style.fill.a != 0.0f)
+
 #define LU5_SET_DEFAULT_STYLE(s)\
 	(s)->strokeWeight = 2;\
 	(s)->stroke = LU5_BLACK;\
