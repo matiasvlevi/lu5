@@ -102,7 +102,7 @@ int lu5_min(lua_State *L);
 int lu5_max(lua_State *L);
 
 /**
- * Returns the absolute value of x which is its distance from 0
+ * Returns the absolute value of x
  * <a href="https://en.wikipedia.org/wiki/Absolute_value">see here</a> 
  *
  * @param x The input value
