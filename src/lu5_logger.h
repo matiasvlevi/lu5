@@ -8,8 +8,10 @@ typedef enum {
 	LU5_NONE_LOG,
 	LU5_RUN_LOG,
 	LU5_INFO_LOG,
-	LU5_WARN_LOG
+	LU5_WARN_LOG,
+	LU5_DEBUG_LOG
 } lu5_log_level;
+
 
 void lu5_logger_trace(lua_State *L);
 void lu5_logger_print(lu5_log_level level, const char* fmt, ...);
