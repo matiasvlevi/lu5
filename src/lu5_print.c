@@ -63,7 +63,6 @@ void lu5_print_any(lua_State *L, int index, int nested, char sep)
 			break;
 		}
 		case LUA_TTABLE: {
-			// If implements the __tostring or print method,
 			int has_metatable = lua_getmetatable(L, index);
 			if (has_metatable) {
 				
