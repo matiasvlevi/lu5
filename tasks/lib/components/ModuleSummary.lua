@@ -13,12 +13,14 @@ function ModuleSummary(props)
         return '';
     end
 
-    return luax('div', {class="summary"}, {
-        luax('h3', props.title),
-        luax('ul', luax.map(props.methods, function(method, key)
-            local link = './' .. props.title .. '/#' .. method.name;
+    local title = props.title:gsub('%_', ' ');
 
-            return (method._type == "global") and '' or 
+    return luax('div', {class="summary"}, {
+        luax('h3', title),
+        luax('ul', luax.map(props.methods, function(method, key)
+            local link = './' .. props.source .. '/#' .. method.name;
+
+            return (method._type == "constant") and '' or 
                 luax('li', {class="index"}, {
                     luax('a', {href=link, class="index"}, {
                         method.name

@@ -15,12 +15,14 @@ local luax = require('tasks/lib/luax');
 function Method(props)
     local decorator = luax.match(props._type, {
         event=luax('span', {class="decorator"}, 'Event'),
+        constant=luax('span', {class="decorator"}, 'Constant'),
         global=luax('span', {class="decorator"}, 'Global')
     });
 
     local name = luax.match(props._type, {
         event=get_declaration(props),
         method=get_declaration(props),
+        constant=props.name,
         global=props.name
     })
 

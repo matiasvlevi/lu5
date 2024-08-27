@@ -7,6 +7,7 @@ local function Reference(props)
         luax.map(props.modules, function(mod, i)
             return ModuleSummary({
                 title=mod.name,
+                source=mod.source,
                 methods=mod.methods
             })
         end)

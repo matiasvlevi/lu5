@@ -29,13 +29,24 @@ for i, filename in pairs(source_header_files) do
     local module_name = luax.split(filename, '.')[1];
     module_name = module_name:gsub('lu5%_', '');
 
-    local methods = Parse.header(fs.read_file(Config.build.source.headers .. '/' .. filename));
+    local source = fs.read_file(Config.build.source.headers .. '/' .. filename);
+
+
+    local module_title = source:match("/%*%*.+%@module%s+(.-)%s*%*/")
+    if (module_title == nil) then 
+        module_title = module_name; 
+    end
+
+
+
+    local methods = Parse.header(source);
     
     if (#methods == 0) then
         print('Skipping: ', filename);
     else
         table.insert(modules, {
-            name=module_name,
+            name=module_title,
+            source=module_name,
             methods=methods
         });
     end
@@ -48,6 +59,7 @@ for i, mod in pairs(modules) do
 
     local html = RootLayout({
         page_name=mod.name,
+        page_source=mod.source,
         version=true,
         root="../../",
         media=Config.media,
@@ -61,12 +73,12 @@ for i, mod in pairs(modules) do
     ));
 
     -- Formatting module page
-    local page_dir   = Config.build.dest .. '/latest/' .. mod.name;
+    local page_dir   = Config.build.dest .. '/latest/' .. mod.source;
     fs.mkdir(page_dir)
     fs.write_file(page_dir .. '/index.html', html, false);
 
     -- Write in specific version
-    local page_dir_v = Config.build.dest .. '/v'.. VERSION .. '/' .. mod.name;
+    local page_dir_v = Config.build.dest .. '/v'.. VERSION .. '/' .. mod.source;
     fs.mkdir(page_dir_v)
     fs.write_file(page_dir_v .. '/index.html', html, true);
 end

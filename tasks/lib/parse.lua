@@ -193,6 +193,8 @@ function parse_comment(comment, name, is_event)
 
     if (comment:find('%@global')) then
         _type = 'global';
+    elseif (comment:find('%@constant')) then
+        _type = 'constant'
     elseif (comment:find('%@event') or is_event) then
         _type = 'event';
     else
