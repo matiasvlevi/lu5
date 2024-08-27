@@ -1,7 +1,7 @@
 function setup()
     createWindow(400, 400);
 
-    img = loadImage('cat.jpg');
+    img = loadImage('examples/images/cat.jpg');
     img_cropped = img:crop(0, 0, 200, 250);
 end
 

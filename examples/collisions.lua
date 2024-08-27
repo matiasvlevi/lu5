@@ -91,10 +91,12 @@ end
 
 
 function Ball:draw()
+    push();
     strokeWeight(3);
     stroke(self.cr, self.cg, self.cb);
     fill(255, 255, 255, 25);
     circle(self.x, self.y, radius*2);
+    pop();
 end
 
 
@@ -121,7 +123,12 @@ function draw()
         ball:move();
     end
 
+    push();
+    fill(255, 255, 255, 25);
+    stroke(160, 90, 235)
+    strokeWeight(3);
     circle(mouseX, mouseY, mouse_zone);
+    pop();
 
     textSize(18);
     fill(100, 255, 10);
