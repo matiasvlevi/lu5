@@ -32,5 +32,6 @@ lu5_State lu5 = {
 		// Set no limit
 		.target_framerate = -1,
 		.restart = false
-	}
+	},
+	.orbit = NULL
 };

@@ -157,11 +157,19 @@ void lu5_close(lu5_State *l5)
 
 	lu5_close_fonts(l5);
 
-	FT_Done_FreeType(l5->ft);
-	if (l5->ft != NULL) l5->ft = NULL;
+	if (l5->orbit != NULL) {
+		free(l5->orbit);
+		l5->orbit = NULL;
+	}
 
-	if (l5->L) {
+	if (l5->ft != NULL) {
+		FT_Done_FreeType(l5->ft);
+		l5->ft = NULL;
+	}
+
+	if (l5->L != NULL) {
 		lua_gc(l5->L, LUA_GCCOLLECT, 0);
 		lua_close(l5->L);
+		l5->L = NULL;
 	}
 }

@@ -13,6 +13,7 @@
 
 typedef struct lu5_node_s lu5_node;
 typedef struct lu5_font_s lu5_font;
+typedef struct lu5_orbit_s lu5_orbit;
 typedef struct FT_LibraryRec_ *FT_Library;
 
 /**
@@ -63,6 +64,8 @@ typedef struct {
 		int target_framerate;
 		bool restart;
 	} env;
+
+	lu5_orbit *orbit;
 
 } lu5_State;
 
