@@ -4,6 +4,6 @@
 #include <lua.h>
 #include <GLFW/glfw3.h>
 
-GLFWwindow *lu5_create_glfw_window(lua_State *L, int width, int height, const char *title);
+GLFWwindow *lu5_create_glfw_window(lua_State *L, int width, int height, const char *title, int depth_mode);
 
 #endif

@@ -5,6 +5,8 @@
 #include "lu5_state.h"
 #include "lu5_list.h"
 
+#include <lauxlib.h>
+
 void lu5_init_freetype(lu5_State *l5) 
 {
 	if (FT_Init_FreeType(&(l5->ft)))
@@ -142,6 +144,19 @@ void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_fon
 	glPopMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
+}
+
+void lu5_load_default_font(lu5_State *l5) 
+{
+	// Load default font statically
+	int err = lu5_load_font(l5, &(l5->font_default), NULL);
+	if (err != FT_Err_Ok) {
+		luaL_error(l5->L, "Error loading default font, FT_Err: %i", err);
+		return;
+	}
+
+	// Set the current as the default font
+	l5->style.font_current = l5->font_default;
 }
 
 void lu5_close_font(lu5_font *font) 

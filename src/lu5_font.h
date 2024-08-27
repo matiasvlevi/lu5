@@ -26,6 +26,7 @@ typedef struct lu5_font_s {
 
 void lu5_init_freetype(lu5_State *l5);
 
+void lu5_load_default_font(lu5_State *l5);
 int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath);
 
 void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_font *font);
@@ -33,5 +34,6 @@ void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_fon
 void lu5_close_font(lu5_font *font);
 
 void lu5_close_fonts(lu5_State *l5);
+
 
 #endif
