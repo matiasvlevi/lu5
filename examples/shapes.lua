@@ -10,7 +10,9 @@ local angle = 0;
 function draw()
    background(51);
    
+
    for i=1, 8 do
+      strokeWeight(5);
       circle(i * (i*i)/2 + 150, height/2, i*i)
    end
 
@@ -21,7 +23,7 @@ function draw()
       translate(i * size/2 + 150, height/2 - size/2 - 50)
       fill(i*6, 130 - 6*i, size / 3);
       rotate(angle);
-      strokeWeight(30);
+      strokeWeight(12);
       square(-size/2, -size/2, size);
       pop();
    end
@@ -32,9 +34,27 @@ function draw()
       translate(i * size/2 + 150, height/2 + size/2 + 50)
       fill(size, 200 - 12*i, i*10);
       rotate(angle);
-      rect(-size/2, -size/2, size, size);
+      rect(-size/2, -size/2  +5, size+10, size);
       pop();
    end
+
+   for i=1, 8 do
+      push();
+      local size = i*i;
+      translate(i * size/2 + 150, height/2 + size + 130)
+      fill(200 - 12*i, size, i*10);
+      rotate(angle);
+      ellipse(0, 0, size, size * 1.6);
+      pop();
+   end
+
+   push();
+   translate(300, 500);
+   rotate(angle)
+   stroke(0);
+   strokeWeight(24)
+   fill(255, 0, 0);
+   pop();
 
    angle = angle + 1;
 end
