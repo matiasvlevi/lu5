@@ -18,7 +18,7 @@ If you want to update variables (ex: `mouseX`, `mouseY`) add them in `lu5_update
 
 <br/>
 
-## Build
+## Docs Build 
 
 Build lu5 with the static documentation site
 
@@ -32,5 +32,12 @@ Static site is generated in `./docs/*`, make sure to verify that your documentat
 
 <br/>
 
+## Testing
+
+run the unit tests before commiting
+
+```
+make tests
+```
 
 Send your PR !
