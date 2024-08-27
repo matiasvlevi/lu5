@@ -61,7 +61,8 @@ endif
 
 SOURCES = $(wildcard $(SRCDIR)/*.c)\
 		  $(wildcard $(SRCDIR)/bindings/*.c)\
-		  $(wildcard $(SRCDIR)/geometry/*.c)\
+		  $(wildcard $(SRCDIR)/geometry/2D/*.c)\
+		  $(wildcard $(SRCDIR)/geometry/3D/*.c)\
 		  $(wildcard $(SRCDIR)/shaders/*.c)
 
 OBJECTS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
