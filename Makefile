@@ -101,7 +101,7 @@ run: $(BIN) $(SCRIPT)
 examples: $(all) $(EXAMPLES:=.run)
 
 examples/%.lua.run: examples/%.lua 
-	$(BIN) $<
+	$(BIN) --log 5 $<
 	rm -f $@
 
 tests: $(all) $(TESTS:=.run)
