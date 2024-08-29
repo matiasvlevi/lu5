@@ -7,6 +7,7 @@
 
 #include "../lu5_state.h"
 #include "../lu5_logger.h"
+#include "../geometry/lu5_geometry.h"
 
 #include <stdlib.h>
 
@@ -80,7 +81,7 @@ int orbitControl(lua_State *L)
     float z = lu5.orbit->radius * cosf(lu5.orbit->camera_angle_x * M_PI / 180.0f) * cosf(lu5.orbit->camera_angle_y * M_PI / 180.0f);
 
     glLoadIdentity();
-    glScalef(-1, 1, 1);
+    lu5_glScale(-1.0f, 1.0f, 1.0f);
     gluLookAt(x, y, z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
     return 0;

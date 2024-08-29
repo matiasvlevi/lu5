@@ -29,6 +29,7 @@
 #define lu5_glNormal3(n1, n2, n3) glNormal3f((GLfloat)n1, (GLfloat)n2, (GLfloat)n3)
 #define lu5_glTexCoord2(s, t)  glTexCoord2f((GLfloat)s, (GLfloat)t)
 #define lu5_glTranslate(x, y, z)  glTranslatef((GLfloat)x, (GLfloat)y, (GLfloat)z)
+#define lu5_glScale(x, y, z) glScalef((GLfloat)x, (GLfloat)y, (GLfloat)z)
 
 #elif LUA_FLOAT_TYPE == LUA_FLOAT_DOUBLE
 
@@ -37,6 +38,7 @@
 #define lu5_glNormal3(n1, n2, n3) glNormal3d((GLdouble)n1, (GLdouble)n2, (GLdouble)n3)
 #define lu5_glTexCoord2(s, t)  glTexCoord2d((GLdouble)s, (GLdouble)t)
 #define lu5_glTranslate(x, y, z)  glTranslated((GLdouble)x, (GLdouble)y, (GLdouble)z)
+#define lu5_glScale(x, y, z) glScaled((GLdouble)x, (GLdouble)y, (GLdouble)z)
 
 #endif
 

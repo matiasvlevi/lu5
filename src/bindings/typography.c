@@ -6,6 +6,10 @@
 #include "../lu5_list.h"
 #include "../lu5_types.h"
 
+#include "../lu5_window.h"
+
+#include "../geometry/lu5_geometry.h"
+
 int loadFont(lua_State *L) 
 {	
 	const char *font_path = lu5_assert_string(L, 1, "loadFont");
@@ -144,7 +148,12 @@ int text(lua_State *L)
 		return 0;
 	}
 
+	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
+
+    lu5_apply_color(lu5.style.fill);
 	lu5_render_text(str, x, y, lu5.style.fontSize, font);
+
+	lu5_2D_over_3D_end(lu5.depth_mode);
 
 	return 0;
 }

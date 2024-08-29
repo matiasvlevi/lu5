@@ -1,6 +1,10 @@
 
 #include "transform.h"
+
 #include <GLFW/glfw3.h>
+
+#include "../geometry/lu5_geometry.h"
+
 #include <math.h>
 
 #include "../lu5_types.h"
@@ -14,7 +18,7 @@ int translate(lua_State *L)
 		z = lua_tonumber(L, 3);
 	}
 
-	glTranslatef(x, y, z);
+	lu5_glTranslate(x, y, z);
 
 	return 0;
 }
@@ -41,9 +45,9 @@ int scale(lua_State *L)
 int rotate(lua_State *L) 
 {
 	lua_Number angle = lu5_assert_number(L, 1, "rotate");
-	glTranslatef(0.5, 0.5, 0.5);
+	lu5_glTranslate(0.5, 0.5, 0.5);
 	glRotatef(angle, 0, 0, 1);
-	glTranslatef(-0.5 ,-0.5,-0.5);
+	lu5_glTranslate(-0.5 ,-0.5,-0.5);
 	return 0;
 }
 

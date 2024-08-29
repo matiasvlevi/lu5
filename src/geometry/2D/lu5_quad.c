@@ -11,13 +11,7 @@ void lu5_render_quad_fill(
 		lu5_glVertex2(x2, y2);
 		lu5_glVertex2(x3, y3);
 		lu5_glVertex2(x4, y4);
-	glEnd(); 
-    // glBegin(GL_QUADS);
-    //     lu5_glVertex2(x, y); 
-    //     lu5_glVertex2(x2, y);
-    //     lu5_glVertex2(x2, y2);
-    //     lu5_glVertex2(x, y2);
-    // glEnd();
+	glEnd();
 }
 
 void lu5_render_quad_stroke(

@@ -2,11 +2,12 @@
 
 #include <lauxlib.h>
 
-#include "window.h"
+#include "../lu5_window.h"
 
 #include "../lu5_state.h"
 #include "../lu5_font.h"
 #include "../lu5_types.h"
+#include "../geometry/lu5_geometry.h"
 
 int background(lua_State *L) 
 {
@@ -23,7 +24,7 @@ int background(lua_State *L)
 	glLoadIdentity();
 
 	if (lu5.depth_mode == LU5_GL3D) {
-		glTranslatef(0.0f, 0.0f, -800.0f);
+		lu5_glTranslate(0.0f, 0.0f, -800.0f);
 		glScalef(-1, 1, 1);
 	}
 

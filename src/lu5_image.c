@@ -1,6 +1,7 @@
 #include "lu5_image.h"
 
 #include "lu5_list.h"
+#include "./geometry/lu5_geometry.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "./stb/stb_image.h"
@@ -124,10 +125,10 @@ void lu5_render_image(lua_State* L, GLuint texture, lua_Number x, lua_Number y, 
 
     glBegin(GL_QUADS);
     {
-        glTexCoord2f(0, 0); glVertex2f(x, y);
-        glTexCoord2f(1, 0); glVertex2f(x + w, y);
-        glTexCoord2f(1, 1); glVertex2f(x + w, y + h);
-        glTexCoord2f(0, 1); glVertex2f(x, y + h);
+        lu5_glTexCoord2(0, 0); lu5_glVertex2(x, y);
+        lu5_glTexCoord2(1, 0); lu5_glVertex2(x + w, y);
+        lu5_glTexCoord2(1, 1); lu5_glVertex2(x + w, y + h);
+        lu5_glTexCoord2(0, 1); lu5_glVertex2(x, y + h);
     }
     glEnd();
 
