@@ -10,8 +10,7 @@ local RootLayout = require('./tasks/lib/components/layout/RootLayout');
 local Home       = require('./tasks/lib/components/Home');
 local Reference  = require('./tasks/lib/components/Reference');
 local Module     = require('./tasks/lib/components/Module');
-local Panel      = require('./tasks/lib/components/Panel');
-local HeaderPanel= require('./tasks/lib/components/HeaderPanel');
+local HeaderPanel= require('./tasks/lib/components/Navigation');
 
 local get_version_tags = require('./tasks/lib/get_tags');
 
@@ -44,6 +43,7 @@ for i, filename in pairs(source_header_files) do
     if (#methods == 0) then
         print('Skipping: ', filename);
     else
+
         table.insert(modules, {
             name=module_title,
             source=module_name,
@@ -65,12 +65,13 @@ for i, mod in pairs(modules) do
         media=Config.media,
         meta=Config.metadata,
         ga=Config.ga,
-        nav=HeaderPanel({ 
-            class="light", headers=documented_source_files 
+        nav=Navigation({ 
+            class="light",
+            modules=modules 
         }),
-    }, Module(
-        mod
-    ));
+    }, luax('', {
+        Module(mod)
+    }));
 
     -- Formatting module page
     local page_dir   = Config.build.dest .. '/latest/' .. mod.source;
@@ -90,8 +91,9 @@ local reference_html = RootLayout({
     media=Config.media,
     meta=Config.metadata,
     ga=Config.ga,
-    nav=HeaderPanel({ 
-        class="light", headers=documented_source_files 
+    nav=Navigation({ 
+        class="light", 
+        modules=modules
     }),
 }, Reference({ 
     modules=modules 
@@ -105,9 +107,17 @@ local homepage_html = RootLayout({
     media=Config.media,
     meta=Config.metadata,
     ga=Config.ga,
-}, Home({
-    versions=get_version_tags();
-}))
+}, 
+luax('div', {
+    -- luax('canvas', {id="lu5canvas"}),
+    Home({
+        versions=get_version_tags();
+    }),
+    -- luax('script', {
+    --     'lu5.createCanvas();'
+    -- }),
+})
+)
 
 -- Write reference page (Both in latest and version tag)
 fs.write_file(Config.build.dest .. '/latest/index.html', reference_html, false);

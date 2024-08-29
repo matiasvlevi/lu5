@@ -21,6 +21,7 @@ return {
             headers='./src/bindings',
             static='./tasks/static',
             js={
+                'lu5.js',
                 'index.js',
                 'hljs.min.js'
             },

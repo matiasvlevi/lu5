@@ -44,12 +44,14 @@ function Head(props)
         -- JS
         luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
         luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/index.js'}, {}),
+        --luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/lu5.js'}, {}),
         luax('script', {
             'document.addEventListener("DOMContentLoaded", function (event) {',
                 'hljs.highlightAll();',
                 'main();',
             '})'
         }),
+        props.scripts and props.scripts or '',
 
         -- Google tag (gtag.js) --
         luax('script', {async=true, src="https://www.googletagmanager.com/gtag/js?id=" .. props.ga.gtag_id}, {}),

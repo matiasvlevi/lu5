@@ -3,23 +3,28 @@ local luax = require('tasks/lib/luax')
 ---
 -- @Component
 -- @props {
---      headers: string[];
+--      modules: {
+--          name: string,
+--          source: string,
+--          methods: TMethod[];
+--      }
 --      class: string;
 -- }
 ---
-function HeaderPanel(props)
+function Navigation(props)
+
     return luax('ul', {
-        luax.map(props.headers, function(header, key)
+        luax.map(props.modules, function(mod, key)
             -- Remove extention
-            local header = luax.split(header, '.')[1];
+            local header = luax.split(mod.source, '.')[1];
             header = header:gsub('lu5%_', '');
 
             -- Create link to module page
             local link = './' .. header .. '/';
 
             return luax('li', {class="btn"}, {
-                luax('a', {href=link, class=props.class}, {
-                    luax('h4', header)
+                luax('a', {href=link, class=(props.class and props.class or '')}, {
+                    luax('h4', mod.name)
                 })
             })
         end)

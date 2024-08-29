@@ -1,8 +1,6 @@
 local luax = require('tasks/lib/luax');
 
 local Head = require('tasks/lib/components/layout/Head');
-local Panel = require('tasks/lib/components/Panel');
-
 ---
 -- @Component
 -- @props TLayout {
@@ -18,42 +16,50 @@ function Layout(props, children)
 
     local title = props.page_name;
 
-    return luax('html', {lang="en"}, {
-        Head({
-            root=root,
-            page_name=props.page_name,
-            meta=props.meta,
-            media=props.media,
-            ga=props.ga
-        }),
-        luax('body', {
-            ((props.nav ~= nil) and luax('div', {class="nav", id="menu"}, {
-                luax('br'),
-                props.nav 
-            }) or ''),
-            luax('main', {
-                luax('header', {
-                    luax('a', {href="../"}, {
-                        luax('img', {width="100px", src=root .. props.media.assets..'/logo.svg'}),
+    return luax('', {
+        '<!DOCTYPE html>',
+        luax('html', {lang="en"}, {
+            Head({
+                root=root,
+                page_name=props.page_name,
+                meta=props.meta,
+                media=props.media,
+                ga=props.ga,
+                scripts=props.scripts
+            }),
+            luax('body', {
+                ((props.nav ~= nil) and luax('div', {class="nav", id="menu"}, {
+                    luax('br'),
+                    props.nav 
+                }) or ''),
+                luax('main', {
+                    luax('header', {
+                        luax('a', {href="../"}, {
+                            luax('img', {width="100px", src=root .. props.media.assets..'/logo.svg'}),
+                        }),
+                        luax('h1', {class="module"}, title),
+    
+                        ((props.nav ~= nil) and luax('button', {class="menuBtn", onclick="toggleMenu()"}, {
+                            luax('img', {
+                                class="menuIcon", 
+                                width="40px", 
+                                src= root.. props.media.assets..'/arrow_left.svg'
+                            })
+                        }) or ''),
+    
+                        (props.version) and luax('span', {class="text version"}, {
+                            'v', VERSION
+                        }) or ''
                     }),
-                    luax('h1', {class="module"}, title),
-
-                    ((props.nav ~= nil) and luax('button', {class="menuBtn", onclick="toggleMenu()"}, {
-                        luax('img', {
-                            class="menuIcon", 
-                            width="40px", 
-                            src= root.. props.media.assets..'/arrow_left.svg'
-                        })
-                    }) or ''),
-
-                    (props.version) and luax('span', {class="text version"}, {
-                        'v', VERSION
-                    }) or ''
-                }),
-                children
+                    children
+                })
             })
-        })
-    });
+        });
+    }) 
+    
+    
+    
+
 end
 
 return Layout;
