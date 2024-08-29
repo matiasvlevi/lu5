@@ -1,5 +1,6 @@
 #include "lu5_bindings.h"
 
+#include "lu5_window.h"
 #include "bindings/classes.h"
 #include "bindings/window.h"
 #include "bindings/setting.h"

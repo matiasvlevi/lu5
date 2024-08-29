@@ -1,11 +1,13 @@
 #include "lu5_font.h"
 #include "static/lu5_default_font.h"
+#include "./geometry/lu5_geometry.h"
 #include "lu5_logger.h"
 
 #include "lu5_state.h"
 #include "lu5_list.h"
 
 #include <lauxlib.h>
+#include <math.h>
 
 void lu5_init_freetype(lu5_State *l5) 
 {
@@ -94,54 +96,40 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath)
 void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_font *font) 
 {
 	glEnable(GL_TEXTURE_2D);
-	glPushMatrix();
-	glTranslatef(x, y, 0);
-	
-	// Use font ascender for uniform baseline alignment
+
+	// Uniform baseline alignment
 	int ascender = font->face->size->metrics.ascender >> 6;
 	
-	// Iterate over string characters
 	const char *p;
-	for (p = text; *p; p++) {
-
+	float x_advance = 0.0f, y_advance = 0.0f;
+	for (p = text; *p; p++) 
+	{
 		// Skip non-text
 		if (*p < 32 || *p > 126)
 		   continue;
 		
-		// Get texture
-		GLuint texture = font->textures[(int)(*p)];
 		
 		// Load glyph from freetype, or skip if failed
 		if(FT_Load_Char(font->face, *p, FT_LOAD_DEFAULT)) continue;
 		
 		// Adjust height
 		float y_adjusted = ascender - font->face->glyph->bitmap_top;
-		
-		// Calculate the pen advances
-		float x_advance = 
-			(font->face->glyph->metrics.horiBearingX >> 6) + 
-			(font->face->glyph->metrics.width >> 6);
-
-		float y_advance = (font->face->glyph->advance.y >> 6);
-
+	
 		// Add space if space char found
-		if (*p == 32) x_advance += fontSize/2.5;
+		if (*p == 32) x_advance +=((int)fontSize >> 8)  + 2.0f;
 
-		glBindTexture(GL_TEXTURE_2D, texture);
+		glBindTexture(GL_TEXTURE_2D, font->textures[(int)(*p)]);
 		glBegin(GL_QUADS);
 		{
-			glTexCoord2f(0, 0); glVertex2f(						0, y_adjusted						   );
-			glTexCoord2f(1, 0); glVertex2f(font->face->glyph->bitmap.width, y_adjusted						   );
-			glTexCoord2f(1, 1); glVertex2f(font->face->glyph->bitmap.width, y_adjusted + font->face->glyph->bitmap.rows);
-			glTexCoord2f(0, 1); glVertex2f(						0, y_adjusted + font->face->glyph->bitmap.rows);
+			lu5_glTexCoord2(0, 0); lu5_glVertex2(x + x_advance,                                   y + y_advance + y_adjusted);
+			lu5_glTexCoord2(1, 0); lu5_glVertex2(x + x_advance + font->face->glyph->bitmap.width, y + y_advance + y_adjusted);
+			lu5_glTexCoord2(1, 1); lu5_glVertex2(x + x_advance + font->face->glyph->bitmap.width, y + y_advance + y_adjusted + font->face->glyph->bitmap.rows);
+			lu5_glTexCoord2(0, 1); lu5_glVertex2(x + x_advance, 								  y + y_advance + y_adjusted + font->face->glyph->bitmap.rows);
 		}
 		glEnd();
-
-	   // Move to next glyph position
-	   glTranslatef(x_advance, y_advance, 0);
+		x_advance += (font->face->glyph->advance.x >> 6);
+		y_advance += (font->face->glyph->advance.y >> 6);
 	}
-
-	glPopMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
 }
