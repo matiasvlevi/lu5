@@ -58,6 +58,8 @@ int lu5_run_sketch(lu5_State *l5, const char *filename)
 	lu5_init(l5);
 
 	lu5_log_types();
+	LU5_SET_DEFAULT_STYLE(&lu5.style_cache);
+	LU5_SET_DEFAULT_STYLE(&lu5.style);
 
 	// Add `sketch` as a string variable holding the filename
 	lua_pushstring(l5->L, filename);
