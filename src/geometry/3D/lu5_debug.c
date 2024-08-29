@@ -6,31 +6,33 @@
 
 void lu5_render_debug() 
 {	
+
+	glPushMatrix();
     // Axes
 	glPushMatrix();
         // X
-		glTranslatef(-DEBUG_HALF_GRID_PLANE - 1, -DEBUG_HALF_GRID_PLANE, -DEBUG_HALF_GRID_PLANE - 1);
+		lu5_glTranslate(-DEBUG_HALF_GRID_PLANE - 1, -DEBUG_HALF_GRID_PLANE, -DEBUG_HALF_GRID_PLANE - 1);
 		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 		glLineWidth(6);
 		glBegin(GL_LINES);
-			glVertex3f(0.0f, 0.0f, 0.0f);
-			glVertex3f(100.0f, 0.0f, 0.0f);
+			lu5_glVertex3(0.0f, 0.0f, 0.0f);
+			lu5_glVertex3(100.0f, 0.0f, 0.0f);
 		glEnd();
 
         // Y
 		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
 		glLineWidth(6);
 		glBegin(GL_LINES);
-			glVertex3f(0.0f, 0.0f, 0.0f);
-			glVertex3f(0.0f, 100.0f, 0.0f);
+			lu5_glVertex3(0.0f, 0.0f, 0.0f);
+			lu5_glVertex3(0.0f, 100.0f, 0.0f);
 		glEnd();
 
         // Z
 		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 		glLineWidth(6);
 		glBegin(GL_LINES);
-			glVertex3f(0.0f, 0.0f, 0.0f);
-			glVertex3f(0.0f, 0.0f, 100.0f);
+			lu5_glVertex3(0.0f, 0.0f, 0.0f);
+			lu5_glVertex3(0.0f, 0.0f, 100.0f);
 		glEnd();
 	glPopMatrix();
 
@@ -39,22 +41,24 @@ void lu5_render_debug()
 	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 	glLineWidth(2);
 	glBegin(GL_LINES);
-		for (float x = -DEBUG_HALF_GRID_PLANE; x < DEBUG_HALF_GRID_PLANE; x += DEBUG_GRID_STEP) {
-			glVertex3f(x, 0.0f, -DEBUG_HALF_GRID_PLANE);
-			glVertex3f(x, 0.0f, DEBUG_HALF_GRID_PLANE);
+		for (lua_Number x = -DEBUG_HALF_GRID_PLANE; x < DEBUG_HALF_GRID_PLANE; x += DEBUG_GRID_STEP) {
+			lu5_glVertex3(x, 0.0f, -DEBUG_HALF_GRID_PLANE);
+			lu5_glVertex3(x, 0.0f, DEBUG_HALF_GRID_PLANE);
 		}
 
-		for (float y = -DEBUG_HALF_GRID_PLANE; y < DEBUG_HALF_GRID_PLANE; y += DEBUG_GRID_STEP) {
-			glVertex3f(-DEBUG_HALF_GRID_PLANE, 0.0f, y);
-			glVertex3f( DEBUG_HALF_GRID_PLANE, 0.0f, y);
+		for (lua_Number y = -DEBUG_HALF_GRID_PLANE; y < DEBUG_HALF_GRID_PLANE; y += DEBUG_GRID_STEP) {
+			lu5_glVertex3(-DEBUG_HALF_GRID_PLANE, 0.0f, y);
+			lu5_glVertex3( DEBUG_HALF_GRID_PLANE, 0.0f, y);
 		}
 
-		glVertex3f(DEBUG_HALF_GRID_PLANE, 0.0f,  DEBUG_HALF_GRID_PLANE);
-		glVertex3f(DEBUG_HALF_GRID_PLANE, 0.0f, -DEBUG_HALF_GRID_PLANE);
+		lu5_glVertex3(DEBUG_HALF_GRID_PLANE, 0.0f,  DEBUG_HALF_GRID_PLANE);
+		lu5_glVertex3(DEBUG_HALF_GRID_PLANE, 0.0f, -DEBUG_HALF_GRID_PLANE);
 
-		glVertex3f(DEBUG_HALF_GRID_PLANE,  0.0f, DEBUG_HALF_GRID_PLANE);
-		glVertex3f(-DEBUG_HALF_GRID_PLANE, 0.0f,  DEBUG_HALF_GRID_PLANE);
+		lu5_glVertex3(DEBUG_HALF_GRID_PLANE,  0.0f, DEBUG_HALF_GRID_PLANE);
+		lu5_glVertex3(-DEBUG_HALF_GRID_PLANE, 0.0f,  DEBUG_HALF_GRID_PLANE);
 	glEnd();
 	
 	glPopMatrix();
+	glPopMatrix();
+
 }

@@ -1,28 +1,29 @@
 #include "../lu5_geometry.h"
-#include <GL/gl.h>
-
 #include "../../bindings/lu5_math.h"
 #include "../../lu5_logger.h"
 
 void lu5_render_ring(
-	float x, float y, 
-	float inner_radius, 
-	float outer_radius, 
-	int segments)
+	lua_Number x, lua_Number y,
+	lua_Number inner_radius_w, lua_Number inner_radius_h,
+	lua_Number strokeWeight, 
+	lua_Integer segments)
 {
-	float step = LU5_TWO_PI / segments;
+	lua_Number step = LU5_TWO_PI / segments;
 
 	glBegin(GL_TRIANGLE_STRIP);
 
-	float angle = 0.0f;
-	for (int i = 0; i <= segments; ++i) 
+	float outer_radius_w = inner_radius_w + strokeWeight;
+	float outer_radius_h = inner_radius_h + strokeWeight;
+
+	lua_Number angle = 0.0f;
+	for (lua_Integer i = 0; i <= segments; ++i) 
 	{
 		angle = i * step;
-		float px = cos(angle);
-		float py = sin(angle);
+		lua_Number px = cos(angle);
+		lua_Number py = sin(angle);
 
-		glVertex2f(px * outer_radius + x, py * outer_radius + y);
-		glVertex2f(px * inner_radius + x, py * inner_radius + y);
+		lu5_glVertex2(px * (outer_radius_w) + x, py * (outer_radius_h) + y);
+		lu5_glVertex2(px * (inner_radius_w) + x, py * (inner_radius_h) + y);
 	}
 	glEnd();
 }
