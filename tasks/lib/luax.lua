@@ -1,3 +1,25 @@
+local self_closing_tags = {
+    area=0,
+    base=0, 
+    br=0, 
+    col=0, 
+    command=0, 
+    embed=0, 
+    hr=0, 
+    img=0, 
+    input=0, 
+    keygen=0, 
+    link=0, 
+    meta=0, 
+    param=0, 
+    source=0, 
+    track=0, 
+    wbr=0
+}
+
+function is_single_closing(elem)
+    return (self_closing_tags[elem] ~= nil);
+end
 
 ---
 -- A simple JSX-Like String builder
@@ -49,6 +71,9 @@ function luax(tag, props, children)
     -- Format children to string
     local children_string = '';
 
+    local single_closing = is_single_closing(tag);
+    print(single_closing)
+
     if (type(children) == "table") then
         -- Mutliple children
         for index, child in ipairs(children) do
@@ -69,12 +94,13 @@ function luax(tag, props, children)
         return children_string;
     end
 
+
     -- Format Element to string
     return (
-        '<'..tag .. prop_string .. (children == nil and '/>' or '>'
-            .. children_string .. 
-        '</' .. tag .. '>'
-    ))
+        '<'..tag .. prop_string .. (single_closing and '/>' or '>')
+            .. (single_closing and '' or children_string) .. 
+        (single_closing and '' or '</' .. tag .. '>' )
+    )
 end;
 
 ---
