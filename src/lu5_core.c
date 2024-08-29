@@ -50,16 +50,20 @@ void lu5_init(lu5_State *l5)
 	// Register functions & constants
 	lu5_register_symbols(l5->L);
 	lu5_register_colors(l5->L);
+
+	// When log level is set to DEBUG (gt than 5)
+	// lu5 will log integer and number types at startup
+	lu5_log_types();
+
+	// Reset style state
+	LU5_SET_DEFAULT_STYLE(&lu5.style_cache);
+	LU5_SET_DEFAULT_STYLE(&lu5.style);
 }
 
 int lu5_run_sketch(lu5_State *l5, const char *filename)
 {
 	// Start lu5 & lua
 	lu5_init(l5);
-
-	lu5_log_types();
-	LU5_SET_DEFAULT_STYLE(&lu5.style_cache);
-	LU5_SET_DEFAULT_STYLE(&lu5.style);
 
 	// Add `sketch` as a string variable holding the filename
 	lua_pushstring(l5->L, filename);
