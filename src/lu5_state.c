@@ -1,10 +1,13 @@
 #include "lu5_state.h"
-#include "bindings/window.h"
+
+#include "lu5_window.h"
 
 lu5_State lu5 = {
 	// use LU5_ERROR_LOG for no logging
 	.log_level = LU5_WARN_LOG,
 	.window = NULL,
+	.width = 0.0f,
+	.height = 0.0f,
 	.depth_mode = LU5_GL2D,
 	.style = {
 		.fontSize = 22,

@@ -66,6 +66,9 @@ int createWindow(lua_State *L)
 	// Set glfw window in global scope 
 	lua_pushlightuserdata(L, window);
 	lua_setglobal(L, "window");
+
+	lu5.width = width;
+	lu5.height = height;
 	
 	lu5_load_default_font(&lu5);
 

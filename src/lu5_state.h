@@ -23,6 +23,8 @@ typedef struct {
 	lua_State *L;
 
 	GLFWwindow *window;
+	float width;
+	float height;
 	int depth_mode;
 
 	lu5_log_level log_level; 
