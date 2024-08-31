@@ -3,6 +3,7 @@ local luax = require('tasks/lib/luax')
 ---
 -- @Component
 -- @props {
+--      root: string,
 --      modules: {
 --          name: string,
 --          source: string,
@@ -20,7 +21,7 @@ function Navigation(props)
             header = header:gsub('lu5%_', '');
 
             -- Create link to module page
-            local link = './' .. header .. '/';
+            local link = props.root .. './' .. header .. '/';
 
             return luax('li', {class="btn"}, {
                 luax('a', {href=link, class=(props.class and props.class or '')}, {

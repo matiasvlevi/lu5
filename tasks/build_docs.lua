@@ -65,7 +65,8 @@ for i, mod in pairs(modules) do
         media=Config.media,
         meta=Config.metadata,
         ga=Config.ga,
-        nav=Navigation({ 
+        nav=Navigation({
+            root="../",
             class="light",
             modules=modules 
         }),
@@ -92,7 +93,8 @@ local reference_html = RootLayout({
     meta=Config.metadata,
     ga=Config.ga,
     nav=Navigation({ 
-        class="light", 
+        class="light",
+        root="./",
         modules=modules
     }),
 }, Reference({ 
@@ -109,12 +111,13 @@ local homepage_html = RootLayout({
     ga=Config.ga,
 }, 
 luax('div', {
-    -- luax('canvas', {id="lu5canvas"}),
+    --luax('canvas', {id="lu5canvas"}),
     Home({
         versions=get_version_tags();
     }),
     -- luax('script', {
-    --     'lu5.createCanvas();'
+    --     'lu5.createCanvas();',
+    --     'lu5.background();',
     -- }),
 })
 )
