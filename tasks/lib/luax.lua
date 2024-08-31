@@ -1,54 +1,49 @@
-local self_closing_tags = {
-    area=0,
-    base=0, 
-    br=0, 
-    col=0, 
-    command=0, 
-    embed=0, 
-    hr=0, 
-    img=0, 
-    input=0, 
-    keygen=0, 
-    link=0, 
-    meta=0, 
-    param=0, 
-    source=0, 
-    track=0, 
-    wbr=0
-}
 
-function is_single_closing(elem)
-    return (self_closing_tags[elem] ~= nil);
+
+local utils = {
+    self_closing_tags = {
+        area=0,
+        base=0, 
+        br=0, 
+        col=0, 
+        command=0, 
+        embed=0, 
+        hr=0, 
+        img=0, 
+        input=0, 
+        keygen=0, 
+        link=0, 
+        meta=0, 
+        param=0, 
+        source=0, 
+        track=0, 
+        wbr=0
+    };
+};
+
+function utils.is_single_closing(elem)
+    return (utils.self_closing_tags[elem] ~= nil);
 end
 
----
--- A simple JSX-Like String builder
---
--- @param tag - The element's tag name
--- @param props - Properties & attributes
--- @param children - Children elements
---
--- @example
--- local div = luax('div', {
---      luax('h2', 'Hello world!')
--- });
--- print(div) -- <div><h2>Hello world!</h2></div>
--- @example
--- 
--- @example
--- local div = luax('div', {class="container"}, {
---      luax('h2', 'Hello world!'),
---      luax('span', {class="red"}, 'This text is red.')
--- });
--- print(div) -- <div class="container"><h2>Hello world!</h2><span class="red">This text is red.</span></div>
--- @example
----
-function luax(tag, props, children)
+function utils.join(list, sep)
+    if (sep == nil) then sep = '' end;
+    if (#list < 1) then return '' end;
+    if (#list == 1) then return list[1]; end;
+
+    local str = list[1];
+
+    for i=2,#list do
+        str = str .. sep .. list[i];
+    end
+    
+    return str;
+end
+
+function utils.format_props(props)
     -- Format props to string
     local prop_index = 1;
     local prop_count = 0;
     for _,_ in pairs(props) do prop_count = prop_count + 1 end
-
     local prop_string = (prop_count > 0 and ' ' or '');
     for name, value in pairs(props) do
         local value_type = type(value);
@@ -61,57 +56,36 @@ function luax(tag, props, children)
                 name .. '="' .. value .. '"'
         end
 
-         -- Space Separator 
+         -- Append Space Separator 
         prop_string = prop_string .. 
                 ((prop_index < prop_count and value) and ' ' or '');        
         
         prop_index = prop_index + 1
     end
+    return prop_string;
+end
 
+function utils.children_to_string(children)
     -- Format children to string
     local children_string = '';
 
-    local single_closing = is_single_closing(tag);
-    print(single_closing)
-
     if (type(children) == "table") then
-        -- Mutliple children
-        for index, child in ipairs(children) do
+        for i, child in ipairs(children) do
             if (type(child) == "table") then
+                -- Add table child & concatenate with luax
                 children_string = children_string .. luax('', {}, child)
             else
+                -- Add string child
                 children_string = children_string .. tostring(child);
             end
         end
     elseif (children ~= nil) then
-        -- Single children value
+        -- Set sing children string
         children_string = tostring(children);
     end
-    
-    -- No root tag
-    if (#tag == 0 or string.len(tag) == 0) then
-        -- Return formatted children
-        return children_string;
-    end
 
-
-    -- Format Element to string
-    return (
-        '<'..tag .. prop_string .. (single_closing and '/>' or '>')
-            .. (single_closing and '' or children_string) .. 
-        (single_closing and '' or '</' .. tag .. '>' )
-    )
-end;
-
----
--- Detect if is numeric array
--- by checking if first numeric key is set 
----
-local function is_array(tbl)
-    return type(tbl) ~= "table" and tbl[1] ~= nil;
+    return children_string;
 end
-
-local utils = {};
 
 ---
 -- Map data to strings
@@ -135,7 +109,7 @@ local utils = {};
 ---
 function utils.map(data, cb)
     local res = {}
-    local it = is_array(data) and pairs or ipairs;
+    local it = (type(data) == "table" and data[1] ~= nil) and ipairs or pairs;
     for k, value in it(data) do
         res[k] = cb(value, k);
     end
@@ -168,21 +142,6 @@ function utils.match(key, cases)
     )
 end
 
-function utils.join(list, sep)
-    if (sep == nil) then sep = '' end;
-    if (#list < 1) then 
-        return '';
-    end
-    local str = list[1];
-    if (#list == 1) then
-        return str;
-    end
-    for i=2,#list do
-        str = str .. sep .. list[i];
-    end
-    return str;
-end
-
 function utils.split(input, sep)
     local content={}
     for str in string.gmatch(input, "([^"..sep.."]+)") do
@@ -209,14 +168,6 @@ function utils.reverse(list)
     return res;
 end
 
--- function utils.map(list, cb)
---     local res = {}
---     for i, elem in ipairs(list) do
---         table.insert(res, cb(elem, i))
---     end
---     return res;
--- end
-
 function utils.insert(host, segment, pos)
     return host:sub(1,pos-1)..segment..host:sub(pos+1)
 end
@@ -224,17 +175,58 @@ end
 local mt = { 
     __call=function(t, tag, arg1, arg2)
         -- Set arguments
-        local props = {}
-        local children = {}
+        local props, children;
         if (arg2 == nil and (type(arg1) ~= "table" or arg1[1] ~= nil)) then
-            props = {};
-            children = arg1;
+            props = {}  ; children = arg1;
         else
-            props = arg1;
-            children = arg2;
+            props = arg1; children = arg2;
         end
 
         return luax(tag, props, children);
     end
 };
+
+---
+-- A simple JSX-Like String builder
+--
+-- @param tag - The element's tag name
+-- @param props - Properties & attributes
+-- @param children - Children elements
+--
+-- @example
+-- local div = luax('div', {
+--      luax('h2', 'Hello world!')
+-- });
+-- print(div) -- <div><h2>Hello world!</h2></div>
+-- @example
+-- 
+-- @example
+-- local div = luax('div', {class="container"}, {
+--      luax('h2', 'Hello world!'),
+--      luax('span', {class="red"}, 'This text is red.')
+-- });
+-- print(div) -- <div class="container"><h2>Hello world!</h2><span class="red">This text is red.</span></div>
+-- @example
+---
+function luax(tag, props, children)
+    -- If tag is empty, return children alone without formating
+    -- Commonly known as 'Fragment'
+    if (#tag == 0 or string.len(tag) == 0) then
+        return utils.children_to_string(children);
+    end
+
+    -- Self closing
+    local is_single_closing = utils.is_single_closing(tag);
+    if (is_single_closing) then
+        return '<'..tag .. utils.format_props(props) .. '/>';
+    end
+
+    -- With closing tag
+    return (
+        '<'..tag .. utils.format_props(props) .. '>'
+            .. utils.children_to_string(children) ..
+        '</' .. tag .. '>'
+    )
+end;
+
 return setmetatable(utils, mt);
