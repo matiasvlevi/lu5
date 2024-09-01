@@ -29,7 +29,7 @@ function Layout(props, children)
                 scripts=props.scripts
             }),
             luax('body', {
-                luax('div', {class="flex"}, {
+                luax('div', {class="flex flex-grow"}, {
                     ((props.nav ~= nil) and luax('div', {class="nav", id="menu"}, {
                         luax('br'),
                         props.nav 

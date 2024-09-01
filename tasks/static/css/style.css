@@ -83,6 +83,10 @@ html, body {
 	text-decoration: underline;
 }
 
+.flex-grow {
+	flex-grow: 1;
+}
+
 footer {
 	margin-top: 3rem;
 	padding: 2rem 4rem;
@@ -93,6 +97,8 @@ footer {
 body {
 	min-height: 100%;
 	height: fit-content;
+	display: flex;
+	flex-direction: column;
 }
 
 a, p, span.text, span.small, span.smaller, span.decorator, h1, h2, h3, h4, h5, h6  {
