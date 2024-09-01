@@ -5,6 +5,7 @@
 lu5_State lu5 = {
 	// use LU5_ERROR_LOG for no logging
 	.log_level = LU5_WARN_LOG,
+	.debug = false,
 	.window = NULL,
 	.width = 0.0f,
 	.height = 0.0f,

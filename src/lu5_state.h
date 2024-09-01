@@ -21,6 +21,7 @@ typedef struct FT_LibraryRec_ *FT_Library;
  */
 typedef struct {
 	lua_State *L;
+	bool debug;
 
 	GLFWwindow *window;
 	float width;

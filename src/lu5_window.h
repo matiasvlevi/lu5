@@ -1,6 +1,9 @@
 #ifndef _LU5_WINDOW_H_
 #define _LU5_WINDOW_H_
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include <lua.h>
 #include <GLFW/glfw3.h>
 

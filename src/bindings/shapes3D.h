@@ -34,12 +34,5 @@ int box(lua_State *L);
  */
 int sphere(lua_State *L);
 
-/**
- * Helpful 3D Graphics 
- *
- */
-int debugMode(lua_State *L);
-
-
 
 #endif /* _LU5_SHAPES3D_H_ */

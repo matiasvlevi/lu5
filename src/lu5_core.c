@@ -11,12 +11,14 @@
 #include "lu5_font.h"
 #include "lu5_obj.h"
 #include "lu5_types.h"
+#include "geometry/lu5_geometry.h"
 
 static int lu5_run_setup(lu5_State *l5) 
 {
 	// Get the setup function, if found, run it
 	lua_getglobal(l5->L, "setup");
-	if (lua_isfunction(l5->L, -1)) {
+	if (lua_isfunction(l5->L, -1)) 
+	{
 		LU5_RUN_LOG("setup");
 
 		// Run Setup
@@ -31,11 +33,19 @@ static int lu5_run_setup(lu5_State *l5)
 static void lu5_run_draw(lu5_State *l5, GLFWwindow *window) 
 {
 	lua_getglobal(l5->L, "draw");
-	if (lua_pcall(l5->L, 0, 0, 0) != LUA_OK) {
+
+	if (lua_pcall(l5->L, 0, 0, 0) != LUA_OK) 
+	{
 		LU5_ERROR(lua_tostring(l5->L, -1));
 		// EXIT
 		glfwSetWindowShouldClose(window, 1);
+	} 
+	else if (l5->debug)
+	{
+		if (l5->depth_mode == LU5_GL3D) lu5_render_debug();
+		// else lu5_render_debug_2D(); // TODO:
 	}
+
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 }

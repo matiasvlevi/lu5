@@ -108,10 +108,3 @@ int sphere(lua_State *L)
 
 	return 0;
 }
-
-int debugMode(lua_State *L)
-{
-	lu5_render_debug();
-
-	return 0;
-}

@@ -87,3 +87,15 @@ int pop(lua_State *L)
 	glPopMatrix();
 	return 0;
 }
+
+int debugMode(lua_State *L)
+{
+	if (lua_isboolean(L, 1)) 
+	{
+		lu5.debug = lua_toboolean(L, 1);
+	} else {
+		lu5.debug = true;
+	}
+
+	return 0;
+}
