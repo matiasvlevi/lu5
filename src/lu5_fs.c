@@ -2,12 +2,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "lu5_state.h"
 #include "lu5_logger.h"
 
 #include <sys/stat.h>
 #include <errno.h>
-
+#include <lauxlib.h>
 #include <string.h>
 
 // Forward declare strdup 
@@ -45,9 +45,17 @@ FILE *lu5_open_file(const char *path, const char *mode)
 	FILE *file = fopen(path, mode);
     if (file == NULL) {
 		if (errno) {
-			LU5_ERROR("%s", strerror(errno));
+			if (lu5.L == NULL) {
+                LU5_ERROR("\x1b[90m'%s'\x1b[0m %s", path, strerror(errno)); 
+            } else {
+                luaL_error(lu5.L, "\x1b[90m'%s'\x1b[0m %s", path, strerror(errno));
+            }
 		} else {
-        	LU5_ERROR("Something went wrong when opening file \x1b[90m'%s'\x1b[0m", path);
+			if (lu5.L == NULL) {
+                LU5_ERROR("Something went wrong when opening file \x1b[90m'%s'\x1b[0m", path);
+            } else {
+                luaL_error(lu5.L, "Something went wrong when opening file \x1b[90m'%s'\x1b[0m", path);
+            }
 		}
     }
 	return file;
