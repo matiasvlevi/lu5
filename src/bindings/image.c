@@ -8,11 +8,16 @@
 
 static void lu5_new_image(lua_State *L, lu5_image *img)
 {
-
 	// Texture
 	lua_newtable(L);
 	lua_pushlightuserdata(L, img);
 	lua_setfield(L, -2, "texture");
+
+	lua_pushnumber(L, img->width);
+	lua_setfield(L, -2, "width");
+
+	lua_pushnumber(L, img->height);
+	lua_setfield(L, -2, "height");
 
 	// METATABLE
 	lua_newtable(L);
@@ -21,15 +26,12 @@ static void lu5_new_image(lua_State *L, lu5_image *img)
 	lua_pushcfunction(L, lu5_image_get);
 	lua_setfield(L, -2, "crop");
 
-
 	lua_setmetatable(L, -2);
-
 }
 
 int lu5_image_get(lua_State *L) 
 {
 	lua_getfield(L, 1, "texture");
-	
 	if (!lua_islightuserdata(L, -1)) {
 		luaL_error(L, "Expected first argument to be an image ptr");
 		return 0;
@@ -41,6 +43,19 @@ int lu5_image_get(lua_State *L)
 	int y = lu5_assert_number(L, 3, "Image.get");
 	int w = lu5_assert_number(L, 4, "Image.get");
 	int h = lu5_assert_number(L, 5, "Image.get");
+
+	if (
+		originalImage->width < x || 
+		originalImage->height < y ||
+		originalImage->width < w || 
+		originalImage->height < h ||
+		originalImage->width < (x + w) || 
+		originalImage->height < (y + h)
+	) {
+		LU5_WARN_TRACE(L, "Cropping bounds are larger than image which is (%i %i %i %i)", 0, 0, originalImage->width, originalImage->height);
+		lua_pushnil(L);
+		return 1;
+	}
 
 	// Add cropped img to images so it gets freed
 	lu5_image *croppedImage = lu5_image_crop(&lu5, originalImage, x, y, w, h);
@@ -113,4 +128,13 @@ int image(lua_State *L)
 	lu5_render_image(L, img->texture, x, y, w, h);
 
 	return 0;
+}
+
+void lu5_image_bind(lua_State *L)
+{
+	lua_newtable(L);
+	lua_pushcfunction(L, lu5_image_get);
+	lua_setfield(L, -2, "crop");
+
+	lua_setglobal(L, "Image");
 }

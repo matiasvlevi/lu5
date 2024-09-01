@@ -50,7 +50,8 @@ int image(lua_State *L);
  */
 int lu5_image_get(lua_State *L);
 
-
 int lu5_image_index(lua_State *L);
+
+void lu5_image_bind(lua_State *L);
 
 #endif 

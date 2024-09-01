@@ -196,6 +196,7 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, textFont);
 
 	// Images
+	lu5_image_bind(L);
 	LUA_ADD_FUNCTION(L, image);
 	LUA_ADD_FUNCTION(L, loadImage);
 
