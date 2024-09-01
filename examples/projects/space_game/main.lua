@@ -13,7 +13,7 @@ function setup()
   createWindow(800, 800, GL3D);
 
   player = Player:new(0, 0, 0);
-
+  frameRate(60)
   for i=1, OBSTACLE_COUNT do
       obstacles[i] = Obstacle:new(
         math.random(-800, 800), 

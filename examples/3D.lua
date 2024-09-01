@@ -1,19 +1,22 @@
-local tick = 0;
-local speed = 20;
+
 
 function setup()
     createWindow(800, 800, GL3D);
+    frameRate(60);
 end
 
 function draw() 
-    background(51);
+    background(0);
 
     orbitControl();
-    debugMode();
-
     noFill();
-    stroke(80, 255, 50);
-    strokeWeight(4);
+    stroke(0, 255, 0);
+    sphere(100, 50);
 
-    box(60);
+    push();
+    rotateX(90);
+    noFill();
+    stroke(0, 255, 0)
+    plane(400, 400)
+    pop();
 end

@@ -47,7 +47,6 @@ static void lu5_register_constants(lua_State *L)
 	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "ENTER"	  , LU5_KEY_ENTER);
 	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "BACKSPACE"  , LU5_KEY_BACKSPACE);
 
-
 	// NUMBER KEYS (0-9)
 	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "KEY_0" , GLFW_KEY_0);
 	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "KEY_1" , GLFW_KEY_1);
@@ -178,7 +177,6 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, model);
 	LUA_ADD_FUNCTION(L, debugMode);
 
-
 	// Transform
 	LUA_ADD_FUNCTION(L, translate);
 	LUA_ADD_FUNCTION(L, scale);
@@ -223,45 +221,5 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION_BY_NAME(L,	     "dist", lu5_dist);
 	LUA_ADD_FUNCTION_BY_NAME(L, "constrain", lu5_constrain);
 
-
 	lu5_register_constants(L);
-}
-
-void lu5_register_number_array(lua_State *L, const char* array_name, double *list, size_t size)
-{
-	lua_newtable(L);
-
-	for (int i = 0; i < size; i++) {
-		lua_pushnumber(L, i+1);
-		lua_pushnumber(L, list[i]);
-		lua_settable(L, -3);
-	}
-
-	lua_setglobal(L, array_name);  
-}
-
-void lu5_register_integer_array(lua_State *L, const char* array_name, int *list, size_t size)
-{
-	lua_newtable(L);
-
-	for (int i = 0; i < size; i++) {
-		lua_pushnumber(L, i+1);
-		lua_pushinteger(L, list[i]);
-		lua_settable(L, -3);
-	}
-
-	lua_setglobal(L, array_name);  
-}
-
-void lu5_register_string_array(lua_State *L, const char* array_name, const char **list, size_t size)
-{
-	lua_newtable(L);
-
-	for (int i = 0; i < size; i++) {
-		lua_pushnumber(L, i+1);
-		lua_pushstring(L, list[i]);
-		lua_settable(L, -3);
-	}
-
-	lua_setglobal(L, array_name);  
 }

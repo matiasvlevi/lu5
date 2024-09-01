@@ -1,7 +1,6 @@
 #ifndef _LU5_MOUSE_H_
 #define _LU5_MOUSE_H_
 
-
 /**
  * @brief mouseY
  * @global
@@ -41,12 +40,16 @@
 /**
  * @brief pmouseY
  * @global
+ *
+ * The y mouse coordinate from the previous draw call
  */
 #define LU5_PMOUSE_Y "pmouseY"
 
 /**
  * @brief pmouseX
  * @global
+ *
+ * The x mouse coordinate from the previous draw call
  */
 #define LU5_PMOUSE_X "pmouseX"
 

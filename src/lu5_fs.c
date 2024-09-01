@@ -14,7 +14,8 @@
 // is required for some systems
 char* strdup(const char*);
 
-char *lu5_name_without_extention(const char *filename) {
+char *lu5_name_without_extention(const char *filename) 
+{
     // Find the last dot in the filename
     char *dot = strrchr(filename, '.');
     if (!dot || dot == filename) {
@@ -54,7 +55,6 @@ FILE *lu5_open_file(const char *path, const char *mode)
 
 int lu5_write_file(const char *path, const void *buffer, size_t len) 
 {
-    
 	FILE *file = lu5_open_file(path, "wb");
 	if (file == NULL) return 1;
 

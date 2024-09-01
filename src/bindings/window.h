@@ -10,6 +10,7 @@
  *
  * @param w Window width
  * @param h Window height
+ * @param [mode] Rendering mode, either `GL2D` or `GL3D`, by default `GL2D` is set.
  *
  * It is also possible to create a window in the global scope without defining a setup function.
  *

@@ -56,5 +56,23 @@ function draw()
    fill(255, 0, 0);
    pop();
 
+   push();
+   translate(130, 50);
+   strokeWeight(10);
+   triangle(0,0, 100, 0, 50, 50)
+   pop();
+
+   push();
+   translate(50, 50);
+   strokeWeight(10);
+
+   quad(
+      0, 0,
+      0, 60,
+      60, 70,
+      50, 10
+   )
+   pop();
+
    angle = angle + 1;
 end
