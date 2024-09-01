@@ -52,9 +52,12 @@ int lu5_image_get(lua_State *L)
 		originalImage->width < (x + w) || 
 		originalImage->height < (y + h)
 	) {
-		LU5_WARN_TRACE(L, "Cropping bounds are larger than image which is (%i %i %i %i)", 0, 0, originalImage->width, originalImage->height);
-		lua_pushnil(L);
-		return 1;
+		luaL_error(L, 
+			"Cropping bounds cannot be larger than original image (\x1b[33m%d\x1b[0m x \x1b[33m%d\x1b[0m)", 
+			originalImage->width, 
+			originalImage->height
+		);
+		return 0;
 	}
 
 	// Add cropped img to images so it gets freed
