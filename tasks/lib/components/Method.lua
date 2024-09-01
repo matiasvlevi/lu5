@@ -1,5 +1,35 @@
 local luax = require('tasks/lib/luax');
 
+function MethodCall(props)
+    return luax('', {
+        props.declaration and luax('div', {class="methodDeclaration", style="margin-top: 2rem;-"}, {
+            luax('code', props.declaration),
+            decorator
+        }) or '',
+        #props.params > 0 and luax('h4', 'Arguments') or '',
+        luax('div', {class="params"}, {
+            luax.map(props.params, function(param, key)
+                return luax('div', {class="param"}, {
+                    luax('code', {class="name"}, param.name),
+                    luax('span', {class="text desc"}, from_md(param.description))
+                })
+            end)
+        })
+    });
+end
+
+function MethodCalls(props)
+    local html = luax('', {
+        luax.map(props.calls, function(params, i)
+            local dec = #props.calls > 1 and props.declarations[i] or nil;
+            return MethodCall({ declaration=dec, params=params })
+        end)
+    });
+
+    if (#props.calls == 2) then print(html) end;
+    return html;
+end
+
 ---
 -- @Component
 -- @props TMethod {
@@ -9,6 +39,7 @@ local luax = require('tasks/lib/luax');
 --      example: string;
 --      bottom_description: string;
 --      params: TParam[];
+--      calls: TParam[][];
 --      _return: TRetrun;
 -- }
 ---
@@ -19,12 +50,18 @@ function Method(props)
         global=luax('span', {class="decorator"}, 'Global')
     });
 
+
     local name = luax.match(props._type, {
-        event=get_declaration(props),
-        method=get_declaration(props),
+        event=#props.calls > 1 and props.name or get_declarations(props)[1],
+        method=#props.calls > 1 and props.name or get_declarations(props)[1],
         constant=props.name,
         global=props.name
-    })
+    });
+
+    local declarations = luax.match(props._type, {
+        method=get_declarations(props),
+        default=nil
+    });
 
     return luax('div', {class="method",id=props.name}, {
         luax('div', {class="methodDeclaration"}, {
@@ -35,17 +72,7 @@ function Method(props)
             props.description or 
             'No description'
         ),
-        (#props.params == 0) and '' or luax('', {
-            luax('h4', 'Arguments'),
-            luax('div', {class="params"}, {
-                luax.map(props.params, function(param, key)
-                    return luax('div', {class="param"}, {
-                        luax('code', {class="name"}, param.name),
-                        luax('span', {class="text desc"}, from_md(param.description))
-                    })
-                end)
-            })
-        }),
+        MethodCalls({ declarations=declarations, calls=props.calls }),
         (props['_return'] == nil) and '' or luax('', {
             luax('h4', 'Returns'),
             luax('div', {class="param"}, {

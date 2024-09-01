@@ -215,8 +215,60 @@ function parse_comment(comment, name, is_event)
 		example           =parse_example(comment),
 		bottom_description=parse_bottom_description(comment),
 		params            =parse_params(comment),
+        calls             =parse_calls(comment),
 		_return           =parse_return(comment)
 	};
+end
+
+function parse_calls(comment)
+    local call_idx = 1;
+
+    local index = 1;
+    local calls = { };
+
+    calls[call_idx] = {}
+    for line in comment:gmatch("[^\r\n]+") do
+        local has_call = string.find(line, "%@call");
+        if (has_call) then
+            -- @call denotes new param set
+            call_idx = call_idx + 1;
+            index = 1;
+            calls[call_idx] = {}
+
+            goto continue;
+        end
+
+        local matches = string.gmatch(line, "@param .- [%w ,.?!%`%_]+");
+
+        for match in matches do   
+            calls[call_idx][index] = parse_param(match);
+            index = index + 1;
+        end
+        ::continue::
+    end
+	return calls;
+end
+
+function get_declaration(name, params)
+    local args = {};
+
+    -- Get all parameter names
+    for i, param in pairs(params) do
+        args[i] = param.name;
+    end
+
+    -- Replace lua_State argument with actual lua arguments 
+    return (
+        name .. '(' .. luax.join(args, ', ') .. ');'
+    )
+end
+
+function get_declarations(method)
+    local declarations = {};
+    for i, params in ipairs(method.calls) do
+        declarations[i] = get_declaration(method.name, params);
+    end
+    return declarations
 end
 
 function parse_params(comment)
@@ -263,19 +315,6 @@ function parse_header(source)
 
 end
 
-function get_declaration(method)
-    local args = {};
-
-    -- Get all parameter names
-    for i, param in pairs(method.params) do
-        args[i] = param.name;
-    end
-
-    -- Replace lua_State argument with actual lua arguments 
-    return (
-        method.name .. '(' .. luax.join(args, ', ') .. ');'
-    )
-end
 
 
 
@@ -284,5 +323,5 @@ return {
 	header=parse_header,
 	param=parse_param,
 	comment=parse_comment,
-    get_declaration=get_declaration
+    get_declarations=get_declarations
 }

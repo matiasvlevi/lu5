@@ -12,7 +12,7 @@ local Reference  = require('./tasks/lib/components/Reference');
 local Module     = require('./tasks/lib/components/Module');
 local HeaderPanel= require('./tasks/lib/components/Navigation');
 
-local get_version_tags = require('./tasks/lib/get_tags');
+local ver = require('./tasks/lib/get_tags');
 
 -- Find documentation header files
 source_header_files = fs.find_files_in_dir(Config.build.source.headers, function (str)
@@ -113,7 +113,7 @@ local homepage_html = RootLayout({
 luax('div', {
     --luax('canvas', {id="lu5canvas"}),
     Home({
-        versions=get_version_tags();
+        versions=ver.get_tags();
     }),
     -- luax('script', {
     --     'lu5.createCanvas();',

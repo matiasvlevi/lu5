@@ -1,4 +1,5 @@
-local luax = require('tasks/lib/luax')
+local luax = require('tasks/lib/luax');
+local ver = require('tasks/lib/get_tags');
 
 function Builds(props)
     if (props.class == nil) then
@@ -49,7 +50,7 @@ local function Home(props)
         }),
 
         luax('div', {style="margin-top: 2rem"}, {
-            luax('h2', 'Builds'),
+            luax('h2', 'Releases'),
             luax('div', {class="builds", style="gap: 0.5rem;"}, {
                 Builds({
                     class="tags",
@@ -68,7 +69,11 @@ local function Home(props)
                 Builds({
                     url='https://github.com/matiasvlevi/lu5/releases/download',
                     fmt=function(v)
-                        return "lu5-x86_64-win-"..v..".zip"
+                        if (ver.to_number(v)[2] < 1) then
+                            return "lu5-x86_64-win-"..v..".zip"
+                        else
+                            return "lu5-x86_64-win-"..v..".exe"
+                        end
                     end,
                     versions=props.versions
                 })

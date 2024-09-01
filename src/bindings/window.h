@@ -29,7 +29,7 @@ int createWindow(lua_State *L);
 
 /**
  * Set the frame rate 
- *
+ * 
  * @param fps The frame rate to set
  *
  * If frame rate is called without an argument, it will return frame per seconds 

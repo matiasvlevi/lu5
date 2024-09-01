@@ -124,13 +124,31 @@ int lu5_abs(lua_State *L);
  */
 int lu5_map(lua_State *L);
 
+
 /**
- * Calculates the distance between 2 points in 2D space
+ * Calculates the distance between 2 points in 2D or 3D space
  *
  * @param x1 The x coordinate of the first point
  * @param y1 The y coordinate of the first point
  * @param x2 The x coordinate of the second point
- * @param y1 The y coordinate of the second point
+ * @param y2 The y coordinate of the second point
+ *
+ * @call
+ * @param x1 The x coordinate of the first point
+ * @param y1 The y coordinate of the first point
+ * @param z1 The y coordinate of the first point
+ * @param x2 The x coordinate of the second point
+ * @param y2 The y coordinate of the second point
+ * @param z2 The z coordinate of the second point
+ *
+ * @call
+ * @param v1 The first vector
+ * @param v2 The second vector
+ *
+ * @example
+ * local d = dist(0, 0, 3, 4);
+ * print(d) -- 5
+ * @example
  *
  * @return number The distance between the points
  */
