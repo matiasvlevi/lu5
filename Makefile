@@ -1,3 +1,7 @@
+# Build for Linux & Windows
+# 
+# This Makefile is intended for use on a linux system
+
 PLATFORM ?= gnu
 
 APP_NAME = lu5
@@ -20,24 +24,23 @@ INSTALLER_NAME := lu5-x86_64-win-$(VERSION).exe
 INSTALLER_SCRIPT := installer/lu5_installer.nsi
 INSTALLER_EXEC := $(BINDIR)/win64/$(INSTALLER_NAME)
 
-
 ifeq ($(PLATFORM), win)
 	CC := x86_64-w64-mingw32-gcc
 	BIN = $(BINDIR)/win64/$(APP_NAME).exe
 	OBJDIR = $(BINDIR)/win64/obj
 	CFLAGS = -Wall\
-	-I/usr/x86_64-w64-mingw32/include\
-	-I/usr/x86_64-w64-mingw32/include/freetype2
+		-I/usr/x86_64-w64-mingw32/include\
+		-I/usr/x86_64-w64-mingw32/include/freetype2
 
 	LDFLAGS := -L/usr/x86_64-w64-mingw32/lib\
-				-lfreetype\
-				-lglfw3\
-				-lglu32\
-				-lopengl32\
-				-lgdi32\
-				-llua\
-				-pthread\
-				-lm
+		-lfreetype\
+		-lglfw3\
+		-lglu32\
+		-lopengl32\
+		-lgdi32\
+		-llua\
+		-pthread\
+		-lm
 else
 	CC := gcc
 	BIN = $(BINDIR)/linux/$(APP_NAME)
@@ -155,8 +158,6 @@ install:
 	cp $(BIN) /usr/bin/$(APP_NAME)
 
 endif
-
-
 
 clean:
 	rm -fr bin/linux
