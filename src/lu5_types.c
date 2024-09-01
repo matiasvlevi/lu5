@@ -8,6 +8,12 @@ LU5_TYPE_BIND(lua_Number  , number);
 LU5_TYPE_BIND(lua_Integer , integer);
 LU5_TYPE_BIND(const char *, string);
 
+#ifdef WIN32
+#define LU5_SIZEOF_FMT "%lli"
+#else
+#define LU5_SIZEOF_FMT "%li"
+#endif
+
 void lu5_log_types() 
 {
 	if (LU5_DEBUG_LOG <= lu5.log_level) 
@@ -19,7 +25,8 @@ void lu5_log_types()
 			case LUA_FLOAT_LONGDOUBLE: fputs("long double", stdout); break;
 			default: fputs("unknown", stdout); break;
 		}
-		printf(" (%li bytes)\n", sizeof(lua_Number));
+		
+		printf(" (" LU5_SIZEOF_FMT " bytes)\n", sizeof(lua_Number));
 
 		fputs("integer: ", stdout);
 		switch(LUA_INT_TYPE) {
@@ -38,7 +45,7 @@ void lu5_log_types()
 			}
 			default: fputs("unknown", stdout); break;
 		}
-		printf(" (%li bytes)\n", sizeof(lua_Integer));
+		printf(" (" LU5_SIZEOF_FMT  " bytes)\n", sizeof(lua_Integer));
 
 	}
 }
