@@ -1,5 +1,4 @@
 :root {
-
 	--dark: #461164;
 	--primary: #AA36EF;
 	--lighter: #d49af7;
@@ -43,16 +42,60 @@ html, body {
 	background-color: var(--white);
 }
 
-body {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
+.smaller {
+	font-size: 0.7rem;
+}
 
+.small {
+	font-size: 0.85rem;
+}
+
+.dark {
+	color: var(--dark);
+}
+
+.lighter {
+	color: var(--lighter);
+}
+
+.flex {
+	display: flex;
+}
+
+.items-center {
+	align-items:center;
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: column;
+}
+
+.space-between {
+	justify-content: space-between;
+}
+
+.justify-start {
+	justify-content: flex-start;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+footer {
+	margin-top: 3rem;
+	padding: 2rem 4rem;
+	min-height: 6rem;
+	background-color: var(--primary);
+}
+
+body {
 	min-height: 100%;
 	height: fit-content;
 }
 
-a, p, span.text, span.decorator, h1, h2, h3, h4, h5, h6  {
+a, p, span.text, span.small, span.smaller, span.decorator, h1, h2, h3, h4, h5, h6  {
 	font-family: "Trebuchet MS", Tahoma, sans-serif;
 }
 
