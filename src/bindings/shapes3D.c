@@ -19,13 +19,15 @@ int plane(lua_State *L)
 	float half_x = size_x / 2.0f;
 	float half_y = size_y / 2.0f;
 
-	if (lu5.style.fill.a != 0.0f) {
+	if (lu5_has_fill()) 
+	{
 		lu5_apply_color(lu5.style.fill);
 		
 		lu5_render_plane_faces(half_x, half_y);
 	}
 
-	if (lu5.style.stroke.a != 0.0f) {
+	if (lu5_has_stroke()) 
+	{
 		lu5_apply_color(lu5.style.stroke);
 		glLineWidth(lu5.style.strokeWeight);
 		
@@ -53,13 +55,15 @@ int box(lua_State *L)
 	h /= 2.0f;
 	d /= 2.0f;
 
-	if (lu5.style.fill.a != 0.0f) {
+	if (lu5_has_fill()) 
+	{
 		lu5_apply_color(lu5.style.fill);
 		
 		lu5_render_box_faces(w, h, d);
 	}
 
-	if (lu5.style.stroke.a != 0.0f) {
+	if (lu5_has_stroke()) 
+	{
 		lu5_apply_color(lu5.style.stroke);
 		glLineWidth(lu5.style.strokeWeight);
 
@@ -83,12 +87,14 @@ int sphere(lua_State *L)
 		detail_y = lua_tonumber(L, 3);
 	}
 
-	if (lu5.style.fill.a != 0.0f) {
+	if (lu5_has_fill()) 
+	{
 		lu5_apply_color(lu5.style.fill);
 		lu5_render_ellipsoid_faces(radius, detail_x, detail_y);
 	}
 
-	if (lu5.style.stroke.a != 0.0f) {
+	if (lu5_has_stroke()) 
+	{
 		// Draw sphere edges
 		lu5_apply_color(lu5.style.stroke);
 		glLineWidth(lu5.style.strokeWeight);
