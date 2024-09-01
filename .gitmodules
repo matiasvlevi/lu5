@@ -1,4 +1,4 @@
 [submodule "lua"]
-	path = lua
+	path = include/lua
 	url = https://github.com/matiasvlevi/lua
     branch = v5.4
