@@ -155,6 +155,58 @@ function parse_return(comment)
 	return nil;
 end
 
+function parse_examples(comment, start_index)
+
+    local lines = luax.split(comment, '\n');
+	local result = {};
+    local i = start_index;
+
+    if (i >= #lines) then return {}, start_index, nil end;
+
+    -- Skip to first example
+    while (string.find(lines[i], '@example') == nil and i < #lines) do
+        i = i + 1;
+    end
+
+    
+    local call_match = string.match(lines[i], "%@example %d");
+    local call_index = nil;
+    if (call_match ~= nil) then
+        local m = luax.split(call_match, " ");
+        local idx = tonumber(m[2]);
+        
+        if (idx ~= nil) then
+            call_index = idx
+        end
+    end
+
+
+    -- Iterate through example and collect lines
+    if (i < #lines) then
+
+        -- Skip example tag
+        i = i + 1;
+
+        while (string.find(lines[i], '@example') == nil and i < #lines) do
+
+            -- trim 4 comment characters & whitespace -> ' *  '
+            local str = string.sub(lines[i], 4, #lines[i]);
+            
+            table.insert(result, str);
+            
+
+            i = i + 1;
+        end
+
+    end
+
+    if (#result < 1) then
+        return '', start_index, call_index;
+    end
+	return luax.join(result, '\n'), i, call_index;
+end
+
+
 function parse_example(comment)
 	local lines = luax.split(comment, '\n');
 	local result = {};
@@ -173,7 +225,7 @@ function parse_example(comment)
     if (i < #lines) then
         while (string.find(lines[i], '@example') == nil and i < #lines) do
 
-            -- trim 4 characters
+            -- trim 4 comment characters & whitespace -> ' *  '
             local str = string.sub(lines[i], 4, #lines[i]);
             
             table.insert(result, str);
@@ -207,15 +259,37 @@ function parse_comment(comment, name, is_event)
         name = luax.split(name_match, ' ')[2];
     end
 
+    local calls = parse_calls(comment);
+    
+
+
+    local _, example_count = string.gsub(comment, " %@example", "")
+    local examples = {};
+    local example_count = example_count // 2;
+
+    local example_index = 0;
+    for i=1, example_count do
+        local example, idx, call_index = parse_examples(comment, example_index + 1);
+        if (call_index ~= nil) then
+            if (calls[call_index]) then
+                calls[call_index].example = example;
+            end
+        else
+            table.insert(examples, example);
+        end
+        example_index = idx;
+    end
+
     -- TMethod
     return {
 		name              =name,
         _type             =_type,
 		description       =parse_description(comment),
-		example           =parse_example(comment),
+		--example           =parse_example(comment),
+		examples           =examples,
 		bottom_description=parse_bottom_description(comment),
-		params            =parse_params(comment),
-        calls             =parse_calls(comment),
+		--params            =parse_params(comment),
+        calls             =calls,
 		_return           =parse_return(comment)
 	};
 end
@@ -224,16 +298,16 @@ function parse_calls(comment)
     local call_idx = 1;
 
     local index = 1;
-    local calls = { };
+    local calls = {};
 
-    calls[call_idx] = {}
+    calls[call_idx] = { arguments={}, example=nil }
     for line in comment:gmatch("[^\r\n]+") do
         local has_call = string.find(line, "%@call");
         if (has_call) then
             -- @call denotes new param set
             call_idx = call_idx + 1;
             index = 1;
-            calls[call_idx] = {}
+            calls[call_idx] = { arguments={}, example=nil }
 
             goto continue;
         end
@@ -241,7 +315,7 @@ function parse_calls(comment)
         local matches = string.gmatch(line, "@param .- [%w ,.?!%`%_]+");
 
         for match in matches do   
-            calls[call_idx][index] = parse_param(match);
+            table.insert(calls[call_idx].arguments, parse_param(match))
             index = index + 1;
         end
         ::continue::
@@ -265,8 +339,8 @@ end
 
 function get_declarations(method)
     local declarations = {};
-    for i, params in ipairs(method.calls) do
-        declarations[i] = get_declaration(method.name, params);
+    for i, call in ipairs(method.calls) do
+        declarations[i] = get_declaration(method.name, call.arguments);
     end
     return declarations
 end

@@ -19,15 +19,21 @@ function MethodCall(props)
 end
 
 function MethodCalls(props)
-    local html = luax('', {
-        luax.map(props.calls, function(params, i)
+    return luax('', {
+        luax.map(props.calls, function(c, i)
             local dec = #props.calls > 1 and props.declarations[i] or nil;
-            return MethodCall({ declaration=dec, params=params })
-        end)
+            return luax('', {
+                MethodCall({ declaration=dec, params=c.arguments }),
+                c.example and MethodExample(c.example) or ''
+            });
+        end),
     });
+end
 
-    if (#props.calls == 2) then print(html) end;
-    return html;
+function MethodExample(example) 
+    return example ~= nil and luax('pre', {
+        luax('code', {class="language-lua"}, { example })
+    }) or ''
 end
 
 ---
@@ -85,11 +91,10 @@ function Method(props)
             })
         }),
         luax('p', props.bottom_description),
-        (props['example'] == nil) and '' or luax('pre', {
-            luax('code', {class="language-lua"}, {
-                props['example']
-            })
-        }),
+
+        (props['examples'] == nil and #props['examples'] <= 1) and '' or 
+            luax.map(props['examples'], MethodExample),
+
         luax('br'),
     })
 end

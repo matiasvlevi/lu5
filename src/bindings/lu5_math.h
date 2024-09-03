@@ -18,14 +18,25 @@ int lu5_randomSeed(lua_State *L);
 /**
  * Get a random number
  * 
+ * @param max The maximum of the range
+ *
+ * @call
  * @param min The minimum of the range
  * @param max The maximum of the range
+ *
+ * @call
+ * @param arr The array to randomly select an item from
  * 
- * @example
+ * @example 1
  * random()      -- random number between 0 and 1
  * random(3)     -- random number between 0 and 3
- * random(3, 12) -- random number between 3 and 12
+ * @example
  *
+ * @example 2
+ * random(3, 12) -- random number between 3 and 12
+ * @example
+ *
+ * @example 3
  * random({ 'A', 'B', 'C' }) -- random element in table
  * @example
  *
@@ -145,8 +156,21 @@ int lu5_map(lua_State *L);
  * @param v1 The first vector
  * @param v2 The second vector
  *
- * @example
+ * @example 1
  * local d = dist(0, 0, 3, 4);
+ * print(d) -- 5
+ * @example
+ *
+ * @example 2
+ * local d = dist(0, 0, 0, 2, 3, 6);
+ * print(d) -- 7
+ * @example
+ *
+ * @example 3
+ * local a = createVector(-1, -1);
+ * local b = createVector( 2,  3);
+ *
+ * local d = dist(a, b);
  * print(d) -- 5
  * @example
  *
