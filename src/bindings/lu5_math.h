@@ -136,7 +136,7 @@ int lu5_map(lua_State *L);
  * @call
  * @param x1 The x coordinate of the first point
  * @param y1 The y coordinate of the first point
- * @param z1 The y coordinate of the first point
+ * @param z1 The z coordinate of the first point
  * @param x2 The x coordinate of the second point
  * @param y2 The y coordinate of the second point
  * @param z2 The z coordinate of the second point
