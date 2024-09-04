@@ -135,6 +135,34 @@ int push(lua_State *L);
 int pop(lua_State *L);
 
 /**
+ * Set rectangle alignment mode
+ *
+ * @param mode either `CENTER`, `CORNER`, `RADIUS`
+ *
+ */ 
+int rectMode(lua_State *L);
+
+/**
+ * @brief CENTER
+ * @constant
+ */
+#define LU5_RECTMODE_CENTER 1
+
+/**
+ * @brief CORNER
+ * @constant
+ */
+#define LU5_RECTMODE_CORNER 2
+
+/**
+ * @brief RADIUS
+ * @constant
+ */
+#define LU5_RECTMODE_RADIUS 3
+
+#define LU5_RECT_ALIGN_MODE_COUNT 3
+
+/**
  * Toggle a helpful mode with 3D Graphics 
  *
  * @param [enable] Whether or not to enable the debug mode, if not provided, it defaults to `true` 

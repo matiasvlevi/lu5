@@ -52,8 +52,30 @@ int rect(lua_State *L)
 		h = lu5_assert_number(L, 4, "rect");
 	}  
 
-	float x2 = x + w;
-	float y2 = y + h;
+	float x2;
+	float y2;
+
+	switch(lu5_style(&lu5)->rectMode) 
+	{
+		case LU5_RECTMODE_CORNER:
+			x2 = x + w;
+			y2 = y + h;
+			break;
+		case LU5_RECTMODE_CENTER:
+			w = w / 2;
+			h = h / 2;
+			// Intentionally continue in Radius's case
+		case LU5_RECTMODE_RADIUS:
+			x2 = x + w;
+			y2 = y + h;
+
+			x -= w;
+			y -= h;
+			break;
+		default:
+			luaL_error(L, "Something went wrong with rectMode, mode found %d", lu5_style(&lu5)->rectMode);
+			break;
+	}
 
 	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
 
