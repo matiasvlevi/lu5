@@ -261,8 +261,6 @@ function parse_comment(comment, name, is_event)
 
     local calls = parse_calls(comment);
     
-
-
     local _, example_count = string.gsub(comment, " %@example", "")
     local examples = {};
     local example_count = example_count // 2;
@@ -358,9 +356,10 @@ function parse_params(comment)
 	return params;
 end
 
-function parse_header(source)
+function parse_header(filename, source)
     local function_comments = string.gmatch(source, "%/%*%*.-%*%/%s-%\nint .-%(.-%)");
     local callback_comments = string.gmatch(source, "%/%*%*%\n%s%*%s%@brief.-%*%/");
+    
     -- methods: method[]
     local methods = {};
 
@@ -374,14 +373,46 @@ function parse_header(source)
         local dec = string.match(lines[#lines], 'int .-%(.*%)'):gsub('lu5_', '') .. ';';
         local name = luax.split(luax.split(dec, ' ')[2], '(')[1];
 
-        methods[index] = parse_comment(comment, name, false, false);
+        -- Find start of first line
+        local start_index, end_index = string.find(source, comment, 1, true);
+
+        -- Count line breaks for start and end of comment
+        local _, start_line = string.gsub(string.sub(source, 0, start_index), "\n", "");
+        local _, end_line = string.gsub(string.sub(source, 0, end_index), "\n", "");
+
+        methods[index] = {
+            source={
+                start_line=start_line+1,
+                end_line=end_line+1,
+                header=filename
+            },
+            doc=parse_comment(comment, name, false, false)
+        }
         index = index + 1;
     end
 
     for comment in callback_comments do
         -- TODO: Add error handling for nil values to enhance DX
         local name = luax.split(string.match(comment, '@brief.-%\n'), ' ')[2]:sub(1, -2);
-        methods[index] = parse_comment(comment, name, true, false);
+
+        -- Get declaration and name
+        local lines = luax.split(comment, '\n');
+
+        -- Find start of first line
+        local start_index, end_index = string.find(source, comment, 1, true);
+
+        -- Count line breaks for start and end of comment
+        local _, start_line = string.gsub(string.sub(source, 0, start_index), "%\n", "");
+        local _, end_line = string.gsub(string.sub(source, 0, end_index), "%\n", "");
+
+        methods[index] = {
+            source={
+                start_line=start_line+1,
+                end_line=end_line+1,
+                header=filename
+            },
+            doc=parse_comment(comment, name, true, false);
+        };
         index = index + 1;
     end
 

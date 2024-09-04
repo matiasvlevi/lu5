@@ -18,12 +18,12 @@ function ModuleSummary(props)
     return luax('div', {class="summary"}, {
         luax('h3', title),
         luax('ul', luax.map(props.methods, function(method, key)
-            local link = './' .. props.source .. '/#' .. method.name;
+            local link = './' .. props.source .. '/#' .. method.doc.name;
 
-            return (method._type == "constant") and '' or 
+            return (method.doc._type == "constant") and '' or 
                 luax('li', {class="index"}, {
                     luax('a', {href=link, class="index"}, {
-                        method.name
+                        method.doc.name
                     })
                 })
         end))

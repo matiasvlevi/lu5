@@ -147,7 +147,7 @@ function ReleaseBuilds(props)
 end
 
 local function Home(props)
-    return luax('div', {class='flex-col gap-8', style="margin: 0 auto; width:88%", id='reactive'}, {
+    return luax('div', {class='container flex-col gap-8', id='reactive'}, {
         luax('div', {
             luax('p', { style="max-width:34rem;" }, {
                 'Lu5 is a free and open-source Lua interpreter for Creative Coding.',

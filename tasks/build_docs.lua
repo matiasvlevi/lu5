@@ -36,9 +36,7 @@ for i, filename in pairs(source_header_files) do
         module_title = module_name; 
     end
 
-
-
-    local methods = Parse.header(source);
+    local methods = Parse.header(filename, source);
     
     if (#methods == 0) then
         print('Skipping: ', filename);
