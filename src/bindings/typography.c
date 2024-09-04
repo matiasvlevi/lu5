@@ -85,7 +85,7 @@ int textSize(lua_State *L)
 	lua_Number size = lu5_assert_number(L, 1, "textSize");
 
 	// Get font, if none available, use default.
-	lu5_font *font = lu5.style.font_current;
+	lu5_font *font = lu5_style(&lu5)->font_current;
 	if (font == NULL) {
 		font = lu5.font_default;
 	}
@@ -104,7 +104,7 @@ int textSize(lua_State *L)
 		0
 	);
 
-	lu5.style.fontSize = size;
+	lu5_style(&lu5)->fontSize = size;
 
 	return 0;
 }
@@ -134,7 +134,7 @@ int textFont(lua_State *L)
 	lu5_font *font_id = (lu5_font *)lua_touserdata(L, 1);
 	
 	// Set the current font ptr
-	lu5.style.font_current = font_id;
+	lu5_style(&lu5)->font_current = font_id;
 
 	return 0;
 }
@@ -146,10 +146,10 @@ int text(lua_State *L)
 	lua_Number x = lua_tonumber(L, 2);
 	lua_Number y = lua_tonumber(L, 3);
 
-	lu5_apply_color(lu5.style.fill);
+	lu5_apply_color(lu5_style(&lu5)->fill);
 	 
 	// Get font, if none available, use default.
-	lu5_font *font = lu5.style.font_current;
+	lu5_font *font = lu5_style(&lu5)->font_current;
 	if (font == NULL) {
 		font = lu5.font_default;
 	}
@@ -161,8 +161,8 @@ int text(lua_State *L)
 
 	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
 
-    lu5_apply_color(lu5.style.fill);
-	lu5_render_text(str, x, y, lu5.style.fontSize, font);
+    lu5_apply_color(lu5_style(&lu5)->fill);
+	lu5_render_text(str, x, y, lu5_style(&lu5)->fontSize, font);
 
 	lu5_2D_over_3D_end(lu5.depth_mode);
 

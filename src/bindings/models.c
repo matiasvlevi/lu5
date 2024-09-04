@@ -31,7 +31,7 @@ int model(lua_State *L)
 
 	if (lu5_has_fill()) 
 	{
-		lu5_apply_color(lu5.style.fill);
+		lu5_apply_color(lu5_style(&lu5)->fill);
 		for (int j = 0; j <  model->face_count; j++) 
 		{
 			// Get face
@@ -68,8 +68,8 @@ int model(lua_State *L)
 
 	if (lu5_has_stroke()) 
 	{
-		lu5_apply_color(lu5.style.stroke);
-		glLineWidth(lu5.style.strokeWeight);
+		lu5_apply_color(lu5_style(&lu5)->stroke);
+		glLineWidth(lu5_style(&lu5)->strokeWeight);
 		glBegin(GL_LINES);
 
 		for (int j = 0; j < model->face_count; j++) 

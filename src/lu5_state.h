@@ -10,6 +10,7 @@
 
 #define MAX_MOUSE_BUTTONS 8
 #define MAX_KEYBOARD_KEYS 512
+#define LU5_MAX_STYLE_STACK 64
 
 typedef struct lu5_node_s lu5_node;
 typedef struct lu5_font_s lu5_font;
@@ -19,7 +20,7 @@ typedef struct FT_LibraryRec_ *FT_Library;
 /**
  * @brief Core lu5 state
  */
-typedef struct {
+typedef struct lu5_State_s {
 	lua_State *L;
 	bool debug;
 
@@ -27,6 +28,7 @@ typedef struct {
 	float width;
 	float height;
 	int depth_mode;
+	bool loop;
 
 	lu5_log_level log_level; 
 
@@ -41,8 +43,13 @@ typedef struct {
 	// Models
 	lu5_node *models;
 
-	lu5_style_setting_t style;
-	lu5_style_setting_t style_cache;
+// OLD
+	// lu5_style_setting style;
+	// lu5_style_setting style_cache;
+
+// NEW 
+	lu5_style_setting *style_stack[LU5_MAX_STYLE_STACK];
+	size_t style_stack_len;
 
 	struct input {
 		struct {

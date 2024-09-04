@@ -17,7 +17,7 @@ int beginShape(lua_State *L)
 
 	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
 	
-	lu5_apply_color(lu5.style.fill);
+	lu5_apply_color(lu5_style(&lu5)->fill);
 	glBegin(shape_type);
 
 	return 0;
@@ -81,15 +81,15 @@ int rect(lua_State *L)
 
 	if (lu5_has_fill()) 
 	{
-		lu5_apply_color(lu5.style.fill);
+		lu5_apply_color(lu5_style(&lu5)->fill);
 		lu5_render_quad_fill(x, y, x2, y, x2, y2, x, y2);
 	}
 
 	if (lu5_has_stroke()) 
 	{
-		lu5_apply_color(lu5.style.stroke);
+		lu5_apply_color(lu5_style(&lu5)->stroke);
 
-		lu5_render_quad_stroke(x, y, x2, y, x2, y2, x, y2, lu5.style.strokeWeight);
+		lu5_render_quad_stroke(x, y, x2, y, x2, y2, x, y2, lu5_style(&lu5)->strokeWeight);
 	}
 
 	lu5_2D_over_3D_end(lu5.depth_mode);
@@ -120,7 +120,7 @@ int line(lua_State *L)
 	float dy = y2 - y1;
 	float length = sqrt(dx * dx + dy * dy);
 
-	float strokeWeight = ((float)lu5.style.strokeWeight / 2);
+	float strokeWeight = ((float)lu5_style(&lu5)->strokeWeight / 2);
 
 	float nx = strokeWeight * ( dy / length);
 	float ny = strokeWeight * (-dx / length);
@@ -128,7 +128,7 @@ int line(lua_State *L)
 	if (lu5_has_stroke()) 
 	{
 		lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
-		lu5_apply_color(lu5.style.stroke);
+		lu5_apply_color(lu5_style(&lu5)->stroke);
 		lu5_render_quad_fill(
 			x1 - nx, y1 - ny,
 			x1 + nx, y1 + ny,
@@ -136,7 +136,7 @@ int line(lua_State *L)
 			x2 - nx, y2 - ny
 		);
 
-		if (lu5.style.strokeWeight >= 3) 
+		if (lu5_style(&lu5)->strokeWeight >= 3) 
 		{
 			lu5_render_ellipse(x1, y1, strokeWeight, strokeWeight, LINE_POINT_SEGMENTS);
 			lu5_render_ellipse(x2, y2, strokeWeight, strokeWeight, LINE_POINT_SEGMENTS);
@@ -169,7 +169,7 @@ int quad(lua_State *L)
 
 	if (lu5_has_fill())
 	{
-		lu5_apply_color(lu5.style.fill);
+		lu5_apply_color(lu5_style(&lu5)->fill);
 		lu5_render_quad_fill(x1, y1, x2, y2, x3, y3, x4, y4);
 
 	}
@@ -199,7 +199,7 @@ int triangle(lua_State *L)
 
 	if (lu5_has_fill())
 	{
-		lu5_apply_color(lu5.style.fill);
+		lu5_apply_color(lu5_style(&lu5)->fill);
 		glBegin(GL_TRIANGLES);
 			lu5_glVertex2(x1, y1);
 			lu5_glVertex2(x2, y2);
@@ -236,15 +236,15 @@ int ellipse(lua_State *L)
 
 	if (lu5_has_stroke()) 
 	{
-		lu5_apply_color(lu5.style.stroke);
+		lu5_apply_color(lu5_style(&lu5)->stroke);
 
-		lu5_render_ring(x, y, w, h, lu5.style.strokeWeight, LU5_CIRCLE_SEGMENTS);
+		lu5_render_ring(x, y, w, h, lu5_style(&lu5)->strokeWeight, LU5_CIRCLE_SEGMENTS);
 	}
 
 
 	if (lu5_has_fill())
 	{
-		lu5_apply_color(lu5.style.fill);
+		lu5_apply_color(lu5_style(&lu5)->fill);
 
 		lu5_render_ellipse(x, y, w, h, LU5_CIRCLE_SEGMENTS);
 	}
@@ -281,7 +281,7 @@ int arc(lua_State *L)
 
 	if (lu5_has_fill())
 	{
-		lu5_apply_color(lu5.style.fill);
+		lu5_apply_color(lu5_style(&lu5)->fill);
 		lu5_render_arc_fill(
 			x, y, 
 			w, h, 
@@ -291,12 +291,12 @@ int arc(lua_State *L)
 
 	if (lu5_has_stroke())
 	{
-		lu5_apply_color(lu5.style.stroke);
-		glLineWidth(lu5.style.strokeWeight);
+		lu5_apply_color(lu5_style(&lu5)->stroke);
+		glLineWidth(lu5_style(&lu5)->strokeWeight);
 		lu5_render_arc_stroke(
 			x, y, 
 			w, h, 
-			lu5.style.strokeWeight,
+			lu5_style(&lu5)->strokeWeight,
 			start_angle, end_angle, 
 			LU5_CIRCLE_SEGMENTS
 		);

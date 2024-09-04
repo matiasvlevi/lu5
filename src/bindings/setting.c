@@ -35,7 +35,9 @@ int strokeWeight(lua_State *L)
 {
 	lua_Number weight = lu5_assert_number(L, 1, "strokeWeight");
 	
-	lu5.style.strokeWeight = weight;
+	lu5_style(&lu5)->strokeWeight = weight;
+
+
 
 	return 0;
 }
@@ -44,14 +46,14 @@ int fill(lua_State *L)
 {
 	lu5_color color = lu5_args_to_color(L);
 
-	lu5.style.fill = color;
+	lu5_style(&lu5)->fill = color;
 
 	return 0;
 }
 
 int noFill(lua_State *L) 
 {
-	lu5.style.fill = (lu5_color){ .r=0, .g=0, .b=0, .a=0 };
+	lu5_style(&lu5)->fill = (lu5_color){ .r=0, .g=0, .b=0, .a=0 };
 
 	return 0;
 }
@@ -60,31 +62,49 @@ int stroke(lua_State *L)
 {
 	lu5_color color = lu5_args_to_color(L); 
 
-	lu5.style.stroke = color;
+	lu5_style(&lu5)->stroke = color;
 
 	return 0;
 }
 
 int noStroke(lua_State *L) 
 {
-	lu5.style.stroke = (lu5_color){ .r=0, .g=0, .b=0, .a=0 };
+	lu5_style(&lu5)->stroke = (lu5_color){ .r=0, .g=0, .b=0, .a=0 };
 
 	return 0;
 }
 
 int push(lua_State *L) 
 {
-	lu5.style_cache = lu5.style;
-	LU5_SET_DEFAULT_STYLE(&lu5.style);
+	//lu5.style_cache = lu5.style;
+	//lu5_set_default_style(&lu5.style);
+	lu5_style_setting blank = {};
+	lu5_set_default_style(&blank);
+	lu5_style_push(&lu5, &blank);
+
 	glPushMatrix();
 	return 0;
 }
 
 int pop(lua_State *L) 
 {
-	lu5.style = lu5.style_cache;
-	LU5_SET_DEFAULT_STYLE(&lu5.style_cache);
+	//lu5.style = lu5.style_cache;
+	//lu5_set_default_style(&lu5.style_cache);
+	lu5_style_pop(&lu5);
 	glPopMatrix();
+	return 0;
+}
+
+int rectMode(lua_State *L) 
+{
+	lua_Integer mode = lu5_assert_integer(L, 1, "rectMode");
+
+	if (mode <= LU5_RECT_ALIGN_MODE_COUNT)
+	{
+		lu5_style(&lu5)->rectMode = mode;
+	} else {
+		LU5_WARN("rectMode with mode '%i' is invalid", mode);
+	}
 	return 0;
 }
 

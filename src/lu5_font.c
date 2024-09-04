@@ -4,6 +4,7 @@
 #include "lu5_logger.h"
 
 #include "lu5_state.h"
+#include "lu5_style.h"
 #include "lu5_list.h"
 
 #include <lauxlib.h>
@@ -42,7 +43,7 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath)
 	}
 
 	// Set font to the current style size
-	err = FT_Set_Char_Size(font->face, 0, l5->style.fontSize * 128, 0, 0);
+	err = FT_Set_Char_Size(font->face, 0, lu5_style(l5)->fontSize * 128, 0, 0);
 	if (err != FT_Err_Ok) {
 		lu5_close_font(font);
 		return err;
@@ -179,7 +180,7 @@ void lu5_load_default_font(lu5_State *l5)
 	}
 
 	// Set the current as the default font
-	l5->style.font_current = l5->font_default;
+	lu5_style(l5)->font_current = l5->font_default;
 }
 
 void lu5_close_font(lu5_font *font) 
@@ -199,7 +200,7 @@ void lu5_close_fonts(lu5_State *l5)
 	l5->font_default = NULL;
 
 	// Clear dangling reference
-	l5->style.font_current = NULL;
+	lu5_style(l5)->font_current = NULL;
 
 	// Clear all fonts
 	lu5_list_iter_close(l5->fonts, (void(*)(void*))lu5_close_font);

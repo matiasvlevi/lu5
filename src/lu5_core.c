@@ -1,4 +1,4 @@
-#include "./lu5_core.h"
+#include "lu5_core.h"
 
 #include <lua.h>
 #include <lauxlib.h>
@@ -67,10 +67,6 @@ void lu5_init(lu5_State *l5)
 	// When log level is set to DEBUG (gt than 5)
 	// lu5 will log integer and number types at startup
 	lu5_log_types();
-
-	// Reset style state
-	LU5_SET_DEFAULT_STYLE(&lu5.style_cache);
-	LU5_SET_DEFAULT_STYLE(&lu5.style);
 }
 
 int lu5_run_sketch(lu5_State *l5, const char *filename)
@@ -179,6 +175,8 @@ void lu5_close(lu5_State *l5)
 	lu5_close_models(l5);
 
 	lu5_close_fonts(l5);
+
+	lu5_style_clear(l5);
 
 	if (l5->orbit != NULL) {
 		free(l5->orbit);
