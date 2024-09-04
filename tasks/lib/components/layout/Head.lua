@@ -42,14 +42,13 @@ function Head(props)
         luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
 
         -- JS
-        luax('script', {defer=true, src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
-        luax('script', {defer=true, type='text/javascript', src=props.root .. props.media.assets ..'/index.js'}, {}),
+        luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
+        luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/index.js'}, {}),
         --luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/lu5.js'}, {}),
         luax('script', {
             'document.addEventListener("DOMContentLoaded", function (event) {',
                 'hljs.highlightAll();',
-                'main();',
-            '})'
+            '});'
         }),
         props.scripts and props.scripts or '',
 

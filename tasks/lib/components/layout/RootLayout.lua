@@ -73,7 +73,8 @@ function Layout(props, children)
                             'It also includes the FreeType font engine, which is licensed under the FreeType License (FTL).'
                         )
                     })
-                })
+                }),
+                luax('script', 'main();'),
             })
         });
     }) 

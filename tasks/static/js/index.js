@@ -1,3 +1,5 @@
+const reactives = [];
+
 function get_os() {
 	const userAgent = window.navigator.userAgent,
 		platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
@@ -21,8 +23,6 @@ function get_os() {
 	return os;
 }
 
-let menu;
-const reactives = [];
 function closeMenu(e) {
 	e.classList.remove(['open']);
 }
@@ -34,14 +34,17 @@ function isOpen(e) {
 }
 
 function toggleMenu() {
-	if (isOpen(menu)) {
+	if (!window.menu) {
+		return;
+	}
+	if (isOpen(window.menu)) {
 
 		reactives.forEach(closeMenu);
-		closeMenu(menu);
+		closeMenu(window.menu);
 	} else {
 		console.log(reactives);
 		reactives.forEach(openMenu);
-		openMenu(menu);
+		openMenu(window.menu);
 	}
 }
 
@@ -57,25 +60,19 @@ function resize_images() {
 			if (img.originalHeight) img.height = img.originalHeight;
 		});
 	}
-
 }
 
-window.onresize = function(e) {
-	console.log(e);
-	resize_images()
-};
+window.onresize = resize_images;
 
 function main() {
 	let platform = get_os();
 
 	if (platform != null) {
 		let downloadElem = document.getElementById(`download-${platform}`);
-		downloadElem.id = `-download-${platform}`;
-
-		console.log(downloadElem);
+		if (downloadElem) downloadElem.id = `-download-${platform}`;
 	} else {
 		let downloadElem = document.getElementById(`download-fallback`);
-		downloadElem.id = '-download-fallback';
+		if (downloadElem) downloadElem.id = '-download-fallback';
 	}
 	
 	// Record original height for all demo images
@@ -87,34 +84,33 @@ function main() {
 	// Resize them to screen
 	resize_images();
 
-	let menu = document.getElementById('menu');
+	window.menu = document.getElementById('menu');
 	if (window.innerWidth > 900) {
 
 		reactives.forEach(openMenu);
-		openMenu(menu);
+		openMenu(window.menu);
 
 		// Add animation delay after first open
-		setTimeout(() => menu.style.transition = '0.25s');
+		setTimeout(() => window.menu.style.transition = '0.25s');
 	} else {
-		menu.style.transition = '0.25s'
+		window.menu.style.transition = '0.25s'
 	}
 
 	document.addEventListener('click', function (e) {
-		if (isOpen(menu) && !e.target.matches('.nav, .nav *, .menuItem, .menuItem *, .menuBtn, .menuBtn *')) {
+		if (isOpen(window.menu) && !e.target.matches('.nav, .nav *, .menuItem, .menuItem *, .menuBtn, .menuBtn *')) {
 			reactives.forEach(closeMenu);
-			closeMenu(menu);
+			closeMenu(window.menu);
 		}
 	});
 
 	document.querySelectorAll('#reactive').forEach(elem => {
-		console.log(elem);
 		reactives.push(elem);
 	});
 
 	document.addEventListener('scroll', function () {
 		setTimeout(() => {
 			reactives.forEach(closeMenu);
-			closeMenu(menu);
+			closeMenu(window.menu);
 		}, 150);
 	})
 }
