@@ -76,8 +76,6 @@ int noStroke(lua_State *L)
 
 int push(lua_State *L) 
 {
-	//lu5.style_cache = lu5.style;
-	//lu5_set_default_style(&lu5.style);
 	lu5_style_setting blank = {};
 	lu5_set_default_style(&blank);
 	lu5_style_push(&lu5, &blank);
@@ -88,8 +86,6 @@ int push(lua_State *L)
 
 int pop(lua_State *L) 
 {
-	//lu5.style = lu5.style_cache;
-	//lu5_set_default_style(&lu5.style_cache);
 	lu5_style_pop(&lu5);
 	glPopMatrix();
 	return 0;
