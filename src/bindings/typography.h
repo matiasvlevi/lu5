@@ -42,6 +42,19 @@ int loadFont(lua_State *L);
 int textSize(lua_State *L);
 
 /**
+ * Set the font alignment
+ *
+ * @param mode `CENTER`, `LEFT`, `RIGHT`
+ *
+ * @example
+ * textAlign(CENTER);
+ * text('Big Text', 50, 50);
+ * @example
+ *
+ */
+int textAlign(lua_State *L);
+
+/**
  * Set the font family
  *
  * @param font The font value returned when using `loadFont`
@@ -67,5 +80,25 @@ int textFont(lua_State *L);
  * @example
  */
 int text(lua_State *L);
+
+/**
+ * @brief CENTER
+ * @constant
+ */
+#define LU5_TEXTALIGN_CENTER 1
+
+/**
+ * @brief RIGHT
+ * @constant
+ */
+#define LU5_TEXTALIGN_RIGHT 2
+
+/**
+ * @brief LEFT
+ * @constant
+ */
+#define LU5_TEXTALIGN_LEFT 3
+
+#define LU5_TEXTALIGN_MODE_COUNT 3
 
 #endif

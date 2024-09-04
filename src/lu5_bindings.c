@@ -116,7 +116,10 @@ static void lu5_register_constants(lua_State *L)
 	LUA_ADD_INTEGER_GLOBAL_BY_NAME(L, "CORNER", LU5_RECTMODE_CORNER);
 	LUA_ADD_INTEGER_GLOBAL_BY_NAME(L, "RADIUS", LU5_RECTMODE_RADIUS);
 
-
+	// textAlign constants
+	LUA_ADD_INTEGER_GLOBAL_BY_NAME(L, "RIGHT", LU5_TEXTALIGN_RIGHT);
+	LUA_ADD_INTEGER_GLOBAL_BY_NAME(L, "LEFT", LU5_TEXTALIGN_LEFT);
+	// LU5_TEXTALIGN_CENTER == LU5_RECTMODE_CENTER
 
 	// Math constants
 	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, "TWO_PI"	, LU5_TWO_PI);
@@ -156,6 +159,7 @@ void lu5_register_symbols(lua_State *L)
 	// Setting
 	LUA_ADD_FUNCTION(L, push);
 	LUA_ADD_FUNCTION(L, pop);
+	LUA_ADD_FUNCTION(L, rectMode);
 	LUA_ADD_FUNCTION(L, fill);
 	LUA_ADD_FUNCTION(L, noFill);	
 	LUA_ADD_FUNCTION(L, stroke);
@@ -203,6 +207,7 @@ void lu5_register_symbols(lua_State *L)
 	LUA_ADD_FUNCTION(L, loadFont);
 	LUA_ADD_FUNCTION(L, text);
 	LUA_ADD_FUNCTION(L, textSize);
+	LUA_ADD_FUNCTION(L, textAlign);
 	LUA_ADD_FUNCTION(L, textFont);
 
 	// Images

@@ -109,6 +109,17 @@ int textSize(lua_State *L)
 	return 0;
 }
 
+int textAlign(lua_State *L)
+{
+	lua_Integer mode = lu5_assert_integer(L, 1, "textAlign");
+
+	if (mode <= LU5_TEXTALIGN_MODE_COUNT)
+	{
+		lu5_style(&lu5)->textAlign = mode;
+	}
+
+	return 0;
+}
 
 int textFont(lua_State *L)
 {

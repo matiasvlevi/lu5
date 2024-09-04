@@ -93,6 +93,30 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath)
 	return FT_Err_Ok;
 }
 
+int lu5_text_px_length(const char *text, FT_Face font_face, float fontSize)
+{
+	const char *p;
+	float x_advance = 0.0f;
+	int text_px_len = 0;
+	for (p = text; *p; p++) 
+	{
+		// Skip non-text
+		if (*p < 32 || *p > 126)
+		continue;
+
+		// Load glyph from freetype, or skip if failed
+		if(FT_Load_Char(font_face, *p, FT_LOAD_DEFAULT)) continue;
+
+		// Add space if space char found
+		if (*p == 32) x_advance +=((int)fontSize >> 8)  + 2.0f;
+
+		text_px_len += x_advance + font_face->glyph->bitmap.width;
+		
+	}
+
+	return text_px_len;
+}
+
 void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_font *font) 
 {
 	glEnable(GL_TEXTURE_2D);
@@ -100,6 +124,17 @@ void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_fon
 	// Uniform baseline alignment
 	int ascender = font->face->size->metrics.ascender >> 6;
 	
+	switch(lu5_style(&lu5)->textAlign)
+	{
+		case LU5_TEXTALIGN_LEFT: break;
+		case LU5_TEXTALIGN_CENTER:
+			x -= lu5_text_px_length(text, font->face, fontSize) / 2;
+			break;
+		case LU5_TEXTALIGN_RIGHT:
+			x -= lu5_text_px_length(text, font->face, fontSize) / 2;
+			break;
+	}
+
 	const char *p;
 	float x_advance = 0.0f, y_advance = 0.0f;
 	for (p = text; *p; p++) 
