@@ -113,7 +113,10 @@ local homepage_html = RootLayout({
 luax('div', {
     --luax('canvas', {id="lu5canvas"}),
     Home({
-        versions=ver.get_tags();
+        versions=ver.get_tags(),
+        root="./",
+        media=Config.media,
+        meta=Config.metadata,
     }),
     -- luax('script', {
     --     'lu5.createCanvas();',

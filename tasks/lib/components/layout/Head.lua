@@ -42,8 +42,8 @@ function Head(props)
         luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
 
         -- JS
-        luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
-        luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/index.js'}, {}),
+        luax('script', {defer=true, src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
+        luax('script', {defer=true, type='text/javascript', src=props.root .. props.media.assets ..'/index.js'}, {}),
         --luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/lu5.js'}, {}),
         luax('script', {
             'document.addEventListener("DOMContentLoaded", function (event) {',
@@ -63,7 +63,7 @@ function Head(props)
         }),
         
         -- Icon & Title
-        luax('link', {rel="icon", type="image/svg", href=props.root .. props.media.assets .. "/logo.svg"}),
+        luax('link', {rel="icon", type="image/svg", href=props.root .. props.media.assets .. "/favicon.png"}),
         luax('title', title);
     })
 end

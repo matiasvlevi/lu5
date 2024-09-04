@@ -20,48 +20,100 @@ int background(lua_State *L);
  * @param r The red byte
  * @param g The green byte
  * @param b The blue byte
- * @param [a] The alpha byte
  *
- * Can also accept a hexadecimal or color name as string
+ * @call
+ * @param r The red byte
+ * @param g The green byte
+ * @param b The blue byte
+ * @param a The alpha byte
  *
- * @example
- * fill(255, 150, 40);
- * square(200, 200, 64);
- * @example
+ * @call
+ * @param v The grayscale value
  * 
+ * @call
+ * @param color_name The color name
+ *
+ * @call
+ * @param hex The hex color string
+ *
+ * @example 1
+ *  fill(100, 255, 100);
+ * @example
+ *
+ * @example 2
+ *  fill(100, 255, 100, 150);
+ * @example
+ *
+ * @example 3
+ *  fill(100);
+ * @example
+ *
+ * @example 4
+ *  fill('yellow');
+ * @example
+ *
+ * @example 5
+ *  fill('#88EE66');
+ * @example 
  */ 
 int fill(lua_State *L);
 
 /**
-* Set the line width
-*
-* @param weight The line width in pixels
-*
-* Currently is only implemented for `line` and partially implemented for `circle`
-*
-* @example
-* strokeWeight(8);
-* line(200, 200, mouseX, mouseY);
-* @example
-*/
+ * Set the line width
+ *
+ * @param weight The line width in pixels
+ *
+ * @example
+ * strokeWeight(8);
+ * line(200, 200, mouseX, mouseY);
+ * @example
+ */
 int strokeWeight(lua_State *L);
 
 /**
  * Disable fill
+ *
+ * @example
+ * noFill();
+ * circle(200, 200, 32);
+ * @example
  */
 int noFill(lua_State *L);
 
 /**
  * Set the stroke color for shapes
  *
+ * @param r The red byte
+ * @param g The green byte
+ * @param b The blue byte
  *
+ * @call
  * @param r The red byte
  * @param g The green byte
  * @param b The blue byte
  * @param a The alpha byte
  *
- * Only implemented for `line` and `circle`
+ * @call
+ * @param v The grayscale value
+ * 
+ * @call
+ * @param color_name The color name
  *
+ * @example 1
+ *  stroke(255, 255, 100);
+ * @example
+ *
+ * @example 2
+ *  stroke(255, 255, 100, 150);
+ * @example
+ *
+ * @example 3
+ *  stroke(255);
+ * @example
+ *
+ * @example 4
+ *  stroke('red');
+ * @example
  */ 
 int stroke(lua_State *L);
 

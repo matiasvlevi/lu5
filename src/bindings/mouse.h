@@ -116,14 +116,14 @@
  *   circle(mouseX, mouseY, size);
  * end
  *
- * -- Set larger circle size
+ * -- Increment circle size
  * function mousePressed()
- *   size = 64;
+ *   size = size + 6;
  * end
  *
  * -- Reset size
  * function mouseReleased()
- *   size = size + 6;
+ *   size = 64;
  * end
  * @example
  */
