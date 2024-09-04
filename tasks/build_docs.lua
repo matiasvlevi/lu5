@@ -14,6 +14,13 @@ local HeaderPanel= require('./tasks/lib/components/Navigation');
 
 local ver = require('./tasks/lib/get_tags');
 
+-- -- For Prod
+local current_latest = VERSION;
+
+-- For Dev
+-- Use this when building the site for a previous version
+--local current_latest = '0.1.6';
+
 -- Find documentation header files
 source_header_files = fs.find_files_in_dir(Config.build.source.headers, function (str)
     return string.find(str, "%.h");
@@ -73,9 +80,11 @@ for i, mod in pairs(modules) do
     }));
 
     -- Formatting module page
-    local page_dir   = Config.build.dest .. '/latest/' .. mod.source;
-    fs.mkdir(page_dir)
-    fs.write_file(page_dir .. '/index.html', html, false);
+    if (current_latest == VERSION) then
+        local page_dir   = Config.build.dest .. '/latest/' .. mod.source;
+        fs.mkdir(page_dir)
+        fs.write_file(page_dir .. '/index.html', html, false);
+    end
 
     -- Write in specific version
     local page_dir_v = Config.build.dest .. '/v'.. VERSION .. '/' .. mod.source;
@@ -113,6 +122,7 @@ luax('div', {
     Home({
         versions=ver.get_tags(),
         root="./",
+        current_latest=current_latest,
         media=Config.media,
         meta=Config.metadata,
     }),
@@ -124,7 +134,10 @@ luax('div', {
 )
 
 -- Write reference page (Both in latest and version tag)
-fs.write_file(Config.build.dest .. '/latest/index.html', reference_html, false);
+
+if (current_latest == VERSION) then
+    fs.write_file(Config.build.dest .. '/latest/index.html', reference_html, false);
+end
 fs.write_file(Config.build.dest .. '/v' .. VERSION .. '/index.html', reference_html, true);
 
 -- Write homepage

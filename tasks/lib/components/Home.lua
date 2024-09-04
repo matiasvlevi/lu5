@@ -26,15 +26,21 @@ function DocumentationVersions(props)
     return luax('div', {
         luax('h2', 'Documentation'),
         luax('ul', {class="menu", style="margin: 0 1rem"}, {
-            luax('li', {class="index"}, {
-                luax('a', {href='./latest', class="flex", style="gap:0.5rem;align-items:center"}, {
-                    luax('span', {style="font-size: 1.25rem"}, 'latest '),
-                    luax('span', {class="font-size: 1rem; color:var(--grey)"}, {
-                        '(v',props.versions[#props.versions],')'
-                    }) 
-                }),
-            }),
+            
             luax.map(luax.reverse(props.versions), function(version, i)
+                print(version, props.current_latest)
+                if (version == props.current_latest) then
+                    return luax('li', {class="index"}, {
+                        luax('a', {href='./latest', class="flex", style="gap:0.5rem;align-items:center"}, {
+                            luax('span', {style="font-size: 1.25rem"}, 'latest '),
+                            luax('span', {class="font-size: 1rem; color:var(--grey)"}, {
+                                '(v',props.versions[#props.versions],')'
+                            }) 
+                        }),
+                    })
+                end
+
+
                 return luax('li', {class="index", style="font-size: 1.25rem"}, {
                     luax('a', {href='./v' .. version}, 'v' .. version),
                 })

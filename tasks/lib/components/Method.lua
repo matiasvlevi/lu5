@@ -71,7 +71,8 @@ function Method(props)
         default=nil
     });
 
-    local doc_link = 'https://github.com/matiasvlevi/lu5/blob/v' .. VERSION .. 
+    local branch = 'master';--'v' .. VERSION;
+    local doc_link = 'https://github.com/matiasvlevi/lu5/blob/' .. branch.. 
             '/src/bindings/' .. props.source.header .. 
             '#L' .. props.source.start_line .. 'C0-L'.. props.source.end_line .. 'C0';
 
@@ -102,7 +103,6 @@ function Method(props)
             luax.map(props.doc['examples'], MethodExample),
 
 
-        -- -- ENABLE AFTER v0.1.6
         -- luax('span', {class="text small underline"}, luax('a', {href=doc_link}, 
         --     'See '.. props.doc.name .. ' in ' .. props.source.header
         -- )),

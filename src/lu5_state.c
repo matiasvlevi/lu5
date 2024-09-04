@@ -39,3 +39,17 @@ lu5_State lu5 = {
 	},
 	.orbit = NULL
 };
+
+void lu5_init_state(lu5_State *l5)
+{
+	l5->loop = true;
+
+	// Non-limited framerate
+	l5->env.target_framerate = -1;
+	l5->env.restart = false;
+
+	if (l5->orbit != NULL) { 
+		free(l5->orbit);
+	}
+	l5->orbit = NULL;
+}

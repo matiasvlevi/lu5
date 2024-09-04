@@ -32,34 +32,37 @@ static int lu5_run_setup(lu5_State *l5)
 
 static void lu5_run_draw(lu5_State *l5, GLFWwindow *window) 
 {
-	lua_getglobal(l5->L, "draw");
+	if (l5->loop) 
+	{
+		lua_getglobal(l5->L, "draw");
 
-	if (lua_pcall(l5->L, 0, 0, 0) != LUA_OK) 
-	{
-		LU5_ERROR(lua_tostring(l5->L, -1));
-		// EXIT
-		glfwSetWindowShouldClose(window, 1);
-	} 
-	else if (l5->debug)
-	{
-		if (l5->depth_mode == LU5_GL3D) lu5_render_debug();
-		// else lu5_render_debug_2D(); // TODO:
+		if (lua_pcall(l5->L, 0, 0, 0) != LUA_OK) 
+		{
+			LU5_ERROR(lua_tostring(l5->L, -1));
+			// EXIT
+			glfwSetWindowShouldClose(window, 1);
+		} 
+		else if (l5->debug)
+		{
+			if (l5->depth_mode == LU5_GL3D) lu5_render_debug();
+			// else lu5_render_debug_2D(); // TODO:
+		}
+
+		glfwSwapBuffers(window);
 	}
 
-	glfwSwapBuffers(window);
+	// Still allow polling events for Restarts
 	glfwPollEvents();
 }
 
 void lu5_init(lu5_State *l5)
 {
+	lu5_init_state(l5);
+
 	l5->L = luaL_newstate();
 	luaL_openlibs(l5->L);
 
 	lu5_init_freetype(l5);
-
-	// Register functions & constants
-	lu5_register_symbols(l5->L);
-	lu5_register_colors(l5->L);
 
 	// When log level is set to DEBUG (gt than 5)
 	// lu5 will log integer and number types at startup
@@ -74,6 +77,10 @@ int lu5_run_sketch(lu5_State *l5, const char *filename)
 {
 	// Start lu5 & lua
 	lu5_init(l5);
+
+	// Register functions & constants
+	lu5_register_symbols(l5->L);
+	lu5_register_colors(l5->L);
 
 	// Add `sketch` as a string variable holding the filename
 	lua_pushstring(l5->L, filename);

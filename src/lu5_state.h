@@ -74,4 +74,5 @@ typedef struct {
 
 extern lu5_State lu5;
 
+void lu5_init_state(lu5_State *l5);
 #endif

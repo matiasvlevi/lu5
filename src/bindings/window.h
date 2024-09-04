@@ -54,6 +54,16 @@ int createWindow(lua_State *L);
 int frameRate(lua_State *L);
 
 /**
+ * Stop the drawing loop, usefull for fixed image renders 
+ */
+int noLoop(lua_State *L);
+
+/**
+ * Restart the drawing loop
+ */
+int loop(lua_State *L);
+
+/**
  * @brief deltaTime
  * @global 
  *

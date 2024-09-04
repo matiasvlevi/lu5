@@ -95,3 +95,17 @@ int frameRate(lua_State *L)
 		return 1;
 	}
 }
+
+int noLoop(lua_State *L)
+{
+	lu5.loop = false;
+
+	return 0;
+}
+
+int loop(lua_State *L)
+{
+	lu5.loop = true;
+
+	return 0;
+}
