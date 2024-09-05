@@ -23,6 +23,10 @@ function draw()
     image(img_a, x, y);
     image(img_b, 20, 20);
 
+    fill(51);
+    textSize(36);
+    text('Crop images', 20, height-10);
+
     x = x + vx;
     y = y + vy;
 

@@ -12,7 +12,7 @@ function draw()
 	background(51);
 	
 	-- render fps
-	text('fps: ' .. frameRate(), 20, 10);
+	text('fps: ' .. frameRate(), 20, 40);
 
 	-- render circle
 	circle(x, 200, 32);

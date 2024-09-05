@@ -73,6 +73,6 @@ function draw()
     push();
     textSize(18);
     fill(100, 255, 10);
-    text(round(frameRate()) .. ' fps', 30, 10);
+    text(round(frameRate()) .. ' fps', 30, 40);
     pop();
 end

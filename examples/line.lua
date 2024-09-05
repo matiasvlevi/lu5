@@ -12,10 +12,10 @@ function draw()
     background(51);
 
     textSize(32)
-    text('Click & Drag the mouse', 30, 20);
+    text('Click & Drag the mouse', 30, 60);
 
     textSize(22)
-    text('Use the mouse wheel to change the stroke weight', 30, 65);
+    text('Use the mouse wheel to change the stroke weight', 30, 95);
 
     if (mouseIsPressed) then
         stroke(255);

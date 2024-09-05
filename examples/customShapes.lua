@@ -12,8 +12,8 @@ function draw()
 
 	fill(205, 190, 40);
 
-	vertex(mouseX, mouseY);
 	beginShape(TRIANGLE_FAN);
+		vertex(mouseX, mouseY);
 		for i=0, TWO_PI, step do
 
 			local size = 12 + amplitude*((i/step) % range);

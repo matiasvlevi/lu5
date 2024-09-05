@@ -3,9 +3,12 @@ function setup()
 end
   
   function draw() 
-    background(51);
+    background('#461164');
     orbitControl();
         
-    sphere(100);
+    fill('#d49af7');
+    stroke('#AA36EF');
+    strokeWeight(2);
+    sphere(180);
 
   end

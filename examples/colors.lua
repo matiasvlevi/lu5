@@ -11,7 +11,7 @@ function setup()
 end
 
 function draw()
-    background(0);
+    background(24);
 
     for i=1, #colors do
         fill(colors[i]);
@@ -25,11 +25,11 @@ function draw()
         );
 
         if (colors[i] == 'black') then
-           fill(255, 100);
+            fill(255, 155);
         else
             fill(0, 100);
         end
-            text(colors[i], side_margin + 16, ypos - 2);
+        text(colors[i], side_margin + 16, ypos + 28);
     end
 
     offset = offset + 2; 

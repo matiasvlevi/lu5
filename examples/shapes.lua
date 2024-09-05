@@ -9,6 +9,9 @@ end
 local angle = 0;
 function draw()
    background(51);
+
+   textSize(32)
+   text('Various 2D shapes', 280, 60);
    
 
    for i=1, 8 do

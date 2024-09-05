@@ -9,8 +9,8 @@ function draw()
     background(51);
 
     fill(255);
-    text('Click the mouse to', 10, 10);
-    text('change the circle\'s size', 10, 32);
+    text('Click the mouse to', 10, 40);
+    text('change the circle\'s size', 10, 62);
 
     if (mouseIsPressed) then
         size = 32

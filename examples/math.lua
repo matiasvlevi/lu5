@@ -18,13 +18,13 @@ function draw()
 	textSize(25);
 
 	sliderValue = map(constrain(mouseX,50,250),50,250,-100,100);
-	text("value: " .. sliderValue, 50, 50);
+	text("value: " .. sliderValue, 50, 80);
 	slider(50,250,100,sliderValue);
 
-	text("abs function:", 50, 150);
+	text("abs function:", 50, 180);
 	slider(50,250,200,abs(sliderValue));
 
-	text("map function:", 50, 250);
+	text("map function:", 50, 280);
 	slider(50,250,300,map(sliderValue,-100,100,-30,30));
 	push();
 	fill(255,0,0);
@@ -32,7 +32,7 @@ function draw()
 	circle(map(40,-100,100,50,250),300,10);
 	pop();
 
-	text("constrain function:", 50, 350);
+	text("constrain function:", 50, 380);
 	slider(50,250,400,constrain(sliderValue,-60,60));
 	push();
 	fill(255,0,0);
@@ -40,12 +40,12 @@ function draw()
 	circle(map(70,-100,100,50,250),400,10);
 	pop();
 
-	text("dist function:", 350, 50);
+	text("dist function:", 350, 80);
 	x1 = 450;
 	y1 = 250;
 	x2 = constrain(mouseX,350,550);
 	y2 = constrain(mouseY,150,350);
-	text("distance: " .. floor(dist(x1,y1,x2,y2)), 350, 100);
+	text("distance: " .. floor(dist(x1,y1,x2,y2)), 350, 130);
 	push();
 	strokeWeight(4);
 	fill(255,255,255);

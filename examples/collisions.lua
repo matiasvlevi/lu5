@@ -105,10 +105,10 @@ function setup()
 
     for i=1, ball_count do
       balls[i] = Ball:new(
-            math.random(50, width-50),
-            math.random(50, height-50),
-            math.random(-100, 100),
-            math.random(-100, 100)
+            random(50, width-50),
+            random(50, height-50),
+            random(-100, 100),
+            random(-100, 100)
         );
     end
 
@@ -116,7 +116,7 @@ function setup()
 end
 
 function draw()
-    background(51);
+    background('#461164');
 
     for i,ball in pairs(balls) do
         ball:draw();
@@ -132,5 +132,5 @@ function draw()
 
     textSize(18);
     fill(100, 255, 10);
-    text(round(frameRate()) .. ' fps', 30, 10);
+    text(round(frameRate()) .. ' fps', 30, 30);
 end

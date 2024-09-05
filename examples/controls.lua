@@ -11,6 +11,8 @@ end
 function draw()
 	background(51);
 
+	text('Use the WASD keys to move the character around', 40, 40);
+
 	if (keyIsDown('a')) then
 		vx = vx - 10;
 	end

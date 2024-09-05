@@ -8,7 +8,7 @@ local vy = 110;
 local size = 128;
 
 function setup()
-	createWindow(400, 400);
+	createWindow(1920, 1080);
    logo = loadImage('docs/assets/logo.png');
 end
 
@@ -18,7 +18,7 @@ function draw()
    image(logo, x, y, size, size);
 
    textSize(14);
-   text('x: ' .. round(x) .. ' y: ' .. round(y), x, y - 16);
+   text('x: ' .. round(x) .. ' y: ' .. round(y), x, y);
 
    if (x >= width-size or x <= 0) then
       vx = -vx;

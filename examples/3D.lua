@@ -8,10 +8,15 @@ end
 function draw() 
     background(0);
 
+
     orbitControl();
+
+    fill(0, 255, 0);
+    text('Drag the mouse around', 40, 40);
+
     noFill();
     stroke(0, 255, 0);
-    sphere(100, 50);
+    sphere(100);
 
     push();
     rotateX(90);
