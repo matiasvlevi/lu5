@@ -107,7 +107,7 @@ function Method(props)
             luax.map(props.doc['examples'], MethodExample),
 
 
-        luax('span', {class="text small underline"}, luax('a', {href=doc_link}, 
+        luax('span', {class="text small underline"}, luax('a', {target="_blank", href=doc_link}, 
             'See '.. props.doc.name .. ' in ' .. props.source.header
         ))
     })
