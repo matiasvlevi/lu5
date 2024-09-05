@@ -49,7 +49,10 @@ int lu5_map(lua_State *L)
 	lua_Number s2 = lu5_assert_number(L, 4, "map");
 	lua_Number e2 = lu5_assert_number(L, 5, "map");
 
-	lua_Number ratio = (x - s1) / (e1 - s1);
+	lua_Number bottom = (e1 - s1);
+	
+	lua_Number ratio = 0;
+	if (bottom) ratio = (x - s1) / bottom;
 	
 	lua_pushnumber(L, ((e2 - s2) * ratio) + s2);
 	return 1;
