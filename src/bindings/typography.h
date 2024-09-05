@@ -84,18 +84,24 @@ int text(lua_State *L);
 /**
  * @brief CENTER
  * @constant
+ *
+ * Alignment mode for <a href="./#textAlign">textAlign</a>
  */
 #define LU5_TEXTALIGN_CENTER 1
 
 /**
  * @brief RIGHT
  * @constant
+ *
+ * Alignment mode for <a href="./#textAlign">textAlign</a>
  */
 #define LU5_TEXTALIGN_RIGHT 2
 
 /**
  * @brief LEFT
  * @constant
+ *
+ * Alignment mode for <a href="./#textAlign">textAlign</a>
  */
 #define LU5_TEXTALIGN_LEFT 3
 
