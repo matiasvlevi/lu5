@@ -2,24 +2,16 @@ local luax       = require('./tasks/lib/luax');
 local Parse      = require("./tasks/lib/parse");
 local Minify     = require("./tasks/lib/minify");
 local fs         = require("./tasks/lib/file");
-
 local Config     = require('./tasks/siteconfig');
 
 -- Components
-local RootLayout = require('./tasks/lib/components/layout/RootLayout');
-local Home       = require('./tasks/lib/components/Home');
-local Reference  = require('./tasks/lib/components/Reference');
-local Module     = require('./tasks/lib/components/Module');
-local HeaderPanel= require('./tasks/lib/components/Navigation');
+local RootLayout  = require('./tasks/lib/components/layout/RootLayout');
+local Home        = require('./tasks/lib/components/Home');
+local Reference   = require('./tasks/lib/components/Reference');
+local Module      = require('./tasks/lib/components/Module');
+local HeaderPanel = require('./tasks/lib/components/Navigation');
 
 local ver = require('./tasks/lib/get_tags');
-
--- -- For Prod
-local current_latest = VERSION;
-
--- For Dev
--- Use this when building the site for a previous version
---local current_latest = '0.1.6';
 
 -- Find documentation header files
 source_header_files = fs.find_files_in_dir(Config.build.source.headers, function (str)
@@ -80,7 +72,7 @@ for i, mod in pairs(modules) do
     }));
 
     -- Formatting module page
-    if (current_latest == VERSION) then
+    if (Config.current_latest == VERSION) then
         local page_dir   = Config.build.dest .. '/latest/' .. mod.source;
         fs.mkdir(page_dir)
         fs.write_file(page_dir .. '/index.html', html, false);
@@ -97,7 +89,22 @@ local reference_html = RootLayout({
     version=true,
     root="../",
     media=Config.media,
-    meta=Config.metadata,
+    meta=luax.merge(Config.metadata, {
+        keywords    = { 
+            "Lua", 
+            "Creative Coding",
+            "Lua Interpreter", 
+            "programming", 
+            "coding", 
+            "learn code",
+            "documentation",
+            "reference",
+            "guide"
+        },
+        description='Reference documentation for lu5, '..
+        'a Lua interpreter designed to render 2D and 3D graphics. '..
+        'This documentation provides descriptions and examples of functions and features.'
+    }),
     ga=Config.ga,
     nav=Navigation({ 
         class="light",
@@ -122,7 +129,7 @@ luax('div', {
     Home({
         versions=ver.get_tags(),
         root="./",
-        current_latest=current_latest,
+        current_latest=Config.current_latest,
         media=Config.media,
         meta=Config.metadata,
     }),
@@ -135,7 +142,7 @@ luax('div', {
 
 -- Write reference page (Both in latest and version tag)
 
-if (current_latest == VERSION) then
+if (Config.current_latest == VERSION) then
     fs.write_file(Config.build.dest .. '/latest/index.html', reference_html, false);
 end
 fs.write_file(Config.build.dest .. '/v' .. VERSION .. '/index.html', reference_html, true);

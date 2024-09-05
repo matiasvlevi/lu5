@@ -34,8 +34,12 @@ function Head(props)
         luax('meta', {name='twitter:description', content=props.meta.description}),
         luax('meta', {name='twitter:image', content=thumbnail}),
 
+        props.root == './' and luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/space_game.gif'}) or '',
+        props.root == './' and luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/collisions.gif'}) or '',
+        props.root == './' and luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/sphere.gif'}) or '',
+
         -- Only index latest docs
-        luax('link', {rel='canonical', href=props.meta.url .. '/latest/' }),
+        props.root == './' and '' or luax('link', {rel='canonical', href=props.meta.url .. '/latest/' }),
     
         -- CSS
         luax('link', {rel='stylesheet', href=props.root .. props.media.assets ..'/style.css'}),
@@ -50,6 +54,7 @@ function Head(props)
                 'hljs.highlightAll();',
             '});'
         }),
+        
         props.scripts and props.scripts or '',
 
         -- Google tag (gtag.js) --

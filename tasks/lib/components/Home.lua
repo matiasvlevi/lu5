@@ -8,15 +8,15 @@ function Builds(props)
 
     return luax('ul', {class="menu " .. props.class, style="margin: 0 1rem"}, {
         luax.map(luax.reverse(props.versions), function(version, i)
-            local zipname= props.fmt(version);
+            local zipname = props.fmt(version);
 
-            if (props.url == nil) then
-                return luax('li', {class="index"}, luax('span', {class="text"}, zipname));
+            if (props.url == nil or zipname == nil) then
+                return luax('li', {class="index"}, luax('span', {class="text"}, (zipname == nil) and 'unreleased' or zipname));
             end
 
             local link = props.url ..'/' .. 'v' .. version..'/' .. zipname;
             return luax('li', {class="index underline"}, {
-                luax('a', {href=link}, zipname),
+                luax('a', {href=((zipname == nil) and '' or link)}, (zipname == nil) and 'unreleased' or zipname),
             })
         end)
     })
@@ -28,20 +28,20 @@ function DocumentationVersions(props)
         luax('ul', {class="menu", style="margin: 0 1rem"}, {
             
             luax.map(luax.reverse(props.versions), function(version, i)
-                print(version, props.current_latest)
+                local latest_block = ''
                 if (version == props.current_latest) then
-                    return luax('li', {class="index"}, {
+                    latest_block = latest_block .. luax('li', {class="index"}, {
                         luax('a', {href='./latest', class="flex", style="gap:0.5rem;align-items:center"}, {
                             luax('span', {style="font-size: 1.25rem"}, 'latest '),
                             luax('span', {class="font-size: 1rem; color:var(--grey)"}, {
-                                '(v',props.versions[#props.versions],')'
+                                '(v',props.versions[#props.versions - i + 1],')'
                             }) 
                         }),
                     })
                 end
 
 
-                return luax('li', {class="index", style="font-size: 1.25rem"}, {
+                return latest_block .. luax('li', {class="index", style="font-size: 1.25rem"}, {
                     luax('a', {href='./v' .. version}, 'v' .. version),
                 })
             end)
@@ -75,7 +75,7 @@ function DownloadBlock(props)
 
         -- Shown only on windows
         luax('div', {id="download-Windows"}, {
-            luax('a', {href="https://github.com/matiasvlevi/lu5/releases/download/v" .. VERSION .. "/lu5-x86_64-win-"..VERSION..".exe"}, {
+            luax('a', {href= props.meta.github_url .. "/releases/download/v" .. VERSION .. "/lu5-x86_64-win-"..VERSION..".exe"}, {
                 luax('button', {class="download"}, {
                     luax('img', {class="icon", width="24px", src=props.root .. props.media.assets .. '/download.svg'}),
                     luax('span', {class="flex gap-2"}, {
@@ -96,7 +96,7 @@ function DownloadBlock(props)
             luax('span', {class="text"}, 'For any other linux distribution, you can build from source'),
             luax('pre', {style="margin: 1rem;"}, {
                 luax('code', {class="language-sh"}, {
-                    'git clone https://github.com/matiasvlevi/lu5\n',
+                    'git clone ', props.meta.github_url, ' --branch v', props.current_latest, '\n',
                     'cd lu5\n',
                     'make\n'
                 })
@@ -131,15 +131,31 @@ function ReleaseBuilds(props)
                 versions=props.versions
             }),
             Builds({
-                url='https://github.com/matiasvlevi/lu5/releases/download',
+                url=props.meta.github_url .. '/releases/download',
                 fmt=function(v)
+                    local latest_version = ver.to_number(props.current_latest);
+                    local nv = ver.to_number(v);
+                    if (latest_version[3] < nv[3] or
+                        latest_version[2] < nv[2] or
+                        latest_version[1] < nv[1]) then
+                        return nil
+                    end
+
                     return "lu5-x86_64-linux-"..v..".zip"
                 end,
                 versions=props.versions
             }),
             Builds({
-                url='https://github.com/matiasvlevi/lu5/releases/download',
+                url=props.meta.github_url .. '/releases/download',
                 fmt=function(v)
+                    local latest_version = ver.to_number(props.current_latest);
+                    local nv = ver.to_number(v);
+                    if (latest_version[3] < nv[3] or
+                        latest_version[2] < nv[2] or
+                        latest_version[1] < nv[1]) then
+                        return nil
+                    end
+
                     if (ver.to_number(v)[2] < 1) then
                         return "lu5-x86_64-win-"..v..".zip"
                     else

@@ -160,6 +160,14 @@ function utils.filter(list, cb)
     return res;
 end
 
+function utils.merge(a, b)
+    local res = a;
+    for key, value in pairs(b) do
+        res[key] = value;
+    end
+    return res;
+end
+
 function utils.reverse(list)
     local res = {}
     for i, elem in ipairs(list) do

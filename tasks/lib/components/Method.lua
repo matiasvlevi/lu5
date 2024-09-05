@@ -1,5 +1,5 @@
 local luax = require('tasks/lib/luax');
-
+local Config = require('tasks/siteconfig');
 
 function MethodCall(props)
     return luax('', {
@@ -37,7 +37,6 @@ function MethodExample(example)
     }) or ''
 end
 
-
 ---
 -- @Component
 -- @props TMethod {
@@ -58,7 +57,6 @@ function Method(props)
         global=luax('span', {class="decorator"}, 'Global')
     });
 
-
     local name = luax.match(props.doc._type, {
         event=#props.doc.calls > 1 and props.doc.name or get_declarations(props.doc)[1],
         method=#props.doc.calls > 1 and props.doc.name or get_declarations(props.doc)[1],
@@ -71,8 +69,14 @@ function Method(props)
         default=nil
     });
 
-    local branch = 'master';--'v' .. VERSION;
-    local doc_link = 'https://github.com/matiasvlevi/lu5/blob/' .. branch.. 
+    -- Use branch master if dev, use version tag if prod
+    local branch = 'master';
+    if (Config.current_latest ==  VERSION) then
+        branch = 'v' .. VERSION
+    end
+
+    -- Create github source permalink for method comment
+    local doc_link = Config.metadata.github_url ..'/blob/' .. branch .. 
             '/src/bindings/' .. props.source.header .. 
             '#L' .. props.source.start_line .. 'C0-L'.. props.source.end_line .. 'C0';
 
@@ -103,11 +107,9 @@ function Method(props)
             luax.map(props.doc['examples'], MethodExample),
 
 
-        -- luax('span', {class="text small underline"}, luax('a', {href=doc_link}, 
-        --     'See '.. props.doc.name .. ' in ' .. props.source.header
-        -- )),
-
-        luax('br'),
+        luax('span', {class="text small underline"}, luax('a', {href=doc_link}, 
+            'See '.. props.doc.name .. ' in ' .. props.source.header
+        ))
     })
 end
 

@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta httpEquiv="X-UA-Compatible" content="ie=edge"/><meta name="description" content="A Lua interpreter for Creative Coding. Provides a similar experience to well known p5.js library. Perfect learning or quickly running Lua graphical windows."/><meta name="keywords" content="Lua, Creative Coding, p5.js, OpenGL, Lua Interpreter, programming, coding, learn code"/><meta name="author" content="Matias Vazquez-Levi"/><meta content="lu5 | vector" property="og:title"/><meta content="A Lua interpreter for Creative Coding. Provides a similar experience to well known p5.js library. Perfect learning or quickly running Lua graphical windows." property="og:description"/><meta content="https://matiasvlevi.github.io/lu5/assets/lu5_thumbnail.png" property="og:image"/><meta content="https://matiasvlevi.github.io/lu5" property="og:url"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="lu5 | vector"/><meta name="twitter:description" content="A Lua interpreter for Creative Coding. Provides a similar experience to well known p5.js library. Perfect learning or quickly running Lua graphical windows."/><meta name="twitter:image" content="https://matiasvlevi.github.io/lu5/assets/lu5_thumbnail.png"/><link rel="canonical" href="https://matiasvlevi.github.io/lu5/latest/"/><link rel="stylesheet" href="../../assets/style.css"/><link rel="stylesheet" href="../../assets/lu5-hljs-theme.css"/><script src="../../assets/hljs.min.js"></script><script type="text/javascript" src="../../assets/index.js"></script><script>document.addEventListener("DOMContentLoaded", function (event) {hljs.highlightAll();});</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-CYFGDF41F4"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);};gtag("js", new Date());gtag("config", "G-CYFGDF41F4");</script><link type="image/svg" rel="icon" href="../../assets/favicon.png"/><title>lu5 | vector</title></head><body><div class="flex flex-grow"><div class="nav" id="menu"><br/><ul><li class="btn"><a class="light" href=".././window/"><h4>window</h4></a></li><li class="btn"><a class="light" href=".././typography/"><h4>typography</h4></a></li><li class="btn"><a class="light" href=".././transform/"><h4>transform</h4></a></li><li class="btn"><a class="light" href=".././shapes3D/"><h4>3D Shapes</h4></a></li><li class="btn"><a class="light" href=".././shapes/"><h4>2D Shapes</h4></a></li><li class="btn"><a class="light" href=".././setting/"><h4>setting</h4></a></li><li class="btn"><a class="light" href=".././mouse/"><h4>mouse</h4></a></li><li class="btn"><a class="light" href=".././models/"><h4>models</h4></a></li><li class="btn"><a class="light" href=".././vector/"><h4>vector</h4></a></li><li class="btn"><a class="light" href=".././math/"><h4>math</h4></a></li><li class="btn"><a class="light" href=".././keyboard/"><h4>keyboard</h4></a></li><li class="btn"><a class="light" href=".././io/"><h4>io</h4></a></li><li class="btn"><a class="light" href=".././image/"><h4>image</h4></a></li><li class="btn"><a class="light" href=".././classes/"><h4>classes</h4></a></li><li class="btn"><a class="light" href=".././camera/"><h4>camera</h4></a></li></ul></div><main><header><a href="../"><img src="../../assets/logo.svg" width="100px"/></a><h1 class="module">vector</h1><button class="menuBtn" onclick="toggleMenu()"><img src="../../assets/arrow_left.svg" class="menuIcon" width="40px"/></button><span class="text version">v0.1.7</span></header><div class="method" id="createVector"><div class="methodDeclaration"><code>createVector(x, y);</code></div><p>Create a vector instance</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">x</code><span class="text desc">The first component of the vector</span></div><div class="param"><code class="name">y</code><span class="text desc">The second component of the vector</span></div></div><h4>Returns</h4><div class="param"><code class="name">Vector</code><span class="text desc">The created vector</span></div><p></p><pre><code class="language-lua">local point = createVector(80, 125);
+
+print(point);</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L18C0-L32C0">See createVector in lu5_vector.h</a></span></div><div class="method" id="Vector.print"><div class="methodDeclaration"><code>Vector.print();</code></div><p>Since a <code class="inline">Vector</code> implements a <code class="inline">print</code> method, it can be used in the <a href="./io.html#print"><code class="inline">print</code></a> function</p><div class="params"></div><p></p><pre><code class="language-lua">local a = createVector(3, 5);
+
+-- With print
+print(a);
+
+-- With class method
+Vector.print(a);
+
+-- with instance
+a:print();</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L34C0-L51C0">See Vector.print in lu5_vector.h</a></span></div><div class="method" id="Vector.dist"><div class="methodDeclaration"><code>Vector.dist(a, b);</code></div><p>No description</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">a</code><span class="text desc">The first point</span></div><div class="param"><code class="name">b</code><span class="text desc">The second point</span></div></div><h4>Returns</h4><div class="param"><code class="name">number</code><span class="text desc">The distance between the two points</span></div><p></p><pre><code class="language-lua">local a = createVector(300, 500);
+local b = createVector(200, 250);
+
+local distance = a:dist(b);
+print(distance);</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L53C0-L69C0">See Vector.dist in lu5_vector.h</a></span></div><div class="method" id="Vector.dot"><div class="methodDeclaration"><code>Vector.dot(a, b);</code></div><p>No description</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">a</code><span class="text desc">The first vector</span></div><div class="param"><code class="name">b</code><span class="text desc">The second vector</span></div></div><h4>Returns</h4><div class="param"><code class="name">number</code><span class="text desc">The dot product</span></div><p></p><pre><code class="language-lua">local a = createVector(3, 5);
+local b = createVector(1, 3);
+
+-- From prototype
+print(a:dot(b)); -- 18.0
+
+-- With static method
+print(Vector.dot(a, b)); -- 18.0
+
+-- With concat syntax
+print(a .. b); -- 18.0</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L71C0-L93C0">See Vector.dot in lu5_vector.h</a></span></div><div class="method" id="Vector.add"><div class="methodDeclaration"><code>Vector.add(a, b);</code></div><p>No description</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">a</code><span class="text desc">The first vector</span></div><div class="param"><code class="name">b</code><span class="text desc">The second vector</span></div></div><h4>Returns</h4><div class="param"><code class="name">Vector</code><span class="text desc">The added vector</span></div><p></p><pre><code class="language-lua">local a = createVector(4, 2);
+local b = createVector(2, 1);
+
+-- Non-mutable
+print(Vector.add(a, b)); -- { 6.0, 3.0 }
+print(a + b);            -- { 6.0, 3.0 }
+print(a);                -- { 4.0, 2.0 }
+
+-- Mutable
+print(a:add(b));	-- { 6.0, 3.0 }
+print(a) 		-- { 6.0, 3.0 }</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L95C0-L117C0">See Vector.add in lu5_vector.h</a></span></div><div class="method" id="Vector.sub"><div class="methodDeclaration"><code>Vector.sub(a, b);</code></div><p>No description</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">a</code><span class="text desc">The first vector</span></div><div class="param"><code class="name">b</code><span class="text desc">The second vector</span></div></div><h4>Returns</h4><div class="param"><code class="name">Vector</code><span class="text desc">The subtracted vector</span></div><p></p><pre><code class="language-lua">local a = createVector(3, 5);
+local b = createVector(2, 3);
+
+-- Non-mutable
+print(Vector.sub(a, b)); -- { 1.0, 2.0 }
+print(a - b);            -- { 1.0, 2.0 }
+print(a);                -- { 3.0, 5.0 }
+
+-- Mutable
+print(a:sub(b)); -- { 1.0, 2.0 }
+print(a);        -- { 1.0, 2.0 }</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L119C0-L141C0">See Vector.sub in lu5_vector.h</a></span></div><div class="method" id="Vector.mult"><div class="methodDeclaration"><code>Vector.mult(a, b);</code></div><p>No description</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">a</code><span class="text desc">The first vector</span></div><div class="param"><code class="name">b</code><span class="text desc">The second vector</span></div></div><h4>Returns</h4><div class="param"><code class="name">Vector</code><span class="text desc">The multiplied vector</span></div><p></p><pre><code class="language-lua">local a = createVector(3, 5);
+local b = createVector(2, 3);
+
+-- Non-mutable
+print(Vector.mult(a, b)); -- { 6.0, 15.0 }
+print(a * b);             -- { 6.0, 15.0 }
+print(a);                 -- { 3.0, 5.0 }
+
+-- Mutable
+print(a:mult(b)); -- { 3.0, 15.0 }
+print(a);         -- { 3.0, 15.0 }</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L143C0-L165C0">See Vector.mult in lu5_vector.h</a></span></div><div class="method" id="Vector.div"><div class="methodDeclaration"><code>Vector.div(a, b);</code></div><p>No description</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">a</code><span class="text desc">The first vector</span></div><div class="param"><code class="name">b</code><span class="text desc">The second vector</span></div></div><h4>Returns</h4><div class="param"><code class="name">Vector</code><span class="text desc">The divided vector</span></div><p></p><pre><code class="language-lua">local a = createVector(4, 2);
+local b = createVector(2, 1);
+
+-- Non-mutable
+print(Vector.div(a, b)); -- { 2.0, 2.0 }
+print(a / b);            -- { 2.0, 2.0 }
+print(a);                -- { 4.0, 2.0 }
+
+-- Mutable
+print(a:div(b));	-- { 2.0, 2.0 }
+print(a) 		-- { 2.0, 2.0 }</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L167C0-L189C0">See Vector.div in lu5_vector.h</a></span></div><div class="method" id="Vector.idiv"><div class="methodDeclaration"><code>Vector.idiv(a, b);</code></div><p>No description</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">a</code><span class="text desc">The first vector</span></div><div class="param"><code class="name">b</code><span class="text desc">The second vector</span></div></div><h4>Returns</h4><div class="param"><code class="name">Vector</code><span class="text desc">The divided vector</span></div><p></p><pre><code class="language-lua">local a = createVector(7, 8);
+local b = createVector(2, 3);
+
+-- Non-mutable
+print(Vector.idiv(a, b)) -- { 3.0, 2.0 }
+print(a // b);           -- { 3.0, 2.0 }
+print(a);                -- { 7.0, 8.0 }
+
+-- Mutable
+print(a:idiv(b)); -- { 3.0, 2.0 }
+print(a)          -- { 3.0, 2.0 }</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L193C0-L215C0">See Vector.idiv in lu5_vector.h</a></span></div><div class="method" id="Vector.copy"><div class="methodDeclaration"><code>Vector.copy();</code></div><p>No description</p><div class="params"></div><h4>Returns</h4><div class="param"><code class="name">Vector</code><span class="text desc">The copied vector</span></div><p></p><pre><code class="language-lua">local a = createVector(300, 450, 400);
+
+local copy_1 = a:copy();
+
+local copy_2 = Vector.copy(a);</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L218C0-L231C0">See Vector.copy in lu5_vector.h</a></span></div><div class="method" id="Vector"><div class="methodDeclaration"><code>Vector();</code></div><p>No description</p><div class="params"></div><h4>Returns</h4><div class="param"><code class="name">Vector</code><span class="text desc">The composed vector</span></div><p></p><pre><code class="language-lua">local a = createVector(300, 450, 400);
+
+local copy = a.xyz;
+
+local a_2d = a.xy; -- { 300, 450 }
+local b = a.xyx; -- { 300, 450, 300 }
+local c = a.zxy; -- { 400, 300, 450 }</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/lu5_vector.h#L233C0-L253C0">See Vector in lu5_vector.h</a></span></div></main></div><footer class="flex-col space-between"><div class="socials"><a style="gap: 0.5rem; color: #fff;" class="flex items-center" href="https://github.com/matiasvlevi/lu5"><img src="../../assets/github.svg"/><span class="small dark underline">matiasvlevi/lu5</span></a></div><div class="license-note"><span class="smaller dark">This project is licensed under the MIT License.</span><br/><span class="smaller dark">It also includes the FreeType font engine, which is licensed under the FreeType License (FTL).</span></div></footer><script>main();</script></body></html>

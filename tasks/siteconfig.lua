@@ -1,8 +1,17 @@
 return {
+    -- -- For Prod
+    --current_latest=VERSION;
+
+    -- For Dev
+    -- Use this when building the site for a previous version
+    current_latest='0.1.6',
+
+    --
     ga={
         gtag_id='G-CYFGDF41F4'
     },
     metadata={
+        github_url  = "https://github.com/matiasvlevi/lu5", 
         url         = "https://matiasvlevi.github.io/lu5",
         title       = "lu5, a Lua Interpreter for Creative Coding",
         author      = "Matias Vazquez-Levi",

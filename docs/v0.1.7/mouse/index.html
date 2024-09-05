@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta httpEquiv="X-UA-Compatible" content="ie=edge"/><meta name="description" content="A Lua interpreter for Creative Coding. Provides a similar experience to well known p5.js library. Perfect learning or quickly running Lua graphical windows."/><meta name="keywords" content="Lua, Creative Coding, p5.js, OpenGL, Lua Interpreter, programming, coding, learn code"/><meta name="author" content="Matias Vazquez-Levi"/><meta content="lu5 | mouse" property="og:title"/><meta content="A Lua interpreter for Creative Coding. Provides a similar experience to well known p5.js library. Perfect learning or quickly running Lua graphical windows." property="og:description"/><meta content="https://matiasvlevi.github.io/lu5/assets/lu5_thumbnail.png" property="og:image"/><meta content="https://matiasvlevi.github.io/lu5" property="og:url"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="lu5 | mouse"/><meta name="twitter:description" content="A Lua interpreter for Creative Coding. Provides a similar experience to well known p5.js library. Perfect learning or quickly running Lua graphical windows."/><meta name="twitter:image" content="https://matiasvlevi.github.io/lu5/assets/lu5_thumbnail.png"/><link rel="canonical" href="https://matiasvlevi.github.io/lu5/latest/"/><link rel="stylesheet" href="../../assets/style.css"/><link rel="stylesheet" href="../../assets/lu5-hljs-theme.css"/><script src="../../assets/hljs.min.js"></script><script type="text/javascript" src="../../assets/index.js"></script><script>document.addEventListener("DOMContentLoaded", function (event) {hljs.highlightAll();});</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-CYFGDF41F4"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);};gtag("js", new Date());gtag("config", "G-CYFGDF41F4");</script><link type="image/svg" rel="icon" href="../../assets/favicon.png"/><title>lu5 | mouse</title></head><body><div class="flex flex-grow"><div class="nav" id="menu"><br/><ul><li class="btn"><a class="light" href=".././window/"><h4>window</h4></a></li><li class="btn"><a class="light" href=".././typography/"><h4>typography</h4></a></li><li class="btn"><a class="light" href=".././transform/"><h4>transform</h4></a></li><li class="btn"><a class="light" href=".././shapes3D/"><h4>3D Shapes</h4></a></li><li class="btn"><a class="light" href=".././shapes/"><h4>2D Shapes</h4></a></li><li class="btn"><a class="light" href=".././setting/"><h4>setting</h4></a></li><li class="btn"><a class="light" href=".././mouse/"><h4>mouse</h4></a></li><li class="btn"><a class="light" href=".././models/"><h4>models</h4></a></li><li class="btn"><a class="light" href=".././vector/"><h4>vector</h4></a></li><li class="btn"><a class="light" href=".././math/"><h4>math</h4></a></li><li class="btn"><a class="light" href=".././keyboard/"><h4>keyboard</h4></a></li><li class="btn"><a class="light" href=".././io/"><h4>io</h4></a></li><li class="btn"><a class="light" href=".././image/"><h4>image</h4></a></li><li class="btn"><a class="light" href=".././classes/"><h4>classes</h4></a></li><li class="btn"><a class="light" href=".././camera/"><h4>camera</h4></a></li></ul></div><main><header><a href="../"><img src="../../assets/logo.svg" width="100px"/></a><h1 class="module">mouse</h1><button class="menuBtn" onclick="toggleMenu()"><img src="../../assets/arrow_left.svg" class="menuIcon" width="40px"/></button><span class="text version">v0.1.7</span></header><div class="method" id="mouseY"><div class="methodDeclaration"><code>mouseY</code><span class="decorator">Global</span></div><p>The y mouse coordinate</p><div class="params"></div><p></p><pre><code class="language-lua">createWindow(400, 400);
+
+function draw()
+  background(51);
+  
+  line(0, mouseY, width, mouseY);
+end</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/mouse.h#L4C0-L19C0">See mouseY in mouse.h</a></span></div><div class="method" id="mouseX"><div class="methodDeclaration"><code>mouseX</code><span class="decorator">Global</span></div><p>The x mouse coordinate</p><div class="params"></div><p></p><pre><code class="language-lua">createWindow(400, 400);
+
+function draw()
+  background(51);
+  
+  line(mouseX, 0, mouseX, height);
+end</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/mouse.h#L22C0-L37C0">See mouseX in mouse.h</a></span></div><div class="method" id="pmouseY"><div class="methodDeclaration"><code>pmouseY</code><span class="decorator">Global</span></div><p>The y mouse coordinate from the previous draw call</p><div class="params"></div><p></p><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/mouse.h#L40C0-L45C0">See pmouseY in mouse.h</a></span></div><div class="method" id="pmouseX"><div class="methodDeclaration"><code>pmouseX</code><span class="decorator">Global</span></div><p>The x mouse coordinate from the previous draw call</p><div class="params"></div><p></p><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/mouse.h#L48C0-L53C0">See pmouseX in mouse.h</a></span></div><div class="method" id="mouseIsPressed"><div class="methodDeclaration"><code>mouseIsPressed</code><span class="decorator">Global</span></div><p>Is <code class="inline">true</code> when the mouse is pressed, is <code class="inline">false</code> when it's not</p><div class="params"></div><p></p><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/mouse.h#L57C0-L62C0">See mouseIsPressed in mouse.h</a></span></div><div class="method" id="mousePressed"><div class="methodDeclaration"><code>mousePressed(button);</code><span class="decorator">Event</span></div><p>Called when a mouse button is pressed.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">button</code><span class="text desc">The pressed mouse button</span></div></div><p><br/>
+In the following example, the circle's size increases when the user clicks the mouse.</p><pre><code class="language-lua">size = 0;
+
+function setup()
+  createWindow(400, 400);
+end
+
+function draw()
+  background(51);
+
+  circle(mouseX, mouseY, size);
+end
+
+-- Increase circle size when mouse pressed
+function mousePressed()
+  size = size + 1;
+end</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/mouse.h#L65C0-L93C0">See mousePressed in mouse.h</a></span></div><div class="method" id="mouseReleased"><div class="methodDeclaration"><code>mouseReleased(button);</code><span class="decorator">Event</span></div><p>Called when a mouse button is released.</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">button</code><span class="text desc">The released mouse button</span></div></div><p><br/>
+In the following example, the circle's size increases when the user clicks the mouse.</p><pre><code class="language-lua">size = 32;
+
+function setup()
+  createWindow(400, 400);
+end
+
+function draw()
+  background(51);
+
+  circle(mouseX, mouseY, size);
+end
+
+-- Increment circle size
+function mousePressed()
+  size = size + 6;
+end
+
+-- Reset size
+function mouseReleased()
+  size = 64;
+end</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/mouse.h#L96C0-L129C0">See mouseReleased in mouse.h</a></span></div><div class="method" id="mouseWheel"><div class="methodDeclaration"><code>mouseWheel(button);</code><span class="decorator">Event</span></div><p>Called when a mouse wheel is used</p><h4>Arguments</h4><div class="params"><div class="param"><code class="name">button</code><span class="text desc">The pressed mouse button</span></div></div><p><br/>
+In the following example, the circle's size changes when the user scrolls</p><pre><code class="language-lua">size = 0;
+
+function setup()
+  createWindow(400, 400);
+end
+
+function draw()
+  background(51);
+
+  circle(mouseX, mouseY, size);
+end
+
+-- Change circle size when mouse is scrolled
+function mouseWheel(delta)
+  size = size + delta;
+end</code></pre><span class="text small underline"><a href="https://github.com/matiasvlevi/lu5/blob/master/src/bindings/mouse.h#L132C0-L160C0">See mouseWheel in mouse.h</a></span></div></main></div><footer class="flex-col space-between"><div class="socials"><a style="gap: 0.5rem; color: #fff;" class="flex items-center" href="https://github.com/matiasvlevi/lu5"><img src="../../assets/github.svg"/><span class="small dark underline">matiasvlevi/lu5</span></a></div><div class="license-note"><span class="smaller dark">This project is licensed under the MIT License.</span><br/><span class="smaller dark">It also includes the FreeType font engine, which is licensed under the FreeType License (FTL).</span></div></footer><script>main();</script></body></html>

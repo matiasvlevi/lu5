@@ -374,6 +374,7 @@ img.demo {
 	.builds {
 		display: flex;
 		flex-direction: row;
+		align-items: flex-end;
 	}
 	
 	.home-section {
@@ -394,6 +395,7 @@ img.demo {
 
 .method {
 	max-width: 87.5%;
+	margin-bottom: 3rem;
 }
 
 .method > div.methodDeclaration > code {

@@ -5,7 +5,7 @@
 PLATFORM ?= gnu
 
 APP_NAME = lu5
-VERSION = 0.1.6
+VERSION = 0.1.7
 LUA_VERSION=5.4.7
 
 SRCDIR = src
@@ -164,7 +164,6 @@ clean:
 	rm -fr bin/win64
 	rm -fr $(INSTALLER_EXEC)
 	rm -fr include/lua/liblua.a
-	rm -fr docs/latest/*
 	rm -fr docs/assets/*.svg
 	rm -fr docs/assets/*.css
 	rm -fr docs/assets/*.js

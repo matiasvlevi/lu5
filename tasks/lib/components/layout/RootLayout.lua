@@ -36,7 +36,7 @@ function Layout(props, children)
                     }) or ''),
                     luax('main', {
                         luax('header', {
-                            luax('a', {href="../"}, {
+                            luax('a', {href=root == './' and props.meta.github_url or "../"}, {
                                 luax('img', {width="100px", src=root .. props.media.assets..'/logo.svg'}),
                             }),
                             luax('h1', {class="module"}, title),
@@ -61,7 +61,7 @@ function Layout(props, children)
                         SocialButton({
                             color="#fff",
                             icon= root .. props.media.assets .. "/github.svg",
-                            link="https://github.com/matiasvlevi/lu5",
+                            link=props.meta.github_url,
                             label="matiasvlevi/lu5"
                         })
                     }),
