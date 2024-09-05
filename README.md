@@ -71,13 +71,16 @@ for other distributions, you might want to [build from source](./BUILD.md).
 
 <br/>
 
+### Roadmap
 
-<br/>
+See [lu5's roadmap](./ROADMAP.md)
 
 
 ### Contributions
 
-Contributions to expand the lu5 api are welcomed, [contribution docs](./CONTRIBUTING.md) are provided for that.
+Contributions to expand the lu5 api are welcomed in any form. 
+
+[Contribution docs](./CONTRIBUTING.md) are provided for contributions with Pull requests.
 
 <br/>
 
