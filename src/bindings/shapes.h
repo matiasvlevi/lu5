@@ -196,18 +196,54 @@ int point(lua_State *L);
  * @param x4 The x position of the fourth point
  * @param y4 The y position of the fourth point
  *
- *
+ * @example
+ * function setup()
+ *     createWindow(400, 400);
+ * end
+ * 
+ * function draw()
+ *     background(51);
+ * 
+ *    push();
+ *    translate(50, 50);
+ *    quad(
+ *       0, 0,
+ *       0, 60,
+ *       60, 70,
+ *       50, 10
+ *    );
+ *    pop();
+ * end
+ * @example
  */ 
 int quad(lua_State *L);
-
-
-
 
 /**
  * Draw a triangle on the screen
  *
- * @note Not implemented
+ * @param x1 The x position of the first point
+ * @param y1 The y position of the first point
+ * @param x2 The x position of the second point
+ * @param y2 The y position of the second point
+ * @param x3 The x position of the third point
+ * @param y3 The y position of the third point
  *
+ *
+ * @example
+ * function setup()
+ *     createWindow(400, 400);
+ * end
+ * 
+ * function draw()
+ *     background(51);
+ * 
+ *     push();
+ *     translate(130, 50);
+ *
+ *     triangle(0,0, 100, 0, 50, 50);
+ *     pop();
+ * end
+ * @example
  */ 
 int triangle(lua_State *L);
 

@@ -66,7 +66,6 @@ int box(lua_State *L);
  *  
  *   sphere(50);
  * end
- *
  * @example
  */
 int sphere(lua_State *L);
