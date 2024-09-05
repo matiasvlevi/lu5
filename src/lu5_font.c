@@ -41,13 +41,6 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath)
 		lu5_close_font(font);
 		return err;
 	}
-
-	// Set font to the current style size
-	err = FT_Set_Char_Size(font->face, 0, lu5_style(l5)->fontSize * 128, 0, 0);
-	if (err != FT_Err_Ok) {
-		lu5_close_font(font);
-		return err;
-	}
 	
 	// Iterate over characters and create a texture
 	for (unsigned char character = 32; character < 128; character++) 
@@ -62,6 +55,8 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath)
 		GLuint texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1); 
 		glTexImage2D(
 			GL_TEXTURE_2D,
@@ -75,11 +70,6 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath)
 			font->face->glyph->bitmap.buffer
 		);
 
-		// set texture options
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		// Add font texture
@@ -88,84 +78,79 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath)
 
 	// If fontId pointer is invalid, 
 	if (fontId != NULL) 
+	{
 		// set the value to the next fontId
 		*fontId = font;
-	
+	}
+
 	return FT_Err_Ok;
 }
 
-int lu5_text_px_length(const char *text, FT_Face font_face, float fontSize)
+void lu5_measure_text(const char *text, int *width, int *height, int *max_bearing_y, lu5_font *font) 
 {
-	const char *p;
-	float x_advance = 0.0f;
-	int text_px_len = 0;
-	for (p = text; *p; p++) 
-	{
-		// Skip non-text
-		if (*p < 32 || *p > 126)
-		continue;
+    int w = 0, h = 0;
+    int max_bearing_y_local = 0;
+    for (const char *p = text; *p; p++) {
+		if(FT_Load_Char(font->face, *p, FT_LOAD_DEFAULT)) continue;
+        max_bearing_y_local = fmax(max_bearing_y_local, font->face->glyph->bitmap_top);
 
-		// Load glyph from freetype, or skip if failed
-		if(FT_Load_Char(font_face, *p, FT_LOAD_DEFAULT)) continue;
+        w += font->face->glyph->advance.x >> 6;
+        h = fmax(h, font->face->glyph->bitmap.rows - font->face->glyph->bitmap_top + max_bearing_y_local);
 
-		// Add space if space char found
-		if (*p == 32) x_advance +=((int)fontSize >> 8)  + 2.0f;
-
-		text_px_len += x_advance + font_face->glyph->bitmap.width;
-		
-	}
-
-	return text_px_len;
+    }
+    *width = w;
+    *height = h;
+    *max_bearing_y = max_bearing_y_local;
 }
 
 void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_font *font) 
 {
-	glEnable(GL_TEXTURE_2D);
-
-	// Uniform baseline alignment
-	int ascender = font->face->size->metrics.ascender >> 6;
-	
+	int text_width = 0, text_height = 0, max_bearing_y = 0;
+	lu5_measure_text(text, &text_width, &text_height, &max_bearing_y, font);
+			
 	switch(lu5_style(&lu5)->textAlign)
 	{
-		case LU5_TEXTALIGN_LEFT: break;
+		case LU5_TEXTALIGN_LEFT: 
+			y -= text_height;
+			break;
 		case LU5_TEXTALIGN_CENTER:
-			x -= lu5_text_px_length(text, font->face, fontSize) / 2;
+			x -= text_width / 2;
+			y -= text_height;
 			break;
 		case LU5_TEXTALIGN_RIGHT:
-			x -= lu5_text_px_length(text, font->face, fontSize) / 2;
+			x -= text_width;
+			y -= text_height;
 			break;
 	}
 
+	glEnable(GL_TEXTURE_2D);
 	const char *p;
 	float x_advance = 0.0f, y_advance = 0.0f;
 	for (p = text; *p; p++) 
-	{
-		// Skip non-text
-		if (*p < 32 || *p > 126)
-		   continue;
-		
-		
+	{		
 		// Load glyph from freetype, or skip if failed
 		if(FT_Load_Char(font->face, *p, FT_LOAD_DEFAULT)) continue;
 		
 		// Adjust height
-		float y_adjusted = ascender - font->face->glyph->bitmap_top;
-	
-		// Add space if space char found
-		if (*p == 32) x_advance +=((int)fontSize >> 8)  + 2.0f;
+		float y_adjusted = (font->face->size->metrics.ascender >> 6) - font->face->glyph->bitmap_top;
+
+		// Calculate the new bottom-left origin adjusted Y-coordinate
+		float y_bottom_left = y - max_bearing_y / 2 + y_advance + y_adjusted;
 
 		glBindTexture(GL_TEXTURE_2D, font->textures[(int)(*p)]);
 		glBegin(GL_QUADS);
 		{
-			lu5_glTexCoord2(0, 0); lu5_glVertex2(x + x_advance,                                   y + y_advance + y_adjusted);
-			lu5_glTexCoord2(1, 0); lu5_glVertex2(x + x_advance + font->face->glyph->bitmap.width, y + y_advance + y_adjusted);
-			lu5_glTexCoord2(1, 1); lu5_glVertex2(x + x_advance + font->face->glyph->bitmap.width, y + y_advance + y_adjusted + font->face->glyph->bitmap.rows);
-			lu5_glTexCoord2(0, 1); lu5_glVertex2(x + x_advance, 								  y + y_advance + y_adjusted + font->face->glyph->bitmap.rows);
+
+			lu5_glTexCoord2(0,  0); lu5_glVertex2(x + x_advance,                                   y_bottom_left);
+			lu5_glTexCoord2(1,  0); lu5_glVertex2(x + x_advance + font->face->glyph->bitmap.width, y_bottom_left);
+			lu5_glTexCoord2(1,  1); lu5_glVertex2(x + x_advance + font->face->glyph->bitmap.width, y_bottom_left + font->face->glyph->bitmap.rows);
+			lu5_glTexCoord2(0,  1); lu5_glVertex2(x + x_advance,                                   y_bottom_left + font->face->glyph->bitmap.rows);
 		}
 		glEnd();
 		x_advance += (font->face->glyph->advance.x >> 6);
 		y_advance += (font->face->glyph->advance.y >> 6);
 	}
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
 }

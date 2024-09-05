@@ -17,7 +17,7 @@ typedef enum {
 	LU5_LOADFONT_NOT_FOUND
 } lu5_loadfont_err;
 
-#define MAX_FONT_SIZE_PX 96
+#define MAX_FONT_SIZE_PX 192
 
 typedef struct lu5_font_s {
 	FT_Face face;

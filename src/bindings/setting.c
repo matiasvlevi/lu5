@@ -88,6 +88,12 @@ int pop(lua_State *L)
 {
 	lu5_style_pop(&lu5);
 	glPopMatrix();
+
+	lua_getglobal(L, "textSize");
+	lua_pushnumber(L, lu5_style(&lu5)->fontSize);
+	if (lua_pcall(L, 1, 0, 0) != LUA_OK) {
+		luaL_error(L, lua_tostring(L, -1));
+	}
 	return 0;
 }
 
