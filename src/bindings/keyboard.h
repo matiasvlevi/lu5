@@ -57,6 +57,19 @@ int keyIsDown(lua_State *L);
  * @param key The released key as a string, is nil if glfw cannot find a name for the key
  * @param keyCode The released key as a key code
  *
+ * @example
+ * function setup()
+ *    createWindow(600, 600);
+ * end
+ * 
+ * function draw()
+ *    background(51);
+ * end
+ * 
+ * function keyReleased(key, keyCode)
+ *    print(key, keyCode)
+ * end
+ * @example
  */ 
 #define LU5_KEY_RELEASED "keyReleased"
 
@@ -68,6 +81,19 @@ int keyIsDown(lua_State *L);
  * @param key The held key as a string, is nil if glfw cannot find a name for the key
  * @param keyCode The held key as a key code
  *
+ * @example
+ * function setup()
+ *    createWindow(600, 600);
+ * end
+ * 
+ * function draw()
+ *    background(51);
+ * end
+ * 
+ * function keyHeld(key, keyCode)
+ *    print(key, keyCode)
+ * end
+ * @example
  */ 
 #define LU5_KEY_HELD "keyHeld"
 
