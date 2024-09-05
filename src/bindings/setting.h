@@ -9,9 +9,42 @@
  * @param r The red byte
  * @param g The green byte
  * @param b The blue byte
+ *
+ * @call
+ * @param r The red byte
+ * @param g The green byte
+ * @param b The blue byte
  * @param a The alpha byte
  *
- */ 
+ * @call
+ * @param v The grayscale value
+ * 
+ * @call
+ * @param color_name The color name
+ *
+ * @call
+ * @param hex The hex color string
+ *
+ * @example 1
+ *  background(100, 255, 100);
+ * @example
+ *
+ * @example 2
+ *  background(100, 255, 100, 150);
+ * @example
+ *
+ * @example 3
+ *  background(100);
+ * @example
+ *
+ * @example 4
+ *  background('yellow');
+ * @example
+ *
+ * @example 5
+ *  background('#88EE66');
+ * @example 
+ */  
 int background(lua_State *L);
 
 /**
@@ -119,18 +152,64 @@ int stroke(lua_State *L);
 
 /**
  * Disable stroke
- *
- * Only implemented for `line` and `circle`
  */ 
 int noStroke(lua_State *L);
 
 /**
- * Save the style settings
+ * Save the style and transformation settings. <br/>
+ *
+ * Pushes the lu5 style settings off the stack
+ * Pushes the OpenGL transformation matrix off the stack
+ *
+ * @example
+ * function setup()
+ *     createWindow(400, 400);
+ * end
+ * 
+ * function draw()
+ *     background(51);
+ * 
+ *     push();
+ *     fill(155, 255, 0);
+ *     strokeWeight(12);
+ * 
+ *     -- Affected by style
+ *     circle(300, 200, 32);
+ *     pop();
+ * 
+ *     -- Not Affected by style
+ *     circle(100, 200, 32);
+ * end
+ * @example
+ * 
+ * @example
+ * function setup()
+ *     createWindow(400, 400);
+ * end
+ * 
+ * function draw()
+ *     background(51);
+ * 
+ *     push();
+ *     fill('red');
+ *     translate(200, 200);
+ * 
+ *     -- Affected by transformation
+ *     circle(0, 0, 32);
+ *     pop();
+ * 
+ *     -- Not Affected by transformation
+ *     circle(0, 0, 32);
+ * end
+ * @example
  */
 int push(lua_State *L);
 
 /**
- * Restore the style settings 
+ * Restore the style and transformation settings. <br/>
+ *
+ * Pops the lu5 style settings off the stack
+ * Pops the OpenGL transformation matrix off the stack
  */
 int pop(lua_State *L);
 
@@ -139,28 +218,21 @@ int pop(lua_State *L);
  *
  * @param mode either `CENTER`, `CORNER`, `RADIUS`
  *
+ * @example
+ * function setup()
+ *   createWindow(800, 800, GL3D);
+ *
+ *   rectMode(CENTER);
+ * end
+ *
+ * function draw()
+ *   background(51);
+ *   
+ *   rect(width/2, height/2, 100, 50);
+ * end
+ * @example
  */ 
 int rectMode(lua_State *L);
-
-/**
- * @brief CENTER
- * @constant
- */
-#define LU5_RECTMODE_CENTER 1
-
-/**
- * @brief CORNER
- * @constant
- */
-#define LU5_RECTMODE_CORNER 2
-
-/**
- * @brief RADIUS
- * @constant
- */
-#define LU5_RECTMODE_RADIUS 3
-
-#define LU5_RECT_ALIGN_MODE_COUNT 3
 
 /**
  * Toggle a helpful mode with 3D Graphics 
@@ -202,5 +274,30 @@ int rectMode(lua_State *L);
  */
 int debugMode(lua_State *L);
 
+#define LU5_RECT_ALIGN_MODE_COUNT 3
+
+/**
+ * @brief CENTER
+ * @constant
+ *
+ * Alignment mode for <a href="./#rectMode">rectMode</a>
+ */
+#define LU5_RECTMODE_CENTER 1
+
+/**
+ * @brief CORNER
+ * @constant
+ *
+ * Alignment mode for <a href="./#rectMode">rectMode</a>
+ */
+#define LU5_RECTMODE_CORNER 2
+
+/**
+ * @brief RADIUS
+ * @constant
+ *
+ * Alignment mode for <a href="./#rectMode">rectMode</a>
+ */
+#define LU5_RECTMODE_RADIUS 3
 
 #endif
