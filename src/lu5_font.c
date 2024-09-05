@@ -83,6 +83,13 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath)
 		*fontId = font;
 	}
 
+	// Set default font size
+	if (FT_Set_Pixel_Sizes(font->face, 0, lu5_style(l5)->fontSize) != FT_Err_Ok) {
+		lu5_close_font(font);
+		luaL_error(l5->L, "Something went wrong when resizing the font");
+		return 0;
+	}
+
 	return FT_Err_Ok;
 }
 
