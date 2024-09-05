@@ -96,13 +96,12 @@ int textSize(lua_State *L)
 		return 0;
 	}
 
-	FT_Set_Char_Size(
-		font->face,
-		0,
-		size * 64,
-		0,
-		0
-	);
+	// Set font to the current style size
+	if (FT_Set_Pixel_Sizes(font->face, 0, size) != FT_Err_Ok) {
+		lu5_close_font(font);
+		luaL_error(L, "Something went wrong when resizing the font");
+		return 0;
+	}
 
 	lu5_style(&lu5)->fontSize = size;
 
