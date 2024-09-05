@@ -125,11 +125,16 @@ int lu5_abs(lua_State *L);
 /**
  * Maps x from an original range to a target range
  *
- * @param x The value to map
- * @param s1 The start of the initial range
- * @param e1 The end of the initial range
- * @param s2 The start of the target range
- * @param e2 The end of the target range
+ * @param value The value to map
+ * @param start The start of the initial range
+ * @param end The end of the initial range
+ * @param target_start The start of the target range
+ * @param target_end The end of the target range
+ *
+ * @example
+ * local mouseX_mapped = map(mouseX, 0, width, 0, 100);
+ * -- mapped mouseX between 0 and 100
+ * @example
  *
  * @return number The mapped value
  */
