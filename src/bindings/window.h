@@ -54,12 +54,16 @@ int createWindow(lua_State *L);
 int frameRate(lua_State *L);
 
 /**
- * Stop the drawing loop, usefull for fixed image renders 
+ * Prevents lu5 from calling `draw` again.
+ *
+ * When `noLoop` is called, the draw continues execution, but with not be called again.
+ *
  */
 int noLoop(lua_State *L);
 
 /**
- * Restart the drawing loop
+ * Allow lu5 to call the `draw` function.
+ *
  */
 int loop(lua_State *L);
 
