@@ -46,6 +46,26 @@ int image(lua_State *L);
  * @param w The width of the new cropped image
  * @param h The height of the new cropped image
  *
+ * @example
+ * function setup()
+ *     createWindow(400, 400);
+ * 
+ *     img = loadImage('examples/images/cat.jpg');
+ * 
+ *     cropped = img:crop(150, 150, 125, 200);
+ *     -- -- or
+ *     -- cropped = Image.crop(img, 150, 150, 125, 200);
+ * end
+ * 
+ * function draw() 
+ *     background(51);
+ * 
+ *     image(img, 0, 0);
+ *     image(cropped, x, y);
+ * 
+ * end
+ * @example
+ *
  * @return Image the cropped image
  */
 int lu5_image_get(lua_State *L);
