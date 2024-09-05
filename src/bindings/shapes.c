@@ -312,9 +312,18 @@ int point(lua_State *L)
 {
 	lua_Number x = lu5_assert_number(L, 1, "point");
 	lua_Number y = lu5_assert_number(L, 2, "point");
+	
+	lua_Number w = lu5_style(&lu5)->strokeWeight;
 
-	// refer to https://p5js.org/reference/#/p5/point
+	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
 
-	luaL_error(L, "TODO: Implement point.\t point(%f, %f);", x, y);
+	if (lu5_has_stroke())
+	{
+		lu5_apply_color(lu5_style(&lu5)->stroke);
+
+		lu5_render_ellipse(x, y, w, w, LU5_CIRCLE_SEGMENTS);
+	}
+
+	lu5_2D_over_3D_end(lu5.depth_mode);
 	return 0;
 }

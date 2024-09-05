@@ -155,6 +155,35 @@ int line(lua_State *L);
  */ 
 int arc(lua_State *L);
 
+
+/**
+ * Draw a point on the screen
+ *
+ * @param x The point's x coordinate
+ * @param y The point's y coordinate
+ *
+ * Use `stroke` to set the point's color, and use `strokeWeight` to set the point's radius.
+ * <br/><br/>
+ * Setting the color with `fill` will not affect `point`
+ *
+ * @example
+ * function setup()
+ *     createWindow(400, 400);
+ * end
+ * 
+ * function draw()
+ *     background(51);
+ * 
+ *     strokeWeight(12);
+ *     stroke('yellow');
+ *
+ *     point(mouseX, mouseY);
+ * end
+ * @example
+ */ 
+int point(lua_State *L);
+
+
 /**
  * Draw a quad on the screen
  *
@@ -170,14 +199,6 @@ int arc(lua_State *L);
  *
  */ 
 int quad(lua_State *L);
-
-/**
- * Draw a point on the screen
- *
- * @note Not implemented
- *
- */ 
-int point(lua_State *L);
 
 
 
