@@ -12,6 +12,7 @@
 #include "lu5_obj.h"
 #include "lu5_types.h"
 #include "geometry/lu5_geometry.h"
+#include "bindings/mouse.h"
 
 static int lu5_run_setup(lu5_State *l5) 
 {
@@ -126,6 +127,16 @@ int lu5_run_sketch(lu5_State *l5, const char *filename)
 	
 	// Register Event Callbacks
 	lu5_register_event_callbacks(window);
+
+	// Set window mouse values before calling draw
+	double width, height;
+	glfwGetCursorPos(window, &width, &height);
+
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, LU5_PMOUSE_X, width);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(L, LU5_PMOUSE_Y, height);
+
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, LU5_MOUSE_X, width);
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, LU5_MOUSE_Y, height);
 
 	LU5_RUN_LOG("draw");
 
