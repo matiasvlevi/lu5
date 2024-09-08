@@ -223,13 +223,15 @@ header {
 	width: 100%;
 }
 
-header > .wrap {
+header > .wrap,
+header:not(:has(.wrap)) {
 	width: 100%;
 	display: flex;
 	flex-direction: row;
 	align-items: baseline;
 	gap: 0.9rem;
 	flex-wrap: wrap;
+	justify-content: flex-start;
 }
 
 
@@ -351,7 +353,7 @@ img.demo {
 	margin-bottom: 1rem;
 	margin-right: 2rem;
 	color: var(--lighter)
-}1
+}
 
 /* PC Version */
 @media (min-width: 900px) {
