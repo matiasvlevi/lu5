@@ -4,6 +4,7 @@
 #include <lua.h>
 #include <GL/gl.h>
 #include "../lu5_window.h"
+#include <stdbool.h>
 
 #define LU5_CIRCLE_SEGMENTS 32
 
@@ -94,5 +95,16 @@ void lu5_render_ellipsoid_edges(lua_Number radius, lua_Integer detail_x, lua_Int
 void lu5_render_box_faces(lua_Number width, lua_Number height, lua_Number depth);
 void lu5_render_box_edges(lua_Number width, lua_Number height, lua_Number depth);
 
+void lu5_render_cylinder_edges(
+    lua_Number radius, lua_Number height, 
+    lua_Integer detail_x, lua_Integer detail_y, 
+    bool bottom_cap, 
+    bool top_cap);
+
+void lu5_render_cylinder_faces(
+    lua_Number radius, lua_Number height, 
+    lua_Integer detailX, lua_Integer detailY, 
+    bool bottom_cap, 
+    bool top_cap);
 
 #endif

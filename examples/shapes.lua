@@ -67,8 +67,6 @@ function draw()
 
    push();
    translate(50, 50);
-   strokeWeight(10);
-
    quad(
       0, 0,
       0, 60,
