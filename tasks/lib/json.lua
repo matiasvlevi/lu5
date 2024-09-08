@@ -28,21 +28,17 @@ function json_matcher(key, value)
 
                 return key_str .. '[' .. luax.join(values_str, ',') .. ']';
             else
-                return key_str .. json(value);
+                local raw = {}
+
+                for key, v in pairs(value) do
+                    table.insert(raw, luax.match(type(v), json_matcher(key, v)))
+                end
+
+                return key_str .. "{" .. luax.join(raw, ',') .. "}";
             end
         end,
         default=''
     };
-end
-
-function json(obj)
-    local raw = {}
-
-    for key, value in pairs(obj) do
-        table.insert(raw, luax.match(type(value), json_matcher(key, value)))
-    end
-
-    return "{" .. luax.join(raw, ',') .. "}";
 end
 
 return {
