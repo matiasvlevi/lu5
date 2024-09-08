@@ -80,7 +80,7 @@ function Method(props)
             '/src/bindings/' .. props.source.header .. 
             '#L' .. props.source.start_line .. 'C0-L'.. props.source.end_line .. 'C0';
 
-    return luax('div', {class="method",id=props.doc.name}, {
+    return luax('div', {class="method", id=props.doc.name}, {
         luax('div', {class="methodDeclaration"}, {
             luax('code', name),
             decorator

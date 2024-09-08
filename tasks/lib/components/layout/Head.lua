@@ -3,6 +3,7 @@ local luax = require('tasks/lib/luax');
 ---
 -- @Component
 -- @props THead {
+--      purpose: string;
 --      page_name: string;
 --      media: TMedia;
 --      meta: TMetadata;
@@ -43,17 +44,51 @@ function Head(props)
     
         -- CSS
         luax('link', {rel='stylesheet', href=props.root .. props.media.assets ..'/style.css'}),
-        luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
 
-        -- JS
-        luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
-        luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/index.js'}, {}),
-        --luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/lu5.js'}, {}),
-        luax('script', {
-            'document.addEventListener("DOMContentLoaded", function (event) {',
-                'hljs.highlightAll();',
-            '});'
-        }),
+        (props.purpose ~= "homepage") and luax('', {
+            -- Search
+            luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/search.js'}, {}),
+            
+            -- Menu
+            luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/menu.js'}, {}),
+            luax('script', {
+                'window.onload = function (e) {',
+                    'set_nav_menu();',
+                    'set_search("', props.root ,'v', VERSION ,'/");',
+                '};'
+            })
+        }) or '';
+
+        props.purpose == "homepage" and luax('', {
+            
+            -- Resize images
+            luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/image.js'}, {}),
+            
+            -- Set right download interface
+            luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/download.js'}, {}),
+            
+            luax('script', {
+                'window.onload = function (e) {',
+                    'set_image_size();',
+                    'set_download_frontend();',
+                '};'
+            })
+        }) or '',
+
+        props.purpose == "module" and luax('', {
+
+            -- Highlight.js
+            luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
+            luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
+
+            -- It also includes the FreeType font engine, which is licensed under the FreeType License (FTL).
+            luax('script', {
+                'document.addEventListener("DOMContentLoaded", function (e) {',
+                    'hljs.highlightAll();',
+                '});'
+            }),
+
+        }) or '',
         
         props.scripts and props.scripts or '',
 

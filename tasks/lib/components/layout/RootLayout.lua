@@ -5,6 +5,7 @@ local SocialButton = require('tasks/lib/components/SocialButton');
 ---
 -- @Component
 -- @props TLayout {
+--      purpose: string;
 --      page_name: string;
 --      media: TMedia;
 --      meta: TMetadata;
@@ -22,6 +23,8 @@ function Layout(props, children)
         luax('html', {lang="en"}, {
             Head({
                 root=root,
+                version=props.version,
+                purpose=props.purpose,
                 page_name=props.page_name,
                 meta=props.meta,
                 media=props.media,
@@ -36,22 +39,36 @@ function Layout(props, children)
                     }) or ''),
                     luax('main', {
                         luax('header', {
-                            luax('a', {href=root == './' and props.meta.github_url or "../"}, {
-                                luax('img', {width="100px", src=root .. props.media.assets..'/logo.svg'}),
+                            luax('div', {class='wrap'}, {
+                                luax('a', {href=root == './' and props.meta.github_url or "../"}, {
+                                    luax('img', {width="100px", src=root .. props.media.assets..'/logo.svg'}),
+                                }),
+                                luax('h1', {class="module"}, title),
+            
+                                ((props.nav ~= nil) and luax('button', {class="menuBtn", onclick="toggleMenu()"}, {
+                                    luax('img', {
+                                        class="menuIcon", 
+                                        width="40px", 
+                                        src= root.. props.media.assets..'/arrow_left.svg'
+                                    })
+                                }) or ''),
+            
+                                (props.version) and luax('span', {class="text version"}, {
+                                    'v', VERSION
+                                }) or ''
                             }),
-                            luax('h1', {class="module"}, title),
-        
-                            ((props.nav ~= nil) and luax('button', {class="menuBtn", onclick="toggleMenu()"}, {
-                                luax('img', {
-                                    class="menuIcon", 
-                                    width="40px", 
-                                    src= root.. props.media.assets..'/arrow_left.svg'
-                                })
-                            }) or ''),
-        
-                            (props.version) and luax('span', {class="text version"}, {
-                                'v', VERSION
-                            }) or ''
+
+                            luax('div', {class="space-between items-center gap-1 search-section", style="display: none;"}, {
+                                luax('svg',{width="24px", height="24px", xmlns="http://www.w3.org/2000/svg", viewBox="0 0 50 50"}, {
+                                    luax('path', {fill="currentColor", stroke="currentColor", d="M 21 3 C 11.601563 3 4 10.601563 4 20 C 4 29.398438 11.601563 37 21 37 C 24.355469 37 27.460938 36.015625 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.679688 27.421875 38 23.878906 38 20 C 38 10.601563 30.398438 3 21 3 Z M 21 7 C 28.199219 7 34 12.800781 34 20 C 34 27.199219 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z"}),
+                                }),
+                                luax('div', {class="search-wrap flex-col", style="position: relative;"}, {
+    
+                                    luax('input', {id="search", type="text",autocomplete="off", placeholder="Search", style="z-index: 5;"}, {}),
+                                    luax('div', {class="search-box flex-col"}, {});
+                                }),                    
+                            }),
+
                         }),
                         children,
                     })
@@ -74,7 +91,6 @@ function Layout(props, children)
                         )
                     })
                 }),
-                luax('script', 'main();'),
             })
         });
     }) 

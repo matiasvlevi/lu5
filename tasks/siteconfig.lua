@@ -30,8 +30,10 @@ return {
             headers='./src/bindings',
             static='./tasks/static',
             js={
-                'lu5.js',
-                'index.js',
+                'menu.js',
+                'image.js',
+                'download.js',
+                'search.js',
                 'hljs.min.js'
             },
             css={

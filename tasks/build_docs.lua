@@ -1,20 +1,23 @@
-local luax       = require('./tasks/lib/luax');
-local Parse      = require("./tasks/lib/parse");
-local Minify     = require("./tasks/lib/minify");
-local fs         = require("./tasks/lib/file");
-local Config     = require('./tasks/siteconfig');
+local luax = require('./tasks/lib/luax');
+local Parse = require('./tasks/lib/parse');
+local Minify = require('./tasks/lib/minify');
+local fs = require('./tasks/lib/file');
+local json = require('./tasks/lib/json');
+local get_method_searches = require('./tasks/lib/get_method_searches');
+local Config = require('./tasks/siteconfig');
 
 -- Components
-local RootLayout  = require('./tasks/lib/components/layout/RootLayout');
-local Home        = require('./tasks/lib/components/Home');
-local Reference   = require('./tasks/lib/components/Reference');
-local Module      = require('./tasks/lib/components/Module');
+local RootLayout = require('./tasks/lib/components/layout/RootLayout');
+local Home = require('./tasks/lib/components/Home');
+local Reference = require('./tasks/lib/components/Reference');
+local Module = require('./tasks/lib/components/Module');
 local HeaderPanel = require('./tasks/lib/components/Navigation');
+
 
 local ver = require('./tasks/lib/get_tags');
 
 -- Find documentation header files
-source_header_files = fs.find_files_in_dir(Config.build.source.headers, function (str)
+source_header_files = fs.find_files_in_dir(Config.build.source.headers, function(str)
     return string.find(str, "%.h");
 end);
 
@@ -29,145 +32,133 @@ for i, filename in pairs(source_header_files) do
 
     local source = fs.read_file(Config.build.source.headers .. '/' .. filename);
 
-
     local module_title = source:match("/%*%*.+%@module%s+(.-)%s*%*/")
-    if (module_title == nil) then 
-        module_title = module_name; 
+    if (module_title == nil) then
+        module_title = module_name;
     end
 
     local methods = Parse.header(filename, source);
-    
+
     if (#methods == 0) then
         print('Skipping: ', filename);
     else
 
         table.insert(modules, {
-            name=module_title,
-            source=module_name,
-            methods=methods
+            name = module_title,
+            source = module_name,
+            methods = methods
         });
     end
 end
 
-
 -- Format into webpage for Each header file (module)
-local documented_source_files = luax.map(modules, function(mod) return mod.name end)
+local documented_source_files = luax.map(modules, function(mod)
+    return mod.name
+end)
 for i, mod in pairs(modules) do
 
     local html = RootLayout({
-        page_name=mod.name,
-        page_source=mod.source,
-        version=true,
-        root="../../",
-        media=Config.media,
-        meta=Config.metadata,
-        ga=Config.ga,
-        nav=Navigation({
-            root="../",
-            class="light",
-            modules=modules 
-        }),
-    }, luax('', {
-        Module(mod)
-    }));
+        purpose = "module",
+        page_name = mod.name,
+        page_source = mod.source,
+        version = true,
+        root = "../../",
+        media = Config.media,
+        meta = Config.metadata,
+        ga = Config.ga,
+        nav = Navigation({
+            root = "../",
+            class = "light",
+            modules = modules
+        })
+    }, luax('', {Module(mod)}));
 
     -- Formatting module page
     if (Config.current_latest == VERSION) then
-        local page_dir   = Config.build.dest .. '/latest/' .. mod.source;
+        local page_dir = Config.build.dest .. '/latest/' .. mod.source;
         fs.mkdir(page_dir)
         fs.write_file(page_dir .. '/index.html', html, false);
     end
 
     -- Write in specific version
-    local page_dir_v = Config.build.dest .. '/v'.. VERSION .. '/' .. mod.source;
+    local page_dir_v = Config.build.dest .. '/v' .. VERSION .. '/' .. mod.source;
     fs.mkdir(page_dir_v)
     fs.write_file(page_dir_v .. '/index.html', html, true);
+    fs.write_file(page_dir_v .. '/methods.json', json.stringify(mod), true);
 end
 
 local reference_html = RootLayout({
-    page_name='Reference',
-    version=true,
-    root="../",
-    media=Config.media,
-    meta=luax.merge(Config.metadata, {
-        keywords    = { 
-            "Lua", 
-            "Creative Coding",
-            "Lua Interpreter", 
-            "programming", 
-            "coding", 
-            "learn code",
-            "documentation",
-            "reference",
-            "guide"
-        },
-        description='Reference documentation for lu5, '..
-        'a Lua interpreter designed to render 2D and 3D graphics. '..
-        'This documentation provides descriptions and examples of functions and features.'
+    purpose = "reference",
+    page_name = 'Reference',
+    version = true,
+    root = "../",
+    media = Config.media,
+    meta = luax.merge(Config.metadata, {
+        keywords = {"Lua", "Creative Coding", "Lua Interpreter", "programming", "coding", "learn code", "documentation",
+                    "reference", "guide"},
+        description = 'Reference documentation for lu5, ' .. 'a Lua interpreter designed to render 2D and 3D graphics. ' ..
+            'This documentation provides descriptions and examples of functions and features.'
     }),
-    ga=Config.ga,
-    nav=Navigation({ 
-        class="light",
-        root="./",
-        modules=modules
-    }),
-}, Reference({ 
-    modules=modules 
+    ga = Config.ga,
+    nav = Navigation({
+        class = "light",
+        root = "./",
+        modules = modules
+    })
+}, Reference({
+    modules = modules
 }));
 
 local homepage_html = RootLayout({
-    page_name='Interpreter for Creative Coding',
-    title='lu5',
-    version=false,
-    root="./",
-    media=Config.media,
-    meta=Config.metadata,
-    ga=Config.ga,
-}, 
-luax('div', {
-    --luax('canvas', {id="lu5canvas"}),
-    Home({
-        versions=ver.get_tags(),
-        root="./",
-        current_latest=Config.current_latest,
-        media=Config.media,
-        meta=Config.metadata,
-    }),
-    -- luax('script', {
-    --     'lu5.createCanvas();',
-    --     'lu5.background();',
-    -- }),
-})
-)
+    purpose = "homepage",
+    page_name = 'Interpreter for Creative Coding',
+    title = 'lu5',
+    version = false,
+    root = "./",
+    media = Config.media,
+    meta = Config.metadata,
+    ga = Config.ga
+}, luax('div', { -- luax('canvas', {id="lu5canvas"}),
+Home({
+    versions = ver.get_tags(),
+    root = "./",
+    current_latest = Config.current_latest,
+    media = Config.media,
+    meta = Config.metadata
+}) 
+-- luax('script', {
+--     'lu5.createCanvas();',
+--     'lu5.background();',
+-- }),
+}))
 
 -- Write reference page (Both in latest and version tag)
+local modules_json = json.stringify({
+    symbols = get_method_searches(modules)
+});
 
 if (Config.current_latest == VERSION) then
     fs.write_file(Config.build.dest .. '/latest/index.html', reference_html, false);
+    fs.write_file(Config.build.dest .. '/latest/modules.json', modules_json, true);
 end
+
 fs.write_file(Config.build.dest .. '/v' .. VERSION .. '/index.html', reference_html, true);
+fs.write_file(Config.build.dest .. '/v' .. VERSION .. '/modules.json', modules_json, true);
 
 -- Write homepage
 fs.write_file(Config.build.dest .. '/index.html', homepage_html, true);
 
+
+
 -- Copy & Minify source assets
-Minify(Config.build.source.js, Minify.js, 
-    Config.build.source.static .. '/' .. 'js', 
-    Config.build.dest ..  '/' .. Config.media.assets
-);
-Minify(Config.build.source.css, Minify.css, 
-    Config.build.source.static .. '/' .. 'css', 
-    Config.build.dest .. '/' .. Config.media.assets
-);
+Minify(Config.build.source.js, Minify.js, Config.build.source.static .. '/' .. 'js',
+    Config.build.dest .. '/' .. Config.media.assets);
+Minify(Config.build.source.css, Minify.css, Config.build.source.static .. '/' .. 'css',
+    Config.build.dest .. '/' .. Config.media.assets);
 
 -- Copy all assets
 local asset_files = fs.find_files_in_dir(Config.build.source.static .. '/' .. Config.media.assets);
 for i, filename in pairs(asset_files) do
-    fs.write_file(
-        Config.build.dest .. '/' .. Config.media.assets .. '/' .. filename, 
-        fs.read_file(
-            Config.build.source.static .. '/' .. Config.media.assets .. '/' .. filename
-        ),
-        true
-    );
+    fs.write_file(Config.build.dest .. '/' .. Config.media.assets .. '/' .. filename,
+        fs.read_file(Config.build.source.static .. '/' .. Config.media.assets .. '/' .. filename), true);
 end

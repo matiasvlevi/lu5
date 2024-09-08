@@ -137,9 +137,19 @@ end
 -- @example
 ---
 function utils.match(key, cases)
-    return (cases[key] ~= nil) and cases[key] or (
-        (cases["default"] ~= nil) and cases["default"] or ''
-    )
+    if ((cases[key] ~= nil)) then
+        local t = type(cases[key]);
+        if (t == "string") then 
+            return cases[key];
+        elseif (t == "function") then
+            return cases[key](key);
+        else
+            return '';
+        end
+
+    else
+        return (cases["default"] ~= nil) and cases["default"] or '';
+    end
 end
 
 function utils.split(input, sep)

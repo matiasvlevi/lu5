@@ -63,7 +63,7 @@ html, body {
 }
 
 .items-center {
-	align-items:center;
+	align-items: center;
 }
 
 .flex-col {
@@ -216,6 +216,14 @@ code, pre {
 }
 
 header {
+	display: flex;
+	justify-content: space-between;
+
+	align-items: baseline;
+	width: 100%;
+}
+
+header > .wrap {
 	width: 100%;
 	display: flex;
 	flex-direction: row;
@@ -223,6 +231,7 @@ header {
 	gap: 0.9rem;
 	flex-wrap: wrap;
 }
+
 
 .modules {
 	display: flex;
@@ -338,9 +347,21 @@ pre code.hljs {
 img.demo {
 	width: auto;
 }
+.search-section {
+	margin-bottom: 1rem;
+	margin-right: 2rem;
+	color: var(--lighter)
+}
+
+
 /* PC Version */
 @media (min-width: 900px) {
-
+	.search-section {
+		margin-bottom: 1rem;
+		margin-right: 18%;
+		color: var(--lighter)
+	}
+	
 	.tags {
 		display: block;
 	}
@@ -383,6 +404,41 @@ img.demo {
 		flex-direction: row;
 	}
 
+}
+
+input {
+	padding: 0.5rem;
+	border:none;
+	border-radius: 0.5rem;
+	background-color: var(--lighter);
+	color: var(--dark);
+	outline: none;
+}
+
+
+.search-wrap {
+	min-width: 20rem;
+	max-width: 32rem;
+}
+
+.search-box {
+	background-color: var(--lighter);
+	color: var(--dark);
+	width: 100%;
+	top: 2rem;
+	border-radius: 0.5rem;
+}
+
+.search-box > p#cursor {
+	margin: 0rem 0.5rem;
+	padding: 0.25rem 0.5rem;
+	background-color: var(--dark);
+	color: var(--lighter);
+	border-radius: 0.5rem;
+}
+
+.search-box > p {
+	margin: 0.25rem 1rem;
 }
 
 .param {
