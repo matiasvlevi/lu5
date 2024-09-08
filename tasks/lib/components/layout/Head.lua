@@ -35,17 +35,16 @@ function Head(props)
         luax('meta', {name='twitter:description', content=props.meta.description}),
         luax('meta', {name='twitter:image', content=thumbnail}),
 
-        props.root == './' and luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/space_game.gif'}) or '',
-        props.root == './' and luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/collisions.gif'}) or '',
-        props.root == './' and luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/sphere.gif'}) or '',
-
-        -- Only index latest docs
-        props.root == './' and '' or luax('link', {rel='canonical', href=props.meta.url .. '/latest/' }),
-    
         -- CSS
         luax('link', {rel='stylesheet', href=props.root .. props.media.assets ..'/style.css'}),
 
+        (props.purpose == "reference") and luax('', {
+            -- Only index latest docs
+            luax('link', {rel='canonical', href=props.meta.url .. '/latest/' })
+        }) or '',
+
         (props.purpose ~= "homepage") and luax('', {
+
             -- Search
             luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/search.js'}, {}),
             
@@ -61,6 +60,10 @@ function Head(props)
 
         props.purpose == "homepage" and luax('', {
             
+            luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/space_game.gif'}),
+            luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/collisions.gif'}),
+            luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/sphere.gif'}),        
+
             -- Resize images
             luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/image.js'}, {}),
             
@@ -76,18 +79,19 @@ function Head(props)
         }) or '',
 
         props.purpose == "module" and luax('', {
+            
+            -- Only index latest docs
+            luax('link', {rel='canonical', href=props.meta.url .. '/latest/' .. props.slug }),
 
+            
             -- Highlight.js
             luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
             luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
-
-            -- It also includes the FreeType font engine, which is licensed under the FreeType License (FTL).
             luax('script', {
                 'document.addEventListener("DOMContentLoaded", function (e) {',
                     'hljs.highlightAll();',
                 '});'
-            }),
-
+            })
         }) or '',
         
         props.scripts and props.scripts or '',

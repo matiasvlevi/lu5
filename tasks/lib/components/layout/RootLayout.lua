@@ -23,6 +23,7 @@ function Layout(props, children)
         luax('html', {lang="en"}, {
             Head({
                 root=root,
+                slug=props.slug,
                 version=props.version,
                 purpose=props.purpose,
                 page_name=props.page_name,

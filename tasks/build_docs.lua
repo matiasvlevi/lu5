@@ -59,8 +59,8 @@ for i, mod in pairs(modules) do
 
     local html = RootLayout({
         purpose = "module",
+        slug = mod.source,
         page_name = mod.name,
-        page_source = mod.source,
         version = true,
         root = "../../",
         media = Config.media,
@@ -90,6 +90,7 @@ end
 local reference_html = RootLayout({
     purpose = "reference",
     page_name = 'Reference',
+    slug = "reference",
     version = true,
     root = "../",
     media = Config.media,
@@ -111,6 +112,7 @@ local reference_html = RootLayout({
 
 local homepage_html = RootLayout({
     purpose = "homepage",
+    slug = "homepage",
     page_name = 'Interpreter for Creative Coding',
     title = 'lu5',
     version = false,
