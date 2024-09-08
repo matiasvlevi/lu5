@@ -218,7 +218,7 @@ code, pre {
 header {
 	display: flex;
 	justify-content: space-between;
-
+	flex-direction: column;
 	align-items: baseline;
 	width: 100%;
 }
@@ -351,11 +351,14 @@ img.demo {
 	margin-bottom: 1rem;
 	margin-right: 2rem;
 	color: var(--lighter)
-}
-
+}1
 
 /* PC Version */
 @media (min-width: 900px) {
+	header {
+		flex-direction: row;
+	}
+
 	.search-section {
 		margin-bottom: 1rem;
 		margin-right: 18%;
