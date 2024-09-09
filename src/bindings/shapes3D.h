@@ -73,12 +73,12 @@ int sphere(lua_State *L);
 /**
  * Draw a 3D Cylinder.
  * 
- * @param radius radius of the cylinder. Defaults to 50.
- * @param height height of the cylinder. Defaults to the value of radius.
- * @param detailX number of horizontal edges. Defaults to 24.
- * @param detailY number of subdivisions along the y-axis. Defaults to 1.
- * @param bottomCap whether to draw the cylinder's bottom. Defaults to true.
- * @param topCap whether to draw the cylinder's top. Defaults to true.
+ * @param [radius] radius of the cylinder. Defaults to 50.
+ * @param [height] height of the cylinder. Defaults to the value of radius.
+ * @param [detailX] number of horizontal edges. Defaults to 24.
+ * @param [detailY] number of subdivisions along the y-axis. Defaults to 1.
+ * @param [bottomCap] whether to draw the cylinder's bottom. Defaults to true.
+ * @param [topCap] whether to draw the cylinder's top. Defaults to true.
  *
  * @example
  * function setup()
@@ -93,6 +93,28 @@ int sphere(lua_State *L);
  * @example
  */
 int cylinder(lua_State *L);
+
+/**
+ * Draw a 3D Torus. 
+ * 
+ * @param [radius] radius of the torus. Defaults to 50.
+ * @param [tubeRadius] radius of the tube. Defaults to 10.
+ * @param [detailX] number of edges that form the hole. Defaults to 24.
+ * @param [detailY] number of triangle subdivisions along the y-axis. Defaults to 16.
+ *
+ * @example
+ * function setup()
+ *   createWindow(800, 800, GL3D);
+ * end
+ *
+ * function draw()
+ *   background(51);
+ *  
+ *   torus(30, 50);
+ * end
+ * @example
+ */
+int torus(lua_State *L);
 
 
 #endif /* _LU5_SHAPES3D_H_ */

@@ -107,4 +107,12 @@ void lu5_render_cylinder_faces(
     bool bottom_cap, 
     bool top_cap);
 
+void lu5_render_torus_faces(
+    lua_Number radius, lua_Number tubeRadius, 
+    lua_Integer detailX, lua_Integer detailY);
+
+void lu5_render_torus_edges(
+    lua_Number radius, lua_Number tubeRadius, 
+    lua_Integer detailX, lua_Integer detailY);
+
 #endif

@@ -147,3 +147,32 @@ int cylinder(lua_State *L)
 
 	return 0;
 }
+
+int torus(lua_State *L) 
+{
+	lua_Number radius = lua_isnumber(L, 1) ? lua_tonumber(L, 1) : 50.0; 
+	lua_Number tubeRadius = lua_isnumber(L, 2) ? lua_tonumber(L, 2) : 10.0; 
+
+	lua_Number detail_x = lua_isnumber(L, 3) ? lua_tonumber(L, 3) : 24;
+	lua_Number detail_y = lua_isnumber(L, 4) ? lua_tonumber(L, 4) : 16;
+
+	if (lu5_has_fill()) 
+	{
+		lu5_apply_color(lu5_style(&lu5)->fill);
+		lu5_render_torus_faces(radius, tubeRadius,
+							   detail_x, detail_y);
+	}
+
+	if (lu5_has_stroke()) 
+	{
+		// Draw sphere edges
+		lu5_apply_color(lu5_style(&lu5)->stroke);
+		glLineWidth(lu5_style(&lu5)->strokeWeight);
+
+		// Draw stroke with a larger radius
+		lu5_render_torus_edges(radius, tubeRadius,
+							   detail_x, detail_y);
+	}
+
+	return 0;
+}

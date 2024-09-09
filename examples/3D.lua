@@ -23,16 +23,24 @@ function draw()
     push();
     noFill();
     stroke(0, 255, 0);
-    translate(0, 0, 0);
+    translate(90, 0, 0);
     cylinder(30, 60);
     pop(0);
 
     push();
     noFill();
     stroke(0, 255, 0);
-    translate(90, 0, 0);
+    translate(00, 0, 0);
     box(50, 60);
     pop(0);
+
+    push();
+    noFill();
+    stroke(0, 255, 0);
+    translate(0, -100, 0);
+    torus(30, 10);
+    pop(0);
+
 
     push();
     translate(0, 32, 0);
