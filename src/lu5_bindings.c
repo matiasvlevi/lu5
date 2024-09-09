@@ -176,7 +176,7 @@ void lu5_register_symbols(lua_State *L)
 
 	// Shapes 3D
 	LUA_ADD_FUNCTION(L, box);
-	// LUA_ADD_FUNCTION(L, cylinder);
+	LUA_ADD_FUNCTION(L, cylinder);
 	LUA_ADD_FUNCTION(L, sphere);
 	LUA_ADD_FUNCTION(L, plane);
 

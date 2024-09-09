@@ -109,54 +109,41 @@ int sphere(lua_State *L)
 	return 0;
 }
 
-// int cylinder(lua_State *L) 
-// {
-// 	lua_Number radius = lu5_assert_number(L, 1, "cylinder");
-// 	lua_Number height = lu5_assert_number(L, 2, "cylinder");
+int cylinder(lua_State *L)
+{
+	lua_Number radius = lua_isnumber(L, 1) ? lua_tonumber(L, 1) : 50.0; 
+	lua_Number height = lua_isnumber(L, 2) ? lua_tonumber(L, 2) : radius; 
 
-// 	lua_Number detail_x = 24;
-// 	if (lua_isboolean(L, 3)) {
-// 		detail_x = lua_toboolean(L, 3);
-// 	}
-	
-// 	lua_Number detail_y = 24;
-// 	if (lua_isboolean(L, 4)) {
-// 		detail_y = lua_toboolean(L, 4);
-// 	}
+	lua_Number detail_x = lua_isnumber(L, 3) ? lua_tonumber(L, 3) : 24;
+	lua_Number detail_y = lua_isnumber(L, 4) ? lua_tonumber(L, 4) : 1;
 
-// 	bool top_cap = false;
-// 	if (lua_isboolean(L, 5)) {
-// 		top_cap = lua_toboolean(L, 5);
-// 	}
-	
-// 	bool bottom_cap = false;
-// 	if (lua_isboolean(L, 6)) {
-// 		bottom_cap = lua_toboolean(L, 6);
-// 	}
+	bool bottom_cap = lua_isboolean(L, 5) ? lua_toboolean(L, 5) : true;	
+	bool top_cap = lua_isboolean(L, 6) ? lua_toboolean(L, 6) : true;
 
-// 	if (lu5_has_fill()) 
-// 	{
-// 		lu5_apply_color(lu5_style(&lu5)->fill);
-// 		lu5_render_cylinder_faces(radius, height,
-// 			top_cap, 
-// 			bottom_cap);
-// 	}
+	if (lu5_has_fill()) 
+	{
+		lu5_apply_color(lu5_style(&lu5)->fill);
+		lu5_render_cylinder_faces(radius, height,
+			detail_x, detail_y,
+			top_cap, 
+			bottom_cap);
+	}
 
-// 	if (lu5_has_stroke()) 
-// 	{
-// 		// Draw sphere edges
-// 		lu5_apply_color(lu5_style(&lu5)->stroke);
-// 		glLineWidth(lu5_style(&lu5)->strokeWeight);
+	if (lu5_has_stroke()) 
+	{
+		// Draw sphere edges
+		lu5_apply_color(lu5_style(&lu5)->stroke);
+		glLineWidth(lu5_style(&lu5)->strokeWeight);
 
-// 		// Draw stroke with a larger radius
-// 		lu5_render_cylinder_edges(
-// 			radius + 1.0f,
-// 			height,
-// 			detail_x, detail_y
-// 			top_cap, 
-// 			bottom_cap
-// 		);
-// 	}
+		// Draw stroke with a larger radius
+		lu5_render_cylinder_edges(
+			radius + 0.5f,
+			height + 0.5f,
+			detail_x, detail_y,
+			top_cap, 
+			bottom_cap
+		);
+	}
 
-// 	return 0;
-// }
+	return 0;
+}

@@ -64,13 +64,14 @@ void lu5_render_cylinder_faces(
 }
 
 void lu5_render_cylinder_edges(
-    lua_Number radius, lua_Number height, 
-    lua_Integer detail_x, lua_Integer detail_y, 
-    bool bottom_cap, 
-    bool top_cap) 
+    lua_Number radius, lua_Number height,
+    lua_Integer detail_x, lua_Integer detail_y,
+    bool bottom_cap,
+    bool top_cap)
 {
     lua_Number half_height = height / 2.0;
 
+    // Draw vertical lines
     for (lua_Integer j = 0; j <= detail_x; j++) {
         lua_Number theta = 2 * M_PI * j / (lua_Number)detail_x;
         lua_Number cos_theta = cosf(theta);
@@ -87,6 +88,7 @@ void lu5_render_cylinder_edges(
         glEnd();
     }
 
+    // Draw horizontal lines
     for (lua_Integer i = 0; i <= detail_y; i++) {
         lua_Number y = -half_height + (height * i / (lua_Number)detail_y);
 
@@ -104,34 +106,80 @@ void lu5_render_cylinder_edges(
         glEnd();
     }
 
-    if (bottom_cap) 
-    {
-        glBegin(GL_LINE_LOOP);
-        for (lua_Integer j = 0; j < detail_x; j++) {
-            lua_Number theta = 2 * M_PI * j / (lua_Number)detail_x;
-            lua_Number cos_theta = cosf(theta);
-            lua_Number sin_theta = sinf(theta);
+    // Draw diagonal edges
+    for (lua_Integer j = 0; j < detail_x; j++) {
+        lua_Number theta = 2 * M_PI * j / (lua_Number)detail_x;
+        lua_Number next_theta = 2 * M_PI * (j + 1) / (lua_Number)detail_x;
+        lua_Number cos_theta = cosf(theta);
+        lua_Number sin_theta = sinf(theta);
+        lua_Number cos_next_theta = cosf(next_theta);
+        lua_Number sin_next_theta = sinf(next_theta);
 
-            lua_Number x = cos_theta * radius;
-            lua_Number z = sin_theta * radius;
+        lua_Number x1 = cos_theta * radius;
+        lua_Number z1 = sin_theta * radius;
+        lua_Number x2 = cos_next_theta * radius;
+        lua_Number z2 = sin_next_theta * radius;
 
-            lu5_glVertex3(x, -half_height, z);
+        glBegin(GL_LINES);
+        for (lua_Integer i = 0; i < detail_y; i++) {
+            lua_Number y = -half_height + (height * i / (lua_Number)detail_y);
+            lua_Number next_y = -half_height + (height * (i + 1) / (lua_Number)detail_y);
+            lu5_glVertex3(x2, y, z2);
+            lu5_glVertex3(x1, next_y, z1);
         }
         glEnd();
     }
 
-    if (top_cap) 
+    // Draw bottom cap
+    if (bottom_cap) 
     {
+        lua_Number y = -half_height;
+
         glBegin(GL_LINE_LOOP);
         for (lua_Integer j = 0; j < detail_x; j++) {
             lua_Number theta = 2 * M_PI * j / (lua_Number)detail_x;
+            lua_Number next_theta = 2 * M_PI * ((j + 1) % detail_x) / (lua_Number)detail_x;
             lua_Number cos_theta = cosf(theta);
             lua_Number sin_theta = sinf(theta);
+            lua_Number cos_next_theta = cosf(next_theta);
+            lua_Number sin_next_theta = sinf(next_theta);
 
-            lua_Number x = cos_theta * radius;
-            lua_Number z = sin_theta * radius;
+            lua_Number x1 = cos_theta * radius;
+            lua_Number z1 = sin_theta * radius;
+            lua_Number x2 = cos_next_theta * radius;
+            lua_Number z2 = sin_next_theta * radius;
 
-            lu5_glVertex3(x, half_height, z);
+            // Draw the triangle fan lines
+            lu5_glVertex3(0, y, 0);  // center
+            lu5_glVertex3(x1, y, z1); // current vertex on the circle
+            lu5_glVertex3(x2, y, z2); // next vertex on the circle
+        }
+        glEnd();
+    }
+
+    // Draw top cap
+    if (top_cap) 
+    {
+        lua_Number y = half_height;
+
+        glBegin(GL_LINE_LOOP);
+        for (lua_Integer j = 0; j < detail_x; j++) {
+            lua_Number theta = 2 * M_PI * j / (lua_Number)detail_x;
+            lua_Number next_theta = 2 * M_PI * ((j + 1) % detail_x) / (lua_Number)detail_x;
+            lua_Number cos_theta = cosf(theta);
+            lua_Number sin_theta = sinf(theta);
+            lua_Number cos_next_theta = cosf(next_theta);
+            lua_Number sin_next_theta = sinf(next_theta);
+
+            lua_Number x1 = cos_theta * radius;
+            lua_Number z1 = sin_theta * radius;
+            lua_Number x2 = cos_next_theta * radius;
+            lua_Number z2 = sin_next_theta * radius;
+
+            // Draw the triangle fan lines
+            lu5_glVertex3(0, y, 0);  // center
+            lu5_glVertex3(x1, y, z1); // current vertex on the circle
+            lu5_glVertex3(x2, y, z2); // next vertex on the circle
         }
         glEnd();
     }
