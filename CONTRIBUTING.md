@@ -44,7 +44,9 @@ make projects
 
 ## Docs Build 
 
-Build lu5 with the static documentation site
+> You can skip this step if you havent changed the documentation in the header source files 
+
+Run a documentation build with the command below.
 
 ```
 make docs
@@ -52,6 +54,8 @@ make docs
 
 Static site is generated in `./docs/*`, make sure to verify that your documentation has been added to the built static site.
 
+
+The documentation is built by lu5, and the site is written in lua using [this jsx-like utility](https://gist.github.com/matiasvlevi/89ec277944034151e6377294c69eec20)
 
 
 <br/>

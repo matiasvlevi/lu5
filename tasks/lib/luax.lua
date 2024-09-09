@@ -1,6 +1,49 @@
+---
+--- A simple JSX-Like String builder
+---
+--- @param tag - The element's tag name
+--- @param props - Properties & attributes
+--- @param children - Children elements
+---
+--- @example
+--- local luax = require('path/to/this/file');
+---
+--- local div = luax('div', {
+---      luax('h2', 'Hello world!')
+--- });
+--- print(div) -- <div><h2>Hello world!</h2></div>
+--- @example
+--- 
+--- @example
+--- local luax = require('path/to/this/file');
+---
+--- local div = luax('div', {class="container"}, {
+---      luax('h2', 'Hello world!'),
+---      luax('span', {class="red"}, 'This text is red.')
+--- });
+--- print(div) -- <div class="container"><h2>Hello world!</h2><span class="red">This text is red.</span></div>
+--- @example
+---
+--- Luax concatenates strings and wraps it with a tag.
+--- If no tag is provided, luax just concatenates the strings.
+---
+--- @example
+--- local luax = require('path/to/this/file');
+---
+--- local result = luax('', { 'a', 'b', 'c' });
+--- print(result) -- abc
+---
+--- local result_with_tag = luax('tag', { 'a', 'b', 'c' });
+--- print(result_with_tag) -- <tag>abc</tag>
+--- @example
+---
+--- @author Matias Vazquez-Levi
+--- @license MIT
+---
 
-
+--- Table used to include utilities or other JS-like functions (filter, map, join, etc) in the utils table.
 local utils = {
+    --- Map of all self closing tags
     self_closing_tags = {
         area=0,
         base=0, 
@@ -21,10 +64,15 @@ local utils = {
     };
 };
 
+--- Determine if is a self closing tag according to Modern HTML spec
+---@param elem string
 function utils.is_single_closing(elem)
     return (utils.self_closing_tags[elem] ~= nil);
 end
 
+--- Join an array of strings to a strng
+---@param list string[] The array to join
+---@param sep string The separator segment in between array elements.
 function utils.join(list, sep)
     if (sep == nil) then sep = '' end;
     if (#list < 1) then return '' end;
@@ -39,6 +87,125 @@ function utils.join(list, sep)
     return str;
 end
 
+---
+--- Map data to strings
+---
+--- @param data The table data to map (either with indicies or keys)
+--- @param cb The function which maps the data element to a string (Can be a component)
+---
+--- @example
+--- local div = luax.map({ 'Bob', 'Jonh', 'Mark' }, function(name, i)
+---     return luax('span', {id=i}, name);
+--- end)
+---
+--- print(div) -- <span id="1">Bob</span><span id="2">Jonh</span><span id="3">Mark</span>
+--- @example
+---
+function utils.map(data, cb)
+    local res = {}
+    local it = (type(data) == "table" and data[1] ~= nil) and ipairs or pairs;
+    for k, value in it(data) do
+        res[k] = cb(value, k);
+    end
+    return res;
+end
+
+---
+--- Match case for inline logic
+---
+--- @param key The key to match
+--- @param cases A table of strings
+---
+--- @example
+--- -- can be either "banana", "apple", "raisin"
+--- local value = "raisin";
+--- local div = luax.match(value, {
+---      banana=luax('p', 'todo: banana component'),
+---      apple=luax('p', 'todo: apple component'),
+---      raisin=luax('div', {
+---          luax('p', 'This is a raisin')
+---      }),
+--- })
+---
+--- print(div) -- <div><p>This is a raisin</p></div>
+--- @example
+---
+function utils.match(key, cases)
+    if ((cases[key] ~= nil)) then
+        local t = type(cases[key]);
+        if (t == "string") then 
+            return cases[key];
+        elseif (t == "function") then
+            return cases[key](key);
+        else
+            return '';
+        end
+    else
+        return (cases["default"] ~= nil) and cases["default"] or '';
+    end
+end
+
+--- Split a string in an array
+---@param input string Main string
+---@param sep string The separator segment
+function utils.split(input, sep)
+    local content={}
+    for str in string.gmatch(input, "([^"..sep.."]+)") do
+        table.insert(content, str);
+    end
+    return content
+end
+
+--- Filter a numeric table
+---@param list any[] the numeric table to filter 
+---@param cb (any)=>bool the filter callback, if returns false, element is filtered out. 
+function utils.filter(list, cb)
+    local res = {}
+    for i, elem in ipairs(list) do
+        if (cb(elem, i)) then
+            table.insert(res, elem)
+        end
+    end
+    return res;
+end
+
+--- Equivalent to javascript's destructuring (operator ...)
+--- @param a host object
+--- @param b object to merge
+---
+function utils.merge(a, b)
+    local res = {};
+
+    for key, value in pairs(a) do
+        res[key] = value;
+    end
+    for key, value in pairs(b) do
+        res[key] = value;
+    end
+    
+    return res;
+end
+
+--- Reverse a numeric table
+--- @param list the table to reverse
+function utils.reverse(list)
+    local res = {}
+    for i, elem in ipairs(list) do
+        table.insert(res, 1, elem)
+    end
+    return res;
+end
+
+--- Insert segment into string
+--- @param host The main string
+--- @param segment The segment to insert into the main string
+--- @param pos The character postition of the inserted segment
+function utils.insert(host, segment, pos)
+    return host:sub(1,pos-1)..segment..host:sub(pos+1)
+end
+
+--- Format xml attributes
+--- @param props The properties or attributes to add to the resulting xml
 function utils.format_props(props)
     -- Format props to string
     local prop_index = 1;
@@ -65,6 +232,8 @@ function utils.format_props(props)
     return prop_string;
 end
 
+--- Get formatted children
+--- @param children
 function utils.children_to_string(children)
     -- Format children to string
     local children_string = '';
@@ -87,145 +256,10 @@ function utils.children_to_string(children)
     return children_string;
 end
 
----
--- Map data to strings
---
--- @param data The table data to map (either with indicies or keys)
--- @param cb The function which maps the data element to a string (Can be a component)
---
--- @example
--- local names = {
---     'Bob',
---     'Jonh',
---     'Mark'
--- }
--- 
--- local div = luax.map(names, function(name, i)
---     return luax('span', {id=i}, name);
--- end)
---
--- print(div) -- <span id="1">Bob</span><span id="2">Jonh</span><span id="3">Mark</span>
--- @example
----
-function utils.map(data, cb)
-    local res = {}
-    local it = (type(data) == "table" and data[1] ~= nil) and ipairs or pairs;
-    for k, value in it(data) do
-        res[k] = cb(value, k);
-    end
-    return res;
-end
-
----
--- Match case for inline logic
---
--- @param key The key to match
--- @param cases A table of strings
---
--- @example
--- -- can be either "banana", "apple", "raisin"
--- local value = "raisin";
--- local div = luax.match(value, {
---      banana=luax('p', 'todo: banana component'),
---      apple=luax('p', 'todo: apple component'),
---      raisin=luax('div', {
---          luax('p', 'This is a raisin')
---      }),
--- })
---
--- print(div) -- <div><p>This is a raisin</p></div>
--- @example
----
-function utils.match(key, cases)
-    if ((cases[key] ~= nil)) then
-        local t = type(cases[key]);
-        if (t == "string") then 
-            return cases[key];
-        elseif (t == "function") then
-            return cases[key](key);
-        else
-            return '';
-        end
-
-    else
-        return (cases["default"] ~= nil) and cases["default"] or '';
-    end
-end
-
-function utils.split(input, sep)
-    local content={}
-    for str in string.gmatch(input, "([^"..sep.."]+)") do
-        table.insert(content, str);
-    end
-    return content
-end
-
-function utils.filter(list, cb)
-    local res = {}
-    for i, elem in ipairs(list) do
-        if (cb(elem, i)) then
-            table.insert(res, elem)
-        end
-    end
-    return res;
-end
-
-function utils.merge(a, b)
-    local res = a;
-    for key, value in pairs(b) do
-        res[key] = value;
-    end
-    return res;
-end
-
-function utils.reverse(list)
-    local res = {}
-    for i, elem in ipairs(list) do
-        table.insert(res, 1, elem)
-    end
-    return res;
-end
-
-function utils.insert(host, segment, pos)
-    return host:sub(1,pos-1)..segment..host:sub(pos+1)
-end
-
-local mt = { 
-    __call=function(t, tag, arg1, arg2)
-        -- Set arguments
-        local props, children;
-        if (arg2 == nil and (type(arg1) ~= "table" or arg1[1] ~= nil)) then
-            props = {}  ; children = arg1;
-        else
-            props = arg1; children = arg2;
-        end
-
-        return luax(tag, props, children);
-    end
-};
-
----
--- A simple JSX-Like String builder
---
--- @param tag - The element's tag name
--- @param props - Properties & attributes
--- @param children - Children elements
---
--- @example
--- local div = luax('div', {
---      luax('h2', 'Hello world!')
--- });
--- print(div) -- <div><h2>Hello world!</h2></div>
--- @example
--- 
--- @example
--- local div = luax('div', {class="container"}, {
---      luax('h2', 'Hello world!'),
---      luax('span', {class="red"}, 'This text is red.')
--- });
--- print(div) -- <div class="container"><h2>Hello world!</h2><span class="red">This text is red.</span></div>
--- @example
----
+--- Core luax function
+---@param tag string The tag to create
+---@param props any{} Tag attributes
+---@param children string|string[] The children elements
 function luax(tag, props, children)
     -- If tag is empty, return children alone without formating
     -- Commonly known as 'Fragment'
@@ -246,5 +280,20 @@ function luax(tag, props, children)
         '</' .. tag .. '>'
     )
 end;
+
+--- __call will handle luax's argument logic.
+local mt = { 
+    __call=function(t, tag, arg1, arg2)
+        -- Set arguments
+        local props, children;
+        if (arg2 == nil and (type(arg1) ~= "table" or arg1[1] ~= nil)) then
+            props = {}  ; children = arg1;
+        else
+            props = arg1; children = arg2;
+        end
+
+        return luax(tag, props, children);
+    end
+};
 
 return setmetatable(utils, mt);
