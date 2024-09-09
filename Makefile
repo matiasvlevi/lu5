@@ -70,7 +70,6 @@ OBJECTS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
 DEP = $(OBJECTS:.o=.d)
 
 EXAMPLES = $(wildcard examples/*.lua)
-PROJECTS = $(wildcard examples/projects/**/main.lua)
 TESTS = $(wildcard tests/*.lua)
 
 ifeq ($(PLATFORM), win)
@@ -127,13 +126,7 @@ examples: $(all) $(EXAMPLES:=.run)
 examples/%.lua.run: examples/%.lua 
 	$(BIN) --log 5 $<
 	rm -f $@
-
-# Run all example projects
-projects: $(all) $(PROJECTS:=.run)
-projects/%.lua.run: examples/projects/%/main.lua 
-	$(BIN) $<
-	rm -f $@
-
+	
 # Build the documentation using lu5 and task scripts
 docs: $(BIN)
 	$(BIN) $(DOC_BUILD_SCRIPT)
