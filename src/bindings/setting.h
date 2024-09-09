@@ -4,7 +4,7 @@
 #include <lua.h>
 
 /**
- * Clear a background with a color
+ * Clear a background with a color. 
  *
  * @param r The red byte
  * @param g The green byte
@@ -48,7 +48,7 @@
 int background(lua_State *L);
 
 /**
- * Set the fill color for shapes
+ * Set the fill color for shapes. 
  *
  * @param r The red byte
  * @param g The green byte
@@ -92,7 +92,7 @@ int background(lua_State *L);
 int fill(lua_State *L);
 
 /**
- * Set the line width
+ * Set the line width. 
  *
  * @param weight The line width in pixels
  *
@@ -104,7 +104,7 @@ int fill(lua_State *L);
 int strokeWeight(lua_State *L);
 
 /**
- * Disable fill
+ * Disable fill. 
  *
  * @example
  * noFill();
@@ -151,15 +151,15 @@ int noFill(lua_State *L);
 int stroke(lua_State *L);
 
 /**
- * Disable stroke
+ * Disable stroke. 
  */ 
 int noStroke(lua_State *L);
 
 /**
  * Save the style and transformation settings. <br/>
  *
- * Pushes the lu5 style settings off the stack
- * Pushes the OpenGL transformation matrix off the stack
+ * Pushes the lu5 style settings off the stack. 
+ * Pushes the OpenGL transformation matrix off the stack.
  *
  * @example
  * function setup()
@@ -208,13 +208,13 @@ int push(lua_State *L);
 /**
  * Restore the style and transformation settings. <br/>
  *
- * Pops the lu5 style settings off the stack
- * Pops the OpenGL transformation matrix off the stack
+ * Pops the lu5 style settings off the stack. 
+ * Pops the OpenGL transformation matrix off the stack.
  */
 int pop(lua_State *L);
 
 /**
- * Set rectangle alignment mode
+ * Set rectangle alignment mode.
  *
  * @param mode either `CENTER`, `CORNER`, `RADIUS`
  *
@@ -235,7 +235,7 @@ int pop(lua_State *L);
 int rectMode(lua_State *L);
 
 /**
- * Toggle a helpful mode with 3D Graphics 
+ * Toggle a helpful mode with 3D Graphics.
  *
  * @param [enable] Whether or not to enable the debug mode, if not provided, it defaults to `true` 
  *

@@ -1,1 +1,1 @@
-{"source":{"header":"window.h","start_line":64,"end_line":68},"doc":{"name":"loop","_type":"method","examples":{},"bottom_description":"","calls":[{"arguments":{}}],"description":"Allow lu5 to call the <code class=\"inline\">draw</code> function."}}
+{"doc":{"bottom_description":"","name":"loop","description":"Allow lu5 to call the <code class=\"inline\">draw</code> function.","calls":[{"arguments":{}}],"_type":"method","examples":{}},"source":{"end_line":68,"start_line":64,"header":"window.h"}}
