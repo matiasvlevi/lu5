@@ -152,7 +152,7 @@ body {
 	height: fit-content;
 	display: flex;
 	flex-direction: column;
-	align-items: flex-end;
+	align-items: center;
 }
 
 a, p, span.text, span.small, span.smaller, span.decorator, h1, h2, h3, h4, h5, h6  {

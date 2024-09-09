@@ -1,1 +1,1 @@
-{"doc":{"bottom_description":"","name":"noStroke","description":"Disable stroke. ","calls":[{"arguments":{}}],"_type":"method","examples":{}},"source":{"end_line":156,"start_line":153,"header":"setting.h"}}
+{"doc":{"description":"Disable stroke. ","bottom_description":"","examples":{},"name":"noStroke","calls":[{"arguments":{}}],"_type":"method"},"source":{"header":"setting.h","start_line":153,"end_line":156}}
