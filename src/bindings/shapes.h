@@ -11,7 +11,7 @@
 #define LINE_POINT_SEGMENTS 24
 
 /**
- * Draw an ellipse to the opengl context
+ * Draw an ellipse on the screen.
  * 
  * @param x The x position of the ellipse's center 
  * @param y The y position of the ellipse's center
@@ -34,7 +34,7 @@
 int ellipse(lua_State *L);
 
 /**
- * Draw a circle to the opengl context
+ * Draw a circle on the screen.
  * 
  * @param x The x position of the circle's center 
  * @param y The y position of the circle's center
@@ -56,7 +56,7 @@ int ellipse(lua_State *L);
 int circle(lua_State *L);
 
 /**
- * Draw a rectangle to the opengl context
+ * Draw a rectangle on the screen.
  *
  * @param x The x position of the reactangle's top left corner
  * @param y The y position of the reactangle's top left corner
@@ -80,7 +80,7 @@ int circle(lua_State *L);
 int rect(lua_State *L);
 
 /**
- * Draw a square to the opengl context
+ * Draw a square on the screen.
  * 
  * @param x The x position of the square's top left corner
  * @param y The y position of the square's top left corner
@@ -103,7 +103,7 @@ int rect(lua_State *L);
 int square(lua_State *L);
 
 /**
- * Draw a line to the opengl context
+ * Draw a line on the screen.
  * 
  * @param x1 The x position of the first point
  * @param y1 The y position of the first point
@@ -128,7 +128,7 @@ int line(lua_State *L);
 
 
 /**
- * Draw an arc on the screen
+ * Draw an arc on the screen.
  *
  * @param x The x position of the arc's ellipse
  * @param y The y position of the arc's ellipse
@@ -157,7 +157,7 @@ int arc(lua_State *L);
 
 
 /**
- * Draw a point on the screen
+ * Draw a point on the screen.
  *
  * @param x The point's x coordinate
  * @param y The point's y coordinate
@@ -185,7 +185,7 @@ int point(lua_State *L);
 
 
 /**
- * Draw a quad on the screen
+ * Draw a quad on the screen.
  *
  * @param x1 The x position of the first point
  * @param y1 The y position of the first point
@@ -219,7 +219,7 @@ int point(lua_State *L);
 int quad(lua_State *L);
 
 /**
- * Draw a triangle on the screen
+ * Draw a triangle on the screen.
  *
  * @param x1 The x position of the first point
  * @param y1 The y position of the first point
@@ -248,7 +248,7 @@ int quad(lua_State *L);
 int triangle(lua_State *L);
 
 /**
- * Begin adding vertices to a custom shape
+ * Begin adding vertices to a custom shape.
  * 
  * @param mode The opengl shape mode `LINES`, `POINTS`, `QUADS`, `TRIANGLES`, `TRIANGLE_FAN` 
  *
@@ -274,19 +274,20 @@ int triangle(lua_State *L);
 int beginShape(lua_State *L);
 
 /**
- * `beginShape` must be called prior
- * Adding a vertex to a custom shape
+ * Add a vertex to a custom shape.
  * 
  * @param x The x position
  * @param y The y position
+ *
+ * `beginShape` must be called prior.
  *
  */
 int vertex(lua_State *L);
 
 /**
- * `beginShape` must be called prior
- * Close the custom shape
+ * Close the custom shape.
  *
+ * `beginShape` must be called prior.
  */
 int endShape(lua_State *L);
 

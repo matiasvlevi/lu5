@@ -37,7 +37,7 @@ int loadImage(lua_State *L);
 int image(lua_State *L);
 
 /**
- * Crop an Image into an other Image
+ * Crop an Image into an other Image.
  * 
  * @name Image.crop
  * 
@@ -62,7 +62,6 @@ int image(lua_State *L);
  * 
  *     image(img, 0, 0);
  *     image(cropped, x, y);
- * 
  * end
  * @example
  *

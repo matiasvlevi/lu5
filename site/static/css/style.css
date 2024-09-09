@@ -140,6 +140,11 @@ footer {
 	padding: 2rem 4rem;
 	min-height: 6rem;
 	background-color: var(--primary);
+
+    width: 100%;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
 }
 
 body {
@@ -147,6 +152,7 @@ body {
 	height: fit-content;
 	display: flex;
 	flex-direction: column;
+	align-items: flex-end;
 }
 
 a, p, span.text, span.small, span.smaller, span.decorator, h1, h2, h3, h4, h5, h6  {
@@ -213,6 +219,7 @@ li:not(:last-child) {
 
 code, pre {
     font-family: inconsolata, lucida console, monospace;
+	white-space: pre-wrap;
 }
 
 header {
@@ -301,7 +308,6 @@ h1.module {
 	top:-0.25em;
 	color: var(--primary);
 	font-weight: bold;
-	font-size: 26pt;
 }
 
 pre code.hljs {
@@ -357,6 +363,13 @@ img.demo {
 
 /* PC Version */
 @media (min-width: 900px) {
+
+	body {
+		align-items: flex-start;
+		width: 100%;
+	}
+	body > div { width: 100%; }
+
 	header {
 		flex-direction: row;
 	}
@@ -461,6 +474,7 @@ input {
 
 .method > div.methodDeclaration > code {
 	font-size: 16pt;
+	white-space: nowrap;
 }
 
 .menuBtn {

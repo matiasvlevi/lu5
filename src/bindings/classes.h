@@ -3,7 +3,7 @@
 #include <lua.h>
 /**
  * Create a class. 
- * if a class implements a `print` method, it can be used in the <a href="./io.html#print">`print`</a> function
+ * if a class implements a `print` method, it can be used in the <a href="./io.html#print">`print`</a> function.
  * 
  * @param name The class name
  *

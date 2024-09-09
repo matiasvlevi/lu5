@@ -1,7 +1,7 @@
-local luax = require('tasks/lib/luax');
+local luax = require('site/lib/luax');
 
-local Head = require('tasks/lib/components/layout/Head');
-local SocialButton = require('tasks/lib/components/SocialButton');
+local Head = require('site/layout/Head');
+local SocialButton = require('site/components/SocialButton');
 ---
 -- @Component
 -- @props TLayout {
@@ -24,6 +24,7 @@ function Layout(props, children)
             Head({
                 root=root,
                 slug=props.slug,
+                parent=props.parent,
                 version=props.version,
                 purpose=props.purpose,
                 page_name=props.page_name,
@@ -44,15 +45,15 @@ function Layout(props, children)
                                 luax('a', {href=root == './' and props.meta.github_url or "../"}, {
                                     luax('img', {width="100px", src=root .. props.media.assets..'/logo.svg'}),
                                 }),
-                                luax('h1', {class="module"}, title),
+                                luax('h1', {class="module", style=("font-size: ".. (props.purpose ~= "symbol" and "26pt" or  "22pt"))}, title),
             
-                                ((props.nav ~= nil) and luax('button', {class="menuBtn", onclick="toggleMenu()"}, {
+                                (props.nav ~= nil) and luax('button', {class="menuBtn", onclick="toggleMenu()"}, {
                                     luax('img', {
                                         class="menuIcon", 
                                         width="40px", 
                                         src= root.. props.media.assets..'/arrow_left.svg'
                                     })
-                                }) or ''),
+                                }) or '',
             
                                 (props.version) and luax('span', {class="text version"}, {
                                     'v', VERSION

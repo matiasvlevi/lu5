@@ -1,6 +1,6 @@
-local luax = require('tasks/lib/luax')
+local luax = require('site/lib/luax')
 
-local ModuleSummary = require('tasks/lib/components/ModuleSummary')
+local ModuleSummary = require('site/components/ModuleSummary')
 
 local function Reference(props)
     return luax('div', {class="modules container", id="reactive"}, {

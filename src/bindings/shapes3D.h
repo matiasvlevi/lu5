@@ -6,7 +6,7 @@
 #include <lua.h>
 
 /**
- * Draw a plane 
+ * Draw a plane.
  * 
  * @param w The width dimension 
  * @param h The height dimension
@@ -28,7 +28,7 @@
 int plane(lua_State *L);
 
 /**
- * Draw a 3D box 
+ * Draw a 3D box.
  * 
  * @param w The width dimension 
  * @param [h] The height dimension
@@ -50,7 +50,7 @@ int plane(lua_State *L);
 int box(lua_State *L);
 
 /**
- * Draw a 3D Sphere 
+ * Draw a 3D Sphere.
  * 
  * @param w The width dimension 
  * @param [detailX] The detail in the X axis

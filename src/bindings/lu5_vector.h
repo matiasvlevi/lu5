@@ -16,7 +16,7 @@ typedef struct {
 lu5_vector* lu5_check_vector(lua_State* L, int index);
 
 /**
- * Create a vector instance
+ * Create a vector instance.
  *
  * @param x The first component of the vector
  * @param y The second component of the vector
@@ -33,7 +33,7 @@ int createVector(lua_State *L);
 
 /**
  * @name Vector.print
- * Since a `Vector` implements a `print` method, it can be used in the <a href="./io.html#print">`print`</a> function
+ * Since a `Vector` implements a `print` method, it can be used in the <a href="./io.html#print">`print`</a> function.
  *
  * @example
  * local a = createVector(3, 5);

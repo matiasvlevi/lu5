@@ -4,7 +4,7 @@
 #include <lua.h>
 
 /**
- * Load a font
+ * Load a font.
  * 
  * @param path The font path on the local system
  * 
@@ -27,7 +27,7 @@
 int loadFont(lua_State *L);
 
 /**
- * Set the font size
+ * Set a font size.
  *
  * @param size The size of the font in pixels
  *
@@ -42,7 +42,7 @@ int loadFont(lua_State *L);
 int textSize(lua_State *L);
 
 /**
- * Set the font alignment
+ * Set a font alignment.
  *
  * @param mode `CENTER`, `LEFT`, `RIGHT`
  *
@@ -55,7 +55,7 @@ int textSize(lua_State *L);
 int textAlign(lua_State *L);
 
 /**
- * Set the font family
+ * Set a font family.
  *
  * @param font The font value returned when using `loadFont`
  *
@@ -67,7 +67,7 @@ int textAlign(lua_State *L);
 int textFont(lua_State *L);
 
 /**
- * Draw text on the screen
+ * Draw text on the screen.
  *
  * @param str String to render
  * @param x The x position of the start of the text
@@ -85,7 +85,7 @@ int text(lua_State *L);
  * @brief CENTER
  * @constant
  *
- * Alignment mode for <a href="./#textAlign">textAlign</a>
+ * Alignment mode for <a href="./#textAlign">textAlign</a>.
  */
 #define LU5_TEXTALIGN_CENTER 1
 
@@ -93,7 +93,7 @@ int text(lua_State *L);
  * @brief RIGHT
  * @constant
  *
- * Alignment mode for <a href="./#textAlign">textAlign</a>
+ * Alignment mode for <a href="./#textAlign">textAlign</a>.
  */
 #define LU5_TEXTALIGN_RIGHT 2
 
@@ -101,7 +101,7 @@ int text(lua_State *L);
  * @brief LEFT
  * @constant
  *
- * Alignment mode for <a href="./#textAlign">textAlign</a>
+ * Alignment mode for <a href="./#textAlign">textAlign</a>.
  */
 #define LU5_TEXTALIGN_LEFT 3
 

@@ -28,7 +28,7 @@
 int createWindow(lua_State *L);
 
 /**
- * Set the frame rate 
+ * Set the frame rate.
  * 
  * @param fps The frame rate to set
  *
@@ -71,7 +71,7 @@ int loop(lua_State *L);
  * @brief deltaTime
  * @global 
  *
- * Elapsed time since the last draw call in seconds
+ * Elapsed time since the last draw call in seconds.
  *
  * @example
  * x = 0;
@@ -98,7 +98,7 @@ int loop(lua_State *L);
  * @brief width
  * @global
  * 
- * The window's width in pixels. If no window was created, this value is `nil`
+ * The window's width in pixels. If no window was created, this value is `nil`.
  *
  * @example
  * createWindow(800, 600);
@@ -113,7 +113,7 @@ int loop(lua_State *L);
  * @brief height
  * @global
  *
- * The window's height in pixels. If no window was created, this value is `nil`
+ * The window's height in pixels. If no window was created, this value is `nil`.
  *
  * @example
  * createWindow(800, 600);
@@ -127,7 +127,7 @@ int loop(lua_State *L);
 /**
  * @brief windowResized
  *
- * Called when the window is resized
+ * Called when the window is resized.
  *
  * @example
  * function setup()
@@ -135,11 +135,11 @@ int loop(lua_State *L);
  * end
  * 
  * function draw()
- *     background(51)
+ *     background(51);
  * end
  * 
  * function windowResized()
- *     print('Resized!')
+ *     print('Resized!');
  * end
  * @example
  */ 

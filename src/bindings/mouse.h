@@ -5,7 +5,7 @@
  * @brief mouseY
  * @global
  *
- * The y mouse coordinate
+ * The y mouse coordinate.
  *
  * @example
  * createWindow(400, 400);
@@ -23,7 +23,7 @@
  * @brief mouseX
  * @global
  * 
- * The x mouse coordinate
+ * The x mouse coordinate.
  *
  * @example
  * createWindow(400, 400);
@@ -41,7 +41,7 @@
  * @brief pmouseY
  * @global
  *
- * The y mouse coordinate from the previous draw call
+ * The y mouse coordinate from the previous draw call.
  */
 #define LU5_PMOUSE_Y "pmouseY"
 
@@ -49,7 +49,7 @@
  * @brief pmouseX
  * @global
  *
- * The x mouse coordinate from the previous draw call
+ * The x mouse coordinate from the previous draw call.
  */
 #define LU5_PMOUSE_X "pmouseX"
 
@@ -58,7 +58,7 @@
  * @brief mouseIsPressed
  * @global
  * 
- * Is `true` when the mouse is pressed, is `false` when it's not
+ * Is `true` when the mouse is pressed, is `false` when it's not.
  */
 #define LU5_MOUSE_IS_PRESSED "mouseIsPressed"
 
@@ -132,12 +132,12 @@
 /**
  * @brief mouseWheel
  *
- * Called when a mouse wheel is used
+ * Called when a mouse wheel is used.
  *
  * @param button The pressed mouse button
  *
  * <br/>
- * In the following example, the circle's size changes when the user scrolls
+ * In the following example, the circle's size changes when the user scrolls.
  *
  * @example
  * size = 0;

@@ -1,5 +1,5 @@
 
-local fs = require("./tasks/lib/file");
+local fs = require("site/lib/file");
 
 function minify_css(css)
     css = css:gsub("/%*.-%*/", "")

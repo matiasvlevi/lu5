@@ -1,6 +1,6 @@
-local luax = require('tasks/lib/luax')
+local luax = require('site/lib/luax')
 
-local Method = require('tasks/lib/components/Method')
+local Method = require('site/components/Method')
 
 ---
 -- @Component

@@ -1,4 +1,5 @@
-local luax = require('tasks/lib/luax');
+local luax = require('site/lib/luax');
+local fs = require('site/lib/file');
 
 function from_md(text)
     local in_scope = true;
@@ -420,13 +421,55 @@ function parse_header(filename, source)
 
 end
 
+function remove_html_tags(html_string)
+    return html_string:gsub("<[^>]+>", "");
+end
 
+--- Returns the parsed symbols in the modules (header file)
+--- @param source_path string
+function all(source_path)
 
+    -- Find documentation header files
+    source_header_files = fs.find_files_in_dir(source_path, function(str)
+        return string.find(str, "%.h");
+    end);
+
+    -- Parse all headers and generate static pages
+    local modules = {};
+    for i, filename in pairs(source_header_files) do
+        -- Remove file extention and prefix
+        local module_name = luax.split(filename, '.')[1];
+        module_name = module_name:gsub('lu5%_', '');
+
+        local source = fs.read_file(source_path .. '/' .. filename);
+
+        local module_title = source:match("/%*%*.+%@module%s+(.-)%s*%*/")
+        if (module_title == nil) then
+            module_title = module_name;
+        end
+
+        local methods = parse_header(filename, source);
+
+        if (#methods == 0) then
+            -- print('Skipping: ', filename);
+        else
+            table.insert(modules, {
+                name = module_title,
+                source = module_name,
+                methods = methods
+            });
+        end
+    end
+
+    return modules;
+end
 
 return {
 	description=parse_description,
 	header=parse_header,
 	param=parse_param,
 	comment=parse_comment,
-    get_declarations=get_declarations
+    get_declarations=get_declarations,
+    remove_html_tags=remove_html_tags,
+    all=all
 }

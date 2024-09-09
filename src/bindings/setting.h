@@ -280,7 +280,7 @@ int debugMode(lua_State *L);
  * @brief CENTER
  * @constant
  *
- * Alignment mode for <a href="./#rectMode">rectMode</a>
+ * Alignment mode for <a href="./#rectMode">rectMode</a>.
  */
 #define LU5_RECTMODE_CENTER 1
 
@@ -288,7 +288,7 @@ int debugMode(lua_State *L);
  * @brief CORNER
  * @constant
  *
- * Alignment mode for <a href="./#rectMode">rectMode</a>
+ * Alignment mode for <a href="./#rectMode">rectMode</a>.
  */
 #define LU5_RECTMODE_CORNER 2
 
@@ -296,7 +296,7 @@ int debugMode(lua_State *L);
  * @brief RADIUS
  * @constant
  *
- * Alignment mode for <a href="./#rectMode">rectMode</a>
+ * Alignment mode for <a href="./#rectMode">rectMode</a>.
  */
 #define LU5_RECTMODE_RADIUS 3
 

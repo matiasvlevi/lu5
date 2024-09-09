@@ -1,4 +1,4 @@
-local luax = require('tasks/lib/luax');
+local luax = require('site/lib/luax');
 
 function json_matcher(key, value)
     local key_str = (type(key) ~= "string") and '' or '"' .. key .. '":';

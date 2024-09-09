@@ -1,4 +1,4 @@
-local Unit = require('tasks/lib/testing/assert')
+local Unit = require('tests/lib/assert')
 
 Unit.test('Vector.add', function ()
     local const_a = createVector(3, 4);

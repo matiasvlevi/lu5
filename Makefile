@@ -10,7 +10,7 @@ LUA_VERSION=5.4.7
 
 SRCDIR = src
 BINDIR = bin
-DOC_BUILD_SCRIPT = build_docs.lua
+DOC_BUILD_SCRIPT = site/build.lua
 
 MACROS=-D'LU5_VERSION="$(VERSION)"'
 MINGW=/usr/x86_64-w64-mingw32/
@@ -136,7 +136,7 @@ projects/%.lua.run: examples/projects/%/main.lua
 
 # Build the documentation using lu5 and task scripts
 docs: $(BIN)
-	$(BIN) ./tasks/$(DOC_BUILD_SCRIPT)
+	$(BIN) $(DOC_BUILD_SCRIPT)
 
 # Install
 ifeq ($(PLATFORM), win)

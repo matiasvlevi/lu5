@@ -1,5 +1,6 @@
-local luax = require('tasks/lib/luax');
-local Config = require('tasks/siteconfig');
+local luax = require('site/lib/luax');
+
+local Config = require('site/config');
 
 function MethodCall(props)
     return luax('', {

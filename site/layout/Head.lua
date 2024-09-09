@@ -1,4 +1,4 @@
-local luax = require('tasks/lib/luax');
+local luax = require('site/lib/luax');
 
 ---
 -- @Component
@@ -78,11 +78,15 @@ function Head(props)
             })
         }) or '',
 
-        props.purpose == "module" and luax('', {
-            
-            -- Only index latest docs
-            luax('link', {rel='canonical', href=props.meta.url .. '/latest/' .. props.slug }),
+        (props.purpose == "symbol") and luax('', {
+            luax('link', {rel='canonical', href=props.meta.url .. '/latest/' .. props.parent .. '/' .. props.slug }),
+        }) or '',
 
+        (props.purpose == "module") and luax('', {
+            luax('link', {rel='canonical', href=props.meta.url .. '/latest/' .. props.slug }),
+        }) or '',
+
+        (props.purpose == "module" or props.purpose == "symbol") and luax('', {
             
             -- Highlight.js
             luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),

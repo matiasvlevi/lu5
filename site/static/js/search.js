@@ -112,7 +112,7 @@ function set_search(root) {
         
         case "Enter":
           let symbol = ordered_symbols[cursor];
-          let link = `${root}${symbol.module}/#${symbol.name}`;
+          let link = `${root}${symbol.module}/${symbol.name}`;
           
           // Go to selected symbol
           let a = document.createElement('a');

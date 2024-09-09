@@ -67,7 +67,7 @@ int keyIsDown(lua_State *L);
  * end
  * 
  * function keyReleased(key, keyCode)
- *    print(key, keyCode)
+ *    print(key, keyCode);
  * end
  * @example
  */ 
@@ -91,7 +91,7 @@ int keyIsDown(lua_State *L);
  * end
  * 
  * function keyHeld(key, keyCode)
- *    print(key, keyCode)
+ *    print(key, keyCode);
  * end
  * @example
  */ 

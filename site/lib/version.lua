@@ -1,6 +1,5 @@
-local luax = require('./tasks/lib/luax');
-local fs   = require('./tasks/lib/file');
-local Config = require('./tasks/siteconfig');
+local luax = require('./site/lib/luax');
+local fs   = require('./site/lib/file');
 
 function to_number(version)
     local ans = {}
@@ -27,8 +26,8 @@ local function compare_version_tags(v1, v2)
     return false
 end
 
-function get_tags()
-    local versions = luax.map(luax.filter(fs.scandir(Config.build.dest, "d"), 
+function get_version_tags(path)
+    local versions = luax.map(luax.filter(fs.scandir(path, "d"), 
     function(dir, i)
         return string.find(dir, "v%d.%d.%d");
     end), 
@@ -39,4 +38,4 @@ function get_tags()
     return versions;
 end
 
-return { get_tags=get_tags, to_number=to_number };
+return { get_version_tags=get_version_tags, to_number=to_number };

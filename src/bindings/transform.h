@@ -4,37 +4,35 @@
 #include <lua.h>
 
 /**
- * Rotate geometry around the X axis
+ * Rotate geometry around the X axis.
  * 
  * @param angle The angle of rotation
  */
 int rotateX(lua_State *L);
 
 /**
- * Rotate geometry around the Y axis
+ * Rotate geometry around the Y axis.
  * 
  * @param angle The angle of rotation
  */
 int rotateY(lua_State *L);
 
 /**
- * Rotate geometry around the Z axis
+ * Rotate geometry around the Z axis.
  * 
  * @param angle The angle of rotation
  */
 int rotateZ(lua_State *L);
 
 /**
- * Rotate geometry in 2D
+ * Rotate geometry in 2D.
  * 
  * @param angle The angle of rotation
  */
 int rotate(lua_State *L);
 
 /**
- * scale geometry
- * 
- * currently only used for 3D
+ * scale geometry.
  * 
  * @param x The x scaling
  * @param y The y scaling
@@ -43,9 +41,7 @@ int rotate(lua_State *L);
 int scale(lua_State *L);
 
 /**
- * translate geometry
- * 
- * currently only used for 3D
+ * translate geometry.
  * 
  * @param x The x translation
  * @param y The y translation

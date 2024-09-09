@@ -1,4 +1,4 @@
-local Unit = require('tasks/lib/testing/assert')
+local Unit = require('tests/lib/assert')
 
 Unit.test('dist', function ()
     assert(dist(2, 2, -1, -2), 5);

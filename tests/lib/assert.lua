@@ -1,5 +1,6 @@
 local global_assert_counter = 0;
 local global_assert_fail_counter = 0;
+
 local function _assert(cond, condstr, a, b, verbose)
 
     local iseq = cond(a, b);
@@ -32,7 +33,6 @@ function nassert(a, b, verbose)
     end, '!=', a, b, verbose);
 end
 
-
 local function test(name, cb)
     if (cb == nil) then 
         cb = name;
@@ -52,6 +52,4 @@ local function test(name, cb)
     return assert(global_assert_counter, global_assert_success_counter, false);
 end
 
-return {
-    test=test
-}
+return { test=test }

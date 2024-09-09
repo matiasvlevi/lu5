@@ -1,5 +1,6 @@
-local luax = require('tasks/lib/luax');
-local ver = require('tasks/lib/get_tags');
+local luax = require('site/lib/luax');
+
+local ver = require('site/lib/version');
 
 function Builds(props)
     if (props.class == nil) then
@@ -52,19 +53,18 @@ end
 function PictureMosaic(props)
     -- TODO: Take a list from props and map it to this:
     return luax('div', {class="mosaic"}, {
-        luax('img',{class="demo",
+        luax('a', {target="_blank", href="https://github.com/matiasvlevi/lu5-space-game/"}, luax('img',{class="demo",
             height="266px",
             src=(props.root .. props.media.assets .. '/space_game.gif')
-        }),
-        luax('img', {class="demo",
+        })),
+        luax('a', {target="_blank", href="https://github.com/matiasvlevi/lu5/blob/master/examples/sphere.lua"}, luax('img', {class="demo",
             height="133px", 
             src=(props.root .. props.media.assets .. '/sphere.gif')
-        }),
-
-        luax('img',{class="demo",
+        })),
+        luax('a', {target="_blank", href="https://github.com/matiasvlevi/lu5/blob/master/examples/collisions.lua"}, luax('img',{class="demo",
             height="200px", 
             src=(props.root .. props.media.assets .. '/collisions.gif')
-        }),
+        })),
 
     })
 end

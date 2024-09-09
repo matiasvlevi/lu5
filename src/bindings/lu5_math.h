@@ -5,7 +5,7 @@
 #include <math.h>
 
 /**
- * Set a random seed
+ * Set a random seed.
  * 
  * @param seed The seed value
  * 
@@ -16,7 +16,7 @@
 int lu5_randomSeed(lua_State *L);
 
 /**
- * Get a random number
+ * Get a random number.
  * 
  * @param max The maximum of the range
  *
@@ -45,7 +45,7 @@ int lu5_randomSeed(lua_State *L);
 int lu5_random(lua_State *L);
 
 /**
- * Round a number to the nearest integer
+ * Round a number to the nearest integer.
  * 
  * @param x The value to round
  *
@@ -55,8 +55,7 @@ int lu5_random(lua_State *L);
 int lu5_round(lua_State *L);
 
 /**
- * floor is a function that takes in a number, and returns the greatest integer less or equal to x
- * <a href="https://en.wikipedia.org/wiki/Floor_and_ceiling_functions">see here</a> 
+ * floor is a function that takes in a number, and returns the greatest integer less or equal to x.
  *
  * @param x The value to floor
  *
@@ -65,8 +64,7 @@ int lu5_round(lua_State *L);
 int lu5_floor(lua_State *L);
 
 /**
- * ceil is a function that takes in a number, and returns the smallest integer greater or equal to x
- * <a href="https://en.wikipedia.org/wiki/Floor_and_ceiling_functions">see here</a> 
+ * ceil is a function that takes in a number, and returns the smallest integer greater or equal to x.
  *
  * @param x The value to floor
  *
@@ -113,8 +111,7 @@ int lu5_min(lua_State *L);
 int lu5_max(lua_State *L);
 
 /**
- * Returns the absolute value of x
- * <a href="https://en.wikipedia.org/wiki/Absolute_value">see here</a> 
+ * Returns the absolute value of x.
  *
  * @param x The input value
  *
@@ -123,7 +120,7 @@ int lu5_max(lua_State *L);
 int lu5_abs(lua_State *L);
 
 /**
- * Maps x from an original range to a target range
+ * Maps x from an original range to a target range.
  *
  * @param value The value to map
  * @param start The start of the initial range
@@ -142,7 +139,7 @@ int lu5_map(lua_State *L);
 
 
 /**
- * Calculates the distance between 2 points in 2D or 3D space
+ * Calculates the distance between 2 points in 2D or 3D space.
  *
  * @param x1 The x coordinate of the first point
  * @param y1 The y coordinate of the first point
@@ -184,7 +181,7 @@ int lu5_map(lua_State *L);
 int lu5_dist(lua_State *L);
 
 /**
- * Limits x to a minimum and maximum value
+ * Limits x to a minimum and maximum value.
  *
  * @param x The input value
  * @param min The minimum value
@@ -195,7 +192,7 @@ int lu5_dist(lua_State *L);
 int lu5_constrain(lua_State *L);
 
 /**
- * Sine function (Trigonometry) 
+ * Sine function (Trigonometry).
  *
  * @param x The input value 
  *
@@ -204,7 +201,7 @@ int lu5_constrain(lua_State *L);
 int lu5_sin(lua_State *L);
 
 /**
- * Cosine function (Trigonometry) 
+ * Cosine function (Trigonometry).
  *
  * @param x The input value 
  *
@@ -213,7 +210,7 @@ int lu5_sin(lua_State *L);
 int lu5_cos(lua_State *L);
 
 /**
- * Tangent function (Trigonometry) 
+ * Tangent function (Trigonometry).
  *
  * @param x The input value 
  *
@@ -245,7 +242,5 @@ int lu5_tan(lua_State *L);
  *
  */
 #define LU5_QUARTER_PI (0.25*LU5_PI)
-
-
 
 #endif
