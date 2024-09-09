@@ -1,1 +1,1 @@
-{"source":{"end_line":25,"header":"transform.h","start_line":20},"doc":{"_type":"method","name":"rotateZ","description":"Rotate geometry around the Z axis.","bottom_description":"","calls":[{"arguments":[{"description":"The angle of rotation","name":"angle"}]}],"examples":{}}}
+{"source":{"end_line":25,"start_line":20,"header":"transform.h"},"doc":{"_type":"method","name":"rotateZ","description":"Rotate geometry around the Z axis.","examples":{},"bottom_description":"","calls":[{"arguments":[{"description":"The angle of rotation","name":"angle"}]}]}}
