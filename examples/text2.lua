@@ -1,11 +1,6 @@
 
 function setup()
-    createWindow(400, 400); 
-
-    -- Replace these with your font paths
-    font_arial = loadFont("./examples/fonts/Arial.ttf");
-    font_times = loadFont("./examples/fonts/Times.ttf");
-    font_hack = loadFont("./examples/fonts/Hack.ttf");
+    createWindow(400, 400);
 end
 
 function draw()
