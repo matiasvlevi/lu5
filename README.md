@@ -64,8 +64,10 @@ for other distributions, you might want to [build from source](./BUILD.md).
 
 ### Examples
 
-* Examples can be found in the [website's documentation](https://matiasvlevi.github.io/lu5/latest)
+* [3D Game example](https://github.com/matiasvlevi/lu5-space-game)
 * Examples in `examples/*.lua`
+* Examples can also be found in the [website's documentation](https://matiasvlevi.github.io/lu5/latest)
+
 
 > Note: Run all the examples with `make examples`
 
