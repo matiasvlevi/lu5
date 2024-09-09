@@ -1,0 +1,1 @@
+{"source":{"header":"setting.h","start_line":208,"end_line":214},"doc":{"name":"pop","_type":"method","examples":{},"bottom_description":"","calls":[{"arguments":{}}],"description":"Restore the style and transformation settings. <br/><br/>Pops the lu5 style settings off the stack<br/>Pops the OpenGL transformation matrix off the stack"}}

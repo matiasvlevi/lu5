@@ -1,0 +1,1 @@
+{"source":{"header":"transform.h","start_line":34,"end_line":41},"doc":{"name":"scale","_type":"method","examples":{},"bottom_description":"","calls":[{"arguments":[{"name":"x","description":"The x scaling"},{"name":"y","description":"The y scaling"},{"name":"[z]","description":"The z scaling"}]}],"description":"scale geometry."}}

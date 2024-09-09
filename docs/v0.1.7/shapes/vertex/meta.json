@@ -1,0 +1,1 @@
+{"source":{"header":"shapes.h","start_line":276,"end_line":285},"doc":{"name":"vertex","_type":"method","examples":{},"bottom_description":"<code class=\"inline\">beginShape</code> must be called prior.","calls":[{"arguments":[{"name":"x","description":"The x position"},{"name":"y","description":"The y position"}]}],"description":"Add a vertex to a custom shape."}}

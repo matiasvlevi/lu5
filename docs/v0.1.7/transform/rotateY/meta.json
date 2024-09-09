@@ -1,0 +1,1 @@
+{"source":{"header":"transform.h","start_line":13,"end_line":18},"doc":{"name":"rotateY","_type":"method","examples":{},"bottom_description":"","calls":[{"arguments":[{"name":"angle","description":"The angle of rotation"}]}],"description":"Rotate geometry around the Y axis."}}

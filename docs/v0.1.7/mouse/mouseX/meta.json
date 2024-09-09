@@ -1,0 +1,1 @@
+{"source":{"header":"mouse.h","start_line":22,"end_line":37},"doc":{"name":"mouseX","_type":"global","examples":["createWindow(400, 400);\n\nfunction draw()\n  background(51);\n  \n  line(mouseX, 0, mouseX, height);\nend"],"bottom_description":"","calls":[{"arguments":{}}],"description":"The x mouse coordinate."}}

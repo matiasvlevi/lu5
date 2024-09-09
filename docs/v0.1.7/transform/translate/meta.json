@@ -1,0 +1,1 @@
+{"source":{"header":"transform.h","start_line":43,"end_line":51},"doc":{"name":"translate","_type":"method","examples":{},"bottom_description":"","calls":[{"arguments":[{"name":"x","description":"The x translation"},{"name":"y","description":"The y translation"},{"name":"[z]","description":"The z translation"}]}],"description":"translate geometry."}}

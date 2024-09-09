@@ -1,0 +1,1 @@
+{"source":{"header":"setting.h","start_line":106,"end_line":114},"doc":{"name":"noFill","_type":"method","examples":["noFill();\ncircle(200, 200, 32);"],"bottom_description":"","calls":[{"arguments":{}}],"description":"Disable fill"}}

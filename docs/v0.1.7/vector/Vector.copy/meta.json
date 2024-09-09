@@ -1,0 +1,1 @@
+{"source":{"header":"lu5_vector.h","start_line":218,"end_line":231},"doc":{"name":"Vector.copy","_type":"method","calls":[{"arguments":{}}],"examples":["local a = createVector(300, 450, 400);\n\nlocal copy_1 = a:copy();\n\nlocal copy_2 = Vector.copy(a);"],"bottom_description":"","_return":{"var":"Vector","description":"The copied vector"},"description":""}}

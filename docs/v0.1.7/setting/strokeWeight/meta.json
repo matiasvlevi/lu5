@@ -1,0 +1,1 @@
+{"source":{"header":"setting.h","start_line":94,"end_line":104},"doc":{"name":"strokeWeight","_type":"method","examples":["strokeWeight(8);\nline(200, 200, mouseX, mouseY);"],"bottom_description":"","calls":[{"arguments":[{"name":"weight","description":"The line width in pixels"}]}],"description":"Set the line width"}}

@@ -1,0 +1,1 @@
+{"source":{"header":"transform.h","start_line":20,"end_line":25},"doc":{"name":"rotateZ","_type":"method","examples":{},"bottom_description":"","calls":[{"arguments":[{"name":"angle","description":"The angle of rotation"}]}],"description":"Rotate geometry around the Z axis."}}
