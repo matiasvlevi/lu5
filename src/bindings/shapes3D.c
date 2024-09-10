@@ -170,7 +170,7 @@ int torus(lua_State *L)
 		glLineWidth(lu5_style(&lu5)->strokeWeight);
 
 		// Draw stroke with a larger radius
-		lu5_render_torus_edges(radius, tubeRadius,
+		lu5_render_torus_edges(radius, tubeRadius + 0.5f,
 							   detail_x, detail_y);
 	}
 
