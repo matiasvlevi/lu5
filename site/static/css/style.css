@@ -34,7 +34,12 @@ code.inline {
     padding: 0.1em;
 }
 
-html, body {
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
 	width: 100%;
 	height: 100%;
 	margin: 0px;
@@ -294,9 +299,14 @@ main {
 
 	width: 100%;
 
+    box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	gap: 0rem;
+}
+
+.content {
+	width: 100%;
 }
 
 .summary {
@@ -359,6 +369,22 @@ img.demo {
 	margin-bottom: 1rem;
 	margin-right: 2rem;
 	color: var(--lighter)
+}
+
+.menuBtn {
+	position: fixed;
+	top: 45dvh;
+	right: -3.5em;
+
+	width: 7em;
+	border-radius: 49%;
+
+	height: 7em;
+
+	border: none;
+	outline: none;
+	background-color: var(--primary);
+	
 }
 
 /* PC Version */
@@ -474,24 +500,10 @@ input {
 
 .method > div.methodDeclaration > code {
 	font-size: 16pt;
-	white-space: nowrap;
+	/* white-space: nowrap; */
 }
 
-.menuBtn {
-	position: fixed;
-	top: 45dvh;
-	right: -3.5em;
 
-	width: 7em;
-	border-radius: 49%;
-
-	height: 7em;
-
-	border: none;
-	outline: none;
-	background-color: var(--primary);
-	
-}
 
 .menuBtn > img {
 	position: relative;
