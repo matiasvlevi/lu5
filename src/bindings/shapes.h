@@ -58,8 +58,8 @@ int circle(lua_State *L);
 /**
  * Draw a rectangle on the screen.
  *
- * @param x The x position of the reactangle's top left corner
- * @param y The y position of the reactangle's top left corner
+ * @param x The x position of the rectangle's top left corner
+ * @param y The y position of the rectangle's top left corner
  * @param w The width
  * @param h The height
  *
