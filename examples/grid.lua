@@ -2,7 +2,7 @@
 step = 40;
 
 function setup()
-    createWindow(400, 400);
+    createWindow(400, 400, 0);
 end
 
 function draw()
@@ -18,6 +18,7 @@ function draw()
                 mouseY < j+step/2
             ) then
                 fill(255, 155, 50);
+                print('Position', i, j)
             else
                 fill(155, 50, 255);
             end

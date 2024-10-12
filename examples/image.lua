@@ -2,14 +2,14 @@
 local x = 200;
 local y = 200;
 
-local vx = 165;
-local vy = 110;
+local vx = 195;
+local vy = 160;
 
 local size = 128;
 
 function setup()
-	createWindow(1920, 1080);
-   logo = loadImage('docs/assets/logo.png');
+	createWindow(800, 600);
+   logo = loadImage('./images/logo.png');
 end
 
 function draw()

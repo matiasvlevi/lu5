@@ -1,10 +1,9 @@
 
-acc = 1;
-bounce = 1.5;
+bounce = 2.6;
 radius = 12;
-ball_count = 250;
+ball_count = 120;
 
-mouse_zone = 300
+mouse_zone = 220
 
 -- Ball list
 balls = {}
@@ -19,9 +18,9 @@ function Ball:init(x, y, vx, vy)
     self.vy = vy;
     self.r = radius;
 
-    self.cr = math.random(155, 255);
-    self.cg = math.random(0, 155);
-    self.cb = math.random(155, 255);
+    self.cr = random(155, 255);
+    self.cg = random(0, 155);
+    self.cb = random(155, 255);
 
     return self
 end
@@ -43,11 +42,11 @@ function Ball:collision(others)
         local dy = self.y - other.y;
         local d = math.sqrt(dx*dx + dy*dy);
 
-        if (d < radius*2) then
+        if (d < radius*2 + 1) then
             local dot = (-dx * self.vx/deltaTime)/width + (-dy * self.vy/deltaTime)/height;
             
             if (dot > 0) then
-                dot = math.min(dot, 100)/10;
+                dot = math.min(dot*8, 32) / 16;
                 self.vx  = self.vx + dx * dot;
                 self.vy  = self.vy + dy * dot;
                 other.vx = other.vx + -dx * dot;
@@ -81,11 +80,11 @@ function Ball:move()
     self.x = self.x + self.vx * deltaTime;
     self.y = self.y + self.vy * deltaTime;
 
-    self.x = math.max(math.min(self.x, width-radius), radius);
-    self.y = math.max(math.min(self.y, height-radius), radius);
+    self.x = max(min(self.x, width-radius), radius);
+    self.y = max(min(self.y, height-radius), radius);
 
-    self.vy = self.vy * 0.94;
-    self.vx = self.vx * 0.94;
+    self.vy = self.vy * 0.8;
+    self.vx = self.vx * 0.8;
 
 end 
 
@@ -112,7 +111,7 @@ function setup()
         );
     end
 
-    frameRate(60);
+    --frameRate(60);
 end
 
 function draw()
@@ -130,7 +129,7 @@ function draw()
     circle(mouseX, mouseY, mouse_zone);
     pop();
 
-    textSize(18);
-    fill(100, 255, 10);
-    text(round(frameRate()) .. ' fps', 30, 30);
+    -- textSize(18);
+    -- fill(100, 255, 10);
+    --text(round(frameRate()) .. ' fps', 30, 30);
 end

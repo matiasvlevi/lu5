@@ -2,14 +2,16 @@
 function setup()
     createWindow(800, 800); 
 
-    -- Replace these with your font paths
-    font_arial = loadFont("./fonts/Arial.ttf");
-    font_times = loadFont("./fonts/Times.ttf");
-    font_hack = loadFont("./fonts/Hack.ttf");
-
+    font_arial = 'Arial';
+    font_times = 'Times';
+    font_hack = 'Hack';
 end
 
 function draw()
+    if (not WEB) then
+        print('This script is expected to throw on lu5 native, but not on the web:');
+    end
+
     background(51);
 
     textFont(font_arial);

@@ -35,6 +35,8 @@ function draw()
 	x = x + vx * deltaTime;
 	y = y + vy * deltaTime;
 
-	vx = vx * 0.99;
-	vy = vy * 0.99;
+	vx = vx * 0.97;
+	vy = vy * 0.97;
+
+	print('Vel X:', vx, ' Vel Y:', vy)
 end

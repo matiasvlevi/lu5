@@ -19,6 +19,7 @@ function draw()
 
 	-- bounce
 	if (x > width-16 or x < 16) then
+		print('wall hit !')
 		vx = -vx;
 	end
 

@@ -14,14 +14,9 @@ function draw()
 
 	beginShape(TRIANGLE_FAN);
 		vertex(mouseX, mouseY);
-		for i=0, TWO_PI, step do
-
-			local size = 12 + amplitude*((i/step) % range);
-
-			vertex(
-				size * cos(i) + mouseX,
-				size * sin(i) + mouseY
-			)
+		
+		for i = 0, TWO_PI, step do
+			vertex(mouseX + cos(i) * 10 * random(9.0, 10.0), mouseY + sin(i) * 10 * random(9.0, 10.0));
 		end
 	endShape();
 

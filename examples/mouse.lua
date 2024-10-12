@@ -29,5 +29,6 @@ function draw()
     text('pmouseY: ' .. pmouseY, mouseX + MAX_SIZE * 2, mouseY + 25);
 
     circle(mouseX, mouseY, MAX_SIZE * (sin(time)*0.5 + 1));
+
     time = time + 5*deltaTime;
 end

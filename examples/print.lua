@@ -1,8 +1,6 @@
-
-print();
 print('--- LU5 PRINT EXAMPLE ---')
 print('VERSION:', VERSION)
-print();
+
 
 print('Integers:')
 print(1);
@@ -31,12 +29,12 @@ print({ 'Table', 'of', 'strings' });
 print({ 'Table', 'of', 'more', 'strings' });
 
 
-print();
+print(' ');
 
 local v = createVector(4, 5);
 print('Vector:', v);
 
-print()
+print(' ')
 print('Classes & instances')
 
 local Ball = class('Ball');
@@ -47,7 +45,6 @@ function Ball:init(x, y)
     
     return self;
 end
-
 
 print(Ball)
 print(Ball:new(260, 100))

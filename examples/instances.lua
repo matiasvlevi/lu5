@@ -57,7 +57,7 @@ function setup()
         );
     end
 
-    img = loadImage('./docs/assets/logo.png');
+    img = loadImage('./images/logo.png');
 
     frameRate(60);
 end
@@ -69,10 +69,4 @@ function draw()
         logo:draw();
         logo:move();
     end
-
-    push();
-    textSize(18);
-    fill(100, 255, 10);
-    text(round(frameRate()) .. ' fps', 30, 40);
-    pop();
 end

@@ -10,7 +10,7 @@ local paddle_size;
 local score = 0;
 
 function setup()
-    createWindow(800, 800);
+    createWindow(600, 600);
     rectMode(CENTER);
 
     paddle_size = width // 5;
@@ -42,7 +42,6 @@ function draw()
 
     if (y < ball_size/2) then
         vy = -vy;
-        score = score + 1;
     end
 
     if (y > height + ball_size) then
@@ -53,6 +52,7 @@ function draw()
         text("GAME OVER", width / 2, height / 2);
 
         pop();
+        print("GAME OVER");
         noLoop();
     end
 
@@ -61,6 +61,9 @@ function draw()
         x < px + paddle_size / 2 and 
         y + ball_size / 2 + paddle_height / 2 > py and 
         y - ball_size / 2 - paddle_height / 2 < py) then
+
+        score = score + 1;
+        print('Scored 1 point !');
         vy = -vy;
     end
     text("Score: " .. score, 40, 40);

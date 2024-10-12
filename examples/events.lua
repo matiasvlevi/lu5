@@ -21,14 +21,18 @@ function mouseReleased(button)
     print("Mouse was released", button);
 end
 
-function keyPressed(key)
-    print("Key pressed", key);
+function keyPressed(key, keyCode)
+    print("Key pressed", key, keyCode);
 end
 
-function keyReleased(key)
-    print("Key released", key);
+function keyReleased(key, keyCode)
+    print("Key released",  key, keyCode);
 end
 
 function keyHeld(key)
     print("Key held", key);
+end
+
+function mouseWheel(delta)
+    print("Scroll", delta);
 end

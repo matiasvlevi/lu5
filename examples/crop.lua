@@ -6,7 +6,7 @@ local vy = -1;
 function setup()
     createWindow(400, 400);
 
-    img = loadImage('examples/images/cat.jpg');
+    img = loadImage('./images/cat.jpg');
     img_a = img:crop(150, 150, 125, 200);
     img_b = Image.crop(img, 200, 228, 100, 100);
 
@@ -17,7 +17,7 @@ function setup()
 end
 
 function draw() 
-    background(51);
+    background(0);
 
     image(img, 0, 0);
     image(img_a, x, y);

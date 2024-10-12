@@ -1,6 +1,6 @@
 
 function setup()
-   createWindow(600, 600);
+   createWindow(600, 600, 0);
 
    noStroke();
    fill(255, 160);
@@ -51,29 +51,29 @@ function draw()
       pop();
    end
 
-   push();
-   translate(300, 500);
-   rotate(angle)
-   stroke(0);
-   strokeWeight(24)
-   fill(255, 0, 0);
-   pop();
+   -- push();
+   -- translate(300, 500);
+   -- rotate(angle)
+   -- stroke(0);
+   -- strokeWeight(24)
+   -- fill(255, 0, 0);
+   -- pop();
 
-   push();
-   translate(130, 50);
-   strokeWeight(10);
-   triangle(0,0, 100, 0, 50, 50)
-   pop();
+   -- push();
+   -- translate(130, 50);
+   -- strokeWeight(10);
+   -- triangle(0,0, 100, 0, 50, 50)
+   -- pop();
 
-   push();
-   translate(50, 50);
-   quad(
-      0, 0,
-      0, 60,
-      60, 70,
-      50, 10
-   )
-   pop();
+   -- push();
+   -- translate(50, 50);
+   -- quad(
+   --    0, 0,
+   --    0, 60,
+   --    60, 70,
+   --    50, 10
+   -- )
+   -- pop();
 
    angle = angle + 1;
 end
