@@ -1,1 +1,1 @@
-{"source":{"end_line":292,"start_line":287,"header":"shapes.h"},"doc":{"_type":"method","name":"endShape","description":"Close the custom shape.<br/><code class=\"inline\">beginShape</code> must be called prior.","examples":{},"bottom_description":"","calls":[{"arguments":{}}]}}
+{"doc":{"_type":"method","calls":[{"arguments":{}}],"examples":{},"visual":false,"name":"endShape","bottom_description":"","description":"Close the custom shape.<br/><code class=\"inline\">beginShape</code> must be called prior."},"source":{"start_line":300,"end_line":305,"header":"shapes.h"}}

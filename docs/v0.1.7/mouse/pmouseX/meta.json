@@ -1,1 +1,1 @@
-{"source":{"end_line":53,"start_line":48,"header":"mouse.h"},"doc":{"_type":"global","name":"pmouseX","description":"The x mouse coordinate from the previous draw call.","examples":{},"bottom_description":"","calls":[{"arguments":{}}]}}
+{"doc":{"_type":"global","calls":[{"arguments":{}}],"examples":{},"visual":false,"name":"pmouseX","bottom_description":"","description":"The x mouse coordinate from the previous draw call."},"source":{"start_line":54,"end_line":59,"header":"mouse.h"}}

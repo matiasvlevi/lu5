@@ -7,7 +7,6 @@
 	--black: #181021;
 }
 
-
 /* width */
 ::-webkit-scrollbar {
 	width: 10px;
@@ -65,6 +64,14 @@ body {
 
 .flex {
 	display: flex;
+}
+
+.grey {
+	color: var(--grey);
+}
+
+.white {
+	color: var(--white);
 }
 
 .items-center {
@@ -125,6 +132,10 @@ button.download {
 	display: flex;
 	gap: 0.5rem;
 	align-items: center;
+}
+
+.bold {
+	font-weight: bold;
 }
 
 .gap-1 { gap: 0.25rem; }
@@ -220,6 +231,10 @@ li:not(:last-child) {
 .btn:active > a > h4 {
 	color: var(--dark);
 	transition: 0.1s;
+}
+
+.monospace {
+	font-family: Monospace;
 }
 
 code, pre {
@@ -362,6 +377,7 @@ pre code.hljs {
 	align-content: flex-start;
 }
 
+
 img.demo {
 	width: auto;
 }
@@ -387,8 +403,135 @@ img.demo {
 	
 }
 
+
+input {
+	padding: 0.5rem;
+	border:none;
+	border-radius: 0.5rem;
+	background-color: var(--lighter);
+	color: var(--dark);
+	outline: none;
+}
+
+
+.search-wrap {
+	min-width: 20rem;
+	max-width: 32rem;
+}
+
+.search-box {
+	background-color: var(--lighter);
+	color: var(--dark);
+	width: 100%;
+	top: 2rem;
+	border-radius: 0.5rem;
+}
+
+.search-box > p#cursor {
+	margin: 0rem 0.5rem;
+	padding: 0.25rem 0.5rem;
+	background-color: var(--dark);
+	color: var(--lighter);
+	border-radius: 0.5rem;
+}
+
+.search-box > p {
+	margin: 0.25rem 1rem;
+}
+
+.param {
+	display: flex;
+	gap: 1rem;
+	margin: 0.2rem;
+	vertical-align: middle;
+	align-items: flex-start;
+}
+
+.method {
+	min-width: 100%;
+	margin-bottom: 3rem;
+}
+
+.method > div.methodDeclaration > code {
+	font-size: 16pt;
+	/* white-space: nowrap; */
+}
+
+
+
+.menuBtn > img {
+	position: relative;
+	left: -1.5em;
+}
+
+.nav {
+	background-color: var(--primary);
+	position: fixed;
+
+	min-width: 10em;
+	min-height: 100%;
+
+	position: fixed;
+
+	padding: 1.6rem;
+
+	display: flex;
+	flex-direction: column;
+
+	right: calc(-100%);
+
+	z-index: 10;
+}
+
+.nav.open {
+	right: 0px;
+}
+
+
+#download-Windows,
+#download-Linux,
+#download-Mac,
+#download-fallback {
+	display: none;
+}
+
+.method-example {
+	margin: 2rem 0 1rem 0;
+	gap: 1rem;
+	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+canvas {
+	margin: 1rem;
+}
+
+.example-code {
+	flex-grow: 1;
+}
+
+img.logo {
+	width: 4.5rem;
+}
+
 /* PC Version */
 @media (min-width: 900px) {
+	.method {
+		min-width: 0%;
+		max-width: 87.5%;
+		margin-bottom: 3rem;
+	}
+
+	.method-example {
+		flex-direction: row;
+		gap: 3rem;
+	}
+
+	.example-code {
+
+		flex-grow: 0;
+	}
 
 	body {
 		align-items: flex-start;
@@ -400,6 +543,9 @@ img.demo {
 		flex-direction: row;
 	}
 
+	img.logo {
+		width: 100px;
+	}
 	.search-section {
 		margin-bottom: 1rem;
 		margin-right: 18%;
@@ -448,95 +594,4 @@ img.demo {
 		flex-direction: row;
 	}
 
-}
-
-input {
-	padding: 0.5rem;
-	border:none;
-	border-radius: 0.5rem;
-	background-color: var(--lighter);
-	color: var(--dark);
-	outline: none;
-}
-
-
-.search-wrap {
-	min-width: 20rem;
-	max-width: 32rem;
-}
-
-.search-box {
-	background-color: var(--lighter);
-	color: var(--dark);
-	width: 100%;
-	top: 2rem;
-	border-radius: 0.5rem;
-}
-
-.search-box > p#cursor {
-	margin: 0rem 0.5rem;
-	padding: 0.25rem 0.5rem;
-	background-color: var(--dark);
-	color: var(--lighter);
-	border-radius: 0.5rem;
-}
-
-.search-box > p {
-	margin: 0.25rem 1rem;
-}
-
-.param {
-	display: flex;
-	gap: 1rem;
-	margin: 0.2rem;
-	vertical-align: middle;
-	align-items: flex-start;
-}
-
-.method {
-	max-width: 87.5%;
-	margin-bottom: 3rem;
-}
-
-.method > div.methodDeclaration > code {
-	font-size: 16pt;
-	/* white-space: nowrap; */
-}
-
-
-
-.menuBtn > img {
-	position: relative;
-	left: -1.5em;
-}
-
-.nav {
-	background-color: var(--primary);
-	position: fixed;
-
-	min-width: 10em;
-	min-height: 100%;
-
-	position: fixed;
-
-	padding: 1.6rem;
-
-	display: flex;
-	flex-direction: column;
-
-	right: calc(-100%);
-
-	z-index: 10;
-}
-
-.nav.open {
-	right: 0px;
-}
-
-
-#download-Windows,
-#download-Linux,
-#download-Mac,
-#download-fallback {
-	display: none;
 }
