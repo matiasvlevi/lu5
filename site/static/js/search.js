@@ -1,5 +1,3 @@
-
-
 function set_search(root) {
 
   // Get dom

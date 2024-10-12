@@ -1,5 +1,3 @@
-
-
 function set_download_frontend() {
 
     function get_os() {
