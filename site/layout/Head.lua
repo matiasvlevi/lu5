@@ -44,7 +44,6 @@ function Head(props)
         }) or '',
 
         (props.purpose ~= "homepage") and luax('', {
-
             -- Search
             luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/search.js'}, {}),
             
@@ -59,7 +58,10 @@ function Head(props)
         }) or '';
 
         props.purpose == "homepage" and luax('', {
+            -- html highlighting
             luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/html.min.js"}),
+
+            -- gifs
             luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/space_game.gif'}),
             luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/collisions.gif'}),
             luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/sphere.gif'}),        
@@ -77,6 +79,12 @@ function Head(props)
                 '};'
             })
         }) or '',
+
+        (props.purpose == "module" or props.purpose == "symbol") and luax('', { 
+            -- lu5-wasm
+            luax('script', { src=props.root .. props.media.assets .. "/lu5-wasm.min.js", lib=true }),
+            luax('script', { src=props.root .. props.media.assets .. "/lu5-console.min.js" })
+        }),
 
         (props.purpose == "symbol") and luax('', {
             luax('link', {rel='canonical', href=props.meta.url .. '/latest/' .. props.parent .. '/' .. props.slug }),
