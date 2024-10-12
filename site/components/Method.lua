@@ -42,7 +42,6 @@ function MethodExample(method, example, index, root)
 end
 
 function LiveCanvas(root, name, index, source)
-    local wasm_module = '/bin/wasm/lu5.wasm';
     return luax('', {
         luax('canvas', { id="example-visual-"..name.."-"..index, style="display:none;" }),
         luax('div', {class="flex-col", style="margin: 1.5rem 0;"}, {
@@ -52,7 +51,7 @@ function LiveCanvas(root, name, index, source)
         }),
         luax('script', {
             'const example_', name, '_', index,'_console = new lu5.Console(`example_',name,'_',index,'_console`);',
-            'lu5.init(`',wasm_module,'`)',
+            'lu5.init()',
                 '.then(vm => vm.setCanvas("example-visual-', name, '-', index ,'"))',
                 '.then(vm => vm.attach(1, example_', name, '_', index,'_console))',
                 '.then(vm => vm.attach(2, example_', name, '_', index,'_console))',
