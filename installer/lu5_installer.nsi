@@ -1,5 +1,8 @@
+
+!define VERSION "0.1.7"
+
 # Name of the installer
-OutFile "../bin/win64/lu5-x86_64-win-0.1.6.exe"
+OutFile "../bin/win/lu5-x86_64-win-${VERSION}.exe"
 
 # Name of the application
 Name "lu5"
@@ -32,7 +35,7 @@ UninstallIcon "logo.ico"
 !define MUI_HEADERIMAGE_UNBITMAP "logo_150x57.bmp"
 
 # Pages
-!define MUI_WELCOMEPAGE_TEXT "Welcome to the lu5 installer."
+!define MUI_WELCOMEPAGE_TEXT "Welcome to the lu5 v${VERSION} installer."
 !define MUI_WELCOMEPAGE_TITLE "Welcome"
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "..\LICENSE"
@@ -41,7 +44,7 @@ UninstallIcon "logo.ico"
 
 # Define Finish Page Text
 !define MUI_FINISHPAGE_TITLE "Installation Complete"
-!define MUI_FINISHPAGE_TEXT "lu5 has been installed successfully. You can close and delete this installer."
+!define MUI_FINISHPAGE_TEXT "lu5 v${VERSION} has been installed successfully! $\r$\n$\r$\nTo get started, open a command line and type `lu5`$\r$\n$\r$\n$\r$\n$\r$\nYou can close and delete this installer."
 !insertmacro MUI_PAGE_FINISH
 
 # Uninstaller Pages
@@ -57,16 +60,16 @@ Section "Install"
   SetOutPath "$INSTDIR"
 
   # Add files
-  File "..\bin\win64\lu5.exe"
-  File "..\bin\win64\zlib1.dll"
-  File "..\bin\win64\libssp-0.dll"
-  File "..\bin\win64\libbrotlicommon.dll"
-  File "..\bin\win64\libbrotlidec.dll"
-  File "..\bin\win64\libbz2-1.dll"
-  File "..\bin\win64\libbrotlidec.dll"
-  File "..\bin\win64\lua54.dll"
-  File "..\bin\win64\libfreetype-6.dll"
-  File "..\bin\win64\libwinpthread-1.dll"
+  File "..\bin\win\lu5.exe"
+  File "..\bin\win\zlib1.dll"
+  File "..\bin\win\libssp-0.dll"
+  File "..\bin\win\libbrotlicommon.dll"
+  File "..\bin\win\libbrotlidec.dll"
+  File "..\bin\win\libbz2-1.dll"
+  File "..\bin\win\libbrotlidec.dll"
+  File "..\bin\win\lua54.dll"
+  File "..\bin\win\libfreetype-6.dll"
+  File "..\bin\win\libwinpthread-1.dll"
 
   # Check if the path entry already exists
   nsExec::ExecToStack 'cmd.exe /C echo %PATH% | find "$INSTDIR"'
