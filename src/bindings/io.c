@@ -6,11 +6,13 @@
 #include "../lu5_types.h"
 #include "../lu5_print.h"
 #include "../lu5_logger.h"
+
 #include "../lu5_fs.h"
 
 int print(lua_State *L)
 {
 	int argc = lua_gettop(L);
+	
 	if (argc == 0) {
 		putchar('\n');
 		return 0;
@@ -20,7 +22,10 @@ int print(lua_State *L)
 	for (int i = 1; i < argc; i++) {
 		lu5_print_any(L, i, 0, ' ');
 	}
-	lu5_print_any(L, argc, 0, '\n');
+
+	lu5_print_any(L, argc, 0, LU5_NEWLINE);
+
+	fflush(stdout);
 
 	return 0;
 }
@@ -34,7 +39,12 @@ int loadText(lua_State *L) {
 	const char* file_path = lu5_assert_string(L, 1, "loadText");
 
 	long file_size = 0;
+	
 	char* content = lu5_read_file(file_path, &file_size);
+	if (content == NULL) {
+		lua_pushnil(L);
+		return 1;
+	}
 
 	lua_pushlstring(L, content, file_size);
 
@@ -48,50 +58,32 @@ int loadStrings(lua_State *L) {
 
 	const char* file_path = lu5_assert_string(L, 1, "loadStrings");
 
-	long file_size = 0;
-	char* content = lu5_read_file(file_path, &file_size);
-
-	char **lines = NULL;
-
-	char *line = strtok(content, "\n");
-
-	int line_count = 0;
-	while (line)
-	{
-		// Reallocate to add a new line
-		lines = realloc(lines, sizeof(char*) * line_count);
-		if (lines == NULL) {
-			LU5_ERROR("Not enough space to allocate file") 
-			return 0;
-		}
-
-		// Allocate new line and copy line
-		lines[line_count] = malloc(sizeof(char) * strlen(line));
-		strcpy(lines[line_count], line);
-
-		// get next line		
-		line = strtok(NULL, "\n");
-		
-		// count spaces
-		line_count++;
+	FILE* file = lu5_open_file(file_path, "r");
+	if (file == NULL) {
+		lua_pushnil(L);
+		return 1;
 	}
 
-	// Create table for file lines
-	lua_createtable(L, line_count, 0);
+    lua_newtable(L);
 
-	for (int i = 0; i < line_count; i++) {
-		// Push new line at corresponding index 
-		lua_pushnumber(L, i + 1);
-		lua_pushstring(L, lines[i]);
-		lua_settable(L, -3);
-	}
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
 
-	if (content != NULL) 
-		free(content);
+    int line_number = 1;
+    while ((read = getline(&line, &len, file)) != -1) {
+        if (line[read - 1] == '\n') {
+			// Remove trailing newline character
+            line[read - 1] = '\0';
+        }
+        lua_pushstring(L, line);
+        lua_rawseti(L, -2, line_number++);
+    }
 
-	for (int i = 0; i < line_count; i++)
-		free(lines[i]);
-	free(lines);
+    if (line) {
+        free(line);
+    }
 
-	return 1;
+    fclose(file);
+    return 1;
 }

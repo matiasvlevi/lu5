@@ -1,11 +1,12 @@
 #include "shapes.h"
 
 #include "../lu5_state.h"
-#include "../lu5_font.h"
-#include "../lu5_image.h"
 #include "../lu5_types.h"
 
-#include "../geometry/lu5_geometry.h"
+#include "../lu5_geometry.h"
+#include "../lu5_fs.h"
+#include "../lu5_font.h"
+#include "../lu5_image.h"
 
 #include <lauxlib.h>
 #include <math.h>
@@ -13,12 +14,14 @@
 
 int beginShape(lua_State *L) 
 {
-	lua_Integer shape_type = lu5_assert_integer(L, 1, "beginShape");
+	lua_Integer shape_type = GL_LINES;
+	if (lua_isinteger(L, 1)) {
+		shape_type = lua_tointeger(L, 1);
+	}
 
 	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
 	
-	lu5_apply_color(lu5_style(&lu5)->fill);
-	glBegin(shape_type);
+	lu5_glBegin(shape_type, lu5_style(&lu5)->fill);
 
 	return 0;
 }
@@ -34,7 +37,7 @@ int vertex(lua_State *L)
 
 int endShape(lua_State *L)
 {
-	glEnd();
+	lu5_glEnd();
 	
 	lu5_2D_over_3D_end(lu5.depth_mode);
 
@@ -79,18 +82,12 @@ int rect(lua_State *L)
 
 	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
 
-	if (lu5_has_fill()) 
-	{
-		lu5_apply_color(lu5_style(&lu5)->fill);
-		lu5_render_quad_fill(x, y, x2, y, x2, y2, x, y2);
-	}
-
-	if (lu5_has_stroke()) 
-	{
-		lu5_apply_color(lu5_style(&lu5)->stroke);
-
-		lu5_render_quad_stroke(x, y, x2, y, x2, y2, x, y2, lu5_style(&lu5)->strokeWeight);
-	}
+	lu5_render_quad(
+		x, y, x2, y, 
+		x2, y2, x, y2, 
+		lu5_style(&lu5)->strokeWeight,
+		lu5_style(&lu5)->fill, 
+		lu5_style(&lu5)->stroke);
 
 	lu5_2D_over_3D_end(lu5.depth_mode);
 
@@ -116,33 +113,48 @@ int line(lua_State *L)
 	lua_Number x2 = lu5_assert_number(L, 3, "line");
 	lua_Number y2 = lu5_assert_number(L, 4, "line");
 
-	float dx = x2 - x1;
-	float dy = y2 - y1;
-	float length = sqrt(dx * dx + dy * dy);
+	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
 
-	float strokeWeight = ((float)lu5_style(&lu5)->strokeWeight / 2);
+	lu5_render_line(x1, y1, x2, y2, 
+		(float)lu5_style(&lu5)->strokeWeight / 2,
+		lu5_style(&lu5)->stroke);
 
-	float nx = strokeWeight * ( dy / length);
-	float ny = strokeWeight * (-dx / length);
+	lu5_2D_over_3D_end(lu5.depth_mode);
 
-	if (lu5_has_stroke()) 
-	{
-		lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
-		lu5_apply_color(lu5_style(&lu5)->stroke);
-		lu5_render_quad_fill(
-			x1 - nx, y1 - ny,
-			x1 + nx, y1 + ny,
-			x2 + nx, y2 + ny,
-			x2 - nx, y2 - ny
-		);
+	// float dx = x2 - x1;
+	// float dy = y2 - y1;
+	// float length = sqrt(dx * dx + dy * dy);
 
-		if (lu5_style(&lu5)->strokeWeight >= 3) 
-		{
-			lu5_render_ellipse(x1, y1, strokeWeight, strokeWeight, LINE_POINT_SEGMENTS);
-			lu5_render_ellipse(x2, y2, strokeWeight, strokeWeight, LINE_POINT_SEGMENTS);
-		};
-		lu5_2D_over_3D_end(lu5.depth_mode);
-	}
+	// float strokeWeight = ((float)lu5_style(&lu5)->strokeWeight / 2);
+
+	// float nx = strokeWeight * ( dy / length);
+	// float ny = strokeWeight * (-dx / length);
+
+	// if (lu5_has_stroke()) 
+	// {
+	// 	lu5_render_quad(
+	// 		x1 - nx, y1 - ny,
+	// 		x1 + nx, y1 + ny,
+	// 		x2 + nx, y2 + ny,
+	// 		x2 - nx, y2 - ny,
+	// 		lu5_style(&lu5)->strokeWeight,
+	// 		lu5_style(&lu5)->stroke,
+	// 		LU5_RGBA(0, 0, 0, 0));
+
+	// 	if (lu5_style(&lu5)->strokeWeight >= 3) 
+	// 	{
+	// 		lu5_render_ellipse(x1, y1, 
+	// 			strokeWeight, strokeWeight, 
+	// 			lu5_style(&lu5)->stroke,
+	// 			LINE_POINT_SEGMENTS);
+
+	// 		lu5_render_ellipse(x2, y2, 
+	// 			strokeWeight, strokeWeight,  
+	// 			lu5_style(&lu5)->stroke,
+	// 			LINE_POINT_SEGMENTS);
+	// 	};
+	// 	lu5_2D_over_3D_end(lu5.depth_mode);
+	// }
 
 
 	return 0;
@@ -166,18 +178,15 @@ int quad(lua_State *L)
 	lua_Number y4 = lu5_assert_number(L, 8, "quad");
 
 	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
-
-	if (lu5_has_fill())
-	{
-		lu5_apply_color(lu5_style(&lu5)->fill);
-		lu5_render_quad_fill(x1, y1, x2, y2, x3, y3, x4, y4);
-
-	}
-
-	if (lu5_has_stroke())
-	{
-		// TODO:
-	}
+	
+	lu5_render_quad(
+		x1, y1, 
+		x2, y2, 
+		x3, y3, 
+		x4, y4, 
+		lu5_style(&lu5)->strokeWeight,
+		lu5_style(&lu5)->fill,
+		lu5_style(&lu5)->stroke);
 
 	lu5_2D_over_3D_end(lu5.depth_mode);
 
@@ -199,14 +208,8 @@ int triangle(lua_State *L)
 
 	if (lu5_has_fill())
 	{
-		lu5_apply_color(lu5_style(&lu5)->fill);
-		glBegin(GL_TRIANGLES);
-			lu5_glVertex2(x1, y1);
-			lu5_glVertex2(x2, y2);
-			lu5_glVertex2(x3, y3);
-		glEnd();
+		lu5_render_triangle_fill(x1, y1, x2, y2, x3, y3, lu5_style(&lu5)->fill);
 	}
-
 
 	if (lu5_has_stroke()) 
 	{
@@ -234,20 +237,23 @@ int ellipse(lua_State *L)
 
 	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
 
-	if (lu5_has_stroke()) 
-	{
-		lu5_apply_color(lu5_style(&lu5)->stroke);
+	lu5_render_ellipse_w_stroke(x, y, w, h, 
+		lu5_style(&lu5)->strokeWeight, 
+		lu5_style(&lu5)->fill, 
+		lu5_style(&lu5)->stroke,
+		LU5_CIRCLE_SEGMENTS);
 
-		lu5_render_ring(x, y, w, h, lu5_style(&lu5)->strokeWeight, LU5_CIRCLE_SEGMENTS);
-	}
+	// if (lu5_has_stroke()) 
+	// {
+	// 	lu5_render_ring(x, y, w, h, lu5_style(&lu5)->strokeWeight, LU5_CIRCLE_SEGMENTS, lu5_style(&lu5)->stroke);
+	// }
 
-
-	if (lu5_has_fill())
-	{
-		lu5_apply_color(lu5_style(&lu5)->fill);
-
-		lu5_render_ellipse(x, y, w, h, LU5_CIRCLE_SEGMENTS);
-	}
+	// if (lu5_has_fill())
+	// {
+	// 	lu5_render_ellipse(x, y, w, h, 
+	// 		LU5_CIRCLE_SEGMENTS, 
+	// 		lu5_style(&lu5)->fill);
+	// }
 
 	lu5_2D_over_3D_end(lu5.depth_mode);
 
@@ -281,25 +287,24 @@ int arc(lua_State *L)
 
 	if (lu5_has_fill())
 	{
-		lu5_apply_color(lu5_style(&lu5)->fill);
 		lu5_render_arc_fill(
 			x, y, 
 			w, h, 
 			start_angle, end_angle,
-			LU5_CIRCLE_SEGMENTS);
+			LU5_CIRCLE_SEGMENTS,
+			lu5_style(&lu5)->fill);
 	}
 
 	if (lu5_has_stroke())
 	{
-		lu5_apply_color(lu5_style(&lu5)->stroke);
-		glLineWidth(lu5_style(&lu5)->strokeWeight);
+		lu5_glLineWidth(lu5_style(&lu5)->strokeWeight);
 		lu5_render_arc_stroke(
 			x, y, 
 			w, h, 
 			lu5_style(&lu5)->strokeWeight,
 			start_angle, end_angle, 
-			LU5_CIRCLE_SEGMENTS
-		);
+			LU5_CIRCLE_SEGMENTS,
+			lu5_style(&lu5)->stroke);
 	}
 
 	lu5_2D_over_3D_end(lu5.depth_mode);
@@ -319,9 +324,9 @@ int point(lua_State *L)
 
 	if (lu5_has_stroke())
 	{
-		lu5_apply_color(lu5_style(&lu5)->stroke);
-
-		lu5_render_ellipse(x, y, w, w, LU5_CIRCLE_SEGMENTS);
+		lu5_render_ellipse(x, y, w, w,
+			lu5_style(&lu5)->stroke,
+			LU5_CIRCLE_SEGMENTS);
 	}
 
 	lu5_2D_over_3D_end(lu5.depth_mode);

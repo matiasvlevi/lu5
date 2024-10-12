@@ -7,19 +7,20 @@
 
 /**
  * Draw a plane.
- * 
+ *
+ * @visual
+ *
  * @param w The width dimension 
  * @param h The height dimension
  *
  * @example
  * function setup()
- *   createWindow(800, 800, GL3D);
+ *   createWindow(300, 300, GL3D);
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *  
- *   rotateX(90);
  *   plane(400, 400);
  * end
  *
@@ -29,42 +30,60 @@ int plane(lua_State *L);
 
 /**
  * Draw a 3D box.
- * 
+ *
+ * @visual
+ *
  * @param w The width dimension 
  * @param [h] The height dimension
  * @param [d] The depth dimension
  *
  * @example
  * function setup()
- *   createWindow(800, 800, GL3D);
+ *   createWindow(300, 300, GL3D);
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *  
- *   box(50, 25, 80);
+ *   box(150, 225, 180);
+ * end
+ * @example
+ *
+ * @example
+ * function setup()
+ *   createWindow(300, 300, GL3D);
  * end
  *
+ * function draw()
+ *   background('purple');
+ *   
+ *   rotateX(45);
+ *   rotateZ(45);
+ *
+ *   box(150, 225, 180);
+ * end
  * @example
  */
 int box(lua_State *L);
 
 /**
  * Draw a 3D Sphere.
- * 
+ *
+ * @visual
+ *
  * @param w The width dimension 
  * @param [detailX] The detail in the X axis
  * @param [detailY] the detailt in the Y axis
  *
  * @example
  * function setup()
- *   createWindow(800, 800, GL3D);
+ *   createWindow(300, 300, GL3D);
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *  
- *   sphere(50);
+ *   sphere(200);
  * end
  * @example
  */
@@ -72,7 +91,9 @@ int sphere(lua_State *L);
 
 /**
  * Draw a 3D Cylinder.
- * 
+ *
+ * @visual
+ *
  * @param [radius] radius of the cylinder. Defaults to 50.
  * @param [height] height of the cylinder. Defaults to the value of radius.
  * @param [detailX] number of horizontal edges. Defaults to 24.
@@ -82,13 +103,13 @@ int sphere(lua_State *L);
  *
  * @example
  * function setup()
- *   createWindow(800, 800, GL3D);
+ *   createWindow(300, 300, GL3D);
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *  
- *   cylinder(30, 50);
+ *   cylinder(80, 140);
  * end
  * @example
  */
@@ -96,7 +117,9 @@ int cylinder(lua_State *L);
 
 /**
  * Draw a 3D Torus. 
- * 
+ *
+ * @visual
+ *
  * @param [radius] radius of the torus. Defaults to 50.
  * @param [tubeRadius] radius of the tube. Defaults to 10.
  * @param [detailX] number of edges that form the hole. Defaults to 24.
@@ -104,13 +127,13 @@ int cylinder(lua_State *L);
  *
  * @example
  * function setup()
- *   createWindow(800, 800, GL3D);
+ *   createWindow(300, 300, GL3D);
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *  
- *   torus(30, 50);
+ *   torus(180, 80);
  * end
  * @example
  */

@@ -1,12 +1,11 @@
-#include "../lu5_geometry.h"
+#include "../../../lu5_geometry.h"
 #include <GL/gl.h>
 
 #define DEBUG_GRID_STEP 20.0f
 #define DEBUG_HALF_GRID_PLANE 200.0f
 
 void lu5_render_debug() 
-{	
-
+{
 	glPushMatrix();
     // Axes
 	glPushMatrix();

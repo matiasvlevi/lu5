@@ -1,13 +1,19 @@
+
 #include "camera.h"
 
 #include <math.h>
+
+#ifndef LU5_WASM
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GLFW/glfw3.h>
+#else
+#include "../lu5_event_callbacks.h"
+#endif
 
 #include "../lu5_state.h"
 #include "../lu5_logger.h"
-#include "../geometry/lu5_geometry.h"
+#include "../lu5_geometry.h"
 
 #include <stdlib.h>
 
@@ -80,9 +86,15 @@ int orbitControl(lua_State *L)
     float y = lu5.orbit->radius * sinf(lu5.orbit->camera_angle_x * M_PI / 180.0f);
     float z = lu5.orbit->radius * cosf(lu5.orbit->camera_angle_x * M_PI / 180.0f) * cosf(lu5.orbit->camera_angle_y * M_PI / 180.0f);
 
-    glLoadIdentity();
-    lu5_glScale(-1.0f, 1.0f, 1.0f);
-    gluLookAt(x, y, z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    #ifndef LU5_WASM
+        glLoadIdentity();
+        lu5_glScale(-1.0f, 1.0f, 1.0f);
+        gluLookAt(x, y, z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    #else
+
+    // TODO: WASM
+
+    #endif
 
     return 0;
 }

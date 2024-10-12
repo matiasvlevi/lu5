@@ -41,7 +41,7 @@ void lu5_init_state(lu5_State *l5)
 	l5->loop = true;
 
 	lu5_style_setting style;
-	lu5_set_default_style(&style);
+	lu5_set_style(&style);
 	lu5_style_push(l5, &style);
 
 	// Non-limited framerate

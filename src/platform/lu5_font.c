@@ -1,11 +1,14 @@
-#include "lu5_font.h"
-#include "static/lu5_default_font.h"
-#include "./geometry/lu5_geometry.h"
-#include "lu5_logger.h"
+#include "../lu5_font.h"
 
-#include "lu5_state.h"
-#include "lu5_style.h"
-#include "lu5_list.h"
+#include "../static/lu5_default_font.h"
+
+#include "../lu5_geometry.h"
+
+#include "../lu5_logger.h"
+
+#include "../lu5_state.h"
+#include "../lu5_style.h"
+#include "../lu5_list.h"
 
 #include <lauxlib.h>
 #include <math.h>
@@ -20,7 +23,6 @@ void lu5_init_freetype(lu5_State *l5)
 
 int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath) 
 {
-
 	lu5_font *font = (lu5_font*)malloc(sizeof(lu5_font));
 	if (font == NULL) {
 		return FT_Err_Out_Of_Memory;
@@ -93,7 +95,61 @@ int lu5_load_font(lu5_State *l5, lu5_font **fontId, const char *fontPath)
 	return FT_Err_Ok;
 }
 
-void lu5_measure_text(const char *text, int *width, int *height, int *max_bearing_y, lu5_font *font) 
+lu5_font *lu5_load_and_add_font(lu5_State *l5, const char *font_path)
+{
+	if (!font_path) {
+		// If default font is defined
+		if (l5->font_default != NULL) {
+			return l5->font_default;
+		} else {
+			// Throw
+			luaL_error(l5->L, "Expected first argument to be a string");
+			return NULL;
+		}
+	}
+
+	lu5_font *current_font;
+	int err = lu5_load_font(&lu5, &current_font, font_path);
+	
+	// On success
+	if (err == FT_Err_Ok) {
+		// Return the fontId
+
+		// Add the font reference to the list
+		lu5_list_push(&(l5->fonts), current_font, sizeof(lu5_font)); 
+
+		return current_font;
+	}
+
+	// Throw
+	switch(err) {
+		case FT_Err_Ok: break;
+		case FT_Err_Cannot_Open_Resource: {
+			// If default font is defined
+			if (l5->font_default != NULL) {
+				LU5_WARN("Could not find font '%s', returning default font", font_path);
+			} else {
+				// Throw
+				luaL_error(l5->L, "Could not find font '%s'", font_path);
+			}
+			break;
+		}
+		case FT_Err_Unknown_File_Format: {
+			luaL_error(l5->L, "Unknown file format for font '%s'", font_path);
+		}
+		case FT_Err_Out_Of_Memory: {
+			luaL_error(l5->L, "No memory left to load font '%s'", font_path);
+		}
+
+		default: {		
+			luaL_error(l5->L, "Could not find font '%s'", font_path);
+		}
+	}
+
+	return NULL;
+}
+
+static void lu5_measure_text(const char *text, int *width, int *height, int *max_bearing_y, lu5_font *font) 
 {
     int w = 0, h = 0;
     int max_bearing_y_local = 0;
@@ -110,12 +166,13 @@ void lu5_measure_text(const char *text, int *width, int *height, int *max_bearin
     *max_bearing_y = max_bearing_y_local;
 }
 
-void lu5_render_text(const char *text, float x, float y, float fontSize, lu5_font *font) 
+void lu5_render_text(const char *text, float x, float y, float fontSize, int textAlign, lu5_font *font, lu5_color color) 
 {
+	lu5_apply_color(color);
 	int text_width = 0, text_height = 0, max_bearing_y = 0;
 	lu5_measure_text(text, &text_width, &text_height, &max_bearing_y, font);
 			
-	switch(lu5_style(&lu5)->textAlign)
+	switch(textAlign)
 	{
 		case LU5_TEXTALIGN_LEFT: 
 			y -= text_height;
@@ -177,8 +234,10 @@ void lu5_load_default_font(lu5_State *l5)
 
 void lu5_close_font(lu5_font *font) 
 {
-	if (font != NULL) {
-		for (int i = 0; i < 128; i++) {
+	if (font != NULL) 
+	{
+		for (int i = 0; i < 128; i++) 
+		{
 			glDeleteTextures(1, &font->textures[i]);
 		}
 		FT_Done_Face(font->face);
@@ -197,4 +256,9 @@ void lu5_close_fonts(lu5_State *l5)
 	// Clear all fonts
 	lu5_list_iter_close(l5->fonts, (void(*)(void*))lu5_close_font);
 	l5->fonts = NULL;
+
+	if (l5->ft != NULL) {
+		FT_Done_FreeType(l5->ft);
+		l5->ft = NULL;
+	}
 }

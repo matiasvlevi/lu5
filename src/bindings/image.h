@@ -15,7 +15,7 @@
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *
  *   image(img, 0, 0);
  * end   
@@ -40,6 +40,8 @@ int image(lua_State *L);
  * Crop an Image into an other Image.
  * 
  * @name Image.crop
+ *
+ * @visual
  * 
  * @param x The x position of the image
  * @param y The y position of the image
@@ -58,7 +60,7 @@ int image(lua_State *L);
  * end
  * 
  * function draw() 
- *     background(51);
+ *     background('purple');
  * 
  *     image(img, 0, 0);
  *     image(cropped, x, y);

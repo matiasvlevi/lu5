@@ -1,12 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
 
 #include <lauxlib.h>
 #include <lualib.h>
 
-#include "./lu5_state.h"
-#include "./lu5_core.h"
-#include "./lu5_cli.h"
+#include "../lu5_state.h"
+#include "../lu5_core.h"
+#include "../lu5_cli.h"
 
 int main(int argc, char **argv) 
 {
@@ -22,7 +20,8 @@ int main(int argc, char **argv)
 	}
 
 	do {
-		lu5_run_sketch(&lu5, filename);
+		lu5_init(&lu5);
+		lu5_run_sketch(&lu5, filename, NULL);
 	} while(lu5.env.restart);
 
 	LU5_INFO(LU5_EXIT_APP);

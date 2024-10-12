@@ -1,10 +1,12 @@
-#include "../lu5_geometry.h"
+#include "../../../lu5_geometry.h"
 #include <math.h>
 
 void lu5_render_torus_faces(
     lua_Number radius, lua_Number tubeRadius, 
-    lua_Integer detailX, lua_Integer detailY) 
+    lua_Integer detailX, lua_Integer detailY,
+    lu5_color color) 
 {
+    lu5_apply_color(color);
     for (lua_Integer i = 0; i < detailX; i++) {
         lua_Number theta = 2 * M_PI * i / (lua_Number)detailX;
         lua_Number nextTheta = 2 * M_PI * (i + 1) / (lua_Number)detailX;
@@ -58,7 +60,10 @@ void lu5_render_torus_edges(
     lua_Number radius, 
     lua_Number tubeRadius, 
     lua_Integer detailX, 
-    lua_Integer detailY) {
+    lua_Integer detailY,
+    lu5_color color) 
+{
+    lu5_apply_color(color);
     for (lua_Integer i = 0; i < detailX; i++) {
         lua_Number theta = 2 * M_PI * i / (lua_Number)detailX;
         lua_Number nextTheta = 2 * M_PI * (i + 1) / (lua_Number)detailX;
@@ -87,10 +92,6 @@ void lu5_render_torus_edges(
             lua_Number x3 = (radius + tubeRadius * cosPhi) * cosNextTheta;
             lua_Number y3 = (radius + tubeRadius * cosPhi) * sinNextTheta;
             lua_Number z3 = tubeRadius * sinPhi;
-            
-            lua_Number x4 = (radius + tubeRadius * cosNextPhi) * cosNextTheta;
-            lua_Number y4 = (radius + tubeRadius * cosNextPhi) * sinNextTheta;
-            lua_Number z4 = tubeRadius * sinNextPhi;
             
             // Draw vertical segments
             lu5_glVertex3(x1, y1, z1); lu5_glVertex3(x2, y2, z2);

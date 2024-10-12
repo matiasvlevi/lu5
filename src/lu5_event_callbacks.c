@@ -3,6 +3,7 @@
 
 #include "lu5_logger.h"
 #include "bindings/mouse.h"
+#include "bindings/keyboard.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +18,15 @@
 
 #include <lauxlib.h>
 
-static void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+#ifndef LU5_WASM
+#include <GLFW/glfw3.h>
+#define LU5_RESTART_TIME_THRESHOLD 20000U
+#else
+
+#endif
+
+
+void lu5_mouse_scroll_callback(lu5_window* window, double xoffset, double yoffset)
 {
 	lu5.input.mouse.scrollY -= yoffset * 10;
 
@@ -33,7 +42,7 @@ static void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yof
 	}
 }
 
-static void mouse_cursor_callback(GLFWwindow* window, double xpos, double ypos) {
+void lu5_mouse_cursor_callback(lu5_window* window, double xpos, double ypos) {
 	static bool first_call = true;
 	if (first_call) {
 		// Save in state
@@ -50,16 +59,21 @@ static void mouse_cursor_callback(GLFWwindow* window, double xpos, double ypos) 
 	LUA_ADD_NUMBER_GLOBAL_BY_NAME(lu5.L, LU5_MOUSE_Y, (lua_Number)ypos);
 }
 
-static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) 
+void lu5_mouse_button_callback(lu5_window* window, int button, int action, int mods)
 {
 	if (!lu5.L) return;
 
 	lu5.input.mouse.actions[button] = action;
 
 	if (action == 1) {
+		lua_pushboolean(lu5.L, true);
+		lua_setglobal(lu5.L, LU5_MOUSE_IS_PRESSED);
 
 		lua_getglobal(lu5.L, LU5_MOUSE_PRESSED);
+
 	} else {
+		lua_pushboolean(lu5.L, false);
+		lua_setglobal(lu5.L, LU5_MOUSE_IS_PRESSED);
 
 		lua_getglobal(lu5.L, LU5_MOUSE_RELEASED);
 	}
@@ -73,7 +87,7 @@ static void mouse_button_callback(GLFWwindow* window, int button, int action, in
 	}
 }
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void lu5_key_callback(lu5_window* window, int key, int scancode, int action, int mods)
 {
 	errno = 0;
 	if (!lu5.L) return;
@@ -84,11 +98,11 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 			lu5.input.keyboard.is_down[key] = false;
 
 			// Get keyReleased
-			lua_getglobal(lu5.L, "keyReleased");
+			lua_getglobal(lu5.L, LU5_KEY_RELEASED);
 			break;
 		case GLFW_PRESS:
 			// Restart key (CTRL + R)
-			if (key == GLFW_KEY_R && (mods & GLFW_MOD_CONTROL)) 
+			if (key == LU5_KEY_R && (mods & GLFW_MOD_CONTROL)) 
 			{
 				LU5_INFO("Refreshing sketch");
 				lu5.env.restart = true;
@@ -98,25 +112,27 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 			lu5.input.keyboard.is_down[key] = true;
 			
 			// Get keyPressed
-			lua_getglobal(lu5.L, "keyPressed");
+			lua_getglobal(lu5.L, LU5_KEY_PRESSED);
 			break;
 		case GLFW_REPEAT:
 			lu5.input.keyboard.current_keys[key] = GLFW_REPEAT;
 			
 			// Get keyHeld
-			lua_getglobal(lu5.L, "keyHeld");
+			lua_getglobal(lu5.L, LU5_KEY_HELD);
 			break;
 	}
 
 	// Check if callback event is a function
-	if (lua_isfunction(lu5.L, -1)) {
+	if (lua_isfunction(lu5.L, -1)) 
+	{
 		const char *name = glfwGetKeyName(key, scancode);
-		size_t key_name_length;
+
+		size_t key_name_length = 0;
 
 		// No name found (special key: ctrl, enter, shift, etc)
 		if (name == NULL) 
 		{
-			// Push event arguments (key, keyCode)
+			// Push event arguments (nil, keyCode)
 			lua_pushnil(lu5.L);
 			lua_pushinteger(lu5.L, key);
 
@@ -132,8 +148,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 		char *key_name = (char*)malloc(key_name_length);
 
 		// Is letter character
-		if (key >= 65 && key <= 90) {
-			
+		if (name == NULL && key >= 65 && key <= 90) {
 			// is letter & lower case
 			bool is_lowercase =
 				((mods & GLFW_MOD_CAPS_LOCK) ||
@@ -178,14 +193,15 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	}
 }
 
-void lu5_register_event_callbacks(GLFWwindow *window) 
+void lu5_register_event_callbacks(lu5_State *l5)
 {
-	glfwSetMouseButtonCallback(window, mouse_button_callback);
-	glfwSetCursorPosCallback(window, mouse_cursor_callback);
-	glfwSetKeyCallback(window, key_callback);
-	glfwSetInputMode(window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
-	glfwSetScrollCallback(window, mouse_scroll_callback);
-	
+	#ifndef LU5_WASM
+	glfwSetInputMode(l5->window, GLFW_LOCK_KEY_MODS, GLFW_TRUE);
+	glfwSetMouseButtonCallback(l5->window, lu5_mouse_button_callback);
+	glfwSetCursorPosCallback(l5->window, lu5_mouse_cursor_callback);
+	glfwSetKeyCallback(l5->window, lu5_key_callback);
+	glfwSetScrollCallback(l5->window, lu5_mouse_scroll_callback);
+	#endif
 	return;
 }
 	

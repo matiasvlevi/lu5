@@ -1,12 +1,14 @@
-#include "../lu5_geometry.h"
+#include "../../../lu5_geometry.h"
 #include <math.h>
 
 void lu5_render_cylinder_faces(
     lua_Number radius, lua_Number height, 
     lua_Integer detailX, lua_Integer detailY, 
     bool bottom_cap, 
-    bool top_cap) 
+    bool top_cap,
+	lu5_color color) 
 {
+	lu5_apply_color(color);
     lua_Number halfHeight = height / 2.0;
 
     for (lua_Integer i = 0; i < detailY; i++) {
@@ -67,8 +69,10 @@ void lu5_render_cylinder_edges(
     lua_Number radius, lua_Number height,
     lua_Integer detail_x, lua_Integer detail_y,
     bool bottom_cap,
-    bool top_cap)
+    bool top_cap,
+	lu5_color color) 
 {
+	lu5_apply_color(color);
     lua_Number half_height = height / 2.0;
 
     // Draw vertical lines

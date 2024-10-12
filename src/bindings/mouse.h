@@ -7,11 +7,14 @@
  *
  * The y mouse coordinate.
  *
+ * @visual
+ *
  * @example
- * createWindow(400, 400);
+ * createWindow(200, 200);
+ * stroke(255);
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *   
  *   line(0, mouseY, width, mouseY);
  * end
@@ -25,11 +28,14 @@
  * 
  * The x mouse coordinate.
  *
+ * @visual
+ *
  * @example
- * createWindow(400, 400);
+ * createWindow(200, 200);
+ * stroke(255);
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *   
  *   line(mouseX, 0, mouseX, height);
  * end
@@ -71,23 +77,25 @@
  *
  * <br/>
  * In the following example, the circle's size increases when the user clicks the mouse.
- *
+ * @visual
  * @example
- * size = 0;
+ * size = 12;
  *
  * function setup()
  *   createWindow(400, 400);
+ *   textAlign(CENTER);
  * end
  *
  * function draw()
- *   background(51);
- *
- *   circle(mouseX, mouseY, size);
+ *   background('purple');
+ *   
+ *   text('Click to grow the circle', width/2, 50);
+ *   circle(width/2, height/2, size);
  * end
  *
  * -- Increase circle size when mouse pressed
  * function mousePressed()
- *   size = size + 1;
+ *   size = size + 3;
  * end
  * @example
  */
@@ -103,27 +111,26 @@
  * <br/>
  * In the following example, the circle's size increases when the user clicks the mouse.
  *
+ * @visual
+ *
  * @example
- * size = 32;
+ * size = 12;
  *
  * function setup()
  *   createWindow(400, 400);
+ *   textAlign(CENTER);
  * end
  *
  * function draw()
- *   background(51);
- *
- *   circle(mouseX, mouseY, size);
+ *   background('purple');
+ *   
+ *   text('Click to grow the circle', width/2, 50);
+ *   circle(width/2, height/2, size);
  * end
  *
- * -- Increment circle size
- * function mousePressed()
- *   size = size + 6;
- * end
- *
- * -- Reset size
+ * -- Increase circle size when mouse released
  * function mouseReleased()
- *   size = 64;
+ *   size = size + 3;
  * end
  * @example
  */
@@ -139,22 +146,26 @@
  * <br/>
  * In the following example, the circle's size changes when the user scrolls.
  *
+ * @visual
+ *
  * @example
- * size = 0;
+ * size = 32;
  *
  * function setup()
  *   createWindow(400, 400);
+ *   textAlign(CENTER);
  * end
  *
  * function draw()
- *   background(51);
- *
- *   circle(mouseX, mouseY, size);
+ *   background('purple');
+ *   
+ *   text('Scroll to change the size', width/2, 50);
+ *   circle(width/2, height/2, size);
  * end
  *
- * -- Change circle size when mouse is scrolled
+ * -- Increase circle size when mouse scrolled
  * function mouseWheel(delta)
- *   size = size + delta;
+ *   size = max(size - delta * 3, 3);
  * end
  * @example
  */

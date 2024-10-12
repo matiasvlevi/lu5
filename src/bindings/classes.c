@@ -1,6 +1,6 @@
 #include "classes.h"
 
-#include "../lu5_logger.h"
+#include "../lu5_error.h"
 #include "../lu5_types.h"
 
 #include <lauxlib.h>

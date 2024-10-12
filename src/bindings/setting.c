@@ -5,28 +5,17 @@
 #include "../lu5_window.h"
 
 #include "../lu5_state.h"
-#include "../lu5_font.h"
 #include "../lu5_types.h"
-#include "../geometry/lu5_geometry.h"
+
+#include "../lu5_geometry.h"
+#include "../lu5_fs.h"
+#include "../lu5_font.h"
 
 int background(lua_State *L) 
 {
 	lu5_color color = lu5_args_to_color(L);
 
-	glClearColor(
-		((GLfloat)color.r)/255.0f, 
-		((GLfloat)color.g)/255.0f, 
-		((GLfloat)color.b)/255.0f, 
-		((GLfloat)color.a)/255.0f
-	);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	glLoadIdentity();
-
-	if (lu5.depth_mode == LU5_GL3D) {
-		lu5_glTranslate(0.0f, 0.0f, -800.0f);
-		glScalef(-1, 1, 1);
-	}
+	lu5_background(color);
 
 	return 0;
 }
@@ -36,8 +25,6 @@ int strokeWeight(lua_State *L)
 	lua_Number weight = lu5_assert_number(L, 1, "strokeWeight");
 	
 	lu5_style(&lu5)->strokeWeight = weight;
-
-
 
 	return 0;
 }
@@ -53,7 +40,7 @@ int fill(lua_State *L)
 
 int noFill(lua_State *L) 
 {
-	lu5_style(&lu5)->fill = (lu5_color){ .r=0, .g=0, .b=0, .a=0 };
+	lu5_style(&lu5)->fill = LU5_RGBA(0, 0, 0, 0);
 
 	return 0;
 }
@@ -63,13 +50,13 @@ int stroke(lua_State *L)
 	lu5_color color = lu5_args_to_color(L); 
 
 	lu5_style(&lu5)->stroke = color;
-
+	
 	return 0;
 }
 
 int noStroke(lua_State *L) 
 {
-	lu5_style(&lu5)->stroke = (lu5_color){ .r=0, .g=0, .b=0, .a=0 };
+	lu5_style(&lu5)->stroke = LU5_RGBA(0, 0, 0, 0);
 
 	return 0;
 }
@@ -77,23 +64,24 @@ int noStroke(lua_State *L)
 int push(lua_State *L) 
 {
 	lu5_style_setting blank = {};
-	lu5_set_default_style(&blank);
+	lu5_set_style(&blank);
+
+	lu5_style(&lu5)->fill   = LU5_WHITE;
+	lu5_style(&lu5)->stroke = LU5_BLACK;
+	
 	lu5_style_push(&lu5, &blank);
 
 	glPushMatrix();
+	
 	return 0;
 }
 
 int pop(lua_State *L) 
 {
 	lu5_style_pop(&lu5);
+
 	glPopMatrix();
 
-	lua_getglobal(L, "textSize");
-	lua_pushnumber(L, lu5_style(&lu5)->fontSize);
-	if (lua_pcall(L, 1, 0, 0) != LUA_OK) {
-		luaL_error(L, lua_tostring(L, -1));
-	}
 	return 0;
 }
 

@@ -1,12 +1,13 @@
-#include "lu5_obj.h"
+#include "../lu5_obj.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <GLFW/glfw3.h>
 #include <string.h>
 
-#include "lu5_fs.h"
-#include "lu5_list.h"
+#include "../lu5_fs.h"
+#include "../lu5_list.h"
+
+#include <GLFW/glfw3.h>
 
 #define MODEL_DEFAULT_SCALE 1.0f
 

@@ -1,7 +1,7 @@
-#include "lu5_cli.h"
+#include "../lu5_cli.h"
+#include "../lu5_cli_options.h"
 
-#include "lu5_logger.h"
-#include "lu5_cli_options.h"
+#include "../lu5_error.h"
 
 #include <stdlib.h>
 #include <stdio.h>

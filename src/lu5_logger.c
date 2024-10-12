@@ -2,6 +2,7 @@
 
 #include "lu5_state.h"
 
+#include <unistd.h>
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -53,11 +54,10 @@ void lu5_logger_print(lu5_log_level level, const char* fmt, ...)
 
 		case LU5_ERROR_LOG:
 			out = stderr;
+			
 			fprintf(out, "\x1b[30;41m ERROR \x1b[0m ");
 			break;
-
 		case LU5_WARN_LOG:
-			out = stderr;
 			fprintf(out, "\x1b[30;43m WARN \x1b[0m ");
 			break;
 
@@ -66,6 +66,7 @@ void lu5_logger_print(lu5_log_level level, const char* fmt, ...)
 
 	vfprintf(out, fmt, args);
 	fputc('\n', out);
-	
+	fflush(out);
+
 	va_end(args);
 }

@@ -1,11 +1,11 @@
 
 #include "shapes3D.h"
-#include <GLFW/glfw3.h>
+
 #include <math.h>
 
 #include "../lu5_types.h"
 #include "../lu5_state.h"
-#include "../geometry/lu5_geometry.h"
+#include "../lu5_geometry.h"
 
 int plane(lua_State *L) 
 {
@@ -21,17 +21,13 @@ int plane(lua_State *L)
 
 	if (lu5_has_fill()) 
 	{
-		lu5_apply_color(lu5_style(&lu5)->fill);
-		
-		lu5_render_plane_faces(half_x, half_y);
+		lu5_render_plane_faces(half_x, half_y, lu5_style(&lu5)->fill);
 	}
 
 	if (lu5_has_stroke()) 
 	{
-		lu5_apply_color(lu5_style(&lu5)->stroke);
-		glLineWidth(lu5_style(&lu5)->strokeWeight);
-		
-		lu5_render_plane_edges(half_x, half_y);
+		lu5_glLineWidth(lu5_style(&lu5)->strokeWeight);
+		lu5_render_plane_edges(half_x, half_y, lu5_style(&lu5)->stroke);
 	}
 
 	return 0;
@@ -56,18 +52,15 @@ int box(lua_State *L)
 	d /= 2.0f;
 
 	if (lu5_has_fill()) 
-	{
-		lu5_apply_color(lu5_style(&lu5)->fill);
-		
-		lu5_render_box_faces(w, h, d);
+	{	
+		lu5_render_box_faces(w, h, d, lu5_style(&lu5)->fill);
 	}
 
 	if (lu5_has_stroke()) 
 	{
-		lu5_apply_color(lu5_style(&lu5)->stroke);
-		glLineWidth(lu5_style(&lu5)->strokeWeight);
+		lu5_glLineWidth(lu5_style(&lu5)->strokeWeight);
 
-		lu5_render_box_edges(w, h, d);
+		lu5_render_box_edges(w, h, d, lu5_style(&lu5)->stroke);
 	}
 
 	return 0;
@@ -89,20 +82,19 @@ int sphere(lua_State *L)
 
 	if (lu5_has_fill()) 
 	{
-		lu5_apply_color(lu5_style(&lu5)->fill);
-		lu5_render_ellipsoid_faces(radius, detail_x, detail_y);
+		lu5_render_ellipsoid_faces(radius, detail_x, detail_y, lu5_style(&lu5)->fill);
 	}
 
 	if (lu5_has_stroke()) 
 	{
 		// Draw sphere edges
-		lu5_apply_color(lu5_style(&lu5)->stroke);
-		glLineWidth(lu5_style(&lu5)->strokeWeight);
+		lu5_glLineWidth(lu5_style(&lu5)->strokeWeight);
 
 		// Draw stroke with a larger radius
 		lu5_render_ellipsoid_edges(
 			radius + 1.0f,
-			detail_x, detail_y
+			detail_x, detail_y,
+			lu5_style(&lu5)->stroke
 		);
 	}
 
@@ -122,18 +114,17 @@ int cylinder(lua_State *L)
 
 	if (lu5_has_fill()) 
 	{
-		lu5_apply_color(lu5_style(&lu5)->fill);
 		lu5_render_cylinder_faces(radius, height,
 			detail_x, detail_y,
 			top_cap, 
-			bottom_cap);
+			bottom_cap,
+			lu5_style(&lu5)->fill);
 	}
 
 	if (lu5_has_stroke()) 
 	{
 		// Draw sphere edges
-		lu5_apply_color(lu5_style(&lu5)->stroke);
-		glLineWidth(lu5_style(&lu5)->strokeWeight);
+		lu5_glLineWidth(lu5_style(&lu5)->strokeWeight);
 
 		// Draw stroke with a larger radius
 		lu5_render_cylinder_edges(
@@ -141,7 +132,8 @@ int cylinder(lua_State *L)
 			height + 0.5f,
 			detail_x, detail_y,
 			top_cap, 
-			bottom_cap
+			bottom_cap,
+			lu5_style(&lu5)->stroke
 		);
 	}
 
@@ -158,20 +150,20 @@ int torus(lua_State *L)
 
 	if (lu5_has_fill()) 
 	{
-		lu5_apply_color(lu5_style(&lu5)->fill);
 		lu5_render_torus_faces(radius, tubeRadius,
-							   detail_x, detail_y);
+							   detail_x, detail_y,
+							   lu5_style(&lu5)->fill);
 	}
 
 	if (lu5_has_stroke()) 
 	{
 		// Draw sphere edges
-		lu5_apply_color(lu5_style(&lu5)->stroke);
-		glLineWidth(lu5_style(&lu5)->strokeWeight);
+		lu5_glLineWidth(lu5_style(&lu5)->strokeWeight);
 
 		// Draw stroke with a larger radius
 		lu5_render_torus_edges(radius, tubeRadius + 0.5f,
-							   detail_x, detail_y);
+							   detail_x, detail_y,
+							   lu5_style(&lu5)->stroke);
 	}
 
 	return 0;

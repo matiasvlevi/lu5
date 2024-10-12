@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "../lu5_types.h"
-#include "../lu5_logger.h"
+#include "../lu5_error.h"
 
 #include "../lu5_print.h"
 

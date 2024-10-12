@@ -127,8 +127,7 @@ int image(lua_State *L)
 		h = lua_tonumber(L, 5);
 	}
 
-	lu5_apply_color(LU5_RGBA(255, 255, 255, lu5_style(&lu5)->fill.a));
-	lu5_render_image(L, img->texture, x, y, w, h);
+	lu5_render_image(L, img->texture, x, y, w, h, lu5_style(&lu5)->fill);
 
 	return 0;
 }

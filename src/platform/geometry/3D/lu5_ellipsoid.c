@@ -1,10 +1,15 @@
-#include "../lu5_geometry.h"
+#include "../../../lu5_geometry.h"
 #include <GL/gl.h>
 
-#include "../../bindings/lu5_math.h"
+#include "../../../bindings/lu5_math.h"
 
-void lu5_render_ellipsoid_faces(lua_Number radius, lua_Integer detail_x, lua_Integer detail_y) 
+void lu5_render_ellipsoid_faces(
+	lua_Number radius, 
+	lua_Integer detail_x, 
+	lua_Integer detail_y,
+	lu5_color color) 
 {
+	lu5_apply_color(color);
 	for (lua_Integer i = 0; i < detail_y; i++) {
 		lua_Number v0 = (lua_Number)i / detail_y;
 		lua_Number phi0 = M_PI * v0 - M_PI / 2;
@@ -38,8 +43,13 @@ void lu5_render_ellipsoid_faces(lua_Number radius, lua_Integer detail_x, lua_Int
 	}
 }
 
-void lu5_render_ellipsoid_edges(lua_Number radius, lua_Integer detail_x, lua_Integer detail_y) 
+void lu5_render_ellipsoid_edges(
+	lua_Number radius, 
+	lua_Integer detail_x, 
+	lua_Integer detail_y,
+	lu5_color color) 
 {
+	lu5_apply_color(color);
 	// Draw vertical lines
 	for (lua_Integer i = 0; i <= detail_y; i++) {
 		lua_Number v = (lua_Number)i / detail_y;

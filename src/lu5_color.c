@@ -30,6 +30,10 @@ lu5_labeled_color lu5_known_colors[LU5_COLOR_COUNT] = {
 		.color= LU5_RGBA(255, 25, 180, 255)
 	},
 	{
+		.name="purple",
+		.color= LU5_RGBA(170, 54, 239, 255)
+	},
+	{
 		.name="magenta",
 		.color= LU5_RGBA(210, 81, 255, 255)
 	},

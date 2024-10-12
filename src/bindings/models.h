@@ -16,7 +16,7 @@
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *
  *   model(ship);
  * end
@@ -37,7 +37,7 @@ int loadModel(lua_State *L);
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *
  *   model(ship);
  * end

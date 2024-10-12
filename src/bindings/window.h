@@ -28,26 +28,83 @@
 int createWindow(lua_State *L);
 
 /**
+ * Save the current window into an image. Acts as a screenshot.
+ *
+ * @param path The image path to write to. 
+ *
+ * In this example, press the mouse to save a screenshot of the window.x
+ *
+ * @example
+ * function setup()
+ *   createWindow(300, 300);
+ * end
+ *
+ * function draw()
+ *   circle(200, 200, 32);
+ *   fill(255, 50, 100);
+ *   square(200, 200, 32);
+ * end
+ *
+ * function mousePressed()
+ *   saveWindow("./screenshot.png");
+ * end
+ * @example
+ */
+int saveWindow(lua_State *L);
+
+/**
  * Set the frame rate.
  * 
  * @param fps The frame rate to set
  *
  * If frame rate is called without an argument, it will return frame per seconds 
  *
+ * @visual
+ *
  * @example
  * x = 0;
+ * r = 16;
+ * speed = 50;
  *
  * function setup()
- *   createWindow(400, 400);
- *   frameRate(24);
+ *   createWindow(200, 200);
+ *
+ *   frameRate(24); -- Set the frame rate
  * end
  *
  * function draw()
- *   background(51);
- *   text('fps: ' .. frameRate(), 20, 10);
+ *   background('purple');
+ *   text('fps: ' .. frameRate(), 20, 30);
  *
- *   circle(x, 200, 32);
- *   x = x + 1;
+ *   square(x, 100, r);
+ *   if x > width+r then 
+ *     x = -r;
+ *   else
+ *     x = x + speed * deltaTime;
+ *   end
+ * end
+ * @example
+ *
+ * @example
+ * x = 0;
+ * r = 16;
+ * speed = 50;
+ *
+ * function setup()
+ *   createWindow(200, 200);
+ *   frameRate(12);
+ * end
+ *
+ * function draw()
+ *   background('purple');
+ *   text('fps: ' .. frameRate(), 20, 30);
+ *
+ *   square(x, 100, r);
+ *   if x > width+r then 
+ *     x = -r;
+ *   else
+ *     x = x + speed * deltaTime;
+ *   end
  * end
  * @example
  */
@@ -83,7 +140,7 @@ int loop(lua_State *L);
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *
  *   circle(x, height/2, 32);
  *
@@ -135,7 +192,7 @@ int loop(lua_State *L);
  * end
  * 
  * function draw()
- *     background(51);
+ *     background('purple');
  * end
  * 
  * function windowResized()

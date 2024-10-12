@@ -1,12 +1,13 @@
-#include "lu5_image.h"
+#include "../lu5_image.h"
 
-#include "lu5_list.h"
-#include "./geometry/lu5_geometry.h"
+#include "../lu5_list.h"
+
+#include <lauxlib.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "./stb/stb_image.h"
 
-#include <lauxlib.h>
+#include "../lu5_geometry.h"
 
 lu5_image *lu5_load_image(lu5_State *l5, const char* image_path) 
 {
@@ -118,8 +119,9 @@ lu5_image *lu5_image_crop(lu5_State *l5, lu5_image *image, int x, int y, int w, 
     return img;
 }
 
-void lu5_render_image(lua_State* L, GLuint texture, lua_Number x, lua_Number y, lua_Number w, lua_Number h) 
+void lu5_render_image(lua_State* L, GLuint texture, lua_Number x, lua_Number y, lua_Number w, lua_Number h, lu5_color color) 
 {
+	lu5_apply_color(LU5_RGBA(255, 255, 255, color.a));
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture);
 

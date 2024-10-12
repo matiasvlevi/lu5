@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <lauxlib.h>
-#include "lu5_logger.h"
+#include "lu5_error.h"
 
 int lu5_get_length(lua_State *L, int index) 
 {	

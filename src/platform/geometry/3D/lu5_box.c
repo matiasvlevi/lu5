@@ -1,8 +1,11 @@
-#include "../lu5_geometry.h"
+#include "../../../lu5_geometry.h"
 #include <GL/gl.h>
 
-void lu5_render_box_faces(lua_Number w, lua_Number h, lua_Number d)
+void lu5_render_box_faces(
+	lua_Number w, lua_Number h, lua_Number d,
+	lu5_color color) 
 {
+	lu5_apply_color(color);
 	glBegin(GL_QUADS);
 	// Front face
 	lu5_glVertex3(-w, -h,  d);
@@ -42,8 +45,11 @@ void lu5_render_box_faces(lua_Number w, lua_Number h, lua_Number d)
 	glEnd();
 }
 
-void lu5_render_box_edges(lua_Number w, lua_Number h, lua_Number d)
+void lu5_render_box_edges(
+	lua_Number w, lua_Number h, lua_Number d,
+	lu5_color color) 
 {
+	lu5_apply_color(color);
 	glBegin(GL_LINES);
 
 	// Front face

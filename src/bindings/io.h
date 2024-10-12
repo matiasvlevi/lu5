@@ -8,6 +8,8 @@
  *
  * @param value The value to print to stdout
  *
+ * @visual
+ *
  * @example
  * print(42);
  *

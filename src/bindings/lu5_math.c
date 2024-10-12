@@ -2,7 +2,7 @@
 #include "lu5_vector.h"
 
 
-#include "../lu5_logger.h"
+#include "../lu5_error.h"
 #include "../lu5_bindings.h"
 #include "../lu5_types.h"
 
@@ -140,8 +140,8 @@ int lu5_tan(lua_State *L)
 
 int lu5_randomSeed(lua_State *L) 
 {
-	LU5_ONE_TO_ONE_BINDING("math", "randomseed");
-	return 1;
+	LU5_ONE_TO_ONE_BINDING("math", "randomseed", 0);
+	return 0;
 }
 
 int lu5_random(lua_State *L) 
@@ -168,7 +168,7 @@ int lu5_random(lua_State *L)
 				int len = lua_rawlen(L, 1);
 
 				// Map random value to index
-				lua_pushinteger(L, (int)ceil(len * value));
+				lua_pushnumber(L, ceilf(len * value));
 				
 				// Return element at index
 				lua_gettable(L, 1);
@@ -191,15 +191,22 @@ int lu5_random(lua_State *L)
 			// Get random value
 			lua_Number value = lua_tonumber(L, -1);
 
-			// Get arguments
-			lua_Number min = lu5_assert_number(L, 1, "random");
-			lua_Number max = lu5_assert_number(L, 2, "random");
-			
-			lua_pop(L, 1);
+			if (lua_isinteger(L, 1) && lua_isinteger(L, 2)) {
+				lua_Integer min = lu5_assert_integer(L, 1, "random");
+				lua_Integer max = lu5_assert_integer(L, 2, "random");
 
-			// Map in range
-			lua_pushnumber(L, value * (max - min) + min);
+				lua_pushnumber(L, ceilf(value * (max - min) + min));
+			} else {
+				// Get arguments
+				lua_Number min = lu5_assert_number(L, 1, "random");
+				lua_Number max = lu5_assert_number(L, 2, "random");
+				
+				// Map in range
+				lua_pushnumber(L, value * (max - min) + min);
+			}
+
 			return 1;
+
 		}
 
 		default: {
@@ -236,8 +243,8 @@ int lu5_min(lua_State *L)
 			lua_pop(L, 1);
 		}
 	} else {
-		return	
-			luaL_error(L, "Expected 2 or more arguments for 'min'");
+		luaL_error(L, "Expected 2 or more arguments for 'min'");
+		return 0;
 	}
 
 	lua_pushnumber(L, result);
@@ -270,8 +277,9 @@ int lu5_max(lua_State *L)
 			lua_pop(L, 1);
 		}
 	} else {
-		return	
-			luaL_error(L, "Expected 2 or more arguments for 'max'");
+		luaL_error(L, "Expected 2 or more arguments for 'max'");
+
+		return 0;
 	}
 
 	lua_pushnumber(L, result);

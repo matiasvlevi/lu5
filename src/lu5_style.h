@@ -16,12 +16,12 @@ typedef struct lu5_font_s lu5_font;
     ((l5)->style_stack[(l5)->style_stack_len - 1])
 
 #define lu5_has_stroke()\
-	(lu5_style(&lu5)->strokeWeight != 0.0f && lu5_style(&lu5)->stroke.a != 0.0f)
+	(lu5_style(&lu5)->strokeWeight != 0.0f && (lu5_style(&lu5)->stroke.a) != 0.0f)
 
 #define lu5_has_fill()\
-	(lu5_style(&lu5)->fill.a != 0.0f)
+	((lu5_style(&lu5)->fill.a) != 0.0f)
 
-#define lu5_set_default_style(s)\
+#define lu5_set_style(s)\
 	(s)->rectMode = LU5_RECTMODE_CORNER;\
 	(s)->textAlign = LU5_TEXTALIGN_LEFT;\
 	(s)->fill = LU5_WHITE;\

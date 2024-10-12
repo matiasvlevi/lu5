@@ -30,7 +30,7 @@ typedef struct lu5_orbit_s {
  * end
  * 
  * function draw() 
- *     background(51);
+ *     background('purple');
  * 
  *     -- Allows us to control the camera
  *     orbitControl();

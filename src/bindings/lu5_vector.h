@@ -21,10 +21,22 @@ lu5_vector* lu5_check_vector(lua_State* L, int index);
  * @param x The first component of the vector
  * @param y The second component of the vector
  *
+ * @call
+ * @param x The first component of the vector
+ * @param y The second component of the vector
+ * @param z The third component of the vector
+ *
  * @return Vector The created vector
  *
- * @example
+ * @example 1
  * local point = createVector(80, 125);
+ *
+ * print(point);
+ * @example
+ *
+ *
+ * @example 2
+ * local point = createVector(130, 200, 60);
  *
  * print(point);
  * @example

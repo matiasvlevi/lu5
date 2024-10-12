@@ -1,14 +1,15 @@
-#include "lu5_fs.h"
+#include "../lu5_fs.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "lu5_state.h"
-#include "lu5_logger.h"
 
 #include <sys/stat.h>
 #include <errno.h>
 #include <lauxlib.h>
 #include <string.h>
+
+#include "../lu5_state.h"
+#include "../lu5_logger.h"
 
 // Forward declare strdup 
 // is required for some systems
@@ -78,8 +79,10 @@ int lu5_write_file(const char *path, const void *buffer, size_t len)
     return 0;
 }
 
-char *lu5_read_file(const char* path, long *size) {
-    
+char *lu5_read_file(const char* path, long *size) 
+{    
+    // _err ptr is used in wasm
+
 	FILE *file = lu5_open_file(path, "rb");
 	if (file == NULL) return NULL;
 

@@ -3,19 +3,30 @@
 
 #include "lu5_state.h"
 
+#ifndef LU5_WASM
+#include <GL/gl.h>
+#else
+typedef int GLuint;
+#endif
+
 typedef struct {
 	GLuint texture;
 	int width;
 	int height;
 } lu5_image;
 
-
+WASM_IMPORT("env", "lu5_load_image") 
 lu5_image *lu5_load_image(lu5_State *l5, const char* image_path);
 
+WASM_IMPORT("env", "lu5_image_crop") 
 lu5_image *lu5_image_crop(lu5_State *l5, lu5_image *image, int x, int y, int w, int h);
 
-void lu5_render_image(lua_State *L, GLuint texture, lua_Number x, lua_Number y, lua_Number w, lua_Number h);
-
+WASM_IMPORT("env", "lu5_render_image") 
+void lu5_render_image(lua_State *L, 
+	GLuint texture, 
+	lua_Number x, lua_Number y, 
+	lua_Number w, lua_Number h,
+	lu5_color color);
 
 void lu5_close_image(lu5_image *image);
 

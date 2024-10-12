@@ -1,6 +1,3 @@
-
-
-
 #include "lu5_list.h"
 
 #include <stdlib.h>

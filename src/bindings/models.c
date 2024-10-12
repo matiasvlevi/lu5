@@ -1,17 +1,25 @@
 #include "models.h"
 
+#ifndef LU5_WASM
 #include <GL/gl.h>
+#endif
 
-#include "../lu5_obj.h"
 #include "../lu5_types.h"
 
-#include "../geometry/lu5_geometry.h"
+#include "../lu5_geometry.h"
+#include "../lu5_obj.h"
 
 int loadModel(lua_State *L) 
 {
 	const char *filepath = lu5_assert_string(L, 1, "loadModel");
 
+	#ifndef LU5_WASM
 	lu5_model *model = lu5_load_obj(&lu5, filepath);
+	#else
+	lu5_model *model = NULL; // TODO: WASM
+	// This should be unreachable for now as 
+	// we close the window after throwing a warning
+	#endif
 
 	if (model) 
 	{
@@ -31,6 +39,7 @@ int model(lua_State *L)
 
 	if (lu5_has_fill()) 
 	{
+		#ifndef LU5_WASM
 		lu5_apply_color(lu5_style(&lu5)->fill);
 		for (int j = 0; j <  model->face_count; j++) 
 		{
@@ -64,10 +73,14 @@ int model(lua_State *L)
 			}
 			glEnd();
 		}
+		#else
+			// TODO: WASM
+		#endif
 	}
 
 	if (lu5_has_stroke()) 
 	{
+		#ifndef LU5_WASM
 		lu5_apply_color(lu5_style(&lu5)->stroke);
 		glLineWidth(lu5_style(&lu5)->strokeWeight);
 		glBegin(GL_LINES);
@@ -88,6 +101,9 @@ int model(lua_State *L)
 		}
 
 		glEnd();
+		#else
+		// TODO: WASM
+		#endif
 	}
 
 	return 0;

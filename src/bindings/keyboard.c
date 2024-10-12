@@ -24,7 +24,6 @@ int keyIsDown(lua_State *L)
 	if ((key > 0) && (key < MAX_KEYBOARD_KEYS))
 	{
 		down = (lu5.input.keyboard.is_down[key] == true);
-
 	}
 
 	lua_pushboolean(L, down);

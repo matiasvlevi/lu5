@@ -1,16 +1,16 @@
-#include "lu5_window.h"
+#include "../lu5_window.h"
+#include "../lu5_state.h"
 
-#include "bindings/window.h"
+
+#include "../bindings/window.h"
+
+#include "./stb/stb_image.h"
+#include "../static/lu5_icon.h"
 
 #include <lauxlib.h>
-
-#include "stb/stb_image.h"
-#include "static/lu5_icon.h"
-
 #include <GL/glu.h>
-#include "lu5_state.h"
 
-static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+static void framebuffer_size_callback(lu5_window* window, int width, int height)
 {
 	// Get window resized callback
 	lua_getglobal(lu5.L, LU5_WINDOW_RESIZED);
@@ -78,7 +78,7 @@ static void lu5_init_3D(int width, int height)
 	glEnable(GL_POLYGON_SMOOTH);
 }
 
-GLFWwindow *lu5_create_glfw_window(
+lu5_window *lu5_create_lu5_window(
 	lua_State *L,
 	int width,
 	int height,
@@ -90,7 +90,7 @@ GLFWwindow *lu5_create_glfw_window(
 		return lu5.window;
 	}
 
-	GLFWwindow* window = glfwCreateWindow(
+	lu5_window* window = (lu5_window*)glfwCreateWindow(
 		width, height,	 
 		window_title, 
 		NULL, NULL);
@@ -104,7 +104,6 @@ GLFWwindow *lu5_create_glfw_window(
 
 	// Make the window's context current
 	glfwMakeContextCurrent(window);
-
 
 	// Set necessary options for GLFW
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

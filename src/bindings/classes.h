@@ -30,7 +30,7 @@
  * end
  * 
  * function draw()
- *   background(51);
+ *   background('purple');
  *
  *   p1:draw();
  *   p2:draw();

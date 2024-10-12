@@ -7,7 +7,7 @@
  * Load a font.
  * 
  * @param path The font path on the local system
- * 
+ *
  * @example
  * function setup()
  *   createWindow(600, 600);
@@ -15,7 +15,7 @@
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *
  *   textFont(font);
  *   text('Hello from lu5!', 30, 50);

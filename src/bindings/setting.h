@@ -2,6 +2,7 @@
 #define __LU5_SETTING_BINDINGS__
 
 #include <lua.h>
+#include "../lu5_setting.h"
 
 /**
  * Clear a background with a color. 
@@ -167,7 +168,7 @@ int noStroke(lua_State *L);
  * end
  * 
  * function draw()
- *     background(51);
+ *     background('purple');
  * 
  *     push();
  *     fill(155, 255, 0);
@@ -188,7 +189,7 @@ int noStroke(lua_State *L);
  * end
  * 
  * function draw()
- *     background(51);
+ *     background('purple');
  * 
  *     push();
  *     fill('red');
@@ -226,7 +227,7 @@ int pop(lua_State *L);
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *   
  *   rect(width/2, height/2, 100, 50);
  * end
@@ -247,7 +248,7 @@ int rectMode(lua_State *L);
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *   
  *   box(100);
  * end
@@ -259,7 +260,7 @@ int rectMode(lua_State *L);
  * end
  *
  * function draw()
- *   background(51);
+ *   background('purple');
  *   
  *   -- When the d key is down, show debug graphics
  *   if (keyIsDown('d')) then

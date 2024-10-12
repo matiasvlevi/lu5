@@ -2,6 +2,13 @@
 #define _LU5_LOGGER_H_
 
 #include <lua.h>
+#include "lu5_decorators.h"
+
+#ifndef LU5_WASM
+#define LU5_NEWLINE '\n'
+#else
+#define LU5_NEWLINE ' '
+#endif
 
 typedef enum {
 	LU5_ERROR_LOG,
@@ -12,11 +19,9 @@ typedef enum {
 	LU5_DEBUG_LOG
 } lu5_log_level;
 
-
 void lu5_logger_trace(lua_State *L);
 void lu5_logger_print(lu5_log_level level, const char* fmt, ...);
 
-#define LU5_ERROR(msg, ...)   lu5_logger_print(LU5_ERROR_LOG, msg, ##__VA_ARGS__);
 #define LU5_WARN(msg, ...)	lu5_logger_print(LU5_WARN_LOG , msg, ##__VA_ARGS__)
 #define LU5_INFO(msg, ...)	lu5_logger_print(LU5_INFO_LOG , msg, ##__VA_ARGS__)
 #define LU5_RUN_LOG(msg, ...) lu5_logger_print(LU5_RUN_LOG  , msg, ##__VA_ARGS__)
