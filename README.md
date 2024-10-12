@@ -28,7 +28,7 @@ function setup()
 end
 
 function draw()
-    background(51);
+    background('purple');
 
     circle(300, 300, 32);
 end

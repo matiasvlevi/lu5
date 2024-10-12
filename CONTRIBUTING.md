@@ -35,7 +35,7 @@ make examples
 
 <br/>
 
-For web assembly, you can launch a webserver and open `./examples/index.html`
+For web assembly, you can launch a webserver and open `./docs/examples.html`
 
 <br/>
 

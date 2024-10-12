@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="../assets/lu5-wasm.min.js" wasm="../../../bin/wasm/lu5.wasm" lib></script>
+    <script src="../assets/lu5-console.min.js"></script>
+    <style>
+        body,
+        a,
+        main,
+        button {
+            font-family: monospace;
+            background-color: #06040A;
+            color: #eee;
+        }
+
+        main {
+            width: fit-content;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 1rem;
+            height: 100%;
+        }
+
+        div.buttons {
+            width: fit-content;
+            align-self: center;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        button {
+            border: none;
+            padding: 0.35rem;
+            border-radius: 0.3rem;
+            background-color: #eee;
+            color: #06040A;
+            font-weight: bolder;
+            cursor: pointer;
+            margin: 1rem;
+        }
+
+        button:active {
+            background-color: #ccc;
+        }
+
+        button:hover {
+            background-color: #aaa;
+        }
+
+        .center {
+            display: flex;
+            flex-direction: column;
+            max-height: 90%;
+        }
+
+        .carousel {
+            display: flex;
+            align-items: center;
+        }
+
+        body {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        #lu5-console {
+            width: max-content;
+            float: bottom;
+            flex-grow: 1;
+            height: min-content;
+            margin: 0.65rem;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            margin: 0.25rem;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        const scripts = [
+            'collisions.lua',
+            'pong.lua',
+            'arc.lua',
+            'controls.lua',
+            'grid.lua',
+            'frameRate.lua',
+            'line.lua',
+            'colors.lua',
+            'image.lua',
+            'mouseIsPressed.lua',
+            'customShapes.lua',
+            'instances.lua',
+            'math.lua',
+            'mouse.lua',
+            'textWeb.lua',
+            'events.lua',
+            'point.lua',
+            'vector.lua',
+            'print.lua',
+            'model.lua',
+            '3D.lua',
+            'sphere.lua',
+        ];
+
+        let current_script = 0;
+        let module = undefined;
+        async function main() {
+            module = await lu5.compile('../../../bin/wasm/lu5.wasm');
+
+            run_script(module, scripts[current_script]);
+        }; main();
+
+        async function run_script(module, path) {
+            document.getElementById('title').textContent = path;
+            document.getElementById('title-link').href =
+                `https://github.com/matiasvlevi/lu5/blob/master/examples/${path}`;
+
+            const dom_console = new lu5.Console();
+
+            lu5.instantiate(module)
+                .then(vm => vm.setCanvas('mycanvas'))
+                .then(vm => vm.attach(1, console))
+                .then(vm => vm.attach(2, console))
+                .then(vm => vm.attach(1, dom_console))
+                .then(vm => vm.attach(2, dom_console))
+                .then(vm => {
+                    window.vm = vm;
+                    fetch(`https://raw.githubusercontent.com/matiasvlevi/lu5/refs/heads/master/examples/${path}`)
+                        .then(r => r.text())
+                        .then(source => vm.execute(source))
+                });
+        }
+
+        async function next() {
+            if (!vm) return;
+            current_script = Math.min(scripts.length - 1, current_script + 1);
+            vm.clear();
+            vm.reset()
+              .then(_vm => run_script(module, scripts[current_script]));
+        }
+
+        async function previous() {
+            if (!vm) return;
+            current_script = Math.max(0, current_script - 1);
+            vm.clear();
+            vm.reset()
+              .then(_vm => run_script(module, scripts[current_script]));
+        }
+    </script>
+
+    <main>
+        <div class="center">
+            <a id="title-link">
+                <h3 id="title"></h3>
+            </a>
+
+            <div class="carousel">
+                <button onclick="previous()">< prev</button>
+                <canvas id="mycanvas" style="display:none;"></canvas>
+                <button onclick="next()">next ></button>
+            </div>
+
+            <div id="lu5-console"></div>
+
+        </div>
+    </main>
+
+</body>
+
+</html>
