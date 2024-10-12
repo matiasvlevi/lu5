@@ -182,7 +182,10 @@ local function Home(props)
             luax('div', {class="flex-col gap-8"}, {
                 luax('div', {
                     luax('h2', 'CDN'),
-                    luax('span', {class="text"}, 'lu5 is now available for the Web:'),
+                    luax('span', {class="text"}, {
+                        'lu5 can now run on the web with ',
+                        luax('a', {href='https://github.com/matiasvlevi/lu5-wasm'}, 'lu5-wasm')
+                    }),
                     luax('pre', {
                         luax('code', {class="cdn language-html hljs"}, {
             
