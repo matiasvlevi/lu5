@@ -116,7 +116,7 @@
         let current_script = 0;
         let module = undefined;
         async function main() {
-            module = await lu5.compile('../../../bin/wasm/lu5.wasm');
+            module = await lu5.compile();
 
             run_script(module, scripts[current_script]);
         }; main();
