@@ -8,7 +8,7 @@ lu5 is used to build the website, you could build the documentation like so:
 
 ```sh
 cd ..
-lu5 site/build.lua
+lu5 site/tasks/build_docs.lua
 ```
 
 > If you are contributing, it is recommended to use `make docs` from the root of the project instead. This helps prevent versions mismatch between the interpreter and the docs site.

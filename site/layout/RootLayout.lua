@@ -43,7 +43,7 @@ function Layout(props, children)
                         luax('header', {
                             luax('div', {class='wrap'}, {
                                 luax('a', {href=root == './' and props.meta.github_url or "../"}, {
-                                    luax('img', {width="100px", src=root .. props.media.assets..'/logo.svg'}),
+                                    luax('img', {class="logo", src=root .. props.media.assets..'/logo.svg'}),
                                 }),
                                 luax('h1', {class="module", style=("font-size: ".. (props.purpose ~= "symbol" and "26pt" or  "22pt"))}, title),
             

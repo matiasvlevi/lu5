@@ -10,7 +10,7 @@ local luax = require('site/lib/luax');
 -- }
 ---
 function Head(props)
-    local title = 'lu5 | ' .. props.page_name;
+    local title = props.page_name;
     local thumbnail = props.meta.url .. '/' .. props.media.assets .. '/' .. props.media.thumbnail;
 
     return luax('head', {
@@ -88,6 +88,10 @@ function Head(props)
 
         (props.purpose == "module" or props.purpose == "symbol") and luax('', {
             
+            -- lu5-wasm
+            luax('script', { src=props.root .. props.media.assets .. "/lu5-wasm.min.js", lib=true }),
+            luax('script', { src=props.root .. props.media.assets .. "/lu5-console.min.js" }),
+
             -- Highlight.js
             luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
             luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),

@@ -3,6 +3,9 @@ local luax = require('site/lib/luax');
 function json_matcher(key, value)
     local key_str = (type(key) ~= "string") and '' or '"' .. key .. '":';
     return {
+        boolean=function(t)
+            return key_str .. (value and 'true' or 'false');
+        end,
         string=function(t) 
             local esc_value = value
                 :gsub("\n", "\\n")

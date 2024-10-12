@@ -9,6 +9,10 @@ function get_counters(key)
     return file_counters[key];
 end
 
+function rm(path)
+    os.remove(path);
+end
+
 function update_file_counters(c, path)
     if path:find(".html") ~= nil then c.html = c.html + 1 end
     if path:find(".css") ~= nil then  c.css  = c.css  + 1 end
@@ -137,5 +141,6 @@ return {
 	find_files_in_dir=find_files_in_dir,
     get_counters=get_counters,
     write_vc_file=write_vc_file,
-    copy_dir=copy_dir
+    copy_dir=copy_dir,
+    rm=rm
 }

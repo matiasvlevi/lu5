@@ -20,22 +20,46 @@ function MethodCall(props)
     });
 end
 
-function MethodCalls(props)
+function MethodCalls(props, root)
     return luax('', {
-        luax.map(props.calls, function(c, i)
-            local dec = #props.calls > 1 and props.declarations[i] or nil;
+        luax.map(props.method.calls, function(c, i)
+            local dec = #props.method.calls > 1 and props.declarations[i] or nil;
             return luax('', {
                 MethodCall({ declaration=dec, params=c.arguments }),
-                c.example and MethodExample(c.example) or ''
+                c.example and MethodExample(props.method, c.example, i, root) or ''
             });
         end),
     });
 end
 
-function MethodExample(example) 
-    return example ~= nil and luax('pre', {
-        luax('code', {class="language-lua"}, { example })
+function MethodExample(method, example, index, root)
+    return example ~= nil and luax('div', {class="method-example flex items-center"}, {
+        luax('pre', {class="example-code"},{
+            luax('code', {class="language-lua"}, { example })
+        }),
+        method.visual and LiveCanvas(root, method.name, index, example) or '',
     }) or ''
+end
+
+function LiveCanvas(root, name, index, source)
+    local wasm_module = '/bin/wasm/lu5.wasm';
+    return luax('', {
+        luax('canvas', { id="example-visual-"..name.."-"..index, style="display:none;" }),
+        luax('div', {class="flex-col", style="margin: 1.5rem 0;"}, {
+            luax('div', { id="example_"..name .."_"..index.."_console", style="min-width: 22rem; max-height: 16rem;"}, {
+                luax('p', {class="text white monospace underline", style="margin: 0.2rem 0 0.6rem 0;"}, 'Output')
+            }),
+        }),
+        luax('script', {
+            'const example_', name, '_', index,'_console = new lu5.Console(`example_',name,'_',index,'_console`);',
+            'lu5.init(`',wasm_module,'`)',
+                '.then(vm => vm.setCanvas("example-visual-', name, '-', index ,'"))',
+                '.then(vm => vm.attach(1, example_', name, '_', index,'_console))',
+                '.then(vm => vm.attach(2, example_', name, '_', index,'_console))',
+                '.then(vm => vm.attach(2, console))',
+                '.then(vm => vm.execute(`', source ,'\n`));',
+        });
+    })
 end
 
 ---
@@ -51,7 +75,7 @@ end
 --      _return: TRetrun;
 -- }
 ---
-function Method(props)
+function Method(props, root)
     local decorator = luax.match(props.doc._type, {
         event=luax('span', {class="decorator"}, 'Event'),
         constant=luax('span', {class="decorator"}, 'Constant'),
@@ -59,16 +83,16 @@ function Method(props)
     });
 
     local name = luax.match(props.doc._type, {
-        event=#props.doc.calls > 1 and props.doc.name or get_declarations(props.doc)[1],
-        method=#props.doc.calls > 1 and props.doc.name or get_declarations(props.doc)[1],
+        event=#props.doc.calls > 1 and props.doc.name .. '();' or get_declarations(props.doc)[1],
+        method=#props.doc.calls > 1 and props.doc.name .. '();' or get_declarations(props.doc)[1],
         constant=props.doc.name,
         global=props.doc.name
     });
 
-    local declarations = luax.match(props.doc._type, {
-        method=get_declarations(props.doc),
-        default=nil
-    });
+    local declarations;
+    if (props.doc._type == "method") then
+        declarations = get_declarations(props.doc);
+    end
 
     -- Use branch master if dev, use version tag if prod
     local branch = 'master';
@@ -90,7 +114,7 @@ function Method(props)
             props.doc.description or 
             'No description'
         ),
-        MethodCalls({ declarations=declarations, calls=props.doc.calls }),
+        MethodCalls({ declarations=declarations, method=props.doc }, root),
         (props.doc['_return'] == nil) and '' or luax('', {
             luax('h4', 'Returns'),
             luax('div', {class="param"}, {
@@ -105,7 +129,9 @@ function Method(props)
         luax('p', props.doc.bottom_description),
 
         (props.doc['examples'] == nil and #props.doc['examples'] <= 1) and '' or 
-            luax.map(props.doc['examples'], MethodExample),
+            luax.map(props.doc['examples'], function (ex, index) 
+                return MethodExample(props.doc, ex, index, root)
+            end),
 
 
         luax('span', {class="text small underline"}, luax('a', {target="_blank", href=doc_link}, 

@@ -34,6 +34,10 @@ return {
                 'image.js',
                 'download.js',
                 'search.js',
+
+                -- Libraries
+                'lu5-wasm.min.js',
+                'lu5-console.min.js',
                 'hljs.min.js'
             },
             css={

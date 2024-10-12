@@ -254,6 +254,11 @@ function parse_comment(comment, name, is_event)
         _type = 'method';
     end
     
+    local visual = false;
+    if (comment:find('%@visual')) then
+        visual = true;
+    end
+
     -- Override name if name tag found
     local name_match = comment:match('%@name [%w%.]+')
     if (name_match) then
@@ -283,6 +288,7 @@ function parse_comment(comment, name, is_event)
     return {
 		name              =name,
         _type             =_type,
+        visual            =visual,
 		description       =parse_description(comment),
 		--example           =parse_example(comment),
 		examples           =examples,

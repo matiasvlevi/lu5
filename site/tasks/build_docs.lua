@@ -20,8 +20,6 @@ local HeaderPanel = require('site/components/Navigation');
 -- Parse all headers
 local modules = Parse.all(Config.build.source.headers);
 
-print();
-print('pages:');
 for i, module in pairs(modules) do
     -- Generate module page
     local html = RootLayout({
@@ -42,7 +40,7 @@ for i, module in pairs(modules) do
             class = "light",
             modules = modules
         })
-    }, Module(module));
+    }, Module(module, "../"));
 
     -- Write module page
     fs.write_vc_file(Config.build.dest, module.source, 'index.html', html, Config.current_latest);
@@ -61,21 +59,10 @@ for i, module in pairs(modules) do
             root = "../../../",
             media = Config.media,
             meta = luax.merge(Config.metadata, {
-                keywords = {
-                    "Lua", 
-                    "Creative Coding", 
-                    "Lua Interpreter", 
-                    "programming", 
-                    "coding", 
-                    "learn code", 
-                    "documentation",
-                    "reference", 
-                    "guide"
-                },
-                description = 'lu5 Reference page for '.. method.doc.name .. '. ' ..
-                    ((method.doc.description ~= nil) and 
+                description = ((method.doc.description ~= nil) and 
                         Parse.remove_html_tags(method.doc.description) or '') .. ' ' ..
-                    Config.metadata.description
+                    Config.metadata.description ..
+                    ' lu5 Reference page for '.. method.doc.name .. '. '
             }),
             ga = Config.ga,
             nav = Navigation({
@@ -84,7 +71,7 @@ for i, module in pairs(modules) do
                 modules = modules
             })
         }, luax('', {
-            Method(method)
+            Method(method, "../../")
         }));
 
         -- Write method page
