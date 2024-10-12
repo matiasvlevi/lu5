@@ -9,7 +9,8 @@
 
 /* width */
 ::-webkit-scrollbar {
-	width: 10px;
+	width: 8px;
+	height: 4px;
 }
 
 /* Track */
@@ -515,6 +516,10 @@ img.logo {
 	width: 4.5rem;
 }
 
+code.cdn {
+	font-size: 8pt;
+}
+
 /* PC Version */
 @media (min-width: 900px) {
 	.method {
@@ -532,7 +537,6 @@ img.logo {
 
 		flex-grow: 0;
 	}
-
 	body {
 		align-items: flex-start;
 		width: 100%;
@@ -580,6 +584,13 @@ img.logo {
 		max-width: 38em;
 		width: fit-content;
         font-size: 13pt;
+	}
+
+	pre code.cdn {
+		text-wrap: nowrap;
+		max-width: 44em;
+		overflow-x: hidden;
+		font-size: 9pt;
 	}
 
 	.builds {

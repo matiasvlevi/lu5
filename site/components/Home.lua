@@ -71,6 +71,7 @@ end
 
 function DownloadBlock(props)
     return luax('div', {class="download"}, {
+
         luax('h2', 'Download'),
 
         -- Shown only on windows
@@ -173,12 +174,22 @@ local function Home(props)
         luax('div', {
             luax('p', { style="max-width:34rem;" }, {
                 'Lu5 is a free and open-source Lua interpreter for Creative Coding.',
-                luax('br'),
+                luax('br')
             })
         }),
 
         luax('div', {class="home-section", style=""}, {
             luax('div', {class="flex-col gap-8"}, {
+                luax('div', {
+                    luax('h2', 'CDN'),
+                    luax('span', {class="text"}, 'lu5 is now available for the Web:'),
+                    luax('pre', {
+                        luax('code', {class="cdn language-html hljs"}, {
+            
+                            '&lt;script src="https://unpkg.com/lu5-wasm@latest/dist/lu5-wasm.min.js"&gt;&lt;/script&gt;'
+                        })
+                    }),
+                }),
                 DownloadBlock(props),
                 DocumentationVersions(props)
             }),

@@ -59,7 +59,7 @@ function Head(props)
         }) or '';
 
         props.purpose == "homepage" and luax('', {
-            
+            luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/html.min.js"}),
             luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/space_game.gif'}),
             luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/collisions.gif'}),
             luax('link', {rel="prefetch", href=props.root .. props.media.assets .. '/sphere.gif'}),        
@@ -86,22 +86,15 @@ function Head(props)
             luax('link', {rel='canonical', href=props.meta.url .. '/latest/' .. props.slug }),
         }) or '',
 
-        (props.purpose == "module" or props.purpose == "symbol") and luax('', {
-            
-            -- lu5-wasm
-            luax('script', { src=props.root .. props.media.assets .. "/lu5-wasm.min.js", lib=true }),
-            luax('script', { src=props.root .. props.media.assets .. "/lu5-console.min.js" }),
+        -- Highlight.js
+        luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
+        luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
+        luax('script', {
+            'document.addEventListener("DOMContentLoaded", function (e) {',
+                'hljs.highlightAll();',
+            '});'
+        }),
 
-            -- Highlight.js
-            luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
-            luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
-            luax('script', {
-                'document.addEventListener("DOMContentLoaded", function (e) {',
-                    'hljs.highlightAll();',
-                '});'
-            })
-        }) or '',
-        
         props.scripts and props.scripts or '',
 
         -- Google tag (gtag.js) --
