@@ -33,11 +33,9 @@ you can also test with all the examples in the repository
 make examples
 ```
 
-and the larger multi-file projects:
+<br/>
 
-```
-make projects
-```
+For web assembly, you can launch a webserver and open `./examples/index.html`
 
 <br/>
 

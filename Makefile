@@ -1,8 +1,9 @@
-# Build for Linux & Windows
+# Build for Linux, Windows & WASM
 # 
 # This Makefile is intended for use on a linux system
 
-PLATFORM ?= gnu
+# linux, wasm, win
+PLATFORM ?= linux
 
 APP_NAME = lu5
 VERSION = 0.1.7
@@ -10,46 +11,33 @@ LUA_VERSION=5.4.7
 
 SRCDIR = src
 BINDIR = bin
-DOC_BUILD_SCRIPT = site/build.lua
 
 MACROS=-D'LU5_VERSION="$(VERSION)"'
-MINGW=/usr/x86_64-w64-mingw32/
-LUA_DEST=include/lua
-LUA_SRC =include/lua
-LUA_STATIC=$(LUA_SRC)/liblua.a
+LUA_SRC=include/lua
 
-NSIS_PATH := ~/.wine/drive_c/Program\ Files\ \(x86\)/NSIS/makensis.exe
+LUA_A = $(LUA_SRC)/liblua.a
 
-INSTALLER_NAME := lu5-x86_64-win-$(VERSION).exe
-INSTALLER_SCRIPT := installer/lu5_installer.nsi
-INSTALLER_EXEC := $(BINDIR)/win64/$(INSTALLER_NAME)
+AGNOSTIC_SRC =\
+		  $(wildcard $(SRCDIR)/*.c)\
+		  $(wildcard $(SRCDIR)/bindings/*.c)
+ALL_SRC = $(AGNOSTIC_SRC)\
+		  $(wildcard $(SRCDIR)/platform/*.c)\
+		  $(wildcard $(SRCDIR)/platform/geometry/2D/*.c)\
+		  $(wildcard $(SRCDIR)/platform/geometry/3D/*.c)
+HEADERS = $(wildcard $(SRCDIR)/*.h)
 
-ifeq ($(PLATFORM), win)
-	CC := x86_64-w64-mingw32-gcc
-	BIN = $(BINDIR)/win64/$(APP_NAME).exe
-	OBJDIR = $(BINDIR)/win64/obj
-	CFLAGS = -Wall\
-		-I/usr/x86_64-w64-mingw32/include\
-		-I/usr/x86_64-w64-mingw32/include/freetype2
+ifeq ($(PLATFORM), linux)
+	OBJ_EXT = .o
+	LIB_EXT = .a
+	BIN_EXT =
 
-	LDFLAGS := -L/usr/x86_64-w64-mingw32/lib\
-		-lfreetype\
-		-lglfw3\
-		-lglu32\
-		-lopengl32\
-		-lgdi32\
-		-llua\
-		-pthread\
-		-lm
-else
 	CC := gcc
-	BIN = $(BINDIR)/linux/$(APP_NAME)
-	OBJDIR = $(BINDIR)/linux/obj
+	BIN = $(BINDIR)/$(PLATFORM)/$(APP_NAME)
+	OBJDIR = $(BINDIR)/$(PLATFORM)/obj
 	CFLAGS = -Wall\
 		-I$(LUA_SRC)\
 		$(shell pkg-config --cflags glfw3)\
 		$(shell pkg-config --cflags glew)\
-		$(shell pkg-config --cflags glu)\
 		$(shell pkg-config --cflags gl)\
 		$(shell pkg-config --cflags freetype2)
 	LDFLAGS :=\
@@ -59,106 +47,178 @@ else
 		$(shell pkg-config --static --libs gl)\
 		$(shell pkg-config --libs freetype2)\
 		-lm
+
+	SOURCES=$(ALL_SRC)
+else ifeq ($(PLATFORM), wasm)
+
+	OBJ_EXT = .o.wasm
+	LIB_EXT = .a.wasm
+	BIN_EXT = .wasm
+
+	# WASM setup
+	WASI_SDK_PATH ?= /opt/wasi-sdk-24
+	CC := $(WASI_SDK_PATH)/bin/clang
+	AR := $(WASI_SDK_PATH)/bin/llvm-ar
+	RANLIB := $(WASI_SDK_PATH)/bin/llvm-ranlib
+
+	BIN = $(BINDIR)/$(PLATFORM)/$(APP_NAME)$(BIN_EXT)
+	OBJDIR = $(BINDIR)/$(PLATFORM)/obj
+	CFLAGS = \
+		-mllvm -wasm-enable-sjlj\
+		--target=wasm32-wasi\
+		--sysroot=$(WASI_SDK_PATH)/share/wasi-sysroot\
+		-I$(WASI_SDK_PATH)/share/wasi-sysroot/include\
+		-I$(LUA_SRC)\
+		-DLU5_WASM\
+		-D_WASI_EMULATED_SIGNAL\
+		-D_WASI_EMULATED_PROCESS_CLOCKS\
+		-DLUA_USE_C89
+
+	LDFLAGS = \
+		--sysroot=$(WASI_SDK_PATH)/share/wasi-sysroot\
+		--target=wasm32-wasi\
+		-Wl,-u__wasm_longjmp\
+		-lsetjmp\
+		-lwasi-emulated-process-clocks\
+		-Wl,-mllvm,-wasm-enable-sjlj\
+		-Wl,--export=malloc,\
+		-Wl,--export=free,\
+		-Wl,--no-entry,
+
+	SOURCES=$(AGNOSTIC_SRC)
+
+	LUA_A := $(LUA_A:.a=$(LIB_EXT))
+
+else ifeq ($(PLATFORM), win)
+	OBJ_EXT = .o
+	LIB_EXT = .a
+	BIN_EXT = .exe
+
+	ARCH=x86_64-w64-mingw32
+	CC := $(ARCH)-gcc
+	MINGW = /usr/x86_64-w64-mingw32/
+	NSIS_PATH := ~/.wine/drive_c/Program\ Files\ \(x86\)/NSIS/makensis.exe
+	INSTALLER_NAME := lu5_installer-$(VERSION).exe
+	INSTALLER_SCRIPT := installer/lu5_installer.nsi
+	INSTALLER_EXEC := $(BINDIR)/$(PLATFORM)/$(INSTALLER_NAME)
+
+	BIN = $(BINDIR)/$(PLATFORM)/$(APP_NAME)$(BIN_EXT)
+	OBJDIR = $(BINDIR)/$(PLATFORM)/obj
+	CFLAGS = -Wall\
+		-I/usr/$(ARCH)/include\
+		-I/usr/$(ARCH)/include/freetype2\
+		-L/usr/$(ARCH)/lib
+		
+	LDFLAGS :=\
+		-lfreetype\
+		-lglfw3\
+		-lglu32\
+		-lgdi32\
+		-lopengl32\
+		-llua
+
+	DLL_FILES = \
+		zlib1.dll \
+		libssp-0.dll \
+		libbrotlicommon.dll \
+		libbrotlidec.dll \
+		libbz2-1.dll \
+		lua54.dll \
+		libfreetype-6.dll \
+		libwinpthread-1.dll
+
+	SOURCES=$(ALL_SRC)
 endif
 
-SOURCES = $(wildcard $(SRCDIR)/*.c)\
-		  $(wildcard $(SRCDIR)/bindings/*.c)\
-		  $(wildcard $(SRCDIR)/geometry/2D/*.c)\
-		  $(wildcard $(SRCDIR)/geometry/3D/*.c)
+OBJECTS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%$(OBJ_EXT),$(SOURCES))
 
-OBJECTS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
-DEP = $(OBJECTS:.o=.d)
-
-EXAMPLES = $(wildcard examples/*.lua)
-TESTS = $(wildcard tests/*.lua)
-
-ifeq ($(PLATFORM), win)
-all: $(INSTALLER_EXEC)
-else
 all: $(BIN)
-endif
 
--include $(DEP)
+# Build lua static library
+$(LUA_A):
+	cd $(LUA_SRC) && make PLATFORM=$(PLATFORM)
 
-
-$(OBJDIR)/%.o: src/%.c $(LUA_STATIC)
+# Build object files
+$(OBJDIR)/%$(OBJ_EXT): src/%.c $(LUA_A) $(HEADERS)
 	@mkdir -p $(dir $@)
 	$(CC) -MMD -c $< -o $@ $(CFLAGS) $(MACROS)
 
-$(BIN): $(OBJECTS)
+# Rule to build .wat files from .wasm files
+$(OBJDIR)/%.wat: $(OBJDIR)/%$(OBJ_EXT)
+	wasm2wat $< -o $@ --enable-all
+
+debug: $(OBJECTS:$(OBJ_EXT)=.wat)
+
+# Link all togheter
+$(BIN): $(OBJECTS) $(LUA_A)
 	@mkdir -p $(dir $@)
-ifeq ($(PLATFORM), win)
-	cp /usr/x86_64-w64-mingw32/bin/zlib1.dll $(BINDIR)/win64/zlib1.dll
-	cp /usr/x86_64-w64-mingw32/bin/libssp-0.dll $(BINDIR)/win64/libssp-0.dll
-	cp /usr/x86_64-w64-mingw32/bin/libbrotlicommon.dll $(BINDIR)/win64/libbrotlicommon.dll
-	cp /usr/x86_64-w64-mingw32/bin/libbrotlidec.dll $(BINDIR)/win64/libbrotlidec.dll
-	cp /usr/x86_64-w64-mingw32/bin/libbz2-1.dll $(BINDIR)/win64/libbz2-1.dll
-	cp /usr/x86_64-w64-mingw32/bin/libbrotlidec.dll $(BINDIR)/win64/libbrotlidec.dll
-	cp /usr/x86_64-w64-mingw32/bin/lua54.dll $(BINDIR)/win64/lua54.dll
-	cp /usr/x86_64-w64-mingw32/bin/libfreetype-6.dll $(BINDIR)/win64/libfreetype-6.dll
-	cp /usr/x86_64-w64-mingw32/bin/libwinpthread-1.dll $(BINDIR)/win64/libwinpthread-1.dll
+	$(CC) -o $@ $^  $(CFLAGS) $(LDFLAGS)
 
-	$(CC) -o $@ $^ $(LDFLAGS)
-else
-	$(CC) -o $@ $^ $(LUA_STATIC) $(LDFLAGS)
-endif
+# ---
+# Build the documentation using lu5 and lua scripts
+#
+# `make docs`
+#
+# See `site/config.lua`
+# ---
+DOC_BUILD_TASK = site/tasks/build_docs.lua
+docs: $(BIN) $(SOURCES)
+	$(BIN) $(DOC_BUILD_TASK)
 
-.PHONY: all clean install docs zip examples tests
-
+# ---
+# Run a lu5 script with the latest build
+#
+# `make run` will run `./test.lua`
+# `make run SCRIPT=foo.lua` will run `foo.lua`
+#
+# ---
 SCRIPT ?= ./test.lua
+run: $(BIN) $(SCRIPT)
+	$(BIN) $(SCRIPT)
 
-# Build
-$(LUA_STATIC): $(LUA_DEST)
-	cd $(LUA_DEST) && make
+examples:
+	cd examples && make
 
-# Run unit tests
+# ---
+# Run non-graphical unit tests
+#
+# `make tests`
+# ---
+TESTS = $(wildcard tests/*.lua)
 tests: $(all) $(TESTS:=.run)
 tests/%.lua.run: tests/%.lua 
 	$(BIN) --log 2 $<
 	rm -f $@
 
-# Run a lu5 script with the latest build
-run: $(BIN) $(SCRIPT)
-	$(BIN) $(SCRIPT)
-
-# Run all examples
-examples: $(all) $(EXAMPLES:=.run)
-examples/%.lua.run: examples/%.lua 
-	$(BIN) --log 5 $<
-	rm -f $@
-	
-# Build the documentation using lu5 and task scripts
-docs: $(BIN)
-	$(BIN) $(DOC_BUILD_SCRIPT)
-
-# Install
 ifeq ($(PLATFORM), win)
 
-$(INSTALLER_EXEC): $(INSTALLER_SCRIPT) $(BIN)
-	@echo "Compiling NSIS script..."
-	wine $(NSIS_PATH) $(INSTALLER_SCRIPT)
+# Copy all DLLs from mingw to build destination
+$(BINDIR)/$(PLATFORM)/%.dll: /usr/x86_64-w64-mingw32/bin/%.dll
+	cp $< $@
 
-zip: $(INSTALLER_EXEC)
-	zip $(BINDIR)/win64/lu5-x86_64-win-$(VERSION).zip $(INSTALLER_EXEC)
+# Build windows installer
+$(INSTALLER_EXEC): $(INSTALLER_SCRIPT) $(BIN) $(DLL_FILES:%=$(BINDIR)/$(PLATFORM)/%)
+	wine $(NSIS_PATH) $<
 
-else
+# Command to build the installer
+installer: $(INSTALLER_EXEC)
 
+else 
+# Zip binary
 zip: $(BIN)
-	zip $(BINDIR)/linux/lu5-x86_64-linux-$(VERSION).zip $(BIN)
-
-install: 
-	cp $(BIN) /usr/bin/$(APP_NAME)
+	zip $(BINDIR)/$(PLATFORM)/lu5-x86_64-$(PLATFORM)-$(VERSION).zip $(BIN)
 
 endif
 
 clean:
-	rm -fr bin/linux
-	rm -fr bin/win64
+	cd include/lua && make clean
+	rm -fr $(BINDIR)/wasm
+	rm -fr $(BINDIR)/win
+	rm -fr $(BINDIR)/linux
 	rm -fr $(INSTALLER_EXEC)
-	rm -fr include/lua/liblua.a
 	rm -fr docs/assets/*.svg
 	rm -fr docs/assets/*.css
 	rm -fr docs/assets/*.js
 	rm -fr examples/*.lua.run
 
-
+.PHONY: all clean docs zip examples tests installer

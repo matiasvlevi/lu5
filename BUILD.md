@@ -4,40 +4,87 @@
 
 <br/>
 
-### GNU/Linux
-
-Clone with submodules, since we're using a lua mirror on linux
+Clone the repository with submodules
 
 ```sh
 git clone --recurse-submodules https://github.com/matiasvlevi/lu5
-cd lu5
-make
-```
-
-you can then install the executable in `/usr/bin`
-
-```sh
-sudo make install
 ```
 
 <br/>
 
-### Windows
+## GNU/Linux
+
+#### Dependencies
+
+* `glu`, `glew`, `glfw`, `freetype2`
+
+
+```
+make
+```
+
+
+<br/>
+
+## wasm32-wasi
+
+#### Dependencies
+
+* `wasi-sdk-24` See how to build [here](https://github.com/WebAssembly/wasi-sdk)
+
+```
+make PLATFORM=wasm
+```
+
+
+<br/>
+
+## Windows
+
+Windows builds are done from an arch based environement with mingw64 installed.
+
+> Windows builds are subject to change since I'm not satisfied with the current handling of libraries with the AUR. 
+
+### Cross compile to Windows from an arch-based distribution
+
+#### Dependencies
+
+* `wine` (multilib)
+* `mingw-w64-zlib` (AUR)
+* `mingw-w64-brotli` (AUR)
+* `mingw-w64-bzip2` (AUR)
+* `mingw-w64-glfw` (AUR)
+* `mingw-w64-freetype` (AUR)
+* `mingw-w64-lua` (AUR)
+
+> You'll need to install [NSIS](https://nsis.sourceforge.io/Download) to build the lu5 installer.
+> On a linux system you can use `wine` to run the NSIS setup, and install it in `~/.wine/drive_c/Program Files (x86)/`.
+
+
+
+Build the executable
+
+```
+make PLATFORM=win
+```
+
+Build the installer
+
+```
+make PLATFORM=win installer
+```
+
+<br/>
+
+### Compile for Windows on Windows using MSYS
 
 If you are on windows, you can use an [MSYS2](https://www.msys2.org/) environement.
 
-Windows builds can be done from an arch linux environement with mingw64 installed. 
 
-Install dependencies on Windows (MSYS)
+Run the following command in the MSYS command line
 
 ```
 pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-lua mingw-w64-x86_64-glfw mingw-w64-x86_64-freetype
-```
-
-Install dependencies on arch linux
-
-```
-yay -S mingw-w64-zlib mingw-w64-gcc mingw-w64-brotli mingw-w64-bzip2 mingw-w64-lua mingw-w64-freetype mingw-w64-winpthreads
 ```
 
 build
@@ -45,12 +92,5 @@ build
 ```
 make PLATFORM=win
 ```
-
-build installer (requires wine if on linux)
-
-```
-make PLATFORM=win zip
-```
-
 
 <br/>
