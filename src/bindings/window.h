@@ -12,20 +12,157 @@
  * @param h Window height
  * @param [mode] Rendering mode, either `GL2D` or `GL3D`, by default `GL2D` is set.
  *
- * It is also possible to create a window in the global scope without defining a setup function.
- *
- * @example
+ * @example @live
  * function setup()
- *   -- Create the window here
- *   createWindow(600, 600);
+ *   createWindow(100, 100);
  * end
  *
  * function draw()
+ *   background('magenta');
  *   -- draw things
  * end
+ *
  * @example
  */ 
 int createWindow(lua_State *L);
+
+/**
+ * Prevents lu5 from calling `draw` again. <br/>
+ *
+ * When `noLoop` is called, the draw continues execution, but will not be called again.
+ *
+ * @example @live
+ * angle = 0;
+ * radius = 100;
+ *
+ * function setup()
+ *   createWindow(300, 300);
+ *   
+ *   textAlign(CENTER);
+ *   noStroke();
+ * end
+ *
+ * function draw()
+ *   background('purple');
+ *
+ *   text('Click to pause', width/2, height/2);
+ *
+ *   circle(
+ *     radius * cos(angle) + 150, 
+ *     radius * sin(angle) + 150,
+ *     16
+ *   );
+ *
+ *   angle = angle + 0.05;
+ * end
+ *
+ * function mousePressed()
+ *   noLoop(); -- Stop loop
+ * end
+ *
+ * function mouseReleased()
+ *   loop();
+ * end
+ * @example
+ *
+ */
+int noLoop(lua_State *L);
+
+/**
+ * Allow lu5 to call the `draw` function.
+ *
+ * @example @live
+ * angle = 0;
+ * radius = 100;
+ *
+ * function setup()
+ *   createWindow(300, 300);
+ *   
+ *   textAlign(CENTER);
+ *   noStroke();
+ * end
+ *
+ * function draw()
+ *   background('purple');
+ *
+ *   text('Click to pause', width/2, height/2);
+ *
+ *   circle(
+ *     radius * cos(angle) + 150, 
+ *     radius * sin(angle) + 150,
+ *     16
+ *   );
+ *
+ *   angle = angle + 0.05;
+ * end
+ *
+ * function mousePressed()
+ *   noLoop();
+ * end
+ *
+ * function mouseReleased()
+ *   loop(); -- Start back the loop
+ * end
+ * @example
+ */
+int loop(lua_State *L);
+
+/**
+ * Set the frame rate.
+ * 
+ * @param fps The frame rate to set
+ *
+ * If frame rate is called without an argument, it will return frame per seconds 
+ *
+ * @example @live
+ * x = 0;
+ * r = 16;
+ * speed = 50;
+ *
+ * function setup()
+ *   createWindow(200, 200);
+ *
+ *   frameRate(24); -- Set the frame rate
+ * end
+ *
+ * function draw()
+ *   background('purple');
+ *   text('fps: ' .. frameRate(), 20, 30);
+ *
+ *   square(x, 100, r);
+ *   if x > width+r then 
+ *     x = -r;
+ *   else
+ *     x = x + speed * deltaTime;
+ *   end
+ * end
+ * @example
+ *
+ * @example @live
+ * x = 0;
+ * r = 16;
+ * speed = 50;
+ *
+ * function setup()
+ *   createWindow(200, 200);
+ *
+ *   frameRate(12); -- Set the frame rate
+ * end
+ *
+ * function draw()
+ *   background('purple');
+ *   text('fps: ' .. frameRate(), 20, 30);
+ *
+ *   square(x, 100, r);
+ *   if x > width+r then 
+ *     x = -r;
+ *   else
+ *     x = x + speed * deltaTime;
+ *   end
+ * end
+ * @example
+ */
+int frameRate(lua_State *L);
 
 /**
  * Save the current window into an image. Acts as a screenshot.
@@ -53,76 +190,22 @@ int createWindow(lua_State *L);
 int saveWindow(lua_State *L);
 
 /**
- * Set the frame rate.
+ * @brief width
+ * @global
  * 
- * @param fps The frame rate to set
+ * The window's width in pixels. If no window was created, this value is `nil`.
  *
- * If frame rate is called without an argument, it will return frame per seconds 
- *
- * @visual
- *
- * @example
- * x = 0;
- * r = 16;
- * speed = 50;
- *
- * function setup()
- *   createWindow(200, 200);
- *
- *   frameRate(24); -- Set the frame rate
- * end
- *
- * function draw()
- *   background('purple');
- *   text('fps: ' .. frameRate(), 20, 30);
- *
- *   square(x, 100, r);
- *   if x > width+r then 
- *     x = -r;
- *   else
- *     x = x + speed * deltaTime;
- *   end
- * end
- * @example
- *
- * @example
- * x = 0;
- * r = 16;
- * speed = 50;
- *
- * function setup()
- *   createWindow(200, 200);
- *   frameRate(12);
- * end
- *
- * function draw()
- *   background('purple');
- *   text('fps: ' .. frameRate(), 20, 30);
- *
- *   square(x, 100, r);
- *   if x > width+r then 
- *     x = -r;
- *   else
- *     x = x + speed * deltaTime;
- *   end
- * end
- * @example
  */
-int frameRate(lua_State *L);
+#define LU5_WIDTH "width"
 
 /**
- * Prevents lu5 from calling `draw` again. <br/>
+ * @brief height
+ * @global
  *
- * When `noLoop` is called, the draw continues execution, but will not be called again.
- *
- */
-int noLoop(lua_State *L);
-
-/**
- * Allow lu5 to call the `draw` function.
+ * The window's height in pixels. If no window was created, this value is `nil`.
  *
  */
-int loop(lua_State *L);
+#define LU5_HEIGHT "height"
 
 /**
  * @brief deltaTime
@@ -150,36 +233,6 @@ int loop(lua_State *L);
  * @example
  */
 #define LU5_DELTA_TIME "deltaTime"
-
-/**
- * @brief width
- * @global
- * 
- * The window's width in pixels. If no window was created, this value is `nil`.
- *
- * @example
- * createWindow(800, 600);
- *
- * print(width);
- * -- 800
- * @example
- */
-#define LU5_WIDTH "width"
-
-/**
- * @brief height
- * @global
- *
- * The window's height in pixels. If no window was created, this value is `nil`.
- *
- * @example
- * createWindow(800, 600);
- *
- * print(height);
- * -- 600
- * @example
- */
-#define LU5_HEIGHT "height"
 
 /**
  * @brief windowResized

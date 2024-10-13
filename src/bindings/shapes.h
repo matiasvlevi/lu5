@@ -14,13 +14,11 @@
 /**
  * Draw a circle on the screen.
  *
- * @visual
- *
  * @param x The x position of the circle's center 
  * @param y The y position of the circle's center
  * @param d The diameter of the circle
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(200, 200);
  * end
@@ -39,14 +37,12 @@ int circle(lua_State *L);
 /**
  * Draw an ellipse on the screen.
  *
- * @visual
- *
  * @param x The x position of the ellipse's center 
  * @param y The y position of the ellipse's center
  * @param w The width diameter of the ellipse
  * @param h The height diameter of the ellipse
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(200, 200);
  * end
@@ -64,14 +60,12 @@ int ellipse(lua_State *L);
 /**
  * Draw a rectangle on the screen.
  *
- * @visual
- *
  * @param x The x position of the rectangle's top left corner
  * @param y The y position of the rectangle's top left corner
  * @param w The width
  * @param h The height
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(200, 200);
  * end
@@ -89,13 +83,11 @@ int rect(lua_State *L);
 /**
  * Draw a square on the screen.
  *
- * @visual
- *
  * @param x The x position of the square's top left corner
  * @param y The y position of the square's top left corner
  * @param s The size of the square's sides
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(200, 200);
  * end
@@ -114,14 +106,12 @@ int square(lua_State *L);
 /**
  * Draw a line on the screen.
  *
- * @visual
- *
  * @param x1 The x position of the first point
  * @param y1 The y position of the first point
  * @param x2 The x position of the second point
  * @param y2 The y position of the second point
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(200, 200);
  * end
@@ -142,8 +132,6 @@ int line(lua_State *L);
 /**
  * Draw an arc on the screen.
  *
- * @visual
- *
  * @param x The x position of the arc's ellipse
  * @param y The y position of the arc's ellipse
  * @param w The width of the arc's ellipse
@@ -151,7 +139,7 @@ int line(lua_State *L);
  * @param start The angle to start the arc
  * @param stop  The angle to stop the arc
  *
- * @example
+ * @example @live
  * function setup()
  *     createWindow(200, 200);
  * end
@@ -170,8 +158,6 @@ int arc(lua_State *L);
 /**
  * Draw a point on the screen.
  *
- * @visual
- *
  * @param x The point's x coordinate
  * @param y The point's y coordinate
  *
@@ -179,7 +165,7 @@ int arc(lua_State *L);
  * <br/><br/>
  * Setting the color with `fill` will not affect `point`
  *
- * @example
+ * @example @live
  * function setup()
  *     createWindow(200, 200);
  * end
@@ -200,8 +186,6 @@ int point(lua_State *L);
 /**
  * Draw a quad on the screen.
  *
- * @visual
- *
  * @param x1 The x position of the first point
  * @param y1 The y position of the first point
  * @param x2 The x position of the second point
@@ -211,7 +195,7 @@ int point(lua_State *L);
  * @param x4 The x position of the fourth point
  * @param y4 The y position of the fourth point
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(200, 200);
  * end
@@ -228,8 +212,6 @@ int quad(lua_State *L);
 /**
  * Draw a triangle on the screen.
  *
- * @visual
- *
  * @param x1 The x position of the first point
  * @param y1 The y position of the first point
  * @param x2 The x position of the second point
@@ -238,7 +220,7 @@ int quad(lua_State *L);
  * @param y3 The y position of the third point
  *
  *
- * @example
+ * @example @live
  * function setup()
  *     createWindow(200, 200);
  * end
@@ -255,13 +237,11 @@ int triangle(lua_State *L);
 /**
  * Begin adding vertices to a custom shape.
  *
- * @visual
- * 
  * @param [mode] The opengl shape mode `LINES`, `POINTS`, `QUADS`, `TRIANGLES`, `TRIANGLE_FAN` , default is `LINES`
  *
  * The mode param is not completely implemented in lu5-wasm
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(300, 300);
  * end

@@ -3,14 +3,75 @@
 
 #include <lua.h>
 
+
+/**
+ * Draw text on the screen.
+ *
+ * @param str String to render
+ * @param x The x position of the start of the text
+ * @param y The y position of the top of the text
+ *
+ * Fonts are not yet implemented
+ *
+ * @example @live
+ * function setup()
+ *   createWindow(200, 200);
+ * end
+ * 
+ * function draw()
+ *   background('purple');
+ *
+ *   text('Hello from lu5!', 25, 110);
+ * end
+ * @example
+ */
+int text(lua_State *L);
+
+
+/**
+ * Set a font family.
+ *
+ * @param font The font value returned when using `loadFont`
+ *
+ * @example @live
+ * function setup()
+ *   createWindow(200, 200);
+ * end
+ * 
+ * function draw()
+ *   background('purple');
+ *
+ *   textFont('Monospace');
+ *   text('Hello from lu5!', 5, 110);
+ * end
+ * @example
+ */ 
+int textFont(lua_State *L);
+
 /**
  * Load a font.
  * 
  * @param path The font path on the local system
  *
- * @example
+ * @example @live
+ * -- For Web
  * function setup()
- *   createWindow(600, 600);
+ *   createWindow(200, 200);
+ *   -- loadFont is not needed here...
+ * end
+ *
+ * function draw()
+ *   background('purple');
+ *
+ *   textFont('Verdana');
+ *   text('Hello from lu5!', 35, 110);
+ * end  
+ * @example
+ *
+ * @example
+ * -- For native
+ * function setup()
+ *   createWindow(200, 200);
  *   font = loadFont('/path/to/myfont.ttf');
  * end
  *
@@ -18,7 +79,7 @@
  *   background('purple');
  *
  *   textFont(font);
- *   text('Hello from lu5!', 30, 50);
+ *   text('Hello from lu5!', 35, 110);
  * end   
  * @example
  *
@@ -33,9 +94,17 @@ int loadFont(lua_State *L);
  *
  * If this is called using fonts, make sure to call `textSize` after calling `textFont`
  *
- * @example
- * textSize(56);
- * text('Big Text', 50, 50);
+ * @example @live
+ * function setup()
+ *   createWindow(200, 200);
+ * end
+ * 
+ * function draw()
+ *   background('purple');
+ *
+ *   textSize(48); -- Larger text
+ *   text('Hello lu5!', 0, 120);
+ * end
  * @example
  *
  */
@@ -46,40 +115,22 @@ int textSize(lua_State *L);
  *
  * @param mode `CENTER`, `LEFT`, `RIGHT`
  *
- * @example
- * textAlign(CENTER);
- * text('Big Text', 50, 50);
+ * @example @live
+ * function setup()
+ *   createWindow(200, 200);
+ *   textAlign(CENTER); 
+ * end
+ * 
+ * function draw()
+ *   background('purple');
+ *
+ *   text('Hello lu5!', width/2, height/2);
+ *   point(width/2, height/2);
+ * end
  * @example
  *
  */
 int textAlign(lua_State *L);
-
-/**
- * Set a font family.
- *
- * @param font The font value returned when using `loadFont`
- *
- * @example
- * textFont(myfont);
- * text('Hello world!', 100, 200);
- * @example
- */ 
-int textFont(lua_State *L);
-
-/**
- * Draw text on the screen.
- *
- * @param str String to render
- * @param x The x position of the start of the text
- * @param y The y position of the top of the text
- *
- * Fonts are not yet implemented
- *
- * @example
- * text('Hello lu5!', 40, 60);
- * @example
- */
-int text(lua_State *L);
 
 /**
  * @brief CENTER

@@ -7,9 +7,7 @@
  *
  * The y mouse coordinate.
  *
- * @visual
- *
- * @example
+ * @example @live
  * createWindow(200, 200);
  * stroke(255);
  *
@@ -28,9 +26,7 @@
  * 
  * The x mouse coordinate.
  *
- * @visual
- *
- * @example
+ * @example @live
  * createWindow(200, 200);
  * stroke(255);
  *
@@ -77,8 +73,8 @@
  *
  * <br/>
  * In the following example, the circle's size increases when the user clicks the mouse.
- * @visual
- * @example
+ *
+ * @example @live
  * size = 12;
  *
  * function setup()
@@ -111,9 +107,7 @@
  * <br/>
  * In the following example, the circle's size increases when the user clicks the mouse.
  *
- * @visual
- *
- * @example
+ * @example @live
  * size = 12;
  *
  * function setup()
@@ -146,9 +140,7 @@
  * <br/>
  * In the following example, the circle's size changes when the user scrolls.
  *
- * @visual
- *
- * @example
+ * @example @live
  * size = 32;
  *
  * function setup()

@@ -7,7 +7,6 @@
  * Check if a keyboard key is pressed, returns `true` if key is down and returns `false` if it's not
  * 
  * @param k The keyboard key to check as a key global, or a string
- * @visual
  *
  * @example
  * -- Use a string 
@@ -32,8 +31,8 @@ int keyIsDown(lua_State *L);
  * 
  * @param key The pressed key as a string, is nil if glfw cannot find a name for the key.
  * @param keyCode The pressed key as a key code
- * @visual
- * @example
+ * 
+ * @example @live
  * function setup()
  *    createWindow(200, 200);
  *
@@ -65,8 +64,8 @@ int keyIsDown(lua_State *L);
  *
  * @param key The released key as a string, is nil if glfw cannot find a name for the key
  * @param keyCode The released key as a key code
-* @visual
- * @example
+ *
+ * @example @live
  * function setup()
  *    createWindow(200, 200);
  *
@@ -97,8 +96,8 @@ int keyIsDown(lua_State *L);
  *
  * @param key The held key as a string, is nil if glfw cannot find a name for the key
  * @param keyCode The held key as a key code
- * @visual
- * @example
+ *
+ * @example @live
  * function setup()
  *    createWindow(200, 200);
  *

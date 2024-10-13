@@ -40,15 +40,13 @@ int image(lua_State *L);
  * Crop an Image into an other Image.
  * 
  * @name Image.crop
- *
- * @visual
  * 
  * @param x The x position of the image
  * @param y The y position of the image
  * @param w The width of the new cropped image
  * @param h The height of the new cropped image
  *
- * @example
+ * @example @live
  * function setup()
  *     createWindow(400, 400);
  * 

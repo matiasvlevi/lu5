@@ -8,7 +8,7 @@
  * 
  * @param model The 3D model's file path, only supports `obj` files 
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(600, 600, GL3D);
  *   
@@ -29,7 +29,7 @@ int loadModel(lua_State *L);
  * 
  * @param obj The 3D model
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(600, 600, GL3D);
  *   

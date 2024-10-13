@@ -8,12 +8,10 @@
 /**
  * Draw a plane.
  *
- * @visual
- *
  * @param w The width dimension 
  * @param h The height dimension
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(300, 300, GL3D);
  * end
@@ -31,13 +29,11 @@ int plane(lua_State *L);
 /**
  * Draw a 3D box.
  *
- * @visual
- *
  * @param w The width dimension 
  * @param [h] The height dimension
  * @param [d] The depth dimension
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(300, 300, GL3D);
  * end
@@ -49,7 +45,7 @@ int plane(lua_State *L);
  * end
  * @example
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(300, 300, GL3D);
  * end
@@ -69,13 +65,11 @@ int box(lua_State *L);
 /**
  * Draw a 3D Sphere.
  *
- * @visual
- *
  * @param w The width dimension 
  * @param [detailX] The detail in the X axis
  * @param [detailY] the detailt in the Y axis
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(300, 300, GL3D);
  * end
@@ -92,8 +86,6 @@ int sphere(lua_State *L);
 /**
  * Draw a 3D Cylinder.
  *
- * @visual
- *
  * @param [radius] radius of the cylinder. Defaults to 50.
  * @param [height] height of the cylinder. Defaults to the value of radius.
  * @param [detailX] number of horizontal edges. Defaults to 24.
@@ -101,7 +93,7 @@ int sphere(lua_State *L);
  * @param [bottomCap] whether to draw the cylinder's bottom. Defaults to true.
  * @param [topCap] whether to draw the cylinder's top. Defaults to true.
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(300, 300, GL3D);
  * end
@@ -118,14 +110,12 @@ int cylinder(lua_State *L);
 /**
  * Draw a 3D Torus. 
  *
- * @visual
- *
  * @param [radius] radius of the torus. Defaults to 50.
  * @param [tubeRadius] radius of the tube. Defaults to 10.
  * @param [detailX] number of edges that form the hole. Defaults to 24.
  * @param [detailY] number of triangle subdivisions along the y-axis. Defaults to 16.
  *
- * @example
+ * @example @live
  * function setup()
  *   createWindow(300, 300, GL3D);
  * end

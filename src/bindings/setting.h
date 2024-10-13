@@ -162,6 +162,8 @@ int noStroke(lua_State *L);
  * Pushes the lu5 style settings off the stack. 
  * Pushes the OpenGL transformation matrix off the stack.
  *
+ * @visual
+ *
  * @example
  * function setup()
  *     createWindow(400, 400);
@@ -219,9 +221,9 @@ int pop(lua_State *L);
  *
  * @param mode either `CENTER`, `CORNER`, `RADIUS`
  *
- * @example
+ * @example @live
  * function setup()
- *   createWindow(800, 800, GL3D);
+ *   createWindow(200, 200);
  *
  *   rectMode(CENTER);
  * end
@@ -229,7 +231,38 @@ int pop(lua_State *L);
  * function draw()
  *   background('purple');
  *   
- *   rect(width/2, height/2, 100, 50);
+ *   rect(width/2, height/2, 80, 40);
+ *   point(width/2, height/2);
+ * end
+ * @example
+ *
+ * @example @live
+ * function setup()
+ *   createWindow(200, 200);
+ *
+ *   rectMode(CORNER);
+ * end
+ *
+ * function draw()
+ *   background('purple');
+ *   
+ *   rect(width/2, height/2, 80, 40);
+ *   point(width/2, height/2);
+ * end
+ * @example
+ *
+ * @example @live
+ * function setup()
+ *   createWindow(200, 200);
+ *
+ *   rectMode(RADIUS);
+ * end
+ *
+ * function draw()
+ *   background('purple');
+ *   
+ *   rect(width/2, height/2, 80, 40);
+ *   point(width/2, height/2);
  * end
  * @example
  */ 

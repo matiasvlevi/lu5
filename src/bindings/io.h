@@ -8,9 +8,7 @@
  *
  * @param value The value to print to stdout
  *
- * @visual
- *
- * @example
+ * @example @live
  * print(42);
  *
  * print(1, 2, 3);
@@ -29,7 +27,7 @@ int loadJSON(lua_State *L);
  *
  * @param file_path The path of the file
  *
- * @example
+ * @example @live
  * file = loadText("./your-file.txt");
  * print(file);
  * @example
@@ -41,7 +39,7 @@ int loadText(lua_State *L);
  *
  * @param file_path The path of the file
  *
- * @example
+ * @example @live
  * file = loadStrings("./your-file.txt");
  * print(file);
  * @example
