@@ -1,1 +1,1 @@
-{"source":{"start_line":107,"header":"setting.h","end_line":115},"doc":{"examples":["noFill();\ncircle(200, 200, 32);"],"calls":[{"arguments":{}}],"name":"noFill","_type":"method","bottom_description":"","description":"Disable fill. ","visual":false}}
+{"source":{"start_line":107,"end_line":115,"header":"setting.h"},"doc":{"bottom_description":"","examples":[{"source":"noFill();\ncircle(200, 200, 32);","live":false}],"calls":[{"arguments":{}}],"name":"noFill","description":"Disable fill. ","_type":"method"}}

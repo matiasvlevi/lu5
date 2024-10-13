@@ -1,1 +1,1 @@
-{"source":{"start_line":46,"header":"mouse.h","end_line":51},"doc":{"examples":{},"calls":[{"arguments":{}}],"name":"pmouseY","_type":"global","bottom_description":"","description":"The y mouse coordinate from the previous draw call.","visual":false}}
+{"source":{"start_line":42,"end_line":47,"header":"mouse.h"},"doc":{"bottom_description":"","examples":{},"calls":[{"arguments":{}}],"name":"pmouseY","description":"The y mouse coordinate from the previous draw call.","_type":"global"}}
