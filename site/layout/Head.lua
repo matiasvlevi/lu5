@@ -57,8 +57,14 @@ function Head(props)
             })
         }) or '';
 
+        (props.purpose ~= "reference") and luax('', {
+            -- Highlight.js
+            luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
+            luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"}, {}),
+        }) or '',
+
         props.purpose == "homepage" and luax('', {
-            -- html highlighting
+            -- highlight.js language-html
             luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/html.min.js"}),
 
             -- gifs
@@ -80,7 +86,10 @@ function Head(props)
             })
         }) or '',
 
-        (props.purpose == "module" or props.purpose == "symbol") and luax('', { 
+        (props.purpose == "module" or props.purpose == "symbol") and luax('', {
+            -- highlight.js language-lua
+            luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/lua.min.js"}),
+
             -- lu5-wasm
             luax('script', { src=props.root .. props.media.assets .. "/lu5-wasm.min.js", lib=true }),
             luax('script', { src=props.root .. props.media.assets .. "/lu5-console.min.js" })
@@ -94,11 +103,9 @@ function Head(props)
             luax('link', {rel='canonical', href=props.meta.url .. '/latest/' .. props.slug }),
         }) or '',
 
-        -- Highlight.js
-        luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
-        luax('script', {src= props.root .. props.media.assets .. '/hljs.min.js'}, {}),
         luax('script', {
             'document.addEventListener("DOMContentLoaded", function (e) {',
+                'hljs.configure({ noHighlightRe: /^no-hljs$/i });',
                 'hljs.highlightAll();',
             '});'
         }),

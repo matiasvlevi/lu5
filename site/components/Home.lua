@@ -91,12 +91,12 @@ function DownloadBlock(props)
 
             luax('span', {class="text"}, 'On arch based systems, you can install lu5 from the AUR.'),
             luax('pre', {style="margin: 1rem;"}, {
-                luax('code', {class="language-sh"}, 'yay -S lu5')
+                luax('code', {class="no-hljs"}, 'yay -S lu5')
             }),
             luax('br'),
             luax('span', {class="text"}, 'For any other linux distribution, you can build from source'),
             luax('pre', {style="margin: 1rem;"}, {
-                luax('code', {class="language-sh"}, {
+                luax('code', {class="no-hljs"}, {
                     'git clone ', props.meta.github_url, ' --branch v', props.current_latest, '\n',
                     'cd lu5\n',
                     'make\n'
@@ -187,7 +187,7 @@ local function Home(props)
                         luax('a', {href='https://github.com/matiasvlevi/lu5-wasm'}, 'lu5-wasm')
                     }),
                     luax('pre', {
-                        luax('code', {class="cdn language-html hljs"}, {
+                        luax('code', {class="language-html hljs cdn"}, {
             
                             '&lt;script src="https://unpkg.com/lu5-wasm@latest/dist/lu5-wasm.min.js"&gt;&lt;/script&gt;'
                         })
