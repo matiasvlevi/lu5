@@ -1,6 +1,7 @@
 bin/*
 shaders
 test.lua
+.vscode
 
 examples/models/*.obj
 !examples/models/ship.obj
