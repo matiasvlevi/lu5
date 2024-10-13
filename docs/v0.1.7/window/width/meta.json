@@ -1,1 +1,1 @@
-{"source":{"header":"window.h","start_line":192,"end_line":198},"doc":{"name":"width","calls":[{"arguments":{}}],"examples":{},"description":"The window's width in pixels. If no window was created, this value is <code class=\"inline\">nil</code>.","_type":"global","bottom_description":""}}
+{"source":{"header":"window.h","end_line":198,"start_line":192},"doc":{"name":"width","bottom_description":"","calls":[{"arguments":{}}],"_type":"global","description":"The window's width in pixels. If no window was created, this value is <code class=\"inline\">nil</code>.","examples":{}}}
