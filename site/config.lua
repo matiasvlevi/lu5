@@ -38,7 +38,6 @@ return {
                 -- Libraries
                 'lu5-wasm.min.js',
                 'lu5-console.min.js',
-                'hljs.min.js'
             },
             css={
                 'style.css',

@@ -57,12 +57,6 @@ function Head(props)
             })
         }) or '';
 
-        (props.purpose ~= "reference") and luax('', {
-            -- Highlight.js
-            luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
-            luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"}, {}),
-        }) or '',
-
         props.purpose == "homepage" and luax('', {
             -- highlight.js language-html
             luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/html.min.js"}),
@@ -86,6 +80,20 @@ function Head(props)
             })
         }) or '',
 
+        (props.purpose ~= "reference") and luax('', {
+            -- Highlight.js
+            luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
+            luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"}, {}),
+
+            luax('script', {
+                'document.addEventListener("DOMContentLoaded", function (e) {',
+                    'hljs.configure({ noHighlightRe: /^no-hljs$/i });',
+                    'hljs.highlightAll();',
+                '});'
+            }),
+
+        }) or '',
+
         (props.purpose == "module" or props.purpose == "symbol") and luax('', {
             -- highlight.js language-lua
             luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/lua.min.js"}),
@@ -102,13 +110,6 @@ function Head(props)
         (props.purpose == "module") and luax('', {
             luax('link', {rel='canonical', href=props.meta.url .. '/latest/' .. props.slug }),
         }) or '',
-
-        luax('script', {
-            'document.addEventListener("DOMContentLoaded", function (e) {',
-                'hljs.configure({ noHighlightRe: /^no-hljs$/i });',
-                'hljs.highlightAll();',
-            '});'
-        }),
 
         props.scripts and props.scripts or '',
 
