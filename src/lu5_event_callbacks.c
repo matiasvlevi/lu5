@@ -28,12 +28,14 @@
 
 void lu5_mouse_scroll_callback(lu5_window* window, double xoffset, double yoffset)
 {
-	lu5.input.mouse.scrollY -= yoffset * 10;
-
 	lua_getglobal(lu5.L, LU5_MOUSE_WHEEL);
-	if (lua_isnil(lu5.L, -1)) {
+	
+	if (!lua_isfunction(lu5.L, -1)) {
+		LU5_LOG("No scroll callback");
 		return;
 	}
+
+	lu5.input.mouse.scrollY -= yoffset * 10;
 
 	lua_pushnumber(lu5.L, yoffset);
 
