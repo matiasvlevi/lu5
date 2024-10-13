@@ -9,11 +9,15 @@ local ver = require('site/lib/version');
 -- Config
 local Config = require('site/config');
 
--- Components
+-- Layouts
 local RootLayout = require('site/layout/RootLayout');
-local Home = require('site/components/Home');
-local Reference = require('site/components/Reference');
-local Module = require('site/components/Module');
+
+-- Pages
+local Home = require('site/pages/Home');
+local Reference = require('site/pages/Reference');
+local Module = require('site/pages/Module');
+
+-- Components
 local Method = require('site/components/Method');
 local HeaderPanel = require('site/components/Navigation');
 
@@ -31,8 +35,8 @@ for i, module in pairs(modules) do
         root = "../../",
         media = Config.media,
         meta = luax.merge(Config.metadata, {
-            description=module.name .. ' reference page. Originating from ' .. module.source .. '.h in lu5 source. ' ..
-                Config.metadata.description
+            description=(module.name .. ' reference page. Originating from ' .. module.source .. '.h in lu5 source. ' ..
+                Config.metadata.alt_descriptions.reference)
         }),
         ga = Config.ga,
         nav = Navigation({
@@ -40,7 +44,7 @@ for i, module in pairs(modules) do
             class = "light",
             modules = modules
         })
-    }, Module(module, "../"));
+    }, Module(module));
 
     -- Write module page
     fs.write_vc_file(Config.build.dest, module.source, 'index.html', html, Config.current_latest);
@@ -70,9 +74,7 @@ for i, module in pairs(modules) do
                 class = "light",
                 modules = modules
             })
-        }, luax('', {
-            Method(method, "../../")
-        }));
+        }, Method(method));
 
         -- Write method page
         fs.write_vc_file(
@@ -97,20 +99,7 @@ local reference_html = RootLayout({
     root = "../",
     media = Config.media,
     meta = luax.merge(Config.metadata, {
-        keywords = {
-            "Lua", 
-            "Creative Coding", 
-            "Lua Interpreter", 
-            "programming", 
-            "coding", 
-            "learn code", 
-            "documentation",
-            "reference", 
-            "guide"
-        },
-        description = 'Reference documentation for lu5, ' ..
-            'This documentation provides descriptions and examples of functions and features. '..
-            Config.metadata.description
+        description = Config.metadata.alt_descriptions.reference
     }),
     ga = Config.ga,
     nav = Navigation({
@@ -133,14 +122,12 @@ local homepage_html = RootLayout({
     media = Config.media,
     meta = Config.metadata,
     ga = Config.ga
-}, luax('div', {
-    Home({
-        versions = ver.get_version_tags(Config.build.dest),
-        root = "./",
-        current_latest = Config.current_latest,
-        media = Config.media,
-        meta = Config.metadata
-    })
+}, Home({
+    versions = ver.get_version_tags(Config.build.dest),
+    root = "./",
+    current_latest = Config.current_latest,
+    media = Config.media,
+    meta = Config.metadata
 }))
 
 -- Write Reference page

@@ -2,64 +2,8 @@ local luax = require('site/lib/luax');
 
 local Config = require('site/config');
 
-function MethodCall(props)
-    return luax('', {
-        props.declaration and luax('div', {class="methodDeclaration", style="margin-top: 2rem;-"}, {
-            luax('code', props.declaration),
-            decorator
-        }) or '',
-        #props.params > 0 and luax('h4', 'Arguments') or '',
-        luax('div', {class="params"}, {
-            luax.map(props.params, function(param, key)
-                return luax('div', {class="param"}, {
-                    luax('code', {class="name"}, param.name),
-                    luax('span', {class="text desc"}, from_md(param.description))
-                })
-            end)
-        })
-    });
-end
-
-function MethodCalls(props, root)
-    return luax('', {
-        luax.map(props.method.calls, function(c, i)
-            local dec = #props.method.calls > 1 and props.declarations[i] or nil;
-            return luax('', {
-                MethodCall({ declaration=dec, params=c.arguments }),
-                c.example and MethodExample(props.method, c.example, i, root) or ''
-            });
-        end),
-    });
-end
-
-function MethodExample(method, example, index, root)
-    return example.source ~= nil and luax('div', {class="method-example flex items-center"}, {
-        luax('pre', {class="example-code"},{
-            luax('code', {class="language-lua"}, { example.source })
-        }),
-        example.live and LiveCanvas(root, method.name, index, example.source) or '',
-    }) or ''
-end
-
-function LiveCanvas(root, name, index, source)
-    return luax('', {
-        luax('canvas', { id="example-visual-"..name.."-"..index, style="display:none;" }),
-        luax('div', {class="flex-col", style="margin: 1.5rem 0;"}, {
-            luax('div', { id="example_"..name .."_"..index.."_console", style="min-width: 22rem; max-height: 16rem;"}, {
-                luax('p', {class="text white monospace underline", style="margin: 0.2rem 0 0.6rem 0;"}, 'Output')
-            }),
-        }),
-        luax('script', {
-            'const example_', name, '_', index,'_console = new lu5.Console(`example_',name,'_',index,'_console`);',
-            'lu5.init()',
-                '.then(vm => vm.setCanvas("example-visual-', name, '-', index ,'"))',
-                '.then(vm => vm.attach(1, example_', name, '_', index,'_console))',
-                '.then(vm => vm.attach(2, example_', name, '_', index,'_console))',
-                '.then(vm => vm.attach(2, console))',
-                '.then(vm => vm.execute(`', source ,' \n`));',
-        });
-    })
-end
+local MethodCalls = require('site/components/MethodCalls');
+local MethodExample = require('site/components/MethodExample');
 
 ---
 -- @Component
@@ -74,7 +18,7 @@ end
 --      _return: TRetrun;
 -- }
 ---
-function Method(props, root)
+function Method(props)
     local decorator = luax.match(props.doc._type, {
         event=luax('span', {class="decorator"}, 'Event'),
         constant=luax('span', {class="decorator"}, 'Constant'),
@@ -113,7 +57,7 @@ function Method(props, root)
             props.doc.description or 
             'No description'
         ),
-        MethodCalls({ declarations=declarations, method=props.doc }, root),
+        MethodCalls({ declarations=declarations, method=props.doc }),
         (props.doc['_return'] == nil) and '' or luax('', {
             luax('h4', 'Returns'),
             luax('div', {class="param"}, {
@@ -129,7 +73,7 @@ function Method(props, root)
 
         (props.doc['examples'] == nil and #props.doc['examples'] <= 1) and '' or 
             luax.map(props.doc['examples'], function (ex, index) 
-                return MethodExample(props.doc, ex, index, root)
+                return MethodExample(props.doc, ex, index)
             end),
 
 

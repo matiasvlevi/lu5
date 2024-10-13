@@ -16,9 +16,13 @@ return {
                         "coding", "learn code" },
 
         description = "lu5 is a Lua interpreter for Creative Coding. "..
-                    "lu5 serves as a tool for creating games, simulations and art. "..
-                    "It is designed to render 2D and 3D graphics, and provides a "..
-                    "simple and expressive API similar to p5.js. "
+                  "lu5 serves as a tool for creating games, simulations and art. "..
+                  "It is designed to render 2D and 3D graphics, and provides a "..
+                  "simple and expressive API similar to p5.js. ",
+        alt_descriptions = {
+            reference = "Reference documentation for lu5, this documentation provides "..
+                        "descriptions and examples of lu5's functionality. ",
+        }
     },
     media={
         assets = "assets",

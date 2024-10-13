@@ -4,15 +4,12 @@ local Method = require('site/components/Method')
 
 ---
 -- @Component
--- @props {
---      methods: TMethod[];
---  
--- }
+-- @param props TMethod[];
 ---
-function Module(props, root)
+function Module(props)
     return luax('', {
         luax.map(props.methods, function(method, i)
-            return Method(method, root)
+            return Method(method)
         end)
     })
 end
