@@ -84,7 +84,7 @@ function Head(props)
             -- lu5-wasm
             luax('script', { src=props.root .. props.media.assets .. "/lu5-wasm.min.js", lib=true }),
             luax('script', { src=props.root .. props.media.assets .. "/lu5-console.min.js" })
-        }),
+        }) or '',
 
         (props.purpose == "symbol") and luax('', {
             luax('link', {rel='canonical', href=props.meta.url .. '/latest/' .. props.parent .. '/' .. props.slug }),
