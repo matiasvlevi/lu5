@@ -33,11 +33,11 @@ function MethodCalls(props, root)
 end
 
 function MethodExample(method, example, index, root)
-    return example ~= nil and luax('div', {class="method-example flex items-center"}, {
+    return example.source ~= nil and luax('div', {class="method-example flex items-center"}, {
         luax('pre', {class="example-code"},{
-            luax('code', {class="language-lua"}, { example })
+            luax('code', {class="language-lua"}, { example.source })
         }),
-        method.visual and LiveCanvas(root, method.name, index, example) or '',
+        example.live and LiveCanvas(root, method.name, index, example.source) or '',
     }) or ''
 end
 
@@ -56,7 +56,7 @@ function LiveCanvas(root, name, index, source)
                 '.then(vm => vm.attach(1, example_', name, '_', index,'_console))',
                 '.then(vm => vm.attach(2, example_', name, '_', index,'_console))',
                 '.then(vm => vm.attach(2, console))',
-                '.then(vm => vm.execute(`', source ,'\n`));',
+                '.then(vm => vm.execute(`', source ,' \n`));',
         });
     })
 end

@@ -168,8 +168,8 @@ function parse_examples(comment, start_index)
     while (string.find(lines[i], '@example') == nil and i < #lines) do
         i = i + 1;
     end
-
     
+    -- Check call index (TODO: Maybe we can omit that and assume basic indicies)
     local call_match = string.match(lines[i], "%@example %d");
     local call_index = nil;
     if (call_match ~= nil) then
@@ -181,6 +181,9 @@ function parse_examples(comment, start_index)
         end
     end
 
+
+    local live_match = string.match(lines[i], "%@example.+%@live");
+    
 
     -- Iterate through example and collect lines
     if (i < #lines) then
@@ -202,42 +205,9 @@ function parse_examples(comment, start_index)
     end
 
     if (#result < 1) then
-        return '', start_index, call_index;
+        return '', start_index, call_index, (live_match ~= nil);
     end
-	return luax.join(result, '\n'), i, call_index;
-end
-
-
-function parse_example(comment)
-	local lines = luax.split(comment, '\n');
-	local result = {};
-
-    local i = 1;
-
-    -- Skip to first example
-    while (string.find(lines[i], '@example') == nil and i < #lines) do
-        i = i + 1;
-    end
-
-    -- Skip example tag
-    i = i + 1;
-
-    -- Iterate through example and collect lines
-    if (i < #lines) then
-        while (string.find(lines[i], '@example') == nil and i < #lines) do
-
-            -- trim 4 comment characters & whitespace -> ' *  '
-            local str = string.sub(lines[i], 4, #lines[i]);
-            
-            table.insert(result, str);
-            i = i + 1;
-        end
-    end
-
-    if (#result < 1) then
-        return nil;
-    end
-	return luax.join(result, '\n');
+	return luax.join(result, '\n'), i, call_index, (live_match ~= nil);
 end
 
 function parse_comment(comment, name, is_event)
@@ -255,9 +225,9 @@ function parse_comment(comment, name, is_event)
     end
     
     local visual = false;
-    if (comment:find('%@visual')) then
-        visual = true;
-    end
+    -- if (comment:find('%@visual')) then
+    --     visual = true;
+    -- end
 
     -- Override name if name tag found
     local name_match = comment:match('%@name [%w%.]+')
@@ -273,7 +243,11 @@ function parse_comment(comment, name, is_event)
 
     local example_index = 0;
     for i=1, example_count do
-        local example, idx, call_index = parse_examples(comment, example_index + 1);
+        local example_src, idx, call_index, is_live = parse_examples(comment, example_index + 1);
+        local example = {
+            source=example_src,
+            live=is_live
+        };
         if (call_index ~= nil) then
             if (calls[call_index]) then
                 calls[call_index].example = example;
@@ -288,7 +262,6 @@ function parse_comment(comment, name, is_event)
     return {
 		name              =name,
         _type             =_type,
-        visual            =visual,
 		description       =parse_description(comment),
 		--example           =parse_example(comment),
 		examples           =examples,
