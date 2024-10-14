@@ -227,7 +227,7 @@ int quad(lua_State *L);
  * 
  * function draw()
  *     background('purple');
- * 
+ *
  *     triangle(50, 150, 100, 50, 150, 150);
  * end
  * @example

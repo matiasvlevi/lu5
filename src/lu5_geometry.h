@@ -9,12 +9,14 @@
 
 #include "lu5_geometry_core.h"
 
-WASM_IMPORT("env", "lu5_render_triangle_fill")
-void lu5_render_triangle_fill(
+WASM_IMPORT("env", "lu5_render_triangle")
+void lu5_render_triangle(
     lua_Number x1, lua_Number y1,
     lua_Number x2, lua_Number y2,
     lua_Number x3, lua_Number y3,
-    lu5_color color);
+    lua_Integer strokeWeight,
+    lu5_color fill,
+    lu5_color stroke);
 
 WASM_IMPORT("env", "lu5_render_arc")
 void lu5_render_arc(

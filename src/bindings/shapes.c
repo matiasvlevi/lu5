@@ -168,19 +168,10 @@ int triangle(lua_State *L)
 	lua_Number x3 = lu5_assert_number(L, 5, "triangle");
 	lua_Number y3 = lu5_assert_number(L, 6, "triangle");
 
-	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
-
-	if (lu5_has_fill())
-	{
-		lu5_render_triangle_fill(x1, y1, x2, y2, x3, y3, lu5_style(&lu5)->fill);
-	}
-
-	if (lu5_has_stroke()) 
-	{
-		// TODO:
-	}
-
-	lu5_2D_over_3D_end(lu5.depth_mode);
+	lu5_render_triangle(x1, y1, x2, y2, x3, y3, 
+		lu5_style(&lu5)->strokeWeight,
+		lu5_style(&lu5)->fill,
+		lu5_style(&lu5)->stroke);
 
 	return 0;
 }
