@@ -31,7 +31,6 @@ void lu5_mouse_scroll_callback(lu5_window* window, double xoffset, double yoffse
 	lua_getglobal(lu5.L, LU5_MOUSE_WHEEL);
 	
 	if (!lua_isfunction(lu5.L, -1)) {
-		LU5_LOG("No scroll callback");
 		return;
 	}
 

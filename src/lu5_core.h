@@ -16,7 +16,7 @@ WASM_EXPORT("_lu5_setup")
 int lu5_run_sketch(lu5_State *l5, const char *filename, const char *source);
 
 WASM_EXPORT("_lu5_animation_frame") 
-void lu5_animation_frame(lu5_State *l5, lua_Number delta_time);
+void lu5_animation_frame(lu5_State *l5, float delta_time);
 
 WASM_EXPORT("_lu5_close")
 void lu5_close(lu5_State *l5);

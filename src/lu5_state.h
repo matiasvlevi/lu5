@@ -32,8 +32,7 @@ typedef struct lu5_State_s {
 		lua_Number now_time;
 		lua_Number last_time;
 		lua_Number last_frame_time;
-		lua_Number delta_time;
-		float framerate_avg;
+		float delta_time;
 		bool restart;
 		clock_t restart_time;
 	} env;

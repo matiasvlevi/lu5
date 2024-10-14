@@ -151,8 +151,6 @@ int saveWindow(lua_State *L)
 	return 0;
 }
 
-
-
 int frameRate(lua_State *L) 
 {
 	if (lua_gettop(L) > 0) 
@@ -166,13 +164,13 @@ int frameRate(lua_State *L)
 			// Return the current framerate
 			if (lu5.env.target_framerate == -1) 
 				// For free frame rates
-				lua_pushnumber(L, roundf(1000.0 / (lu5.env.delta_time))/1000.0);
+				lua_pushnumber(L, round(1000.0 / (lu5.env.delta_time))/1000.0);
 			else 
 				// For fixed frame rates
-				lua_pushnumber(L, roundf(1000.0 / (lu5.env.now_time - lu5.env.last_frame_time))/1000.0);
+				lua_pushnumber(L, round(1000.0 / (lu5.env.now_time - lu5.env.last_frame_time))/1000.0);
 			
 		#else // LU5_WASM
-			lua_pushnumber(L, roundf(lu5.env.framerate_avg));
+			lua_pushnumber(L, roundf(1.0 / lu5.env.delta_time));
 		#endif
 		return 1;
 	}

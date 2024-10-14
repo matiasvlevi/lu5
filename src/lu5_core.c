@@ -215,10 +215,6 @@ int lu5_run_sketch(lu5_State *l5, const char *filename, const char *source)
 
 			l5->env.delta_time = (l5->env.now_time - l5->env.last_time);
 
-			if (l5->env.target_framerate == -1) {
-			} else {
-			}
-
 			// If no target framerate, draw
 			if (l5->env.target_framerate == -1) 
 			{
@@ -254,18 +250,13 @@ int lu5_run_sketch(lu5_State *l5, const char *filename, const char *source)
 	return 0;
 }
 
-void lu5_animation_frame(lu5_State *l5, lua_Number delta_time)
+void lu5_animation_frame(lu5_State *l5, float delta_time)
 {
-	LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, LU5_DELTA_TIME, (lua_Number)(delta_time) / 1000.0);
-	
-	lu5_run_draw(l5);
-	 
-	if (lu5.env.target_framerate == -1) {
-		lu5.env.framerate_avg = (1000.0 / (delta_time));
-	} else {
-		lu5.env.framerate_avg = (1000.0 / (delta_time/1.2));
-	}
 	lu5.env.delta_time = delta_time;
+	LUA_ADD_NUMBER_GLOBAL_BY_NAME(l5->L, LU5_DELTA_TIME, (lua_Number)(lu5.env.delta_time));
+
+	lu5_run_draw(l5);
+	
 }
 
 void lu5_close(lu5_State *l5) 

@@ -122,7 +122,7 @@ int loop(lua_State *L);
  * function setup()
  *   createWindow(200, 200);
  *
- *   frameRate(24); -- Set the frame rate
+ *   frameRate(30); -- Set the frame rate
  * end
  *
  * function draw()
