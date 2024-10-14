@@ -116,7 +116,7 @@
         let current_script = 0;
         let module = undefined;
         async function main() {
-            module = await lu5.compile();
+            module = await lu5.compile('../../../bin/wasm/lu5.wasm');
 
             run_script(module, scripts[current_script]);
         }; main();
@@ -124,7 +124,8 @@
         async function run_script(module, path) {
             document.getElementById('title').textContent = path;
             document.getElementById('title-link').href =
-                `https://github.com/matiasvlevi/lu5/blob/master/examples/${path}`;
+                `../../examples/${path}`;    
+            //`https://github.com/matiasvlevi/lu5/blob/master/examples/${path}`;
 
             const dom_console = new lu5.Console();
 
@@ -136,7 +137,8 @@
                 .then(vm => vm.attach(2, dom_console))
                 .then(vm => {
                     window.vm = vm;
-                    fetch(`https://raw.githubusercontent.com/matiasvlevi/lu5/refs/heads/master/examples/${path}`)
+                    fetch(`../../examples/${path}`)
+                    //fetch(`https://raw.githubusercontent.com/matiasvlevi/lu5/refs/heads/master/examples/${path}`)
                         .then(r => r.text())
                         .then(source => vm.execute(source))
                 });

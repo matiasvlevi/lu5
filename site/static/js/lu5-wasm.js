@@ -60,15 +60,12 @@ __webpack_require__.d(platform_namespaceObject, {
   lu5_noLoop: () => (lu5_noLoop),
   lu5_open_file: () => (lu5_open_file),
   lu5_read_file: () => (lu5_read_file),
-  lu5_render_arc_fill: () => (lu5_render_arc_fill),
-  lu5_render_arc_stroke: () => (lu5_render_arc_stroke),
+  lu5_render_arc: () => (lu5_render_arc),
   lu5_render_ellipse: () => (lu5_render_ellipse),
-  lu5_render_ellipse_w_stroke: () => (lu5_render_ellipse_w_stroke),
+  lu5_render_ellipse_fill: () => (lu5_render_ellipse_fill),
   lu5_render_image: () => (lu5_render_image),
   lu5_render_line: () => (lu5_render_line),
   lu5_render_quad: () => (lu5_render_quad),
-  lu5_render_quad_fill: () => (lu5_render_quad_fill),
-  lu5_render_quad_stroke: () => (lu5_render_quad_stroke),
   lu5_render_text: () => (lu5_render_text),
   lu5_render_triangle_fill: () => (lu5_render_triangle_fill),
   lu5_set_font: () => (lu5_set_font),
@@ -80,8 +77,6 @@ __webpack_require__.d(platform_namespaceObject, {
 const lu5_bindings_unimplemented = [
     // Image
     'lu5_image_crop',
-    // 'lu5_load_image',
-    // 'lu5_render_image',
     // 3D
     'lu5_render_debug',
     'lu5_render_box_faces',
@@ -294,7 +289,7 @@ function lu5_render_line(x1, y1, x2, y2, strokeWeight, stroke) {
     this.ctx.lineTo(x2, y2);
     this.ctx.stroke();
 }
-function lu5_render_ellipse_w_stroke(x, y, h, w, strokeWeight, fill, stroke, _segments) {
+function lu5_render_ellipse(x, y, h, w, strokeWeight, fill, stroke, _segments) {
     if (!this.ctx)
         return;
     this.ctx.fillStyle = this.colorToHex(fill);
@@ -305,7 +300,7 @@ function lu5_render_ellipse_w_stroke(x, y, h, w, strokeWeight, fill, stroke, _se
     this.ctx.stroke();
     this.ctx.fill();
 }
-function lu5_render_ellipse(x, y, w, h, color, _segments) {
+function lu5_render_ellipse_fill(x, y, w, h, color, _segments) {
     if (!this.ctx)
         return;
     this.ctx.fillStyle = this.colorToHex(color);
@@ -313,47 +308,18 @@ function lu5_render_ellipse(x, y, w, h, color, _segments) {
     this.ctx.ellipse(x, y, w, h, 0, 0, 2 * Math.PI);
     this.ctx.fill();
 }
-function lu5_render_arc_fill(x, y, rx, ry, start_angle, end_angle, _segments, color) {
+function lu5_render_arc(x, y, rx, ry, strokeWeight, start_angle, end_angle, _segments, fill, stroke) {
     if (!this.ctx)
         return;
-    this.ctx.fillStyle = this.colorToHex(color);
+    this.ctx.fillStyle = this.colorToHex(fill);
+    this.ctx.strokeStyle = this.colorToHex(stroke);
+    this.ctx.lineWidth = strokeWeight;
     this.ctx.beginPath();
     this.ctx.ellipse(x, y, rx, ry, 0, start_angle, end_angle);
+    this.ctx.stroke();
     this.ctx.lineTo(x, y);
     this.ctx.closePath();
     this.ctx.fill();
-}
-function lu5_render_arc_stroke(x, y, w, h, strokeWeight, start_angle, end_angle, _segments, color) {
-    if (!this.ctx)
-        return;
-    this.ctx.strokeStyle = this.colorToHex(color);
-    this.ctx.beginPath();
-    this.ctx.ellipse(x, y, w, h, 0, start_angle, end_angle);
-    this.ctx.lineWidth = strokeWeight;
-    this.ctx.stroke();
-}
-function lu5_render_quad_fill(x1, y1, x2, y2, x3, y3, x4, y4, color) {
-    if (!this.ctx)
-        return;
-    this.ctx.fillStyle = this.colorToHex(color);
-    this.ctx.beginPath();
-    this.ctx.moveTo(x1, y1);
-    this.ctx.lineTo(x2, y2);
-    this.ctx.lineTo(x3, y3);
-    this.ctx.lineTo(x4, y4);
-    this.ctx.closePath();
-    this.ctx.fill();
-}
-function lu5_render_quad_stroke(x1, y1, x2, y2, x3, y3, x4, y4, strokeWeight, color) {
-    if (!this.ctx)
-        return;
-    this.ctx.strokeStyle = this.colorToHex(color);
-    const px = Math.min(x1, x2, x3, x4);
-    const py = Math.min(y1, y2, y3, y4);
-    const w = Math.max(x1, x2, x3, x4) - px;
-    const h = Math.max(y1, y2, y3, y4) - py;
-    this.ctx.lineWidth = strokeWeight;
-    this.ctx.strokeRect(px, py, w, h);
 }
 function lu5_render_text(text_ptr, x, y, fontSize, textAlign, _font, color) {
     if (!this.ctx)
@@ -575,15 +541,9 @@ function lu5_time_seed() {
     return Math.floor(Math.random() * 1000000);
 }
 
-;// ./src/platform/index.ts
+;// ./src/platform/glfw.ts
 
-
-
-
-
-
-// create a map
-function lu5_GetKeyName(key, scancode) {
+function lu5_GetKeyName(key, _scancode) {
     if (this.keyname_ptr == null) {
         this.calls.free(this.keyname_ptr);
     }
@@ -613,6 +573,14 @@ function lu5_GetKeyName(key, scancode) {
     write_cstr(this.memory, this.keyname_ptr, name);
     return this.keyname_ptr;
 }
+
+;// ./src/platform/index.ts
+
+
+
+
+
+
 
 ;// ./src/color.ts
 function colorToHex(ptr) {
@@ -644,7 +612,7 @@ function colorToRGBA(ptr) {
     ];
 }
 
-;// ./src/glfw.ts
+;// ./src/keyboard.ts
 const RELEASE = 0;
 const PRESS = 1;
 const REPEAT = 2;
@@ -798,6 +766,7 @@ class LU5 {
         this.debug_tag = undefined;
         this.depth_mode = 0;
         this.events = {};
+        this._af_id = 0;
     }
     write(fd, method, msg) {
         const handlers = this.fd[fd];
@@ -976,6 +945,7 @@ class LU5 {
     }
     async reset() {
         this.loop = false;
+        window.cancelAnimationFrame(this._af_id);
         await new Promise(r => setTimeout(() => {
             if (!this.wasm) {
                 r(undefined);
@@ -1023,24 +993,28 @@ _LU5_instances = new WeakSet(), _LU5_run = function _LU5_run(source, done = () =
         case 0:
             const target_fps = this.view.getInt32(this.l5 + 8, true);
             let elapsed = 0;
-            let fpsInterval = 1000.0 / target_fps;
+            let fpsInterval = 1000 / (target_fps);
+            let now = window.performance.now();
+            let then_real = window.performance.now();
             let then = window.performance.now();
             // Single frame call
-            this.frame = (function (now) {
-                if (!this.loop)
-                    return;
-                requestAnimationFrame(this.frame);
+            this.frame = (function (timestamp) {
+                now = timestamp || window.performance.now();
                 elapsed = now - then;
-                if (target_fps == -1) {
-                    then = now;
-                    this.calls._lu5_animation_frame(this.l5, elapsed);
+                fpsInterval = 1000 / target_fps;
+                const epsilon = 5;
+                if (!this.loop || elapsed > fpsInterval - epsilon) {
+                    const deltaTime = now - then_real;
+                    // Call Draw
+                    this.calls._lu5_animation_frame(this.l5, deltaTime / 1000);
+                    then = Math.max(then + elapsed, now);
+                    then_real = now;
                 }
-                else if (elapsed >= fpsInterval) {
-                    then = now;
-                    this.calls._lu5_animation_frame(this.l5, elapsed);
+                if (this.loop) {
+                    this._af_id = requestAnimationFrame(this.frame);
                 }
             }).bind(this);
-            requestAnimationFrame(this.frame);
+            this._af_id = requestAnimationFrame(this.frame);
             break;
         case undefined:
         case 1:
