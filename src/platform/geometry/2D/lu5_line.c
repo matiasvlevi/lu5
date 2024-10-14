@@ -29,12 +29,12 @@ void lu5_render_line(
 
 		if (weight >= 3) 
 		{
-			lu5_render_ellipse(x1, y1, 
+			lu5_render_ellipse_fill(x1, y1, 
 				weight, weight, 
 				color,
 				LINE_POINT_SEGMENTS);
 
-			lu5_render_ellipse(x2, y2, 
+			lu5_render_ellipse_fill(x2, y2, 
 				weight, weight,  
 				color,
 				LINE_POINT_SEGMENTS);

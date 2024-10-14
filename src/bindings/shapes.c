@@ -121,42 +121,6 @@ int line(lua_State *L)
 
 	lu5_2D_over_3D_end(lu5.depth_mode);
 
-	// float dx = x2 - x1;
-	// float dy = y2 - y1;
-	// float length = sqrt(dx * dx + dy * dy);
-
-	// float strokeWeight = ((float)lu5_style(&lu5)->strokeWeight / 2);
-
-	// float nx = strokeWeight * ( dy / length);
-	// float ny = strokeWeight * (-dx / length);
-
-	// if (lu5_has_stroke()) 
-	// {
-	// 	lu5_render_quad(
-	// 		x1 - nx, y1 - ny,
-	// 		x1 + nx, y1 + ny,
-	// 		x2 + nx, y2 + ny,
-	// 		x2 - nx, y2 - ny,
-	// 		lu5_style(&lu5)->strokeWeight,
-	// 		lu5_style(&lu5)->stroke,
-	// 		LU5_RGBA(0, 0, 0, 0));
-
-	// 	if (lu5_style(&lu5)->strokeWeight >= 3) 
-	// 	{
-	// 		lu5_render_ellipse(x1, y1, 
-	// 			strokeWeight, strokeWeight, 
-	// 			lu5_style(&lu5)->stroke,
-	// 			LINE_POINT_SEGMENTS);
-
-	// 		lu5_render_ellipse(x2, y2, 
-	// 			strokeWeight, strokeWeight,  
-	// 			lu5_style(&lu5)->stroke,
-	// 			LINE_POINT_SEGMENTS);
-	// 	};
-	// 	lu5_2D_over_3D_end(lu5.depth_mode);
-	// }
-
-
 	return 0;
 }
 
@@ -237,23 +201,11 @@ int ellipse(lua_State *L)
 
 	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
 
-	lu5_render_ellipse_w_stroke(x, y, w, h, 
+	lu5_render_ellipse(x, y, w, h, 
 		lu5_style(&lu5)->strokeWeight, 
 		lu5_style(&lu5)->fill, 
 		lu5_style(&lu5)->stroke,
 		LU5_CIRCLE_SEGMENTS);
-
-	// if (lu5_has_stroke()) 
-	// {
-	// 	lu5_render_ring(x, y, w, h, lu5_style(&lu5)->strokeWeight, LU5_CIRCLE_SEGMENTS, lu5_style(&lu5)->stroke);
-	// }
-
-	// if (lu5_has_fill())
-	// {
-	// 	lu5_render_ellipse(x, y, w, h, 
-	// 		LU5_CIRCLE_SEGMENTS, 
-	// 		lu5_style(&lu5)->fill);
-	// }
 
 	lu5_2D_over_3D_end(lu5.depth_mode);
 
@@ -283,48 +235,30 @@ int arc(lua_State *L)
 	lua_Number start_angle = lu5_assert_number(L, 5, "arc");
 	lua_Number end_angle = lu5_assert_number(L, 6, "arc");
 
-	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
-
-	if (lu5_has_fill())
-	{
-		lu5_render_arc_fill(
-			x, y, 
-			w, h, 
-			start_angle, end_angle,
-			LU5_CIRCLE_SEGMENTS,
-			lu5_style(&lu5)->fill);
-	}
-
-	if (lu5_has_stroke())
-	{
-		lu5_glLineWidth(lu5_style(&lu5)->strokeWeight);
-		lu5_render_arc_stroke(
-			x, y, 
-			w, h, 
-			lu5_style(&lu5)->strokeWeight,
-			start_angle, end_angle, 
-			LU5_CIRCLE_SEGMENTS,
-			lu5_style(&lu5)->stroke);
-	}
-
-	lu5_2D_over_3D_end(lu5.depth_mode);
+	lu5_render_arc(
+		x, y, 
+		w, h, 
+		lu5_style(&lu5)->strokeWeight,
+		start_angle, end_angle,
+		LU5_CIRCLE_SEGMENTS,
+		lu5_style(&lu5)->fill,
+		lu5_style(&lu5)->stroke);
 
 	return 0;
 }
-
 
 int point(lua_State *L)
 {
 	lua_Number x = lu5_assert_number(L, 1, "point");
 	lua_Number y = lu5_assert_number(L, 2, "point");
-	
-	lua_Number w = lu5_style(&lu5)->strokeWeight;
 
 	lu5_2D_over_3D_begin(lu5.depth_mode, lu5.width, lu5.height);
 
 	if (lu5_has_stroke())
 	{
-		lu5_render_ellipse(x, y, w, w,
+		lu5_render_ellipse_fill(x, y,
+			lu5_style(&lu5)->strokeWeight,
+			lu5_style(&lu5)->strokeWeight,
 			lu5_style(&lu5)->stroke,
 			LU5_CIRCLE_SEGMENTS);
 	}

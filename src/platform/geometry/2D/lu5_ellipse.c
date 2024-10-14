@@ -32,7 +32,7 @@ static void lu5_render_ring(
 	glEnd();
 }
 
-void lu5_render_ellipse(
+void lu5_render_ellipse_fill(
 	lua_Number x, lua_Number y, 
 	lua_Number w, lua_Number h,
 	lu5_color color, 
@@ -56,7 +56,7 @@ void lu5_render_ellipse(
 	glEnd();
 }
 
-void lu5_render_ellipse_w_stroke(
+void lu5_render_ellipse(
     lua_Number x, lua_Number y,
     lua_Number w, lua_Number h,
     lua_Number strokeWeight,
@@ -73,7 +73,7 @@ void lu5_render_ellipse_w_stroke(
 
 	if (lu5_color_visible(fill))
 	{
-		lu5_render_ellipse(x, y, w, h, 
+		lu5_render_ellipse_fill(x, y, w, h, 
 			fill,			
 			LU5_CIRCLE_SEGMENTS);
 	}

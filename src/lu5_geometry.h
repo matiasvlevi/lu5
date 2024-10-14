@@ -9,14 +9,6 @@
 
 #include "lu5_geometry_core.h"
 
-
-WASM_IMPORT("env", "lu5_render_ellipse") 
-void lu5_render_ellipse(
-    lua_Number x, lua_Number y, 
-    lua_Number w, lua_Number h,
-    lu5_color color,
-    lua_Integer segments);
-
 WASM_IMPORT("env", "lu5_render_triangle_fill")
 void lu5_render_triangle_fill(
     lua_Number x1, lua_Number y1,
@@ -24,24 +16,16 @@ void lu5_render_triangle_fill(
     lua_Number x3, lua_Number y3,
     lu5_color color);
 
-WASM_IMPORT("env", "lu5_render_arc_fill")
-void lu5_render_arc_fill(
-    lua_Number x, lua_Number y, 
-    lua_Number w, lua_Number h, 
-    lua_Number start_angle, 
-    lua_Number end_angle, 
-    lua_Integer segments,
-    lu5_color color);
-
-WASM_IMPORT("env", "lu5_render_arc_stroke")
-void lu5_render_arc_stroke(
+WASM_IMPORT("env", "lu5_render_arc")
+void lu5_render_arc(
     lua_Number x, lua_Number y, 
     lua_Number w, lua_Number h, 
     lua_Number strokeWeight,
     lua_Number start_angle, 
     lua_Number end_angle, 
     lua_Integer segments,
-    lu5_color color);
+    lu5_color fill,
+    lu5_color stroke);
 
 WASM_IMPORT("env", "lu5_render_quad")
 void lu5_render_quad(
@@ -60,18 +44,21 @@ void lu5_render_line(
     lua_Number weight,
     lu5_color color);
 
+WASM_IMPORT("env", "lu5_render_ellipse_fill") 
+void lu5_render_ellipse_fill(
+    lua_Number x, lua_Number y, 
+    lua_Number w, lua_Number h,
+    lu5_color color,
+    lua_Integer segments);
 
-// Non-standard format, since it takes in fill & stroke
-// This may be preferable for WASM since we would call once per shape instead of twice
-WASM_IMPORT("env", "lu5_render_ellipse_w_stroke") 
-void lu5_render_ellipse_w_stroke(
+WASM_IMPORT("env", "lu5_render_ellipse") 
+void lu5_render_ellipse(
     lua_Number x, lua_Number y,
     lua_Number w, lua_Number h,
     lua_Number strokeWeight,
     lu5_color fill,
     lu5_color stroke,
     lua_Integer segments);
-
 
 // 3D
 WASM_IMPORT("env", "lu5_render_debug")
