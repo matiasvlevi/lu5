@@ -37,14 +37,18 @@ return {
                 'menu.js',
                 'image.js',
                 'download.js',
-                'search.js',
-
-                -- Libraries
+                'search.js'
+            },
+            lib={
                 'lu5-wasm.min.js',
+                'lu5-wasm-lib.min.js',
                 'lu5-console.min.js',
+                'lu5-editor.min.js',
             },
             css={
+                'common.css',
                 'style.css',
+                'editor.css',
                 'lu5-hljs-theme.css'
             }
         },
