@@ -136,5 +136,8 @@ lu5_window *lu5_create_lu5_window(
 		return 0;
 	}
 
+	// Expose window width & height to user
+	lu5_update_window_size(&lu5, width, height);
+
 	return window;
 }

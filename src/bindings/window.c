@@ -71,17 +71,7 @@ int createWindow(lua_State *L)
 	);
 	#endif
 
-	// Expose window width & height to user
-	lua_pushnumber(L, width);
-	lua_setglobal(L, LU5_WIDTH);
 
-	lua_pushnumber(L, height);
-	lua_setglobal(L, LU5_HEIGHT);
-
-
-	lu5.width = width;
-	lu5.height = height;
-	
 	lu5_load_default_font(&lu5);
 
 	return 0;
@@ -188,4 +178,16 @@ int loop(lua_State *L)
 	lu5_loop();
 
 	return 0;
+}
+
+void lu5_update_window_size(lu5_State *l5, lua_Integer width, lua_Integer height)
+{
+	lua_pushnumber(l5->L, width);
+	lua_setglobal(l5->L, LU5_WIDTH);
+
+	lua_pushnumber(l5->L, height);
+	lua_setglobal(l5->L, LU5_HEIGHT);
+
+	l5->width = width;
+	l5->height = height;
 }
