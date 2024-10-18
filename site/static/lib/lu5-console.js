@@ -1,44 +1,43 @@
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	// The require scope
-/******/ 	var __webpack_require__ = {};
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/************************************************************************/
 var __webpack_exports__ = {};
-/* unused harmony export LU5Console */
-class LU5Console {
-    constructor(id = 'lu5-console') {
-        this.box = window._get_or_create_by_id && window._get_or_create_by_id('div', id);
+// This entry need to be wrapped in an IIFE because it uses a non-standard name for the exports (exports).
+(() => {
+var exports = __webpack_exports__;
+
+Object.defineProperty(exports, "BJ", ({ value: true }));
+exports.UC = _createElement;
+const defaultOptions = {
+    hide_if_can: true,
+    resize: 'none'
+};
+function _createElement(tag, id, host = document.body) {
+    let elem = document.getElementById(id);
+    if (elem === null) {
+        elem = document.createElement(tag);
+        elem.setAttribute('id', id);
+        if (host)
+            host.appendChild(elem);
+    }
+    return elem;
+}
+class Console {
+    box;
+    options;
+    constructor(id = 'lu5-console', options = {}) {
+        options = { ...defaultOptions, ...options };
+        this.box = _createElement('div', id);
         this.box.style.cssText = `
             background-color: #222;
             color: #ddd;
             font-family: Monospace;
-    
-            display: none;
-            flex-direction: column-reverse;
-    
-            padding: 0.4rem;
 
             width: auto;
             height: auto;
+    
+            display: ${options.hide_if_can ? 'none' : 'flex'};
+            ${options.hide_if_can ? '' : 'min-height: 1rem;'}
+            flex-direction: column-reverse;
+    
+            padding: 0.4rem;
 
             overflow-y: scroll;  
             scrollbar-color: #aaa #444;
@@ -46,44 +45,52 @@ class LU5Console {
             ${this.box.hasAttribute('style') ?
             this.box.getAttribute('style') : ''}
         `;
-        LU5Console.injectAnsiColorCSS();
+        this.options = options;
+        Console.injectAnsiColorCSS();
     }
     log(str) {
         // Add line
         const line = document.createElement('span');
         line.style.padding = `0.25rem`;
-        line.innerHTML = LU5Console.format_colors(str);
+        line.innerHTML = Console.format_colors(str);
         this.update(line);
     }
+    static warn_icon = `<span style="color: yellow; font-size: 1.4em; font-weight: normal; white-space-collapse: preserve; margin: 0px 0px 0px 0.2em;">` +
+        `&#x26A0;` +
+        `</span>`;
     warn(str) {
         const line = document.createElement('span');
         line.style.padding = `0.25rem`;
         line.style.backgroundColor = '#775522';
         line.style.color = '#FFF';
         line.style.fontWeight = 'bold';
-        line.innerHTML = LU5Console.warn_icon + ' ' + LU5Console.format_colors(str);
+        line.innerHTML = Console.warn_icon + ' ' + Console.format_colors(str);
         this.update(line);
     }
     error(str) {
         const line = document.createElement('span');
         line.style.padding = `0.25rem`;
         line.style.backgroundColor = '#772222';
-        line.innerHTML = LU5Console.format_colors(str);
+        line.innerHTML = Console.format_colors(str);
         this.update(line);
     }
     clear() {
-        this.box.style.display = 'none';
+        if (this.options.hide_if_can)
+            this.box.style.display = 'none';
         this.box.innerHTML = '';
     }
     update(line) {
+        // Cooldown to prevent being too demanding
+        const epsilon = 5;
         this.box.style.display = 'flex';
         setTimeout(() => {
             // Clear oldest lines
             if (this.box.childNodes.length > 32)
-                this.box.lastChild.remove();
+                if (this.box.lastChild)
+                    this.box.lastChild.remove();
             // Add new line
             this.box.insertBefore(line, this.box.firstChild);
-        });
+        }, epsilon);
     }
     static injectAnsiColorCSS() {
         if (document.querySelector('style#ansi') !== null)
@@ -119,10 +126,11 @@ class LU5Console {
         });
     }
 }
-LU5Console.warn_icon = `<span style="color: yellow; font-size: 1.4em; font-weight: normal; white-space-collapse: preserve; margin: 0px 0px 0px 0.2em;">` +
-    `&#x26A0;` +
-    `</span>`;
-window.lu5.Console = LU5Console;
+exports.Ay = Console;
 
-/******/ })()
-;
+})();
+
+var __webpack_exports___esModule = __webpack_exports__.BJ;
+var __webpack_exports___createElement = __webpack_exports__.UC;
+var __webpack_exports__default = __webpack_exports__.Ay;
+export { __webpack_exports___esModule as __esModule, __webpack_exports___createElement as _createElement, __webpack_exports__default as default };

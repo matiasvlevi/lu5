@@ -1,38 +1,44 @@
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	// The require scope
-/******/ 	var __webpack_require__ = {};
-/******/ 	
+/******/ // The require scope
+/******/ var __webpack_require__ = {};
+/******/ 
 /************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
+/******/ /* webpack/runtime/define property getters */
+/******/ (() => {
+/******/ 	// define getter functions for harmony exports
+/******/ 	__webpack_require__.d = (exports, definition) => {
+/******/ 		for(var key in definition) {
+/******/ 			if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
+/******/ 		}
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/hasOwnProperty shorthand */
+/******/ (() => {
+/******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/make namespace object */
+/******/ (() => {
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = (exports) => {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/ })();
+/******/ 
 /************************************************************************/
+var __webpack_exports__ = {};
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  wE: () => (/* binding */ compile),
+  Ts: () => (/* binding */ init),
+  Fl: () => (/* binding */ instantiate)
+});
 
 // NAMESPACE OBJECT: ./src/wasi.ts
 var wasi_namespaceObject = {};
@@ -57,6 +63,10 @@ __webpack_require__.d(platform_namespaceObject, {
   lu5_load_and_add_font: () => (lu5_load_and_add_font),
   lu5_load_image: () => (lu5_load_image),
   lu5_loop: () => (lu5_loop),
+  lu5_luax_: () => (lu5_luax_),
+  lu5_luax_append: () => (lu5_luax_append),
+  lu5_luax_append_: () => (lu5_luax_append_),
+  lu5_luax_get_vdom_id: () => (lu5_luax_get_vdom_id),
   lu5_noLoop: () => (lu5_noLoop),
   lu5_open_file: () => (lu5_open_file),
   lu5_read_file: () => (lu5_read_file),
@@ -67,11 +77,17 @@ __webpack_require__.d(platform_namespaceObject, {
   lu5_render_line: () => (lu5_render_line),
   lu5_render_quad: () => (lu5_render_quad),
   lu5_render_text: () => (lu5_render_text),
-  lu5_render_triangle_fill: () => (lu5_render_triangle_fill),
+  lu5_render_triangle: () => (lu5_render_triangle),
   lu5_set_font: () => (lu5_set_font),
   lu5_time_seed: () => (lu5_time_seed),
-  lu5_write_file: () => (lu5_write_file)
+  lu5_write_file: () => (lu5_write_file),
+  luax_clear: () => (luax_clear),
+  luax_rerender: () => (luax_rerender)
 });
+
+;// ./src/env.ts
+const DEV = true;
+const LU5_WASM_CDN = DEV ? 'http://127.0.0.1:5500/bin/wasm/lu5.wasm' : `https://unpkg.com/lu5-wasm@latest/dist/lu5.wasm`;
 
 ;// ./src/unimplemented.ts
 const lu5_bindings_unimplemented = [
@@ -243,15 +259,16 @@ function get_cstr(mem, ptr, len) {
     let str_buffer = new Uint8Array(mem.buffer, ptr, mem.buffer.byteLength - ptr);
     return new TextDecoder().decode(str_buffer.subarray(0, str_buffer.indexOf(0)));
 }
-function write_cstr(mem, ptr, str_value) {
+function write_cstr(mem, ptr, str_value, len = -1) {
     if (!mem)
         return;
     let encoder = new TextEncoder();
     let encodedString = encoder.encode(str_value);
     // Add null terminator
-    let nullTerminatedString = new Uint8Array(encodedString.length + 1);
+    let nullTerminatedString = new Uint8Array(encodedString.length + ((len === -1) ? 1 : 0));
     nullTerminatedString.set(encodedString);
-    nullTerminatedString[encodedString.length] = 0; // null terminator
+    if (len === -1)
+        nullTerminatedString[encodedString.length] = 0; // null terminator
     let i8 = new Uint8Array(mem.buffer);
     // Check for buffer overflow
     if ((ptr + nullTerminatedString.length) >= mem.buffer.byteLength) {
@@ -259,6 +276,7 @@ function write_cstr(mem, ptr, str_value) {
         return;
     }
     i8.set(nullTerminatedString, ptr);
+    return ptr;
 }
 
 ;// ./src/platform/geometry/2D.ts
@@ -341,11 +359,14 @@ function lu5_render_text(text_ptr, x, y, fontSize, textAlign, _font, color) {
     this.ctx.fillStyle = this.colorToHex(color);
     this.ctx.fillText(text, x, y - 4);
 }
-function lu5_render_triangle_fill(x1, y1, x2, y2, x3, y3, color) {
+function lu5_render_triangle(x1, y1, x2, y2, x3, y3, strokeWeight, fill, stroke) {
     if (!this.ctx)
         return;
+    this.ctx.lineWidth = strokeWeight;
+    this.ctx.lineJoin = 'round';
+    this.ctx.fillStyle = this.colorToHex(fill);
+    this.ctx.strokeStyle = this.colorToHex(stroke);
     this.ctx.beginPath();
-    this.ctx.fillStyle = this.colorToHex(color);
     this.ctx.moveTo(x1, y1);
     this.ctx.lineTo(x2, y2);
     this.ctx.lineTo(x3, y3);
@@ -440,15 +461,13 @@ function lu5_write_file() {
 }
 
 ;// ./src/common/dom.ts
-function get_or_create_by_id(tag, id, host = document.body) {
+function _createElement(tag, id, host = document.body) {
     let elem = document.getElementById(id);
     if (elem === null) {
         elem = document.createElement(tag);
         elem.setAttribute('id', id);
         if (host)
             host.appendChild(elem);
-        else
-            window.onload = () => host.appendChild(elem);
     }
     return elem;
 }
@@ -470,11 +489,16 @@ function lu5_createWindow(_L, w, h, _title_ptr, mode) {
         this.loop = false;
         return 0;
     }
-    const canvas = get_or_create_by_id('canvas', this.canvas_id);
+    const canvas = _createElement('canvas', this.canvas_id);
     canvas.style.display = 'inline';
+    if (w == 0 && h == 0) {
+        w = innerWidth;
+        h = innerHeight;
+    }
     // Set dimensions
     canvas.width = w;
     canvas.height = h;
+    this.calls._lu5_update_window_size(this.l5, w, h);
     // Set rendering context
     switch (mode) {
         case 0:
@@ -574,7 +598,106 @@ function lu5_GetKeyName(key, _scancode) {
     return this.keyname_ptr;
 }
 
+;// ./src/platform/dom.ts
+
+let VDOM = [];
+window.VDOM = VDOM;
+function luax_clear() {
+    VDOM = [];
+    document.getElementById('root').innerHTML = '';
+}
+function luax_rerender(vdom_id) {
+    // const elem = VDOM[vdom_id-1];
+    // if (!elem) return;
+    // let props: Record<string, string> = {};
+    // for (let attribute of elem.attributes) { 
+    //     props[attribute.name] = attribute.value;
+    // }
+    // let componentName = "App";
+    // let componentName_ptr = this.calls.malloc(componentName.length);
+    // luax_clear();
+    // // Re-render component
+    // let id = this.calls.lu5_call_global(this.l5, write_cstr(this.memory, componentName_ptr, componentName));
+    // lu5_luax_append('root', id);
+    // this.calls.free(componentName_ptr);
+}
+function luax(tag, props, children) {
+    const elem = document.createElement(tag);
+    Object.entries(props).forEach(([key, value]) => {
+        if (value instanceof Function) {
+            elem[key] = value;
+        }
+        else {
+            elem.setAttribute(key, value.toString());
+        }
+    });
+    children.forEach(child => {
+        if (child instanceof Element) {
+            elem.appendChild(child);
+        }
+        else {
+            elem.innerHTML += `${child}\n`;
+        }
+    });
+    return elem;
+}
+function lu5_luax_(tag_ptr, props_ptr, children_ptr) {
+    const children = [];
+    const props = {};
+    const tag = get_cstr(this.memory, tag_ptr);
+    const id = VDOM.length;
+    let next = children_ptr;
+    while (next != 0) {
+        const [content_ptr, _, _next, id] = Array.from(new Uint32Array(this.memory.buffer, next, 4));
+        if (content_ptr == 0) {
+            if (VDOM[id - 1])
+                children.unshift(VDOM[id - 1]);
+        }
+        else {
+            const child = get_cstr(this.memory, content_ptr);
+            children.unshift(child);
+        }
+        next = _next;
+    }
+    next = props_ptr;
+    while (next != 0) {
+        const [key_ptr, value_ptr, _next] = Array.from(new Uint32Array(this.memory.buffer, next, 3));
+        const key = get_cstr(this.memory, key_ptr);
+        let value = get_cstr(this.memory, value_ptr);
+        if (value.length == 0) {
+            value = (_) => this.event(id + 1, key);
+        }
+        props[key] = value;
+        next = _next;
+    }
+    VDOM[VDOM.length] = luax(tag, props, children);
+    return VDOM.length;
+}
+function lu5_luax_append_(root_ptr, vdom_id) {
+    const root = get_cstr(this.memory, root_ptr);
+    lu5_luax_append(root, vdom_id);
+}
+function lu5_luax_append(root, vdom_id) {
+    const elem = VDOM[vdom_id - 1];
+    if (elem) {
+        console.log('Adding', elem);
+        if (elem instanceof Element) {
+            document.getElementById(root).appendChild(elem);
+        }
+        else {
+            document.getElementById(root).innerHTML += `${elem}\n`;
+        }
+    }
+    else {
+        console.log('something went wrong', VDOM, vdom_id - 1);
+    }
+}
+function lu5_luax_get_vdom_id() {
+    return VDOM.length;
+}
+
 ;// ./src/platform/index.ts
+
 
 
 
@@ -745,6 +868,7 @@ var _LU5_instances, _LU5_run;
 
 
 
+
 class LU5 {
     constructor() {
         _LU5_instances.add(this);
@@ -773,8 +897,9 @@ class LU5 {
         if (!handlers)
             return;
         handlers.forEach((c) => {
-            if (c[method])
+            if (c[method]) {
                 c[method](msg);
+            }
         });
     }
     error(msg) {
@@ -858,7 +983,7 @@ class LU5 {
         }
         return env;
     }
-    static async compile(lu5_wasm_path) {
+    static async compile(lu5_wasm_path = LU5_WASM_CDN) {
         const response = await fetch(lu5_wasm_path);
         const buffer = await response.arrayBuffer();
         return await WebAssembly.compile(buffer);
@@ -878,6 +1003,11 @@ class LU5 {
         lu5.memory = lu5.wasm.exports.memory;
         lu5.calls = LU5.wrap_calls(lu5);
         return lu5;
+    }
+    event(vdom_id, root_id) {
+        const root_id_ptr = this.calls.malloc(root_id.length + 1);
+        this.calls.luax_call_event(this.l5, vdom_id, write_cstr(this.memory, root_id_ptr, root_id));
+        this.calls.free(root_id_ptr);
     }
     async attach(fd, console) {
         if (typeof fd === 'string') {
@@ -924,19 +1054,36 @@ class LU5 {
         if (!this.wasm)
             return;
         const rect = this.ctx.canvas.getBoundingClientRect();
-        this.mouseX = Math.round(e.clientX - rect.left);
-        this.mouseY = Math.round(e.clientY - rect.top);
+        if (e instanceof MouseEvent) {
+            this.mouseX = Math.round(e.clientX - rect.left);
+            this.mouseY = Math.round(e.clientY - rect.top);
+        }
+        else {
+            this.mouseX = Math.round(e.changedTouches[0].clientX - rect.left);
+            this.mouseY = Math.round(e.changedTouches[0].clientY - rect.top);
+        }
         this.calls._lu5_mouse_cursor_callback(null, this.mouseX, this.mouseY);
     }
     handleMousedown(e) {
         if (!this.wasm)
             return;
-        this.calls._lu5_mouse_button_callback(null, e.button, 1, 0);
+        if (e instanceof TouchEvent) {
+            const rect = this.ctx.canvas.getBoundingClientRect();
+            console.log(e);
+            this.mouseX = Math.round(e.changedTouches[0].clientX - rect.left);
+            this.mouseY = Math.round(e.changedTouches[0].clientY - rect.top);
+        }
+        this.calls._lu5_mouse_button_callback(null, e instanceof MouseEvent ? e.button : 0, 1, 0);
     }
     handleMouseup(e) {
         if (!this.wasm)
             return;
-        this.calls._lu5_mouse_button_callback(null, e.button, 0, 0);
+        if (e instanceof TouchEvent) {
+            const rect = this.ctx.canvas.getBoundingClientRect();
+            this.mouseX = Math.round(e.changedTouches[0].clientX - rect.left);
+            this.mouseY = Math.round(e.changedTouches[0].clientY - rect.top);
+        }
+        this.calls._lu5_mouse_button_callback(null, e instanceof MouseEvent ? e.button : 0, 0, 0);
     }
     execute(source) {
         return new Promise(res => {
@@ -1039,83 +1186,14 @@ LU5.env = {
     }
 };
 
-;// ./src/common/script.ts
-async function get_script_source(script) {
-    let src = script.getAttribute('src');
-    return (src) ?
-        fetch(src).then(r => r.text()) :
-        script.textContent;
-}
-function get_canvas_id(script) {
-    if (script.hasAttribute('canvas')) {
-        return script.getAttribute('canvas');
-    }
-    else if (script.hasAttribute('src')) {
-        return script.getAttribute('src')
-            .split('/').join('').split('.')
-            .filter(l => l.length != 0).pop();
-    }
-    return '';
-}
-async function get_script() {
-    const script = document.querySelectorAll('script[type="text/lua"]')[0];
-    if (script == undefined) {
-        console.warn('No lua scripts found...');
-        return { id: '', source: '' };
-    }
-    return {
-        id: get_canvas_id(script),
-        source: await get_script_source(script)
-    };
-}
-
-;// ./src/lu5-wasm.ts
+;// ./src/lib.ts
 
 
+const init = (wasm_path = LU5_WASM_CDN) => LU5.compile(wasm_path).then(module => LU5.instantiate(module));
+const compile = LU5.compile;
+const instantiate = LU5.instantiate;
 
-Object.defineProperty(window, '_lu5_instantiate_script', {
-    value: document.currentScript,
-    writable: false
-});
-const DEV = false;
-const LU5_WASM_CDN = DEV ? '../dist/lu5.wasm' : `https://unpkg.com/lu5-wasm@latest/dist/lu5.wasm`;
-window._get_or_create_by_id = get_or_create_by_id;
-// If included as a library, leak this function to the global scope.
-if (document.currentScript.hasAttribute('lib')) {
-    window.lu5 = {
-        init: (wasm_path = LU5_WASM_CDN) => LU5.compile(wasm_path).then(module => LU5.instantiate(module)),
-        compile: (wasm_path = LU5_WASM_CDN) => LU5.compile(wasm_path),
-        instantiate: (module) => LU5.instantiate(module),
-        Console: class {
-            constructor() {
-                console.warn("`lu5-console` is required to use the DOM console emulator");
-                return null;
-            }
-        }
-    };
-}
-else {
-    window.onload = () => {
-        let wasm_bin_path = LU5_WASM_CDN;
-        // Use wasm attribute to determine lu5 wasm binary url,
-        // default is passed argument
-        if (window._lu5_instantiate_script.hasAttribute('wasm')) {
-            wasm_bin_path = window._lu5_instantiate_script.getAttribute('wasm');
-        }
-        // Start lu5
-        LU5.compile(wasm_bin_path)
-            .then(mod => LU5.instantiate(mod))
-            .then(vm => vm.attach(1, console))
-            .then(vm => vm.attach(2, console))
-            .then(async (vm) => {
-            // Find lua script
-            const { id, source } = await get_script();
-            // Set canvas and execute
-            return vm.setCanvas(id).then(vm => vm.execute(source));
-        })
-            .catch(console.error);
-    };
-}
-
-/******/ })()
-;
+var __webpack_exports__compile = __webpack_exports__.wE;
+var __webpack_exports__init = __webpack_exports__.Ts;
+var __webpack_exports__instantiate = __webpack_exports__.Fl;
+export { __webpack_exports__compile as compile, __webpack_exports__init as init, __webpack_exports__instantiate as instantiate };
