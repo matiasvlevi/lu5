@@ -1,9 +1,9 @@
 
 bounce = 2.5;
-radius = 12;
-ball_count = 120;
+radius = 16;
+ball_count = 140;
 
-mouse_zone = 300
+mouse_zone = 400
 
 -- Ball list
 balls = {}
@@ -110,8 +110,7 @@ function setup()
             random(-100, 100)
         );
     end
-
-    --frameRate(30);
+    frameRate(60);
 end
 
 function draw()
@@ -129,7 +128,7 @@ function draw()
     circle(mouseX, mouseY, mouse_zone);
     pop();
 
-    textSize(18);
+    textSize(48);
     fill(100, 255, 10);
-    text(round(frameRate()) .. ' fps', 30, 30);
+    text(round(frameRate()) .. ' fps', 30, 60);
 end
