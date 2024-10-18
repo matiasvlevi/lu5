@@ -77,10 +77,6 @@ __webpack_require__.d(platform_namespaceObject, {
   lu5_load_and_add_font: () => (lu5_load_and_add_font),
   lu5_load_image: () => (lu5_load_image),
   lu5_loop: () => (lu5_loop),
-  lu5_luax_: () => (lu5_luax_),
-  lu5_luax_append: () => (lu5_luax_append),
-  lu5_luax_append_: () => (lu5_luax_append_),
-  lu5_luax_get_vdom_id: () => (lu5_luax_get_vdom_id),
   lu5_noLoop: () => (lu5_noLoop),
   lu5_open_file: () => (lu5_open_file),
   lu5_read_file: () => (lu5_read_file),
@@ -94,9 +90,7 @@ __webpack_require__.d(platform_namespaceObject, {
   lu5_render_triangle: () => (lu5_render_triangle),
   lu5_set_font: () => (lu5_set_font),
   lu5_time_seed: () => (lu5_time_seed),
-  lu5_write_file: () => (lu5_write_file),
-  luax_clear: () => (luax_clear),
-  luax_rerender: () => (luax_rerender)
+  lu5_write_file: () => (lu5_write_file)
 });
 
 ;// ./src/unimplemented.ts
@@ -185,6 +179,14 @@ const wasi_snapshot_preview1_unimplemented = [
     'sock_recv',
     'sock_send',
 ];
+function makeEnv(bind, symbols, implemented) {
+    const env = {};
+    const syms = [...new Set([...symbols, ...Object.keys(implemented)])];
+    for (let sym of syms) {
+        env[sym] = (implemented[sym] == undefined) ? (() => 0) : implemented[sym].bind(bind);
+    }
+    return env;
+}
 
 
 ;// ./src/wasi.ts
@@ -604,110 +606,10 @@ function lu5_GetKeyName(key, _scancode) {
     }
     ;
     this.keyname_ptr = this.calls.malloc(name.length);
-    write_cstr(this.memory, this.keyname_ptr, name);
-    return this.keyname_ptr;
-}
-
-;// ./src/platform/dom.ts
-
-let VDOM = [];
-window.VDOM = VDOM;
-function luax_clear() {
-    VDOM = [];
-    document.getElementById('root').innerHTML = '';
-}
-function luax_rerender(vdom_id) {
-    // const elem = VDOM[vdom_id-1];
-    // if (!elem) return;
-    // let props: Record<string, string> = {};
-    // for (let attribute of elem.attributes) { 
-    //     props[attribute.name] = attribute.value;
-    // }
-    // let componentName = "App";
-    // let componentName_ptr = this.calls.malloc(componentName.length);
-    // luax_clear();
-    // // Re-render component
-    // let id = this.calls.lu5_call_global(this.l5, write_cstr(this.memory, componentName_ptr, componentName));
-    // lu5_luax_append('root', id);
-    // this.calls.free(componentName_ptr);
-}
-function luax(tag, props, children) {
-    const elem = document.createElement(tag);
-    Object.entries(props).forEach(([key, value]) => {
-        if (value instanceof Function) {
-            elem[key] = value;
-        }
-        else {
-            elem.setAttribute(key, value.toString());
-        }
-    });
-    children.forEach(child => {
-        if (child instanceof Element) {
-            elem.appendChild(child);
-        }
-        else {
-            elem.innerHTML += `${child}\n`;
-        }
-    });
-    return elem;
-}
-function lu5_luax_(tag_ptr, props_ptr, children_ptr) {
-    const children = [];
-    const props = {};
-    const tag = get_cstr(this.memory, tag_ptr);
-    const id = VDOM.length;
-    let next = children_ptr;
-    while (next != 0) {
-        const [content_ptr, _, _next, id] = Array.from(new Uint32Array(this.memory.buffer, next, 4));
-        if (content_ptr == 0) {
-            if (VDOM[id - 1])
-                children.unshift(VDOM[id - 1]);
-        }
-        else {
-            const child = get_cstr(this.memory, content_ptr);
-            children.unshift(child);
-        }
-        next = _next;
-    }
-    next = props_ptr;
-    while (next != 0) {
-        const [key_ptr, value_ptr, _next] = Array.from(new Uint32Array(this.memory.buffer, next, 3));
-        const key = get_cstr(this.memory, key_ptr);
-        let value = get_cstr(this.memory, value_ptr);
-        if (value.length == 0) {
-            value = (_) => this.event(id + 1, key);
-        }
-        props[key] = value;
-        next = _next;
-    }
-    VDOM[VDOM.length] = luax(tag, props, children);
-    return VDOM.length;
-}
-function lu5_luax_append_(root_ptr, vdom_id) {
-    const root = get_cstr(this.memory, root_ptr);
-    lu5_luax_append(root, vdom_id);
-}
-function lu5_luax_append(root, vdom_id) {
-    const elem = VDOM[vdom_id - 1];
-    if (elem) {
-        console.log('Adding', elem);
-        if (elem instanceof Element) {
-            document.getElementById(root).appendChild(elem);
-        }
-        else {
-            document.getElementById(root).innerHTML += `${elem}\n`;
-        }
-    }
-    else {
-        console.log('something went wrong', VDOM, vdom_id - 1);
-    }
-}
-function lu5_luax_get_vdom_id() {
-    return VDOM.length;
+    return write_cstr(this.memory, this.keyname_ptr, name);
 }
 
 ;// ./src/platform/index.ts
-
 
 
 
@@ -989,14 +891,6 @@ class LU5 {
                 this.view = new DataView(this.memory.buffer);
             }
     }
-    static makeEnv(bind, symbols, implemented) {
-        const env = {};
-        const syms = [...new Set([...symbols, ...Object.keys(implemented)])];
-        for (let sym of syms) {
-            env[sym] = (implemented[sym] == undefined) ? (() => 0) : implemented[sym].bind(bind);
-        }
-        return env;
-    }
     static async compile(lu5_wasm_path = LU5_WASM_CDN) {
         const response = await fetch(lu5_wasm_path);
         const buffer = await response.arrayBuffer();
@@ -1009,19 +903,14 @@ class LU5 {
         tagToIndexMap.set(lu5.debug_tag, 0);
         lu5.wasm = await WebAssembly.instantiate(module, {
             env: {
-                ...LU5.makeEnv(lu5, lu5_bindings_unimplemented, platform_namespaceObject),
+                ...makeEnv(lu5, lu5_bindings_unimplemented, platform_namespaceObject),
                 ...LU5.env
             },
-            wasi_snapshot_preview1: LU5.makeEnv(lu5, wasi_snapshot_preview1_unimplemented, wasi_namespaceObject)
+            wasi_snapshot_preview1: makeEnv(lu5, wasi_snapshot_preview1_unimplemented, wasi_namespaceObject)
         });
         lu5.memory = lu5.wasm.exports.memory;
         lu5.calls = LU5.wrap_calls(lu5);
         return lu5;
-    }
-    event(vdom_id, root_id) {
-        const root_id_ptr = this.calls.malloc(root_id.length + 1);
-        this.calls.luax_call_event(this.l5, vdom_id, write_cstr(this.memory, root_id_ptr, root_id));
-        this.calls.free(root_id_ptr);
     }
     async attach(fd, console) {
         if (typeof fd === 'string') {
@@ -1081,7 +970,7 @@ class LU5 {
     handleMousedown(e) {
         if (!this.wasm)
             return;
-        if (e instanceof TouchEvent) {
+        if (!(e instanceof MouseEvent)) {
             const rect = this.ctx.canvas.getBoundingClientRect();
             console.log(e);
             this.mouseX = Math.round(e.changedTouches[0].clientX - rect.left);
@@ -1092,7 +981,7 @@ class LU5 {
     handleMouseup(e) {
         if (!this.wasm)
             return;
-        if (e instanceof TouchEvent) {
+        if (!(e instanceof MouseEvent)) {
             const rect = this.ctx.canvas.getBoundingClientRect();
             this.mouseX = Math.round(e.changedTouches[0].clientX - rect.left);
             this.mouseY = Math.round(e.changedTouches[0].clientY - rect.top);
