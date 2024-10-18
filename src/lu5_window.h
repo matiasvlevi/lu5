@@ -12,6 +12,8 @@
 #include <lua.h>
 #include "lu5_decorators.h"
 
+typedef struct lu5_State_s lu5_State;
+
 /**
  * GL2D
  *
@@ -52,5 +54,8 @@
  */
 WASM_IMPORT("env", "lu5_createWindow") 
 lu5_window *lu5_create_lu5_window(lua_State *L, int width, int height, const char *title, int depth_mode);
+
+WASM_EXPORT("_lu5_update_window_size")
+void lu5_update_window_size(lu5_State *l5, lua_Integer width, lua_Integer height);
 
 #endif
