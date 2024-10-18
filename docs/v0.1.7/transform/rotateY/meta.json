@@ -1,1 +1,1 @@
-{"source":{"start_line":13,"header":"transform.h","end_line":18},"doc":{"_type":"method","bottom_description":"","examples":{},"calls":[{"arguments":[{"description":"The angle of rotation","name":"angle"}]}],"description":"Rotate geometry around the Y axis.","name":"rotateY"}}
+{"doc":{"name":"rotateY","_type":"method","description":"Rotate geometry around the Y axis.","bottom_description":"","calls":[{"arguments":[{"description":"The angle of rotation","name":"angle"}]}],"examples":{}},"source":{"start_line":13,"header":"transform.h","end_line":18}}
