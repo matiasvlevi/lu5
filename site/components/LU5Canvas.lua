@@ -14,7 +14,7 @@ function LU5Canvas(props)
             'import Console from "/docs/', Config.media.assets, '/lu5-console.min.js";',
             'import * as lu5 from "/docs/', Config.media.assets, '/lu5-wasm-lib.min.js";',
             'const ',props.id..'_console',' = new Console(`',props.id..'_console','`);',
-            'lu5.init("../../../../bin/wasm/lu5.wasm")',
+            'lu5.init()',
                 '.then(vm => vm.setCanvas("',props.id..'_canvas','"))',
                 '.then(vm => vm.attach(1, ',props.id..'_console','))',
                 '.then(vm => vm.attach(2, ',props.id..'_console','))',
