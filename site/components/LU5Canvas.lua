@@ -11,8 +11,8 @@ function LU5Canvas(props)
             }),
         }),
         luax('script', {type="module"}, {
-            'import Console from "/docs/', Config.media.assets, '/lu5-console.min.js";',
-            'import * as lu5 from "/docs/', Config.media.assets, '/lu5-wasm-lib.min.js";',
+            'import Console from "https://unpkg.com/lu5-components@0.0.2/dist/lu5-console.min.js";',
+            'import * as lu5 from "https://unpkg.com/lu5-wasm@0.0.9-b/dist/lu5-wasm.min.js";',
             'const ',props.id..'_console',' = new Console(`',props.id..'_console','`);',
             'lu5.init()',
                 '.then(vm => vm.setCanvas("',props.id..'_canvas','"))',

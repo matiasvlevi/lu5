@@ -9,7 +9,7 @@ function Editor(props)
         luax('main', {class="editor flex-col"}, {
             luax('header', {class="ide-top"}, {
                 luax('div', {class="menu flex"}, {
-                    luax('a', {class="logo-wrap", href=root == './' and props.meta.github_url or "../"}, {
+                    luax('a', {class="logo-wrap", href="../"}, {
                         luax('img', {class="logo", src='/'..Config.build.dest ..'/'.. props.media.assets..'/logo.svg'}),
                     }),
                     luax('button',{ class="menu-item"}, 'File'),
