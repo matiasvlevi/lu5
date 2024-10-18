@@ -36,14 +36,21 @@ function Head(props)
         luax('meta', {name='twitter:image', content=thumbnail}),
 
         -- CSS
-        luax('link', {rel='stylesheet', href=props.root .. props.media.assets ..'/style.css'}),
+        luax('link', {rel='stylesheet', href=props.root .. props.media.assets ..'/common.css'}),
+
+        (props.purpose ~= "editor") and (
+            luax('link', {rel='stylesheet', href=props.root .. props.media.assets ..'/style.css'})
+        ) or '',
 
         (props.purpose == "reference") and luax('', {
             -- Only index latest docs
             luax('link', {rel='canonical', href=props.meta.url .. '/latest/' })
         }) or '',
 
-        (props.purpose ~= "homepage") and luax('', {
+        (props.purpose == "reference" or 
+         props.purpose == "symbol" or
+         props.purpose == "module" 
+        ) and luax('', {
             -- Search
             luax('script', {type='text/javascript', src=props.root .. props.media.assets ..'/search.js'}, {}),
             
@@ -80,9 +87,18 @@ function Head(props)
             })
         }) or '',
 
-        (props.purpose ~= "reference") and luax('', {
-            -- Highlight.js
-            luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'}),
+        (props.purpose == "homepage" or
+         props.purpose == "module" or
+         props.purpose == "symbol" or
+         props.purpose == "editor"
+        ) and luax('', {
+            -- Highlight.js theme
+            (props.purpose == "editor") and luax('', {
+                luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/editor.css'})
+            }) or (
+                luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'})
+            ),
+            
             luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/highlight.min.js"}, {}),
 
             luax('script', {
@@ -94,13 +110,21 @@ function Head(props)
 
         }) or '',
 
-        (props.purpose == "module" or props.purpose == "symbol") and luax('', {
+        (props.purpose == "module" or 
+         props.purpose == "symbol" or
+         props.purpose == "editor"
+        ) and luax('', {
             -- highlight.js language-lua
             luax('script', {src="https://unpkg.com/@highlightjs/cdn-assets@11.9.0/languages/lua.min.js"}),
 
-            -- lu5-wasm
-            luax('script', { src=props.root .. props.media.assets .. "/lu5-wasm.min.js", lib=true }),
-            luax('script', { src=props.root .. props.media.assets .. "/lu5-console.min.js" })
+
+            (props.purpose == "editor") and (luax('', {
+                luax('script', { type="module", src=props.root .. props.media.assets .. "/lu5-editor.min.js" })
+            })) or (luax('', {
+                -- lu5-wasm
+                luax('script', { type="module", src=props.root .. props.media.assets .. "/lu5-wasm-lib.min.js" }),
+                luax('script', { type="module", src=props.root .. props.media.assets .. "/lu5-console.min.js" }),
+            })),
         }) or '',
 
         (props.purpose == "symbol") and luax('', {

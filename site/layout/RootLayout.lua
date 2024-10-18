@@ -21,18 +21,7 @@ function Layout(props, children)
     return luax('', {
         '<!DOCTYPE html>',
         luax('html', {lang="en"}, {
-            Head({
-                root=root,
-                slug=props.slug,
-                parent=props.parent,
-                version=props.version,
-                purpose=props.purpose,
-                page_name=props.page_name,
-                meta=props.meta,
-                media=props.media,
-                ga=props.ga,
-                scripts=props.scripts
-            }),
+            Head(props),
             luax('body', {
                 luax('div', {class="content flex flex-grow"}, {
                     ((props.nav ~= nil) and luax('div', {class="nav", id="menu"}, {

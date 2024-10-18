@@ -16,6 +16,7 @@ local RootLayout = require('site/layout/RootLayout');
 local Home = require('site/pages/Home');
 local Reference = require('site/pages/Reference');
 local Module = require('site/pages/Module');
+local Editor = require('site/pages/Editor');
 
 -- Components
 local Method = require('site/components/Method');
@@ -130,6 +131,33 @@ local homepage_html = RootLayout({
     meta = Config.metadata
 }))
 
+-- Generate Editor
+local editor_html = luax('', {
+    '<!DOCTYPE html>',
+    luax('html', {lang="en"}, {
+        Head({
+            purpose = "editor",
+            slug = "editor",
+            page_name = 'Online Editor',
+            title = 'lu5',
+            version = false,
+            root = "../",
+            media = Config.media,
+            meta = Config.metadata,
+            ga = Config.ga
+        }),
+        luax('body', {
+            Editor({
+                versions = ver.get_version_tags(Config.build.dest),
+                root = "../../",
+                current_latest = Config.current_latest,
+                media = Config.media,
+                meta = Config.metadata
+            })
+        })
+    })
+})
+
 -- Write Reference page
 fs.write_vc_file(
     Config.build.dest, '', 'index.html', reference_html,
@@ -138,6 +166,12 @@ fs.write_vc_file(
 
 -- Write homepage
 fs.write_file(Config.build.dest .. '/index.html', homepage_html, true);
+
+
+-- Write Editor
+fs.mkdir(Config.build.dest .. '/editor');
+fs.write_file(Config.build.dest .. '/editor' .. '/index.html', editor_html, true);
+
 
 print();
 print('json:');
@@ -174,6 +208,14 @@ Minify(
     Config.build.source.js,     -- Source file names
     Minify.js,                  -- Minify function
     Config.build.source.static .. '/' .. 'js',      -- Source path
+    Config.build.dest .. '/' .. Config.media.assets -- Destination path
+);
+
+-- Minify & Copy js library files
+Minify(
+    Config.build.source.lib,     -- Source file names
+    Minify.js,                  -- Minify function
+    Config.build.source.static .. '/' .. 'lib',      -- Source path
     Config.build.dest .. '/' .. Config.media.assets -- Destination path
 );
 

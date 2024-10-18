@@ -70,6 +70,8 @@ function write_file(path, content, log)
 
     -- Write to file
     docs_file = io.open(path, "w");
+    if (docs_file == nil) then return end;
+    
     docs_file:write(content);
 
     if (log) then
