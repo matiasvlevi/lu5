@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="../assets/lu5-wasm.min.js" wasm="../../../bin/wasm/lu5.wasm"></script>
+    <style>
+        body {
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        const scripts = [
+            'collisions.lua'
+        ];
+
+        const GH_REPO = 'matiasvlevi/lu5';
+
+        // Get if local
+        const urlParams = new URLSearchParams(window.location.search);
+        const local = urlParams.get('dev') === 'true';
+
+        let current_script = 0;
+        let module = undefined;
+        async function main() {
+            module = await lu5.compile(local ? '../../../bin/wasm/lu5.wasm' : undefined);
+
+            run_script(module, 'collisions.lua');
+        }; main();
+
+        async function run_script(module, path) {
+
+            lu5.instantiate(module)
+                .then(vm => vm.setCanvas('mycanvas'))
+                .then(vm => vm.attach(1, console))
+                .then(vm => vm.attach(2, console))
+                .then(vm => {
+                    window.vm = vm;
+                    fetch(local ? `../../examples/${path}` : `https://raw.githubusercontent.com/${GH_REPO}/refs/heads/master/examples/${path}`)
+                        .then(r => r.text())
+                        .then(source => vm.execute(source.replaceAll(
+                            'createWindow(800, 600)',
+                            'createWindow(0, 0)'
+                        )))
+                });
+        }
+    </script>
+
+    <main>
+        <div class="center">
+
+            <canvas id="mycanvas" style="display:none;"></canvas>
+
+
+        </div>
+    </main>
+
+</body>
+
+</html>

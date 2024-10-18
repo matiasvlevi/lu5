@@ -1,1 +1,1 @@
-{"source":{"header":"transform.h","start_line":6,"end_line":11},"doc":{"bottom_description":"","description":"Rotate geometry around the X axis.","name":"rotateX","examples":{},"_type":"method","calls":[{"arguments":[{"description":"The angle of rotation","name":"angle"}]}]}}
+{"doc":{"name":"rotateX","bottom_description":"","_type":"method","description":"Rotate geometry around the X axis.","calls":[{"arguments":[{"name":"angle","description":"The angle of rotation"}]}],"examples":{}},"source":{"header":"transform.h","end_line":11,"start_line":6}}
