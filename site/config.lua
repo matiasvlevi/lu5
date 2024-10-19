@@ -29,8 +29,6 @@ return {
         thumbnail = "lu5_thumbnail.png",
     },
     cdn = {
-
-
         -- DEV (manually copied builds from lu5-wasm and lu5-components)
         -- lu5_wasm="/bin/wasm/lu5.wasm",
         -- lu5_wasm_lib="/docs/assets/lu5-wasm-lib.min.js",
@@ -43,7 +41,7 @@ return {
         lu5_wasm_lib="https://unpkg.com/lu5-wasm@latest/dist/lu5-wasm-lib.min.js",
         lu5_console="https://unpkg.com/lu5-components@latest/dist/lu5-console.min.js",
         lu5_editor="https://unpkg.com/lu5-components@latest/dist/lu5-editor.min.js",
-        codemirror="/lu5/assets/codemirror.min.js",
+        codemirror="https://matiasvlevi.github.io/lu5/assets/codemirror.min.js",
     },
     build={
         dest="./docs",
