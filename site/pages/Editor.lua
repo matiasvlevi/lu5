@@ -4,6 +4,8 @@ local Config = require('site/config');
 local icon_play = require('site/components/Editor/icon_play');
 local icon_stop = require('site/components/Editor/icon_stop');
 
+local Menubar = require('site/components/Editor/Menubar');
+
 function Editor(props)
     return luax('', {
         luax('main', {class="editor flex-col"}, {
@@ -12,10 +14,36 @@ function Editor(props)
                     luax('a', {class="logo-wrap", href="../"}, {
                         luax('img', {class="logo", src='../'.. props.media.assets..'/logo.svg'}),
                     }),
-                    luax('button',{ class="menu-item"}, 'File'),
-                    luax('button',{ class="menu-item"}, 'Edit'),
-                    luax('button',{ class="menu-item"}, 'Sketch'),
-                    luax('button',{ class="menu-item"}, 'Help'),
+                    Menubar({
+                        buttons={
+                            { 
+                                label= 'File',
+                                options= {
+                                    { label= 'Save', href='https://dannjs.org' },
+                                    { label= 'Open', href='https://dannjs.org' },
+                                    { label= 'Share', href='https://dannjs.org' }
+                                }
+                            },
+                            { 
+                                label= 'Edit',
+                                options= {
+                                    { label= 'Format Code', href='https://dannjs.org' }
+                                }
+                            },
+                            { 
+                                label= 'Sketch',
+                                options= {
+                                    { label= 'Format Code', href='https://dannjs.org' }
+                                }
+                            },
+                            { 
+                                label= 'Help',
+                                options= {
+                                    { label= 'help', href='https://dannjs.org' }
+                                }
+                            }
+                        }
+                    });
 
                 }),
                 luax('div', {class="flex", style="max-height: 50px; margin: 0.5rem 0.5rem;"}, {
@@ -29,11 +57,11 @@ function Editor(props)
             }),
             luax('div', {class="ide-area"}, {
                 luax('div', {class="ide-code-area flex-col flex-grow"}, {
-                    luax('div', {id="lu5-editor", style="height: 65%;"}),
+                    luax('div', {id="lu5-editor", style="height: 70%; min-width: 20rem;"}),
 
                     luax('div', {class="vertical separator"}),
                     
-                    luax('div',{class="flex-col", style="height:100%"}, {
+                    luax('div',{class="flex-col", style="background-color: rgb(34, 34, 34); height:100%"}, {
                         luax('div', {style="height: min-content; padding: 0.5rem;", class="bg-darkgrey"}, {
                             luax('span', {class="text white"}, 'Console')
                         }),
