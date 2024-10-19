@@ -30,15 +30,4 @@ local minifiers = {
 };
 
 local mt = {};
-
--- Move & Minify files
-function mt.__call(t, files, minifier, source, dest)
-    for i, filename in pairs(files) do
-        local min = filename:find(".min.") == nil and minifier or function(s) return s end;
-        fs.write_file(dest .. '/'.. filename, min(
-            fs.read_file(source .. '/' .. filename)
-        ), true);
-    end
-end
-
 return setmetatable(minifiers, mt)

@@ -22,6 +22,7 @@ function _createElement(tag, id, host = document.body) {
 class Console {
     box;
     options;
+    max_lines;
     constructor(id = 'lu5-console', options = {}) {
         options = { ...defaultOptions, ...options };
         this.box = _createElement('div', id);
@@ -46,6 +47,7 @@ class Console {
             this.box.getAttribute('style') : ''}
         `;
         this.options = options;
+        this.max_lines = 16;
         Console.injectAnsiColorCSS();
     }
     log(str) {
@@ -85,7 +87,7 @@ class Console {
         this.box.style.display = 'flex';
         setTimeout(() => {
             // Clear oldest lines
-            if (this.box.childNodes.length > 32)
+            if (this.box.childNodes.length > this.max_lines)
                 if (this.box.lastChild)
                     this.box.lastChild.remove();
             // Add new line

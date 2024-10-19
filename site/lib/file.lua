@@ -81,6 +81,18 @@ function write_file(path, content, log)
     update_file_counters(file_counters, path);
 end
 
+local function process_files(files, source, dest, proc)
+    if proc == nil then 
+        proc = function(s) return s end; 
+    end
+
+    for i, filename in pairs(files) do
+        write_file(dest .. '/'.. filename, proc(
+            read_file(source .. '/' .. filename)
+        ), true);
+    end
+end
+
 function scandir(dir, _type)
     local p = io.popen('find "'..dir..'" -maxdepth 1 -type ' .. _type)    
     local res = {}
@@ -144,5 +156,6 @@ return {
     get_counters=get_counters,
     write_vc_file=write_vc_file,
     copy_dir=copy_dir,
-    rm=rm
+    rm=rm,
+    process_files=process_files
 }

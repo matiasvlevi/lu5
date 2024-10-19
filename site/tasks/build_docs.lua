@@ -204,29 +204,28 @@ fs.mkdir(Config.build.dest .. '/' .. Config.media.assets);
 print();
 print('js:');
 -- Minify & Copy javascript files
-Minify(
-    Config.build.source.js,     -- Source file names
-    Minify.js,                  -- Minify function
-    Config.build.source.static .. '/' .. 'js',      -- Source path
-    Config.build.dest .. '/' .. Config.media.assets -- Destination path
+fs.process_files(
+    Config.build.source.js,                          -- Source file names
+    Config.build.source.static .. '/' .. 'js',       -- Source path
+    Config.build.dest .. '/' .. Config.media.assets, -- Destination path
+    Minify.js                                        -- Minify function
 );
 
 -- Minify & Copy js library files
-Minify(
-    Config.build.source.lib,     -- Source file names
-    Minify.js,                  -- Minify function
+fs.process_files(
+    Config.build.source.lib,                         -- Source file names
     Config.build.source.static .. '/' .. 'lib',      -- Source path
-    Config.build.dest .. '/' .. Config.media.assets -- Destination path
+    Config.build.dest .. '/' .. Config.media.assets  -- Destination path
 );
 
 print();
 print('css:');
 -- Minify & Copy css files
-Minify(
-    Config.build.source.css, 
-    Minify.css, 
+fs.process_files(
+    Config.build.source.css,
     Config.build.source.static .. '/' .. 'css',
-    Config.build.dest .. '/' .. Config.media.assets
+    Config.build.dest .. '/' .. Config.media.assets,
+    Minify.css
 );
 
 print();

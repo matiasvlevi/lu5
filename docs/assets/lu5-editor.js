@@ -1,5 +1,5 @@
-import * as __WEBPACK_EXTERNAL_MODULE__lu5_assets_codemirror_min_js_83e40e64__ from "/lu5/assets/codemirror.min.js";
-import * as __WEBPACK_EXTERNAL_MODULE_https_unpkg_com_lu5_components_latest_dist_lu5_console_min_js_2f653820__ from "https://unpkg.com/lu5-components@latest/dist/lu5-console.min.js";
+import * as __WEBPACK_EXTERNAL_MODULE__docs_assets_codemirror_min_js_43060440__ from "/docs/assets/codemirror.min.js";
+import * as __WEBPACK_EXTERNAL_MODULE__docs_assets_lu5_console_min_js_a52e8345__ from "/docs/assets/lu5-console.min.js";
 import * as __WEBPACK_EXTERNAL_MODULE_https_unpkg_com_lu5_wasm_latest_dist_lu5_wasm_lib_min_js_047a1424__ from "https://unpkg.com/lu5-wasm@latest/dist/lu5-wasm-lib.min.js";
 /******/ var __webpack_modules__ = ({
 
@@ -34,9 +34,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const console_1 = __importDefault(__webpack_require__(567));
+const console_1 = __importDefault(__webpack_require__(784));
 const lu5 = __importStar(__webpack_require__(196));
-const codemirror_1 = __webpack_require__(363);
+const codemirror_1 = __webpack_require__(386);
 let tabSize = new codemirror_1.Compartment;
 const initialText = `function setup()
   createWindow(400, 400);
@@ -208,17 +208,17 @@ function init_panes() {
 
 /***/ }),
 
-/***/ 363:
+/***/ 386:
 /***/ ((module) => {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE__lu5_assets_codemirror_min_js_83e40e64__;
+module.exports = __WEBPACK_EXTERNAL_MODULE__docs_assets_codemirror_min_js_43060440__;
 
 /***/ }),
 
-/***/ 567:
+/***/ 784:
 /***/ ((module) => {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_https_unpkg_com_lu5_components_latest_dist_lu5_console_min_js_2f653820__;
+module.exports = __WEBPACK_EXTERNAL_MODULE__docs_assets_lu5_console_min_js_a52e8345__;
 
 /***/ }),
 
