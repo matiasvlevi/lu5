@@ -1,4 +1,5 @@
 local luax = require('site/lib/luax');
+local Config = require('site/config');
 
 ---
 -- @Component
@@ -119,11 +120,11 @@ function Head(props)
 
 
             (props.purpose == "editor") and (luax('', {
-                luax('script', { type="module", src=props.root .. props.media.assets .. "/lu5-editor.min.js" })
+                luax('script', { type="module", src=Config.cdn.lu5_editor }),
             })) or (luax('', {
                 -- lu5-wasm
-                luax('script', { type="module", src=props.root .. props.media.assets .. "/lu5-wasm-lib.min.js" }),
-                luax('script', { type="module", src=props.root .. props.media.assets .. "/lu5-console.min.js" }),
+                luax('script', { type="module", src=Config.cdn.lu5_wasm }),
+                luax('script', { type="module", src=Config.cdn.lu5_console }),
             })),
         }) or '',
 

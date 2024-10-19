@@ -24,7 +24,6 @@ local function Home(props)
                     }),
                     luax('pre', {
                         luax('code', {class="language-html hljs cdn"}, {
-            
                             '&lt;script src="https://unpkg.com/lu5-wasm@latest/dist/lu5-wasm.min.js"&gt;&lt;/script&gt;'
                         })
                     }),
