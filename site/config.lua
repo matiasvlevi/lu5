@@ -1,10 +1,15 @@
-return {
-    -- For Dev: use this when publishing documentation for the upcoming version
-    current_latest='0.1.6',
-    -- For Prod: use this when publishing documentation with a new release
-    -- current_latest=VERSION,
 
-    ga={ gtag_id='G-CYFGDF41F4' },
+--- Site environement 
+--  Set `false` to Build the site for local development 
+--  Set `true` to Build the site for deployment on github pages 
+local PROD=true;
+
+--- Documentation presentation
+--  Specify the previous release tag when publishing documentation for an unreleased version (no tag yet)
+--  Specify `LAST_RELEASE=VERSION` when publishing documentation for new released version, make sure lu5's VERSION is set to the new tag.
+local LAST_RELEASE='0.1.6'
+
+return {
     metadata={
         author      = "Matias Vazquez-Levi",
         github_url  = "https://github.com/matiasvlevi/lu5", 
@@ -28,21 +33,6 @@ return {
         assets = "assets",
         thumbnail = "lu5_thumbnail.png",
     },
-    cdn = {
-        -- DEV (manually copied builds from lu5-wasm and lu5-components)
-        -- lu5_wasm="/bin/wasm/lu5.wasm",
-        -- lu5_wasm_lib="/docs/assets/lu5-wasm-lib.min.js",
-        -- lu5_console="/docs/assets/lu5-console.min.js",
-        -- lu5_editor="/docs/assets/lu5-editor.min.js",
-        -- codemirror="../assets/codemirror.min.js",
-
-        -- -- PROD
-        lu5_wasm="https://unpkg.com/lu5-wasm@latest/dist/lu5.wasm",
-        lu5_wasm_lib="https://unpkg.com/lu5-wasm@latest/dist/lu5-wasm-lib.min.js",
-        lu5_console="https://unpkg.com/lu5-components@latest/dist/lu5-console.min.js",
-        lu5_editor="https://unpkg.com/lu5-components@latest/dist/lu5-editor.min.js",
-        codemirror="https://matiasvlevi.github.io/lu5/assets/codemirror.min.js",
-    },
     build={
         dest="./docs",
         source={
@@ -63,10 +53,19 @@ return {
             },
             css={
                 'common.css',
-                'style.css',
-                'editor.css',
+                'docs.css',
                 'lu5-hljs-theme.css'
             }
         },
-    }
+    },
+    ga={ gtag_id='G-CYFGDF41F4' },
+    cdn = {
+        -- for DEV (manually copied builds from lu5-wasm and lu5-components)
+        lu5_wasm     = PROD and "https://unpkg.com/lu5-wasm@latest/dist/lu5.wasm"                 or "/bin/wasm/lu5.wasm",
+        lu5_wasm_lib = PROD and "https://unpkg.com/lu5-wasm@latest/dist/lu5-wasm-lib.min.js"      or "/docs/assets/lu5-wasm-lib.min.js",
+        lu5_console  = PROD and "https://unpkg.com/lu5-components@latest/dist/lu5-console.min.js" or "/docs/assets/lu5-console.min.js",
+        lu5_editor   = PROD and "https://unpkg.com/lu5-components@latest/dist/lu5-editor.min.js"  or "/docs/assets/lu5-editor.min.js",
+        codemirror   = PROD and "https://matiasvlevi.github.io/lu5/assets/codemirror.min.js"      or "../assets/codemirror.min.js",
+    },
+    current_latest=LAST_RELEASE or VERSION
 }
