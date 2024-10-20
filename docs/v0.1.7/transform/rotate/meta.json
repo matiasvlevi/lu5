@@ -1,1 +1,1 @@
-{"doc":{"name":"rotate","description":"Rotate geometry in 2D.","examples":{},"calls":[{"arguments":[{"name":"angle","description":"The angle of rotation"}]}],"_type":"method","bottom_description":""},"source":{"end_line":32,"header":"transform.h","start_line":27}}
+{"doc":{"bottom_description":"","_type":"method","calls":[{"arguments":[{"description":"The angle of rotation","name":"angle"}]}],"name":"rotate","examples":{},"description":"Rotate geometry in 2D."},"source":{"start_line":27,"header":"transform.h","end_line":32}}
