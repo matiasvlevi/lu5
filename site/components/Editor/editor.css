@@ -1,4 +1,3 @@
-
 :root {
     --dark: #461164;
     --primary: #AA36EF;
@@ -12,9 +11,14 @@
     font-family: "Source Code Pro", monospace;
 }
 
-html, body, main {
-    margin: 0px;
+html {
     height: 100%;
+}
+
+body, main {
+    margin: 0px;
+    height: 100dvh;
+    overflow: hidden;
 }
 
 main {
@@ -76,6 +80,7 @@ button.menu-item:hover {
 
 /* GENERAL */
 div.ide-top {
+  flex-shrink: 0;
 }
 
 div#lu5-editor {
@@ -92,12 +97,11 @@ div.ide-area {
     justify-content: space-between;
 
     padding: 0 0.5rem;
-
-    flex-grow: 1;
+/* 
+    flex-grow: 1; */
 
     width: auto;
-    height: auto;
-    max-height: 100%;
+    height: 88%;
 }
 
 div.ide-play-area {
@@ -135,61 +139,4 @@ div.ide-play-area {
     overflow:auto;
 }
 
-.drop-menu, .drop-menu ul
-{
-	list-style: none;
-	background-color: var(--white);
-	margin: 0;
-    padding: 0;
-}
-
-.drop-menu li
-{
-	float: left;
-	margin-right: 3px;
-	position: relative;
-    font-family: monospace;
-    max-height: 1.8rem;
-    height: 1.8rem;
-}
-
-.drop-menu ul
-{
-	position: absolute;
-	background-color: var(--white);
-	top: 44px;
-	left: 0px;
-	min-width: 8rem;
-	padding: 0;
-	display: none;
-}
-
-.drop-menu ul li
-{
-	float: none;
-	margin: 0;
-	line-height: 16px;
-}
-
-.drop-menu a:link, .drop-menu a:visited
-{
-	text-decoration: none;
-	font-size: 0.75em;
-	display: block;
-    font-weight: bold;
-	color: var(--black);
-	padding: 0.4rem 0.2rem 0 0.2rem;
-}
-
-.drop-menu li:hover
-{
-    cursor: pointer;
-	background-color: var(--lighter);
-}
-.drop-menu li:hover ul
-{
-	display: block;
-    z-index: 5;
-    cursor: pointer;
-}
 .CodeMirror { z-index: 0 }

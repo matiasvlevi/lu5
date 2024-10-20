@@ -1,0 +1,64 @@
+
+
+
+.saved-sketch.selected {
+    background-color: var(--lighter);
+}
+
+dialog {
+    border: none;
+    padding: 1.1rem 2.2rem;
+}
+
+input {
+    border: none;
+    border-radius: 0.25rem;
+    background-color: var(--lighter);
+    color: var(--white);
+}
+
+.saved-sketch {
+    padding: 1rem;
+    background-color: var(--white);
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.saved-sketch:hover {
+    filter: brightness(0.9);
+    transform: scale(1.01);
+    transition: 0.1s;
+}
+
+.sketch-selector {
+    max-height: 28rem;
+    overflow-y: scroll;
+    padding: 0.5rem;
+}
+
+input, button.formbtn {
+    padding: 0.8rem;
+    margin: 0.5rem;
+}
+
+input {
+    color: var(--dark);
+    font-weight: bold;
+    outline-color: var(--white);
+}
+
+input::placeholder {
+    font-weight: normal;
+    color: var(--dark);
+}
+
+button.formbtn {
+    border-radius: 0.25rem;
+}
+
+
+button.formbtn:hover {
+    background-color: var(--primary);
+    font-weight: bold;
+    color: var(--white);
+}

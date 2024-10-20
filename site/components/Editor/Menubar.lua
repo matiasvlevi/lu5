@@ -1,14 +1,13 @@
 
 local luax = require('site/lib/luax')
 
-
 function Menuitem(props)
     return luax('li', {
         luax('a', {href="#"}, props.label),
         luax('ul', {
             luax.map(props.options, function (option)
-                return luax('li', {
-                    luax('a', {href="#"}, option.label)
+                return luax('li', {onclick=option.onclick}, {
+                    luax('a', {href=option.href or "#"}, option.label)
                 })
             end)
         })

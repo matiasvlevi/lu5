@@ -1,0 +1,60 @@
+
+.drop-menu, .drop-menu ul
+{
+	list-style: none;
+	background-color: var(--white);
+	margin: 0;
+    padding: 0;
+}
+
+.drop-menu li
+{
+	float: left;
+	margin-right: 3px;
+	position: relative;
+    font-family: monospace;
+    max-height: 1.8rem;
+    height: 1.8rem;
+}
+
+.drop-menu ul
+{
+	position: absolute;
+	background-color: var(--white);
+	top: 44px;
+	left: 0px;
+	min-width: 8rem;
+	padding: 0;
+	display: none;
+}
+
+.drop-menu ul li
+{
+	float: none;
+	margin: 0;
+	line-height: 16px;
+}
+
+
+.drop-menu a:link, .drop-menu a:visited
+{
+	text-decoration: none;
+	font-size: 0.75em;
+	display: block;
+    font-weight: bold;
+	color: var(--black);
+	padding: 0.4rem 0.2rem 0 0.2rem;
+}
+
+.drop-menu li:hover
+{
+    cursor: pointer;
+	background-color: var(--lighter);
+}
+
+.drop-menu li:hover ul
+{
+	display: block;
+    z-index: 5;
+    cursor: pointer;
+}

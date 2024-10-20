@@ -40,7 +40,7 @@ function Head(props)
         luax('link', {rel='stylesheet', href=props.root .. props.media.assets ..'/common.css'}),
 
         (props.purpose ~= "editor") and (
-            luax('link', {rel='stylesheet', href=props.root .. props.media.assets ..'/style.css'})
+            luax('link', {rel='stylesheet', href=props.root .. props.media.assets ..'/docs.css'})
         ) or '',
 
         (props.purpose == "reference") and luax('', {
@@ -95,7 +95,7 @@ function Head(props)
         ) and luax('', {
             -- Highlight.js theme
             (props.purpose == "editor") and luax('', {
-                luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/editor.css'})
+                -- luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/editor.css'})
             }) or (
                 luax('link', {rel='stylesheet', href=props.root .. props.media.assets .. '/lu5-hljs-theme.css'})
             ),
@@ -120,7 +120,8 @@ function Head(props)
 
 
             (props.purpose == "editor") and (luax('', {
-                luax('script', { type="module", src=Config.cdn.lu5_editor }),
+                luax('script', { type="module", src=Config.cdn.lu5_editor, defer=true }),
+                -- luax('script', { src="https://codemirror.net/1/contrib/lua/js/parselua.js" })
             })) or (luax('', {
                 -- lu5-wasm
                 luax('script', { type="module", src=Config.cdn.lu5_wasm }),

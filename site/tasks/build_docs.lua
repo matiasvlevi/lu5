@@ -201,6 +201,15 @@ fs.write_vc_file(
 -- Create assets directory
 fs.mkdir(Config.build.dest .. '/' .. Config.media.assets);
 
+
+print();
+print('assets:');
+-- Copy all static assets to build destination
+fs.copy_dir(
+    Config.build.source.static .. '/' .. Config.media.assets, 
+    Config.build.dest .. '/' .. Config.media.assets
+);
+
 print();
 print('js:');
 -- Minify & Copy javascript files
@@ -226,14 +235,6 @@ fs.process_files(
     Config.build.source.static .. '/' .. 'css',
     Config.build.dest .. '/' .. Config.media.assets,
     Minify.css
-);
-
-print();
-print('assets:');
--- Copy all static assets to build destination
-fs.copy_dir(
-    Config.build.source.static .. '/' .. Config.media.assets, 
-    Config.build.dest .. '/' .. Config.media.assets
 );
 
 -- Print results
