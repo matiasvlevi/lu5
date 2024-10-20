@@ -1,7 +1,17 @@
 
 local fs = require("site/lib/file");
 
-function minify_css(css)
+local function minify_css(css)
+    -- Trim start/end whitespace
+    css = css:match("^%s*(.-)%s*$")
+
+    -- Append semicolons
+    local processed_css = css:gsub("(%b{})", function(block)
+        return block:gsub("([^;])(%s*})", "%1;}")
+    end)
+
+    css = processed_css;
+
     css = css:gsub("/%*.-%*/", "")
     css = css:gsub("%s*({)%s*", "%1"):gsub("%s*(})%s*", "%1")
     css = css:gsub("%s*(:)%s*", "%1"):gsub("%s*(;)%s*", "%1")
@@ -12,7 +22,7 @@ function minify_css(css)
     return css
 end
 
-function minify_js(js)
+local function minify_js(js)
     js = js:gsub("//[^\n]*", "")
     js = js:gsub("/%*.-%*/", "")
     js = js:gsub("[ \t]+", " ")

@@ -5,15 +5,15 @@ file_counters = {
     json=0
 };
 
-function get_counters(key)
+local function get_counters(key)
     return file_counters[key];
 end
 
-function rm(path)
+local function rm(path)
     os.remove(path);
 end
 
-function update_file_counters(c, path)
+local function update_file_counters(c, path)
     if path:find(".html") ~= nil then c.html = c.html + 1 end
     if path:find(".css") ~= nil then  c.css  = c.css  + 1 end
 
@@ -24,7 +24,7 @@ function update_file_counters(c, path)
     end
 end
 
-function find_files_in_dir(directory, f)
+local function find_files_in_dir(directory, f)
     if (f == nil) then
         f = function (str)
             return true;
@@ -45,7 +45,7 @@ function find_files_in_dir(directory, f)
     return t;
 end
 
-function color_weight(bytes)
+local function color_weight(bytes)
     if (bytes > 1024 * 16) then
         return '31'
     elseif (bytes > 1024 * 8) then
@@ -56,7 +56,7 @@ function color_weight(bytes)
     return '92';
 end
 
-function format_file_size(bytes)
+local function format_file_size(bytes)
     local size_str = string.format("%.2f kB", bytes/1000);
     local MAX_SIZE = 11;
     for i=#size_str, MAX_SIZE do
@@ -65,7 +65,15 @@ function format_file_size(bytes)
     return '\x1b['.. color_weight(bytes) ..'m' .. size_str .. '\x1b[0m';
 end
 
-function write_file(path, content, log)
+local function read_file(path)
+    local c = io.open(path, 'r');
+    if (c == nil) then
+        error('Could not read ' .. path);
+    end
+    return c:read('a*');
+end
+
+local function write_file(path, content, log)
     if (log == nil) then log = false end;
 
     -- Write to file
@@ -93,7 +101,7 @@ local function process_files(files, source, dest, proc)
     end
 end
 
-function scandir(dir, _type)
+local function scandir(dir, _type)
     local p = io.popen('find "'..dir..'" -maxdepth 1 -type ' .. _type)    
     local res = {}
     for file in p:lines() do
@@ -102,18 +110,12 @@ function scandir(dir, _type)
     return res;
 end
 
-function mkdir(path)
+local function mkdir(path)
     -- TODO: Will not work on windows...
     os.execute("mkdir -p " .. path)
 end
 
-function read_file(path)
-    local c = io.open(path, 'r');
-    if (c == nil) then
-        error('Could not read ' .. path);
-    end
-    return c:read('a*');
-end
+
 
 --- Write a version controlled file
 --- Used for pages or files that might have a version history
@@ -122,7 +124,7 @@ end
 ---@param pagename string
 ---@param html string
 ---@param current_latest string
-function write_vc_file(dest_path, name, pagename, html, current_latest)
+local function write_vc_file(dest_path, name, pagename, html, current_latest)
     -- Formatting module page
     if (current_latest == VERSION) then
         local page_dir = dest_path .. '/latest/' .. name;
@@ -136,7 +138,7 @@ function write_vc_file(dest_path, name, pagename, html, current_latest)
     write_file(page_dir_v .. '/' .. pagename, html, true);
 end
 
-function copy_dir(source_dir, dest_dir)
+local function copy_dir(source_dir, dest_dir)
     -- Copy all assets
     local asset_files = find_files_in_dir(source_dir);
     for i, filename in pairs(asset_files) do

@@ -5,6 +5,8 @@ local Config = require('site/config');
 local MethodCalls = require('site/components/MethodCalls');
 local MethodExample = require('site/components/MethodExample');
 
+local Parse = require('site/lib/parse');
+
 ---
 -- @Component
 -- @props TMethod {
@@ -26,15 +28,15 @@ function Method(props)
     });
 
     local name = luax.match(props.doc._type, {
-        event=#props.doc.calls > 1 and props.doc.name .. '();' or get_declarations(props.doc)[1],
-        method=#props.doc.calls > 1 and props.doc.name .. '();' or get_declarations(props.doc)[1],
+        event=#props.doc.calls > 1 and props.doc.name .. '();' or Parse.get_declarations(props.doc)[1],
+        method=#props.doc.calls > 1 and props.doc.name .. '();' or Parse.get_declarations(props.doc)[1],
         constant=props.doc.name,
         global=props.doc.name
     });
 
     local declarations;
     if (props.doc._type == "method") then
-        declarations = get_declarations(props.doc);
+        declarations = Parse.get_declarations(props.doc);
     end
 
     -- Use branch master if dev, use version tag if prod

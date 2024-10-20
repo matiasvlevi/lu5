@@ -1,7 +1,7 @@
 local luax = require('./site/lib/luax');
 local fs   = require('./site/lib/file');
 
-function to_number(version)
+local function to_number(version)
     local ans = {}
     for part in string.gmatch(version, "%d+") do
         table.insert(ans, tonumber(part))

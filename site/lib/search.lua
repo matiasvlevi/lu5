@@ -1,6 +1,6 @@
 --- Format an array of modules, to a single table of contents of all methods
 ---@param arr any
-function get_method_table_of_contents(arr)
+local function get_method_table_of_contents(arr)
     local methods = {}
     for _, mod in ipairs(arr) do
         for _, method in ipairs(mod.methods) do

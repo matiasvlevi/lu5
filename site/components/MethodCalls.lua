@@ -1,5 +1,7 @@
 local luax = require('site/lib/luax');
 
+local Parse = require('site/lib/parse');
+
 function MethodCall(props)
     return luax('', {
         props.declaration and luax('div', {class="methodDeclaration", style="margin-top: 2rem;-"}, {
@@ -11,7 +13,7 @@ function MethodCall(props)
             luax.map(props.params, function(param, key)
                 return luax('div', {class="param"}, {
                     luax('code', {class="name"}, param.name),
-                    luax('span', {class="text desc"}, from_md(param.description))
+                    luax('span', {class="text desc"}, Parse.from_md(param.description))
                 })
             end)
         })

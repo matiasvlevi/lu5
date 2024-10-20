@@ -1,7 +1,7 @@
 local luax = require('site/lib/luax');
 local fs = require('site/lib/file');
 
-function from_md(text)
+local function from_md(text)
     local in_scope = true;
 
     local i = 1;
@@ -37,7 +37,7 @@ end
 --  description: string
 -- }
 ---
-function parse_param(param)
+local function parse_param(param)
     local words = luax.split(param, ' ');
 
     local param = {};
@@ -59,7 +59,7 @@ function parse_param(param)
     return param;
 end
 
-function parse_description(comment)
+local function parse_description(comment)
 	local lines = luax.split(comment, '\n');
 	local result = {};
 	for i=1, #lines do
@@ -88,7 +88,7 @@ function parse_description(comment)
 	return luax.join(result, '<br/>');
 end
 
-function parse_bottom_description(comment)
+local function parse_bottom_description(comment)
     if (comment:find('%@param') == nil) then 
         return ''; 
     end;
@@ -134,7 +134,7 @@ end
 --      description: string;
 -- }
 ---
-function parse_return(comment)
+local function parse_return(comment)
 	local lines = luax.split(comment, '\n');
 
 	for i=1, #lines do
@@ -156,7 +156,7 @@ function parse_return(comment)
 	return nil;
 end
 
-function parse_examples(comment, start_index)
+local function parse_examples(comment, start_index)
 
     local lines = luax.split(comment, '\n');
 	local result = {};
@@ -210,7 +210,36 @@ function parse_examples(comment, start_index)
 	return luax.join(result, '\n'), i, call_index, (live_match ~= nil);
 end
 
-function parse_comment(comment, name, is_event)
+local function parse_calls(comment)
+    local call_idx = 1;
+
+    local index = 1;
+    local calls = {};
+
+    calls[call_idx] = { arguments={}, example=nil }
+    for line in comment:gmatch("[^\r\n]+") do
+        local has_call = string.find(line, "%@call");
+        if (has_call) then
+            -- @call denotes new param set
+            call_idx = call_idx + 1;
+            index = 1;
+            calls[call_idx] = { arguments={}, example=nil }
+
+            goto continue;
+        end
+
+        local matches = string.gmatch(line, "@param .- [%w ,.?!%`%_]+");
+
+        for match in matches do   
+            table.insert(calls[call_idx].arguments, parse_param(match))
+            index = index + 1;
+        end
+        ::continue::
+    end
+	return calls;
+end
+
+local function parse_comment(comment, name, is_event)
 
     local _type = '';
 
@@ -272,36 +301,7 @@ function parse_comment(comment, name, is_event)
 	};
 end
 
-function parse_calls(comment)
-    local call_idx = 1;
-
-    local index = 1;
-    local calls = {};
-
-    calls[call_idx] = { arguments={}, example=nil }
-    for line in comment:gmatch("[^\r\n]+") do
-        local has_call = string.find(line, "%@call");
-        if (has_call) then
-            -- @call denotes new param set
-            call_idx = call_idx + 1;
-            index = 1;
-            calls[call_idx] = { arguments={}, example=nil }
-
-            goto continue;
-        end
-
-        local matches = string.gmatch(line, "@param .- [%w ,.?!%`%_]+");
-
-        for match in matches do   
-            table.insert(calls[call_idx].arguments, parse_param(match))
-            index = index + 1;
-        end
-        ::continue::
-    end
-	return calls;
-end
-
-function get_declaration(name, params)
+local function get_declaration(name, params)
     local args = {};
 
     -- Get all parameter names
@@ -315,7 +315,7 @@ function get_declaration(name, params)
     )
 end
 
-function get_declarations(method)
+local function get_declarations(method)
     local declarations = {};
     for i, call in ipairs(method.calls) do
         declarations[i] = get_declaration(method.name, call.arguments);
@@ -323,7 +323,7 @@ function get_declarations(method)
     return declarations
 end
 
-function parse_params(comment)
+local function parse_params(comment)
 	local params = {};
     local matches = string.gmatch(comment, "@param .- [%w ,.?!%`%_]+");
     
@@ -336,7 +336,7 @@ function parse_params(comment)
 	return params;
 end
 
-function parse_header(filename, source)
+local function parse_header(filename, source)
     local function_comments = string.gmatch(source, "%/%*%*.-%*%/%s-%\nint .-%(.-%)");
     local callback_comments = string.gmatch(source, "%/%*%*%\n%s%*%s%@brief.-%*%/");
     
@@ -400,13 +400,13 @@ function parse_header(filename, source)
 
 end
 
-function remove_html_tags(html_string)
+local function remove_html_tags(html_string)
     return html_string:gsub("<[^>]+>", "");
 end
 
 --- Returns the parsed symbols in the modules (header file)
 --- @param source_path string
-function all(source_path)
+local function all(source_path)
 
     -- Find documentation header files
     source_header_files = fs.find_files_in_dir(source_path, function(str)
@@ -449,6 +449,7 @@ return {
 	param=parse_param,
 	comment=parse_comment,
     get_declarations=get_declarations,
+    from_md=from_md,
     remove_html_tags=remove_html_tags,
     all=all
 }
