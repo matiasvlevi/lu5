@@ -1,0 +1,1 @@
+{"source":{"header":"transform.h","start_line":45,"end_line":55},"doc":{"name":"translate","examples":{},"calls":[{"arguments":[{"name":"x","description":"The x translation"},{"name":"y","description":"The y translation"},{"name":"[z]","description":"The z translation"}]}],"bottom_description":"","description":"translate geometry<br/>currently only used for 3D","_type":"method"}}

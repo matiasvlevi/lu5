@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":{}}],"description":"Draw a triangle on the screen","_type":"method","examples":{},"bottom_description":"","name":"triangle"},"source":{"header":"shapes.h","start_line":93,"end_line":99}}

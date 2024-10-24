@@ -1,0 +1,1 @@
+{"source":{"end_line":17,"start_line":9,"header":"lu5_math.h"},"doc":{"examples":{},"description":"Round a number to the nearest integer","_type":"method","name":"round","calls":[{"arguments":[{"name":"x","description":"The value to round"}]}],"bottom_description":"","_return":{"var":"int","description":"The rounded value"}}}

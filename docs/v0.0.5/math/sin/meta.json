@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":[{"name":"x","description":"The input value"}]}],"name":"sin","_return":{"description":"The output value","var":"number"},"_type":"method","examples":{},"bottom_description":"","description":"Sine function (Trigonometry) "},"source":{"header":"lu5_math.h","end_line":156,"start_line":149}}

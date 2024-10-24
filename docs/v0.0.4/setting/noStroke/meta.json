@@ -1,0 +1,1 @@
+{"source":{"end_line":73,"start_line":68,"header":"setting.h"},"doc":{"examples":{},"description":"Disable stroke<br/>Only implemented for <code class=\"inline\">line</code> and <code class=\"inline\">circle</code>","name":"noStroke","calls":[{"arguments":{}}],"bottom_description":"","_type":"method"}}

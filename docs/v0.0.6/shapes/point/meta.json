@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":{}}],"description":"Draw a point on the screen","_type":"method","examples":{},"bottom_description":"","name":"point"},"source":{"header":"shapes.h","start_line":69,"end_line":75}}

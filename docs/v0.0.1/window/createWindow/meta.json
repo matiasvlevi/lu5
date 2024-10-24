@@ -1,0 +1,1 @@
+{"source":{"end_line":12,"header":"window.h","start_line":6},"doc":{"name":"createWindow","description":"Create a GLFW window, if no window was created and a setup function was defined, a Warning is thrown","bottom_description":"","calls":[{"arguments":[{"name":"w","description":"Window width"},{"name":"h","description":"Window height"}]}],"examples":{},"_type":"method"}}

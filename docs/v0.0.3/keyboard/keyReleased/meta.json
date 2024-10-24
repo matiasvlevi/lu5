@@ -1,0 +1,1 @@
+{"source":{"header":"keyboard.h","start_line":24,"end_line":30},"doc":{"description":"Called whenever a key is released.","name":"keyReleased","_type":"event","calls":[{"arguments":[{"name":"key","description":"The released key"}]}],"bottom_description":"","examples":{}}}

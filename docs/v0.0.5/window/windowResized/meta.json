@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":{}}],"name":"windowResized","_type":"event","examples":{},"bottom_description":"","description":"Called when the window is resized"},"source":{"header":"window.h","end_line":116,"start_line":111}}

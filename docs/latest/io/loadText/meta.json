@@ -1,0 +1,1 @@
+{"source":{"header":"io.h","start_line":25,"end_line":35},"doc":{"name":"loadText","examples":[{"source":"file = loadText(\"./your-file.txt\");\nprint(file)","live":false}],"calls":[{"arguments":[{"name":"file_path","description":"The path of the file"}]}],"bottom_description":"","description":"Read a file as a string","_type":"method"}}

@@ -1,0 +1,1 @@
+{"source":{"header":"models.h","start_line":6,"end_line":12},"doc":{"name":"model","examples":{},"calls":[{"arguments":[{"name":"model","description":"The 3D model"}]}],"bottom_description":"","description":"Draw a 3D model","_type":"method"}}

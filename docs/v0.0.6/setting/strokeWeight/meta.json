@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":[{"description":"The line width in pixels","name":"weight"}]}],"description":"","_type":"method","examples":[{"live":false,"source":"trokeWeight(8);\nine(200, 200, mouseX, mouseY);"}],"bottom_description":"","name":"strokeWeight"},"source":{"header":"setting.h","start_line":35,"end_line":47}}

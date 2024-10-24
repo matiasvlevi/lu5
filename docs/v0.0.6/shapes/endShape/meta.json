@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":{}}],"description":"<code class=\"inline\">beginShape</code> must be called prior<br/>Close the custom shape","_type":"method","examples":{},"bottom_description":"","name":"endShape"},"source":{"header":"shapes.h","start_line":128,"end_line":133}}

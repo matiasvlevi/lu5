@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":[{"description":"The x position","name":"x"},{"description":"The y position","name":"y"}]}],"description":"<code class=\"inline\">beginShape</code> must be called prior<br/>Adding a vertex to a custom shape","_type":"method","examples":{},"bottom_description":"","name":"vertex"},"source":{"header":"shapes.h","start_line":118,"end_line":126}}

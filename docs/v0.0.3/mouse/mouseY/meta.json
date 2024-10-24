@@ -1,0 +1,1 @@
+{"source":{"header":"mouse.h","start_line":22,"end_line":37},"doc":{"description":"The y mouse coordinate","name":"mouseY","_type":"global","calls":[{"arguments":{}}],"bottom_description":"","examples":[{"source":"createWindow(400, 400);\n\nfunction draw()\n  background(51);\n  \n  line(0, mouseY, width, mouseY);\nend","live":false}]}}

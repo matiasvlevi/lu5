@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":{}}],"name":"arc","_type":"method","examples":{},"bottom_description":"","description":"Draw an arc on the screen"},"source":{"header":"shapes.h","end_line":83,"start_line":77}}

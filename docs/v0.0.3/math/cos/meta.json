@@ -1,0 +1,1 @@
+{"source":{"header":"lu5_math.h","start_line":46,"end_line":53},"doc":{"description":"Cosine function (Trigonometry) ","name":"cos","_type":"method","_return":{"var":"number","description":"The output value"},"calls":[{"arguments":[{"name":"x","description":"The input value"}]}],"bottom_description":"","examples":{}}}

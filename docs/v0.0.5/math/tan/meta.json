@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":[{"name":"x","description":"The input value"}]}],"name":"tan","_return":{"description":"The output value","var":"number"},"_type":"method","examples":{},"bottom_description":"","description":"Tangent function (Trigonometry) "},"source":{"header":"lu5_math.h","end_line":174,"start_line":167}}

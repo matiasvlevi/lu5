@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":{}}],"description":"Draw an ellipse on the screen<br/> ","_type":"method","examples":{},"bottom_description":"","name":"ellipse"},"source":{"header":"shapes.h","start_line":85,"end_line":91}}

@@ -1,0 +1,1 @@
+{"source":{"end_line":12,"header":"events.h","start_line":6},"doc":{"name":"isKeyDown","description":"Check if a keyboard key is pressed, returns true if key is down and returns false if it's not","bottom_description":"","calls":[{"arguments":[{"name":"k","description":"The keyboard key to check"}]}],"examples":{},"_type":"method"}}

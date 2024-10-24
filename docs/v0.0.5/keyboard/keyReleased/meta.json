@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":[{"name":"key","description":"The released key"}]}],"name":"keyReleased","_type":"event","examples":{},"bottom_description":"","description":"Called whenever a key is released."},"source":{"header":"keyboard.h","end_line":43,"start_line":37}}

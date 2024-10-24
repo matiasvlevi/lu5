@@ -1,0 +1,1 @@
+{"source":{"header":"transform.h","start_line":6,"end_line":11},"doc":{"name":"rotateX","examples":{},"calls":[{"arguments":[{"name":"angle","description":"The angle of rotation"}]}],"bottom_description":"","description":"Rotate geometry around the X axis","_type":"method"}}

@@ -1,0 +1,1 @@
+{"source":{"header":"typography.h","start_line":44,"end_line":54},"doc":{"name":"textFont","examples":[{"source":"textFont(myfont);\ntext('Hello world!', 100, 200);","live":false}],"calls":[{"arguments":[{"name":"font","description":"The font value returned when using `loadFont`"}]}],"bottom_description":"","description":"Set the font family","_type":"method"}}

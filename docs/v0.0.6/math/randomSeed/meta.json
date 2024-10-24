@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":[{"description":"The seed value","name":"seed"}]}],"description":"Set a random seed","_type":"method","examples":{},"_return":{"description":"The random value","var":"number"},"bottom_description":"","name":"randomSeed"},"source":{"header":"lu5_math.h","start_line":6,"end_line":15}}

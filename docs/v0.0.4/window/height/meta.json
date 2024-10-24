@@ -1,0 +1,1 @@
+{"source":{"end_line":108,"start_line":96,"header":"window.h"},"doc":{"examples":[{"source":"createWindow(800, 600);\n\nprint(height);\n-- 600","live":false}],"description":"The window's height in pixels. If no window was created, this value is <code class=\"inline\">nil</code>","name":"height","calls":[{"arguments":{}}],"bottom_description":"","_type":"global"}}

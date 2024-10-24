@@ -1,0 +1,1 @@
+{"source":{"header":"models.h","start_line":14,"end_line":20},"doc":{"name":"loadModel","examples":{},"calls":[{"arguments":[{"name":"model","description":"The 3D model"}]}],"bottom_description":"","description":"Load a 3D model","_type":"method"}}

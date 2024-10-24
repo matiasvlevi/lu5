@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":{}}],"description":"The window's width in pixels. If no window was created, this value is <code class=\"inline\">nil</code>","_type":"global","examples":[{"live":false,"source":"createWindow(800, 600);\n\nprint(width);\n-- 800"}],"bottom_description":"","name":"width"},"source":{"header":"window.h","start_line":81,"end_line":93}}

@@ -1,0 +1,1 @@
+{"doc":{"calls":[{"arguments":[{"name":"key","description":"The pressed key"}]}],"name":"keyPressed","_type":"event","examples":{},"bottom_description":"","description":"Called whenever a key is pressed."},"source":{"header":"keyboard.h","end_line":34,"start_line":27}}

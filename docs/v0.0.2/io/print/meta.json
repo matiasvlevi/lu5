@@ -1,0 +1,1 @@
+{"source":{"header":"io.h","start_line":6,"end_line":11},"doc":{"bottom_description":"","_type":"method","examples":{},"description":"Printing utility, can take any lua type (except objects).","name":"print","calls":[{"arguments":[{"description":"The value to print to stdout","name":"value"}]}]}}

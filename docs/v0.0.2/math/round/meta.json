@@ -1,0 +1,1 @@
+{"source":{"header":"lu5_math.h","start_line":8,"end_line":15},"doc":{"bottom_description":"","_type":"method","examples":{},"description":"Round a number","name":"round","_return":{"var":"int","description":"The rounded value"},"calls":[{"arguments":[{"description":"The number to round","name":"x"}]}]}}
