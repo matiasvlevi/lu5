@@ -86,6 +86,7 @@ div.ide-top {
 div#lu5-editor {
     width: 100%;
     resize: vertical;
+    background-color: #dfd4ff;
 }
 
 div#lu5-console {

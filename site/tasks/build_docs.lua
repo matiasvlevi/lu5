@@ -143,7 +143,9 @@ local editor_html = luax('', {
             version = false,
             root = "../",
             media = Config.media,
-            meta = Config.metadata,
+            meta = luax.merge(Config.metadata, {
+                description = Config.metadata.alt_descriptions.editor
+            }),
             ga = Config.ga
         }),
         luax('body', {

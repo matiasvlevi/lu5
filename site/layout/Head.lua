@@ -121,7 +121,6 @@ function Head(props)
 
             (props.purpose == "editor") and (luax('', {
                 luax('script', { type="module", src=Config.cdn.lu5_editor, defer=true }),
-                -- luax('script', { src="https://codemirror.net/1/contrib/lua/js/parselua.js" })
             })) or (luax('', {
                 -- lu5-wasm
                 luax('script', { type="module", src=Config.cdn.lu5_wasm }),

@@ -13,7 +13,6 @@ local function Home(props)
                 luax('br')
             })
         }),
-
         luax('div', {class="home-section", style=""}, {
             luax('div', {class="flex-col gap-8"}, {
                 luax('div', {
@@ -28,6 +27,13 @@ local function Home(props)
                         })
                     }),
                 }),
+
+                luax('div', {}, {
+                    luax('p', {
+                        'you can try our ', luax('a', {href="./editor"}, {'Online Editor Here'})
+                    })
+                }),
+
                 Download(props),
                 DocumentationIndex(props)
             }),

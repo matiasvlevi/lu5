@@ -27,6 +27,8 @@ return {
         alt_descriptions = {
             reference = "Reference documentation for lu5, this documentation provides "..
                         "descriptions and examples of lu5's functionality. ",
+            editor = "A web editor for lu5, a Lua interpreter for Creative Coding. "..
+                    "lu5 leverages the power of WebAssembly to run a Lua interpreter in your browser."
         }
     },
     media={
