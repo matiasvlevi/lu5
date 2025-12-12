@@ -1,7 +1,11 @@
 #include "models.h"
 
 #ifndef LU5_WASM
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 #endif
 
 #include "../lu5_types.h"

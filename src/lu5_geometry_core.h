@@ -2,7 +2,11 @@
 #define __LU5_GEOMETRY_CORE_H__
 
 #ifndef LU5_WASM
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 #endif
 
 #include <stdbool.h>

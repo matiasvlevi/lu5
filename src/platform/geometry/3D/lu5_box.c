@@ -1,5 +1,10 @@
 #include "../../../lu5_geometry.h"
+
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 
 void lu5_render_box_faces(
 	lua_Number w, lua_Number h, lua_Number d,

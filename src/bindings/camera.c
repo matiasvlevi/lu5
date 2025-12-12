@@ -4,8 +4,15 @@
 #include <math.h>
 
 #ifndef LU5_WASM
+
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#else
 #include <GL/gl.h>
 #include <GL/glu.h>
+#endif
+
 #include <GLFW/glfw3.h>
 #else
 #include "../lu5_event_callbacks.h"

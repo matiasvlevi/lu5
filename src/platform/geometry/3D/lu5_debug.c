@@ -1,5 +1,10 @@
 #include "../../../lu5_geometry.h"
+
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 
 #define DEBUG_GRID_STEP 20.0f
 #define DEBUG_HALF_GRID_PLANE 200.0f

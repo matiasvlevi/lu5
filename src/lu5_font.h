@@ -2,7 +2,12 @@
 #define _LU5_FONT_H_
 
 #ifndef LU5_WASM
+
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 
 #include <ft2build.h>
 #include FT_FREETYPE_H

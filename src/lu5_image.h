@@ -4,7 +4,11 @@
 #include "lu5_state.h"
 
 #ifndef LU5_WASM
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 #else
 typedef int GLuint;
 #endif

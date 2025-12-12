@@ -1,5 +1,10 @@
 #include "../../../lu5_geometry.h"
+
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 
 void lu5_render_plane_edges(lua_Number half_x, lua_Number half_y, lu5_color color)
 {

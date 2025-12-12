@@ -8,7 +8,12 @@
 #include "../static/lu5_icon.h"
 
 #include <lauxlib.h>
+
+#ifdef __APPLE__
+#include <OpenGL/glu.h>
+#else
 #include <GL/glu.h>
+#endif
 
 static void framebuffer_size_callback(lu5_window* window, int width, int height)
 {
